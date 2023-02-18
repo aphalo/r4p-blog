@@ -1,0 +1,40 @@
+---
+title: "ggspectra 0.3.9"
+author: "Pedro J. Aphalo"
+date: 2022-10-15
+categories: [R Package Update, ggspectra pkg]
+---
+
+Some of the code in this package is rather complex and contained syntax and constructs that were known for some time to be on their way to deprecation and removal in different packages from the 'tidyverse'. Updating the package to the syntax used in current 'ggplot2' versions had been in my to do list for some time. Now the update had to be done, and it is now done.
+
+There are almost no changes in behaviour or graphical output as a result of these changes. There were also problems caused by the update of 'tidyselect' to version 1.2.0 cascading down to 'dplyr' and 'tidyr' and affecting 'photobiology'. Quite a bit of code had to be rewritten and in the process I replaced calls to `dplyr::rename()` and `dplyr::select()` by code written using only base R functions and operators.
+
+A lot easier and faster to program was the addition of parameter `geom` to all `autoplot()` methods. This is an enhancement, that users are likely to notice and use.
+
+```{r, message=FALSE}
+library(ggspectra)
+autoplot(sun.spct, geom = "spct") + theme_bw()
+
+```
+
+<strong>The changes from version 0.3.8, the current CRAN release, are:</strong>
+
+<ul>
+
+<li>[Compatibility fix:]{style="background-color: #ccffcc;"} prepare for upcoming 'ggplot2' \>= 3.4.0.</li>
+
+<li>[Compatibility fix:]{style="background-color: #ccffcc;"} handle deprecation in 'tidyr' cascading from 'tidyselect' 1.2.0.</li>
+
+<li>Several minor bug fixes.</li>
+
+<li>Revise all `autoplot()` methods adding formal parameter `geom`.</li>
+
+</ul>
+
+<strong>Package documentation web site at:</strong><a href="https://docs.r4photobiology.info/ggspectra/"> https://docs.r4photobiology.info/ggspectra/</a>
+
+<hr />
+
+<strong>[NOTE:]{style="color: #0000ff;"} Version 0.3.9 is on its way to [CRAN]{style="color: #0000ff;"}. </strong>
+
+Please raise issues concerning bugs or enhancements to this package through Bitbucket at <a href="https://github.com/aphalo/ggspectra/issues">https://github.com/aphalo/ggspectra/issues</a>

@@ -1,0 +1,58 @@
+project:
+  type: website
+
+website:
+  title: "Using R for Photobiology"
+  site-url: https://www.r4photobiology.info/static/
+  favicon: r4p-favicon.png
+  search: true
+  navbar:
+    logo: r4p-logo.png
+    right:
+      - icon: house-door
+        text: blog
+        href: index.qmd
+      - icon: file-richtext
+        href: pages.qmd
+      - icon: box-seam
+        href: pages/packages-status.qmd
+      - icon: question-square
+        text: Resources
+        menu:
+          - icon: question-square
+            text: Help
+            href: pages/help.qmd
+          - icon: r-square
+            text: Suite _R for Photobiology_
+            href: https://docs.r4photobiology.info/photobiology/articles/userguide-0-r4p-introduction.html
+          - icon: book
+            text: Book _Learn R - As a Language_
+            href: https://www.learnr-book.info/
+      - icon: person
+        text: About
+        menu:
+          - icon: pc-display
+            text: About this site
+            href: about.qmd
+          - icon: person
+            text: About P. J. Aphalo
+            href: pedro.qmd
+          - icon: github
+            text: GitHub
+            href: https://github.com/aphalo/ggpp
+  page-footer:
+    right:
+      - href: about.qmd
+    left:
+      - text: "ISSN 2343-3248 (Helsinki, Finland)"
+    center:
+      - text: ORCID
+        href: https://orcid.org/0000-0003-3385-972X
+format:
+  html:
+    theme: sandstone
+    css: styles.css
+
+editor: source
+
+# for supported icons see https://icons.getbootstrap.com/

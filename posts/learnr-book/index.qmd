@@ -1,0 +1,19 @@
+---
+title: "Learn R: As a Language"
+subtitle: News
+author: "Pedro J. Aphalo"
+date: 2022-08-24
+categories: [Book Learn R]
+---
+
+My book on R was published on 28 July 2020. The 'learnrbook' package available through CRAN contains data and the R code scripts and chunks from the book. The book has now its own [website](https://www.learnr-book.info).
+
+In the book's website you will find free supplementary chapters as downloadable PDF files and other material complementing the book.
+
+![](frontcover-9780367182533-702x1024.jpg){fig-align="center" width="351"}
+
+**2022-06-24** Last week I started updating the book manuscript for a 2nd printing/edition. For the time being I have been adding several diagrams and flow charts, expanding the text to improve clarity and fixing all typos in text and code that I am aware of. I am also addressing the new features in R 4.2.0 and changes to the packages used in the examples. Please, do share with me anything you would like changed from the current edition and report any mistakes you may have found. All useful contributions will be acknowledged. Thanks in advance!
+
+**2022-08-14** You may think that learning the 'tidyverse' could be enough. My experience tells it is not, and that a good understanding of the R language keeps one out of trouble even when using the 'tidyverse'. I came accross an [old post by Joel Spolsky](https://www.joelonsoftware.com/2002/11/11/the-law-of-leaky-abstractions/) that explains why this is the case in general: higher levels of abstractions "leak", abstractions are imperfect, and the underlying complexity seeps through. With respect to R and the 'tidyverse', the evolving paper on [Teaching R in a Kinder, Gentler, More Effective Manner](https://github.com/matloff/TidyverseSkeptic) by Norm Matloff is very clear about this.
+
+**2022-08-24** The book has been listed as a "2021 CHOICE Outstanding Academic Title Award Winner" which makes me very happy and encourages my work on a 2nd edition.

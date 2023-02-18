@@ -1,0 +1,25 @@
+---
+title: "photobiology 0.10.11"
+author: "Pedro J. Aphalo"
+date: 2022-07-10
+categories: [R Package Update, photobiology pkg]
+---
+
+This update adds flexibility to the user interface used to indicate the target when searching for wavelengths matching specific spectral data values. It also contains a preliminary implementation of classes `solute_spct` and collections `solute_mspct` for storing spectral molar or mass coefficients of attenuation.
+
+Changes from <span style="color: #0000ff;">version</span> <span style="color: #0000ff;">0.10.10 </span>the most recent CRAN release, are:
+<ul>
+ 	<li>Add new classes of objects `solute_spct` and `solute_mspct` to be used to store molar (default) and mass based coefficients of attenuation describing overall attenuation, or attenuation by absorption or by scattering. Implement the corresponding methods. (Unstable: interface may change).</li>
+ 	<li>Add example data for two substances: `water.spct` and `phenylalanine.spct`.</li>
+ 	<li>Rewrite `join_mspct()` to use interpolation when wavelengths differ among member spectra. This should not break old code but output can slightly differ.</li>
+ 	<li>Expand syntax accepted for `character` arguments passed to parameter `target` in all `wls_at_target()` methods and function `find_wls()`.</li>
+ 	<li>Fix failure to correctly handle spectra with zero rows, a bug affecting several methods, operators and functions including `rbindspct()` and `find_wls()`.</li>
+ 	<li>Fix bug in `rowwise_filter()` affecting parallel summaries of absorptance.</li>
+ 	<li>Fix bugs in extraction and replacement functions for collections of spectra, possibly triggered by changes in R &gt;= 4.0.0.</li>
+ 	<li>Add method `s_mean_se_band_band()`.</li>
+</ul>
+<strong>The package documentation web site is at</strong><a href="https://docs.r4photobiology.info/photobiology/"> https://docs.r4photobiology.info/photobiology/</a> includes <a href="https://docs.r4photobiology.info/photobiology/news/index.html">a changelog</a> with information for each release since version 0.1.0.
+
+<span style="text-indent: 0em;"><strong><span style="color: #0000ff;">NOTE:</span> Version 0.10.11 has been submitted to <span style="color: #0000ff;">CRAN</span>.</strong></span>
+
+<span style="text-indent: 0em;">Please raise issues concerning bugs or enhancements to this package through GitHub at</span><span style="color: #0000ff;"> <a style="text-indent: 0em; color: #0000ff;" href="https://bitbucket.org/aphalo/photobiology/issues">https://github.com/aphalo/photobiology/issues</a></span>

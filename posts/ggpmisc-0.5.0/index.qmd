@@ -1,0 +1,63 @@
+---
+title: "ggpmisc 0.5.0"
+author: "Pedro J. Aphalo"
+date: 2022-08-05
+categories: [R Package Update, ggpmisc pkg]
+---
+
+Version 0.5.0 (previously announced as 0.4.8) brings enhancements to the annotations based on model fits. The most significant change for all users is the new convenience function `use_label()` that greatly simplifies the assembly of labels from components and their mapping to aesthetics. We examplify its use and some of the other new features. <span style="background-color: #ffff99;">It also contains two changes that are not backwards compatible and that can in isolated cases break existing code</span> (hence the version-number change into 0.5.0).
+
+In the first plot we add an estimate of the correlation coeficient <em>R</em>, and the corresponding <em>t</em>-value and <em>P</em>-value.
+
+```{r, message=FALSE}
+library(ggpmisc)
+```
+
+```{r}
+ggplot(subset(mpg, cyl != 5), aes(displ, hwy, colour = factor(cyl))) +
+  geom_point() +
+  stat_correlation(use_label(c("R", "t", "P")),
+                   label.x = "right") +
+  theme_bw()
+```
+
+The displacement volume of car engines is known without error and it can the thought as a possible explanation for the petrol use per distance (MPG or miles per gallon) for hiway driving. We fit a linear regression, and annotate the plot with the fitted linear model equations, the <em>F</em>-values and <em>P</em>-values.
+
+```{r}
+ggplot(subset(mpg, cyl != 5), aes(displ, hwy, colour = factor(cyl))) +
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label(c("eq", "F", "P")),
+                   label.x = "right") +
+  theme_bw()
+```
+
+In the case of the petrol use (MPG) in city traffic compared to highway travel the two variables can be expected to be subject to similar error variation and there is no directional cause-effect relationship between them. So, in this case OLS linear regression is not a suitable approach. We use major axis regression instead, and we add to the label, θ, the angle in degrees between the two lines that could have been fitted by linear regression using <em>x</em> or <em>y</em> as the explanaroty variable.
+
+```{r}
+ggplot(subset(mpg, cyl != 5), aes(cty, hwy)) +
+  geom_point(alpha = 0.2) +
+  stat_ma_line() +
+  stat_ma_eq(use_label(c("eq", "theta", "R2", "P"))) +
+  theme_bw()
+```
+
+Changes compared to version <span style="color: #0000ff;">0.4.7</span>, the previous version in<span style="color: #0000ff;"> CRAN</span> are:
+<ul>
+ 	<li>Differently to the use in the R literature `mf` has been used in this package, instead of `fm`, to signify <em>fitted model</em>. This was changed in this version as formal parameter `mf.values` has been renamed `fm.values` and variable `mf_tb` in values returned by statistics renamed `fm.value`. Although <em>these are code breaking changes</em>, they are likely to cause difficulties only in isolated cases as defaults rarely need to be overridden.</li>
+ 	<li>Add function `use_label()` that greatly simplifies assembling and mapping combined labels from the values returned by `stat_poly_eq()`, `stat_ma_eq()`, `stat_quant_eq()` and `stat_correlation()`.</li>
+ 	<li>Add variables `fm.tb.type`, `fm.class`, `fm.method`, and `fm.formula.chr` to the data returned by `stat_fit_tb()`, and rename `mf_tb` into `fm.tb` for naming consistency.</li>
+ 	<li>Add variables `fm.class`, `fm.method`, and `fm.formula.chr` to the data returned by all other statistics based on model fitting.</li>
+ 	<li>Add confidence intervals for <em>R</em> (Pearson's OLS correlation), τ (Kendall's rank correlation) and ρ (Spearman's rank correlation) to the values and labels returned by `stat_correlation()`. In the case of `method = "pearson"` assuming Normal distribution or estimated by bootstrap. For `method = "kendall"` and `method = "spearman"` only bootstrap estimates. These are implemented using package 'confintr'.</li>
+ 	<li>Add confidence interval for <em>R</em><sup>2</sup> to the values and labels returned by `stat_poly_eq()` (implemented using package 'confintr').</li>
+ 	<li>Add &amp;theta; (theta) to the values and labels returned by `stat_ma_eq()`.</li>
+ 	<li>Add `method.label` to the data returned by `stat_correlation()`, `stat_poly_eq()`, `stat_ma_eq()` and `stat_quant_eq()`.</li>
+ 	<li>Add functions `keep_tidy()`, `keep_glance()` and `keep_augment()` as wrappers on methods `tidy()`, `glance()` and `augment()` from package 'broom'. These new functions make it possible to keep a trace of the origin of the <em>"broom-tidied"</em> outputs. [These three functions should be considered <em>experimental</em>, and may be modfied or not vailable in future versions.]</li>
+ 	<li>Update documentation and user guide <em>Model-Based Plot Annotations</em>.</li>
+</ul>
+<em>Documentation web site at <a href="http://docs.r4photobiology.info/ggpmisc/">http://docs.r4photobiology.info/ggpmisc/</a> includes all help pages, with output from all examples, vignettes as well as a changelog in HTML format.</em>
+
+<strong><span style="color: #0000ff;">NOTE:</span></strong> Version 0.5.0 has been submitted to <span style="color: #0000ff;">CRAN</span>.<strong>
+</strong>
+
+Please raise issues concerning bugs or enhancements to this package through GitHub <a href="https://github.com/aphalo/ggpmisc/issues">https://github.com/aphalo/ggpmisc/issues</a>

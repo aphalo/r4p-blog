@@ -1,0 +1,26 @@
+---
+title: "An R marathon updating packages"
+author: "Pedro J. Aphalo"
+date: 2022-10-15
+categories: [dependencies, commentary, tidyverse pkg] 
+---
+
+Recent and approaching code-breaking changes in the <em>tidyverse </em>packages 'tidyselect', 'rlang', 'tidyr', 'dplyr', 'readr' and 'ggplot2' meant that keeping my packages fully functional required changes to several of them. None of the changes in these packages made my packages fail CRAN checks, but they either made some functions unusable or triggered inumerable warnings in some use cases. In some cases the behaviour and warnings were weird and rather unpredictable, specially those due to the changes in 'tidyselect' version 1.2.0, which were also visible in 'dplyr' and 'tidyr'. So below is a summary of my R-intensive week.
+
+<hr />
+
+In the individual post for each updates I have started marking as "[Compatibility fix:]{style="background-color: #ccffcc;"}" changes necessary to keep the packages in the <em>R for Photobiology Suite</em> working without changes in spite of the updates to R or other packages, when done on time. I have marked as "[Bug fix:"]{style="background-color: #ffff99;"} edits that corrected similar problems a bit too late, resulting in some functions or features in the suite to stop working for some time in the current release. I used ["Bug fix:"]{style="background-color: #ffcc99;"} for bugs native to the <em>R for Photobiology Suite</em> that have been present in released versions and simply remained unnoticed. I mark intentional code-breaking changes with ["Code breaking:"]{style="color: #ff0000;"}, which I try to keep to the minimum.
+
+<hr />
+
+Package 'photobiology' required quite a bit of work, and the simplest solution and hopefully more stable in the future, was to partly rewrite several methods and functions replacing calls to `dplyr::select()` and `dplyr::rename()` by code written using base R functions and operators. It took me some time to trace weird problems like arguments passed in a call to a function not being visible within the function (promisses failing somewhere in the guts of the tidyverse or R). I was unable to work out what change in the new version of 'tidyselect' (almost surely) lead to such weird problems within 'photobiology' when 'ggspectra' was attached but not when tested on its own. I simply got rid of calls to 'dplyr' functions until things returned to normal. I also fixed some other minor problems. The nearly 4000 unit tests written over the years were incredibly useful in making sure that the new code at the very core of the package did not modify the behaviour of anything else in the package. I had to start working on this, only five days after submitting the previous version to CRAN.
+
+Updating 'ggspectra' to work with upcoming 'ggplot2' 3.4.0 required quite many changes to the code, but mostly localized changes and well defined ones. It was time consuming and tedious but not difficult. In this case some other improvements made it to the new version, some because they were easy to do at the same time and others because they were already implemented in the development version waiting for a future release.
+
+Updating 'ggpp', 'ggpmisc' and 'gginnards' was rather straightforward and being the code simpler, not so time consuming. I submitted 'ggpp' to CRAN already two weeks ago, 'ggpmisc' yesterday and 'gginnards' today.
+
+Package 'photobiologyInOut' needed just changing the name of one function in two places to ensure compatibility with the current version of 'readr'. A kind user sent me last week a data file from a PSI SpectraPen, and when I looked at the file it seemed straightforward enough to code a new import function based on existing ones. Because I became curious about what seemed like quite awfull a level of straylight in the UV-A and thus to plot the data, I added the function to read this type of files. I submitted package 'photobiologyInOut' also today.
+
+Package 'ggspectra' depends on the newest 'photobiology' 0.10.14, so I cannot submit it before the 'photobiology' submission is accepted. \[2022-10-16: One day later 'ggspectra 0.3.9 is on its way to CRAN\]
+
+What is next in my plans for the packages? (Next I need to spend some time working on other things like manuscripts, setting up an experiment and analysing data.) A new version of package 'photobiologyFilters' is almost ready for submision. I have done some work in 'ggpp' to enhance `geom_label_s()` and `geom_label_s()` but most importantly I got an idea of how to implement better control of colour and transparency. I wrote some code, but it needs more work. A few days ago a question from a user made me realise that a version of `stat_poly_line()` based on a panel function could be used to fit multiple lines using ANCOVA, with grouping as an additional factor usable in the formula. I think this would be rather straightforward to implement in 'ggpmisc' and very useful.

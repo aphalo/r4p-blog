@@ -1,0 +1,24 @@
+---
+title: "Help"
+author: "Pedro J. Aphalo"
+date: today
+categories: [Using R, R packages, documentation]
+---
+
+<hr />
+
+<strong>Updates:</strong> In the individual post for each package update I mark as "<span style="background-color: #ccffcc;">Compatibility fix:</span>" changes necessary to keep the packages in the <em>R for Photobiology Suite</em> and the <em>ggplot extensions</em> working without changes in spite of the updates to R or other packages when done on time. I mark as "<span style="background-color: #ffff99;">Bug fix:</span>" edits that corrected similar problems too late, resulting in some functions or features in the suite to stop working for some time in what was the current release at the time. I use "<span style="background-color: #ffcc99;">Bug fix:</span>"for bugs native to the <em>R for Photobiology Suite</em> that have been present in released versions and had remained unnoticed. I mark intentional code-breaking changes with "<span style="color: #ff0000;">Code breaking:</span>". I hate breaking exisitng code, but sometimes bad design decisions cannot be fixed in any other way.
+
+<hr />
+
+<strong>Documentation:</strong> All packages in the suite contain a <em>User Guide</em>. As in every R package, each function, operator or data object is documented in <em>R's help</em>. A nicely formated HTML version of the documentation is available on-line for each package, and accesible through links in the page accessible "<a href="https://www.r4photobiology.info/package-status/">PACKAGES</a>" menu entry of this web site.
+
+<hr />
+
+<strong>Support: </strong>The best place to ask general questions about R and packages is <a href="https://stackoverflow.com/" target="_blank" rel="noopener">StackOverflow</a>, the questions and answers site. When asking questions about packages 'ggpp', 'ggpmisc' and 'gginnards' please use the tag <a href="https://stackoverflow.com/questions/tagged/ggpmisc">[ggpmisc]</a> in addition to the<a href="https://stackoverflow.com/questions/tagged/ggplot2"> [ggplot]</a> tag. When asking questions about the packages in the suite, please, use the tag <a href="https://stackoverflow.com/questions/tagged/r4photobiology">[r4photobiology]</a> plus any other relevant ones. I check questions with these tags almost daily, and others may be able to answer even sooner. In this paragraph, the linked tags open existing questions and answers in StackOverflow marked with each of them.
+
+<hr />
+
+<strong>Raising issues:</strong>I keep the code of all packages at GitHub where all changes are tracked. This is the best place to report bugs, suggest improvements, contribute to the development, but also for asking questions that require familiarity with how the packages are implemented. This is done by raising an issue in the repository of the package the question is about. Links are provided in the page accessed through the "<a href="https://www.r4photobiology.info/package-status/">PACKAGES</a>" menu entry of this web site.
+
+<hr />

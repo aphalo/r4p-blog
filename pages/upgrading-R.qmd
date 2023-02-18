@@ -1,0 +1,88 @@
+---
+title: "Upgrading R"
+subtitle: "Installing R and reinstalling packages"
+author: "Pedro J. Aphalo"
+date: 2023-02-18
+toc: true
+categories: [Using R]
+---
+
+## R versions
+
+It is always best to keep R up-to-date. R versions are named with three digits, e.g. 4.2.2. Versions differing in the last digit, sometimes called dot updates, are almost always bug fixes, adding very little new functionality or at least not requiring changes to packages, and not requiring re-installation of packages. Versions with different middle digit, are less frequent, and may require reinstallation of packages. Because of this, library folder names such as 3.3 or 3.4 are used. Depending on the upgrade a new library folder may be created at the time of installation of a new version of R.
+
+It is important to remember that different versions of R can coexist in the same computer, each using a different library when required. R can be upgraded by simply manually installing the new version without uninstalling earlier versions, which will remain functional. Earlier versions can be uninstalled at a later time, after checking that the new installation works as expected. If this is the case, and you would like to install the same packages you had in the old installation in the new one, or if you would like to install the same packages in another computer, see the instructions given below under **Copying R libraries**.
+
+## Installing R
+
+Just download the installer from CRAN and run it. If R is already installed, the new version will be installed without removing any older version but making the last installed version the one used by default. For major version updates such as 4.2.3 to 4.3.0 a new library will be created and the recommended packages installed into it. See the next section for an approach to synchronizing the new library with the new one. For minor version updates such as 4.2.2 to 4.2.3 the existing library continues in use. Once you are sure that you the old version of R is no longer needed you can uninstall it and for major updates also delete the library.
+
+## Copying R libraries
+
+The procedure for a manual copy is conceptually very simple. First we save to a file the names of all packages installed in the old R library, and in a second step we use the saved list to install the same packages in another R library. There are a few additional tricks we can use on the way.
+
+::: callout-caution
+## Availability of packages
+
+Major R updates usually require packages to be re-built. Exceptionally package code may need to be modified to allow a package to work with a new major version of R. These means that immediately after the release of a major version of R, some packages main remain unavailable for some time. Before deleting the previous version of R it is wise to check that the packages one uses are all available.
+:::
+
+The first step is to run at the R console of the <em>old version of R</em> the following commands to create a `vector` of character strings with the names of user-installed packages and save the vector to a file on disk. You may want to edit the vector, or to remove packages no longer needed from the old installation before creating the list of packages to install.
+
+```{r, eval=FALSE}
+# run in old installation
+current.pkg.list &lt;- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
+current.pkg.list &lt;- as.character(current.pkg.list)
+save(current.pkg.list, file = "~/old-pkg-list.rda")
+
+```
+
+We need then to open the console in the newly installed version of R, read the file with the vector of package names, and install them.
+
+```{r, eval=FALSE}
+# run in new installation
+# If you have installed packages from repos other than CRAN
+# make sure to enable them
+setRepositories()
+
+load(file = "~/old-pkg-list.rda")
+new.pkg.list &lt;- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
+new.pkg.list &lt;- as.character(new.pkg.list)
+missing.pkg.list &lt;- setdiff(current.pkg.list, new.pkg.list)
+install.packages(missing.pkg.list)
+
+```
+
+After installation we can check if there are any differences remaining. Possible causes of failure to install packages are: 1) a different set of repositories was selected, 2) some packages had been installed directly from a Git repository using functions from package 'devtools', 3) some packages are not compatible with the new version of R, and have been removed from CRAN meanwhile the maintainers update, and 4) some packages were installed locally from files and are not available at the default repositories.
+
+```{r, eval=FALSE}
+# check what packages are still missing
+new.pkg.list &lt;- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
+new.pkg.list &lt;- as.character(new.pkg.list)
+missing.pkg.list &lt;- setdiff(current.pkg.list, new.pkg.list)
+cat(missing.pkg.list, sep = "\n")
+
+```
+
+As a final step we may want to clean-up by deleting the file. I suggest not to delete this file immediately as it can still be useful.
+
+```{r, eval=FALSE}
+file.remove("~/old-pkg-list.rda)
+
+```
+
+<em> As a side note</em>, be aware that the list of packages is just an R character vector. Above, we used `save()` to write the vector to a binary file. Alternatively, the vector can be saved to a text file using `cat()`. The next chunk shows how to save the names one per line to a text file, by inserting a new line `\n` as separator.
+
+```{r, eval=FALSE}
+cat(old.pkg.list, sep = "\n", file = "~/old-pkg-list.txt")
+
+```
+
+And then read with `scan()`.
+
+```{r, eval=FALSE}
+old.pkg.list &lt;- scan("~/old-pkg-list.txt", what = character())
+
+```
+
+In-between saving and reading one can edit the file in a text editor to remove or add package names.

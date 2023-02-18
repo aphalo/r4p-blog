@@ -1,0 +1,23 @@
+---
+title: "ggpp 0.4.5"
+author: "Pedro J. Aphalo"
+date: 2022-09-30
+categories: [R Package Update, ggpp pkg]
+---
+
+Version 0.4.5 includes fixes for compatibility with the <a href="https://www.tidyverse.org/blog/2022/08/ggplot2-3-4-0-size-to-linewidth/" target="_blank" rel="noopener">upcoming updates in</a> <a href="https://www.tidyverse.org/blog/2022/08/ggplot2-3-4-0-size-to-linewidth/" target="_blank" rel="noopener">'ggplot2'</a> version 3.4.0, and adds enhancements to `geom_text_s()` and `geom_label_s()`. The most significative is the computation of the justification from the position displacement, which works with any of the position functions exported by 'ggpp'. Another significant change is the implementation of padding.
+
+Changes compared to version <span style="color: #0000ff;">0.4.4</span>, the previous version in <span style="color: #0000ff;">CRAN</span> are:
+<ul>
+ 	<li>Update `geom_text_s()` and `geom_label_s()` to support justification computed from positions, with `hjust = "position"` and `vjust = "position"` as new defaults. (The current, very simple, approach will be further tested and if necessary improved for the next release.)</li>
+ 	<li>Update `geom_text_s()` and `geom_label_s()` to enable `segment.size` aesthetic and increase its default value, and add formal parameters `point.padding`, `box.padding` and `min.segment.length` to allow adjusting the length of the segments.</li>
+ 	<li>Add function `dark_or_light()`.</li>
+ 	<li>Update `position_nudge_center()` for compatibility with 'ggplot2' (&gt;= 3.4.0) and to ensure that every label gets nudged even if located exactly at the center (focus point of nudging).</li>
+ 	<li>Support the new 'ggplot2' aesthetic `linewidth` in `geom_quadrant_lines()` and `geom_vhlines()` when used together with 'ggplot2' (&gt;= 3.4.0).</li>
+</ul>
+<em>Documentation web site at <a href="http://docs.r4photobiology.info/ggpp/">http://docs.r4photobiology.info/ggpp/</a> includes all help pages, with output from all examples, vignettes as well as a changelog in HTML format.</em>
+
+<strong><span style="color: #0000ff;">NOTE:</span></strong> Version 0.4.5 is on its way to <span style="color: #0000ff;">CRAN</span>.<strong>
+</strong>
+
+Please raise issues concerning bugs or enhancements to this package through GitHub at <a href="https://github.com/aphalo/ggpp/issues">https://github.com/aphalo/ggpp/issues.</a> Pull requests are also welcome.

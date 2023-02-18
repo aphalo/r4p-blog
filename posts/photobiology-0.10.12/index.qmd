@@ -1,0 +1,38 @@
+---
+title: "photobiology 0.10.12"
+author: "Pedro J. Aphalo"
+date: 2022-07-23
+categories: [R Package Update, photobiology pkg]
+---
+
+This release corrects problems triggered by recent updates to packages 'lubridate' and possibly 'tibble' (reported by <em>putmanlab</em> in <a href="https://github.com/aphalo/photobiology/issues/7" target="_blank" rel="noopener">issue</a> <a href="https://github.com/aphalo/photobiology/issues/7" target="_blank" rel="noopener">#7</a> ). It also adds some enhancements for class `solute_spct`, still under development.
+
+<hr />
+
+<strong><span style="color: #ff0000; background-color: #ffff99;">BUG FIX:</span></strong> <em>Conversions between `Date` and `POSIXct` objects are tricky because objects of the former class do not store information on the time zone. A change in 'lubridate' 1.8.0 made a previously working approach to these conversions silently fail to apply the shift to the hours.</em>
+
+<em>If you use any of `day_night()`, `sunrise_time()`, `noon_time()` and `sunset_time()`</em><span style="background-color: #ffff99;"><em> either use 'lubridate' (&lt; 1.8.0) or update a.s.a.p. to 'photobiology' (&gt;= 0.10.12) from <a style="background-color: #ffff99;" href="https://github.com/aphalo/photobiology#installation" target="_blank" rel="noopener">GitHub.</a></em></span>
+
+<hr />
+
+<hr />
+
+<strong><span style="color: #ffcc00; background-color: #333333;">WARNING:</span></strong><em> In the current version of 'photobiology', if no time zone argument is passed concurrently with a date, the date is assumed to be in UTC. If this time zone does not match the location given by the geocode, the date used for the calculations can be wrong by one day.</em>
+
+<em>Package 'photobiology' continues using UTC (universal time coordinates) as its default time zone. This differs from some functions in recent versions of package 'lubridate' that use the time zone reported by the OS, indicated by the character string `""` as their default. Using `"UTC"` as default ensures that the code output using defaults will not depend on the OS' time zone settings, making it reproducible across geographical locations.</em>
+
+<hr />
+
+Changes from <span style="color: #0000ff;">version 0.10.11</span> the most recent CRAN release, are:
+<ul>
+ 	<li><span style="color: #ff0000; background-color: #ffff99;">Bug fix:</span> With 'lubridate' (1.8.0) but not with previous versions, functions `day_night()`, `sunrise_time()`, `noon_time()` and `sunset_time()` would return wrong time values when non-default arguments to parameter `tz` were passed together with objects of class `Date` passed as arguments to `date`.</li>
+ 	<li>Add methods `as.filter_spct()` and `as.solute_spct` specialised for two-way conversion between objects of classes `solute_spct` and `filter_spct`.</li>
+ 	<li>Revise the class `solute.properties` adding fields `solvent.name` and `solvent.ID`.</li>
+ 	<li>Revise documentation checking that units expected for arguments and of returned values are clearly indicated and correctly formatted. Update outdated text and correct mistakes and revise unclear explanations.</li>
+</ul>
+<strong>The package documentation web site at</strong><a href="https://docs.r4photobiology.info/photobiology/"> https://docs.r4photobiology.info/photobiology/</a> includes <a href="https://docs.r4photobiology.info/photobiology/news/index.html">a changelog</a> with information for each release since version 0.1.0.
+
+<span style="text-indent: 0em;"><strong><span style="color: #0000ff;">NOTE:</span> Version 0.10.12 is on its way to <span style="color: #0000ff;">CRAN. [2022-08-05: submitted and accepted]</span></strong></span><span style="text-indent: 0em;"><strong>
+</strong></span>
+
+<span style="text-indent: 0em;">Please raise issues concerning bugs or enhancements to this package through GitHub at</span><span style="color: #0000ff;"> <a style="text-indent: 0em; color: #0000ff;" href="https://bitbucket.org/aphalo/photobiology/issues">https://github.com/aphalo/photobiology/issues</a></span>
