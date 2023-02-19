@@ -16,15 +16,15 @@ website:
         href: pages.qmd
       - icon: box-seam
         href: pages/packages-status.qmd
-      - icon: question-square
+      - icon: info-square
         text: Resources
         menu:
           - icon: question-square
             text: Help
             href: pages/help.qmd
-          - icon: r-square
+          - icon: sun
             text: Suite _R for Photobiology_
-            href: https://docs.r4photobiology.info/photobiology/articles/userguide-0-r4p-introduction.html
+            href: pages/r4p-introduction.qmd
           - icon: book
             text: Book _Learn R - As a Language_
             href: https://www.learnr-book.info/
@@ -32,17 +32,17 @@ website:
         text: About
         menu:
           - icon: pc-display
-            text: About this site
-            href: about.qmd
+            text: About _this site_
+            href: pages/about.qmd
           - icon: person
-            text: About P. J. Aphalo
-            href: pedro.qmd
+            text: About _Pedro J. Aphalo_
+            href: pages/pedro.qmd
           - icon: github
-            text: GitHub
-            href: https://github.com/aphalo/ggpp
+            text: GitHub _this site_
+            href: https://github.com/aphalo/r4p-blog/
   page-footer:
     right:
-      - href: about.qmd
+      - href: pages/about.qmd
     left:
       - text: "ISSN 2343-3248 (Helsinki, Finland)"
     center:
