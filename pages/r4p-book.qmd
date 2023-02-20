@@ -1,0 +1,16 @@
+---
+title: "Handbook on photobiological calculations with R"
+author: "Pedro J. Aphalo"
+date: 2023-02-20
+categories: [books]
+---
+
+[![Book cover](leanpub-r4photobiology.jpg)](https://leanpub.com/r4photobiology){width=33%}
+
+A handbook on how to do calculations used in photobiological research with R has been under preparation for a long time. An 80% complete version has been available through [LeanPub](https://leanpub.com/r4photobiology) for several years. The book describes the use of our suite of R packages and also of functions from base R and a few other packages available through CRAN. I (Pedro J. Aphalo) am the lead author, while Andreas Albert, T. Matthew Robson and Titta Kotilainen have contributed text and examples and feedback.
+
+Although we haven't had time to finish writing the book, I have been checking that the code examples work with current versions of R and packages. Rather recently I made small edits to a few code chunks that had stopped working and uploaded the new version of the PDF file to [LeanPub](https://leanpub.com/r4photobiology).
+
+Some minutes ago I tried to build all examples with R 4.2.o, a major update to R released some days ago. R 4.2.o contains a bug, that unluckily prevents a couple some examples in the book from running under MS-Windows. The already available patched version of R 4.2.0 solves this problem. Anyway, this bug affects only a very specific use related to data acquisition.
+
+*The book is sold for the amount the buyer wishes to pay, including getting it for free.*
