@@ -5,13 +5,12 @@ author: "Pedro J. Aphalo"
 date: 2023-02-19
 categories: [R packages, documentation, R for Photobiology]
 toc: true
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
-The citation for the suite is given by
-
-```{r, tidy=TRUE}
-print(citation('photobiology'), style = "textVersion")
-```
+![logo](r4p-logo.png){width=10%,fig-align="left"}
 
 ## Introduction
 
@@ -42,27 +41,6 @@ Because of their different focus, these packages mostly complement each
 other, in spite of some overlap and differences in approach or even, in
 philosophy about data handling.'
 
-### References
-
-Aphalo, P. J., Albert, A., Björn, L. O., McLeod, A. R., Robson, T. M.,
-Rosenqvist, E. (Eds.). (2012). *Beyond the Visible: A handbook of best
-practice in plant UV photobiology* (1st ed., p. xx + 174). Helsinki:
-University of Helsinki, Department of Biosciences, Division of Plant
-Biology. ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback).
-Open access at <https://doi.org/10.31885/9789521083631>.
-
-Aphalo, Pedro J. (2015) The r4photobiology suite. *UV4Plants Bulletin*,
-2015:1, 21-29. (<https://doi.org/10.19232/uv4pb.2015.1.14>).
-
-Davis G (2019). *A Centroid for Sections of a Cube in a Function Space,
-with application to Colorimetry.* *ArXiv e-prints*. 1811.00990,
-(<https://arxiv.org/abs/1811.00990>).
-
-Maia, R., Eliason, C. M., Bitton, P. P., Doucet, S. M., Shawkey, M. D.
-(2013) pavo: an R package for the analysis, visualization and
-organization of spectral data. *Methods in Ecology and Evolution*,
-4(10):906-913. (<https://doi.org/10.1111/2041-210X.12069>).
-
 ## Packages in the suite
 
 The core package in this suite is called
@@ -88,7 +66,11 @@ and for exchange of data in *foreign* formats
 are part of the suite. One additional package,
 (['**ggspectra**'](https://docs.r4photobiology.info/ggspectra/)),
 implements facilities for plotting spectral data by extending package
-'ggplot2'. Two additional packages (['**rOmniDriver**'](https://docs.r4photobiology.info/rOmniDriver/)) and (['**ooacquire**'](https://docs.r4photobiology.info/ooacquire/)) make it possible to acquire spectral data by controlling _Ocean Insight/Ocean Optics_ spectrometers from within R.
+'ggplot2'. Two additional packages
+(['**rOmniDriver**'](https://docs.r4photobiology.info/rOmniDriver/)) and
+(['**ooacquire**'](https://docs.r4photobiology.info/ooacquire/)) make it
+possible to acquire spectral data by controlling *Ocean Insight/Ocean
+Optics* spectrometers from within R.
 
 | Package                     | Provides                                                                                                                                                                                                |
 |------------------------------------|------------------------------------|
@@ -109,10 +91,10 @@ For additional information on these and other packages by the author
 please visit (<https://www.r4photobiology.info>) for news, and
 (<https://www.r4photobiology.info/package-status/>) for current status
 and links to on-line documentation and public Git repositories. Each
-package has its own public Git repository at my Bitbucket or GitHub accounts
-(<https://bitbucket.org/aphalo/>, <https://github.com/aphalo/>) from
-where the source code of the current and earlier versions can be cloned
-or forked.
+package has its own public Git repository at my Bitbucket or GitHub
+accounts (<https://bitbucket.org/aphalo/>, <https://github.com/aphalo/>)
+from where the source code of the current and earlier versions can be
+cloned or forked.
 
 ## Acknowledgements
 
@@ -131,3 +113,30 @@ Tutorials by Hadley Wickham and comments on my presentation at
 *UseR!2015* allowed me to significantly improve the coding and
 functionality. The generous on-line help by many members of the R
 community over more than 20 years is also warmly thanked.
+
+### Reference for the suite
+
+```{r, tidy=TRUE}
+print(citation('photobiology'), style = "textVersion")
+```
+
+### Other references
+
+Aphalo, P. J., Albert, A., Björn, L. O., McLeod, A. R., Robson, T. M.,
+Rosenqvist, E. (Eds.). (2012). *Beyond the Visible: A handbook of best
+practice in plant UV photobiology* (1st ed., p. xx + 174). Helsinki:
+University of Helsinki, Department of Biosciences, Division of Plant
+Biology. ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback).
+Open access at <https://doi.org/10.31885/9789521083631>.
+
+Aphalo, Pedro J. (2015) The r4photobiology suite. *UV4Plants Bulletin*,
+2015:1, 21-29. (<https://doi.org/10.19232/uv4pb.2015.1.14>).
+
+Davis G (2019). *A Centroid for Sections of a Cube in a Function Space,
+with application to Colorimetry.* *ArXiv e-prints*. 1811.00990,
+(<https://arxiv.org/abs/1811.00990>).
+
+Maia, R., Eliason, C. M., Bitton, P. P., Doucet, S. M., Shawkey, M. D.
+(2013) pavo: an R package for the analysis, visualization and
+organization of spectral data. *Methods in Ecology and Evolution*,
+4(10):906-913. (<https://doi.org/10.1111/2041-210X.12069>).
