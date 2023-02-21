@@ -1,8 +1,10 @@
 ---
-title: "Plot insets"
+title: "'ggpp' plot insets"
+subtitle: "Plots, tables and graphical objects as plot insets"
 author: "Pedro J. Aphalo"
 date: today
-categories: [Gallery, Plot insets, ggpp pkg]
+keywords: [ggplot2, ggpp, R, plot insets]
+categories: [ggpp pkg, data labels, plot annotations]
 editor: 
   markdown: 
     wrap: 72
@@ -14,7 +16,9 @@ The use of insets in plots was rather frequent when plots where drawn
 using ink and pen by draughtsmen. With the advent of computer-drawn
 plots they became less common. In many situations they are very useful.
 In this gallery I give examples of plots with insets created using
-packages 'ggplot2' and 'ggpp'.
+packages 'ggplot2' and 'ggpp'. For simplicity, whenever possible I use
+base R functions instead of contributed R packages, including those from
+the 'tidyverse'.
 
 Insets are not normally used for data exploration, they are in most
 cases used in publications and reports, either to provide context or
@@ -38,6 +42,7 @@ is `annotate()`, which remains backwards compatible with 'ggplot2'.
 
 ```{r}
 library(ggpp)
+library(dplyr)
 ```
 
 ## Inset plots within plots
@@ -48,8 +53,9 @@ observations, or more commonly for maps, to show a broader region to
 provide recognizable context.
 
 ::: callout-note
-A future separate gallery is planned for map insets. They can be added similarly
-as those shown here, but projections and coordinate systems add complexity.
+A future separate gallery is planned for map insets. They can be added
+similarly as those shown here, but projections and coordinate systems
+add complexity.
 :::
 
 ### Using `annotate()`
@@ -276,14 +282,127 @@ summaries about the data. Very small tables can be also useful as data
 labels to highlight specific observations in a plot or data for
 locations in a map.
 
-### Summaries
+### Using `annotate()`
 
-### ANOVA tables
+The first set of examples show how to use `annotate()` together with the
+geoms from package 'ggpp' to add inset tables to single-panel ggplots.
+The examples show different uses of insets. All examples use data sets
+available in R or package 'ggplot2'. In this examples we use
+`annotate()` together with `geom_table_npc()` or `geom_table()`.
 
-### As data labels
+#### Summaries
 
-## Graphical objects as insets
+A simple table of medians computed using base R's `aggregate()` added using 
+`annotate()` and `geom = "table_npc"`.
 
-### Bitmaps
+```{r}
+# compute medians grouped by number of cylinders
+df <- aggregate(cbind(hwy, cty) ~ cyl, data = mpg, FUN = median)
 
-### Vector graphics
+# create a plot with an inset table with medians
+ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
+  annotate(geom = "table_npc", npcx = 0.95, npcy = 0.95, label = df) +
+  geom_point() +
+  theme_bw()
+```
+
+Here we use package 'dplyr' to compute the summaries, and we name the variables
+directly with the desired column titles as strings to be parsed into R
+expressions. We add the table as above but pass `parse = TRUE` so that the
+column titles display as math expressions.
+
+```{r}
+# compute medians grouped by number of cylinders
+mpg |> 
+  group_by(cyl) |>
+  summarize("bar(italic(x))" = round(mean(hwy), 1),
+            "italic(s)^{2}" = round(var(hwy), 1),
+            "italic(n)" = n()) -> tb
+
+# create a plot with an inset table with medians
+ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
+  annotate("table_npc", npcx = 0.95, npcy = 0.95, label = tb, 
+           parse = TRUE) +
+  geom_point() +
+  theme_bw()
+```
+
+In this third example we use `stat_fmt_tb()` together with `geom_table()`
+to substitute some of the column headers, select columns, size or text and 
+colours, and change the order of rows.
+
+```{r}
+tb <- mpg |>
+  group_by(cyl) |>
+  summarise(hwy = median(hwy), cty = median(cty))
+
+data.tb <- data.frame(x = 7, y = 44, tb = I(list(tb)))
+
+ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
+  stat_fmt_tb(data = data.tb, 
+             aes(x, y, label = tb),
+             table.theme = ttheme_gtlight,
+             size = 4.5, colour = "darkblue",
+             tb.vars = c(Cylinders = "cyl", MPG = "hwy"), # rename
+             tb.rows = 4:1) + # change order
+  labs(x = "Engine displacement (l)", y = "Fuel use efficiency (MPG)",
+       colour = "Engine\ncylinders\n(number)") +
+  geom_point() +
+  theme_bw(15)
+```
+
+
+## Inset graphical objects within plots
+
+### Using `annotate()`
+
+### Using `geom_table()` and `geom_table_npc()`
+
+#### Bitmaps
+
+We can use bitmaps or rasters as annotations and data labels. We need to first
+convert them into graphical objects or _grobs_ compatible with package 'grid'.
+Package 'grid' is included in the R distribution and the underlying plotting
+engine used by 'ggplot2'.
+
+```{r}
+# read a bitmap file, in this case included in 'ggpp'
+Isoquercitin.file.name <- 
+  system.file("extdata", "Isoquercitin.png", 
+              package = "ggpp", mustWork = TRUE)
+
+Isoquercitin <- magick::image_read(Isoquercitin.file.name)
+
+Robinin.file.name <- 
+  system.file("extdata", "Robinin.png", 
+              package = "ggpp", mustWork = TRUE)
+
+Robinin <- magick::image_read(Robinin.file.name)
+
+# some fake concentration data
+flavonoids.df <- 
+  data.frame(metabolite = c("Isoquercitin", "Robinin"),
+             structure = I(list(grid::rasterGrob(image = Isoquercitin),
+                                grid::rasterGrob(image = Robinin))),
+             concentration = c(10, 8))
+
+# make plot with data label
+ggplot(flavonoids.df, 
+       aes(metabolite, concentration, label = structure)) +
+  geom_col(width = 0.2, fill = "grey95", colour = "black") +
+  geom_grob(inherit.aes = TRUE,
+            nudge_y = 2,
+            segment.linewidth = 0,
+            vp.height = 0.2, vp.width = 1) +
+  expand_limits(y = 13.5) +
+  labs(x = "Flavonoid", y = expression("Concentration "*(mg~g^{-1}))) +
+  theme_bw()
+```
+
+#### Vector graphics
+
+Vector graphics can be defined directly using functions from package 'grid' or
+converted into grobs from SVG or PDF code.
+
+
+
