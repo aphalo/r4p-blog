@@ -32,9 +32,12 @@ expanded to ensure that no overlap is possible.
 The code used is shown above each plot and can be copied. We first load
 the packages we will use.
 
-```{r, message=FALSE}
+When package 'ggpp' is loaded and attached, package 'ggplot2' is also attached.
+The only function from 'ggplot2' that is redefined by 'ggpp' is `annotate()`,
+which remains backwards compatible with 'ggplot2'.
+
+```{r}
 library(ggpp)
-library(tibble)
 ```
 
 ## Inset plots within plots
@@ -44,7 +47,21 @@ to a portion of the data, to show a less important property of
 observations, or more commonly for maps, to show a broader region to
 provide recognizable context.
 
-### Zoom in
+### Using `annotate()`
+
+The first set of examples show how to use `annotate()` together with the geoms
+from package 'ggpp' to add inset plots to single-panel ggplots. The examples
+show different uses of insets. All examples use data sets available in R or the
+packages loaded. In this examples we use `annotate()` together with `
+geom_plot_npc()` or `geom_plot()`.
+
+#### Zoom in
+
+`geom_plot_npc()` obeys native plot coordinates instead of data coordinates.
+NPC coordinates are relative to the plotting area and take values in [0..1].
+They make consistent positioning of annotations easy. Only for this first
+example we show the use of both `geom_plot_npc()` and `geom_plot()`. In both
+geoms the default for `hjust` and `vjust` is `"inward"`.
 
 ```{r}
 # zoom in region
@@ -61,7 +78,7 @@ p.inset <- p.base +
   theme_bw(8) +
   scale_colour_discrete(guide = "none")
 
-# whole plot using annotate()
+# whole plot using annotate() and NPC coordinates
 p.combined <- p.base + 
   annotate(geom = "plot_npc", npcx = 0.95, npcy = 0.95, label = p.inset)
 
@@ -73,7 +90,27 @@ p.combined +
            linetype = "dotted", fill = NA, colour = "black")
 ```
 
-### Zoom out
+`geom_plot()` obeys the usual `x` and `y` aesthetics expressed in data 
+coordinates. As shown here, while NPC coordinates are refered to the 
+plotting area set by other plot layers, using data cordinates, just as for
+text labels, results in its expansion as needed to include the inset's
+_x_ and _x_ coordinates.
+
+```{r}
+# whole plot using annotate() and data coordinates
+p.d.combined <- p.base + 
+  annotate(geom = "plot", x = 7, y = 50, label = p.inset)
+
+# highlight zoomed-in region
+p.d.combined + 
+  annotate(geom = "rect", 
+           xmin = zoom.region$x[1], xmax = zoom.region$x[2], 
+           ymin = zoom.region$y[1], ymax = zoom.region$y[2],
+           linetype = "dotted", fill = NA, colour = "black")
+
+```
+
+#### Zoom out
 
 ```{r}
 # zoom in region
@@ -105,7 +142,7 @@ p.base +
 
 ```
 
-### A summary plot
+#### Summary plot
 
 ```{r}
 # column plot of summaries as inset
@@ -129,7 +166,7 @@ p.base +
 
 ```
 
-### Ancillary data
+#### Other data or variables
 
 ```{r}
 # box plot as inset
@@ -155,16 +192,30 @@ p.base +
            vp.width = 0.6, vp.height = 0.4) # relative size of inset
 ```
 
-### As data labels
+### Using `geom_plot()` and `geom_plot_npc()`
 
 In the examples above we used `annotate()` as it is the easiest
 approach. However, `annotate()` does not support adding different
 annotations to different panels in a faceted plot. Very small plots can
 sometimes function as data labels, specially in maps. In both cases we
-need to use the geometries directly and pass a tibble as argument to
-`data`.
+need to use the geometries directly and pass a data frame as argument to
+their `data` formal parameter.
+
+When building `data` object containing the inset plots we need to add a
+list as a column in a `data.frame`. This is possible as long as the lengths
+match, but the `list` object needs to be protected with `I()`, R's identity
+function.
 
 ```{r}
+# faceted scatter plot as base plot
+p.base <- 
+  ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
+  geom_point() +
+  labs(x = "Engine displacement (l)", y = "Fuel use efficiency (MPG)",
+       colour = "Engine\ncylinders\n(number)") +
+  facet_wrap(facets = vars(cyl), labeller = label_both) +
+  theme_bw()
+
 # ad hoc function for constructing box plots
 make_inset <- 
   function(target.cyl) {
@@ -179,30 +230,43 @@ make_inset <-
 # list of box plots as insets
 p.inset.list <- lapply(unique(mpg$cyl), make_inset)
 
-# tibble to be used as data for plotting insets
-inset.df <- tibble(cyl = unique(mpg$cyl),
-                   plots =  p.inset.list,
-                   npcx = c(0.97, 0.97, 0.0, 0.97),
-                   npcy = 0.5)
-
-# facetted scatter plot as main plot
-p.base <- 
-  ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
-  geom_point() +
-  labs(x = "Engine displacement (l)", y = "Fuel use efficiency (MPG)",
-       colour = "Engine\ncylinders\n(number)") +
-  facet_wrap(facets = vars(cyl), labeller = label_both) +
-  theme_bw()
+# data frame to be used as data for plotting insets
+inset.df <- data.frame(cyl = unique(mpg$cyl),
+                       plots =  I(p.inset.list),
+                       npcx = c(0.97, 0.97, 0.0, 0.97),
+                       npcy = 0.5)
 
 # plot with inset plots using geom_plot_npc()
 p.base +
   geom_plot_npc(data = inset.df, 
                 vp.height = 0.8,
                 mapping = aes(npcx = npcx, npcy = npcy, label = plots))
+```
 
+When using tibbles instead of data frames, the call to `I()` can be omitted.
+
+```{r}
+# tibble to be used as data for plotting insets
+inset.tb <- 
+  tibble::tibble(cyl = unique(mpg$cyl),
+                 plots =  p.inset.list,
+                 npcx = c(0.97, 0.97, 0.0, 0.97),
+                 npcy = 0.5)
+
+# plot with inset plots using geom_plot_npc()
+p.base +
+  geom_plot_npc(data = inset.tb, 
+                vp.height = 0.8,
+                mapping = aes(npcx = npcx, npcy = npcy, label = plots))
 ```
 
 ## Inset tables within plots
+
+Tables are less frequently used as insets than plots. As annotations, they can be useful 
+in two situations: 1) reporting results for the statistical analysis of the
+plotted data, and 2) adding numerical summaries about the data. Very small
+tables can be also useful as data labels to highlight specific observations
+in a plot or data for locations in a map.
 
 ### Summaries
 
