@@ -11,10 +11,10 @@ editor:
 ## Introduction
 
 The use of insets in plots was rather frequent when plots where drawn
-using ink and pen by draftsmen. With the advent of computer-drawn plots
-they became less common. In many situations they are very useful. In
-this gallery I give examples of plots with insets created using packages
-'ggplot2' and 'ggpp'.
+using ink and pen by draughtsmen. With the advent of computer-drawn
+plots they became less common. In many situations they are very useful.
+In this gallery I give examples of plots with insets created using
+packages 'ggplot2' and 'ggpp'.
 
 Insets are not normally used for data exploration, they are in most
 cases used in publications and reports, either to provide context or
@@ -32,9 +32,9 @@ expanded to ensure that no overlap is possible.
 The code used is shown above each plot and can be copied. We first load
 the packages we will use.
 
-When package 'ggpp' is loaded and attached, package 'ggplot2' is also attached.
-The only function from 'ggplot2' that is redefined by 'ggpp' is `annotate()`,
-which remains backwards compatible with 'ggplot2'.
+When package 'ggpp' is loaded and attached, package 'ggplot2' is also
+attached. The only function from 'ggplot2' that is redefined by 'ggpp'
+is `annotate()`, which remains backwards compatible with 'ggplot2'.
 
 ```{r}
 library(ggpp)
@@ -47,21 +47,27 @@ to a portion of the data, to show a less important property of
 observations, or more commonly for maps, to show a broader region to
 provide recognizable context.
 
+::: callout-note
+A future separate gallery is planned for map insets. They can be added similarly
+as those shown here, but projections and coordinate systems add complexity.
+:::
+
 ### Using `annotate()`
 
-The first set of examples show how to use `annotate()` together with the geoms
-from package 'ggpp' to add inset plots to single-panel ggplots. The examples
-show different uses of insets. All examples use data sets available in R or the
-packages loaded. In this examples we use `annotate()` together with `
-geom_plot_npc()` or `geom_plot()`.
+The first set of examples show how to use `annotate()` together with the
+geoms from package 'ggpp' to add inset plots to single-panel ggplots.
+The examples show different uses of insets. All examples use data sets
+available in R or the packages loaded. In this examples we use
+`annotate()` together with `geom_plot_npc()` or `geom_plot()`.
 
 #### Zoom in
 
-`geom_plot_npc()` obeys native plot coordinates instead of data coordinates.
-NPC coordinates are relative to the plotting area and take values in [0..1].
-They make consistent positioning of annotations easy. Only for this first
-example we show the use of both `geom_plot_npc()` and `geom_plot()`. In both
-geoms the default for `hjust` and `vjust` is `"inward"`.
+`geom_plot_npc()` obeys native plot coordinates instead of data
+coordinates. NPC coordinates are relative to the plotting area and take
+values in \[0..1\]. They make consistent positioning of annotations
+easy. Only for this first example we show the use of both
+`geom_plot_npc()` and `geom_plot()`. In both geoms the default for
+`hjust` and `vjust` is `"inward"`.
 
 ```{r}
 # zoom in region
@@ -90,11 +96,11 @@ p.combined +
            linetype = "dotted", fill = NA, colour = "black")
 ```
 
-`geom_plot()` obeys the usual `x` and `y` aesthetics expressed in data 
-coordinates. As shown here, while NPC coordinates are refered to the 
-plotting area set by other plot layers, using data cordinates, just as for
-text labels, results in its expansion as needed to include the inset's
-_x_ and _x_ coordinates.
+`geom_plot()` obeys the usual `x` and `y` aesthetics expressed in data
+coordinates. As shown here, while NPC coordinates are refered to the
+plotting area set by other plot layers, using data cordinates, just as
+for text labels, results in its expansion as needed to include the
+inset's *x* and *x* coordinates.
 
 ```{r}
 # whole plot using annotate() and data coordinates
@@ -202,9 +208,9 @@ need to use the geometries directly and pass a data frame as argument to
 their `data` formal parameter.
 
 When building `data` object containing the inset plots we need to add a
-list as a column in a `data.frame`. This is possible as long as the lengths
-match, but the `list` object needs to be protected with `I()`, R's identity
-function.
+list as a column in a `data.frame`. This is possible as long as the
+lengths match, but the `list` object needs to be protected with `I()`,
+R's identity function.
 
 ```{r}
 # faceted scatter plot as base plot
@@ -243,7 +249,8 @@ p.base +
                 mapping = aes(npcx = npcx, npcy = npcy, label = plots))
 ```
 
-When using tibbles instead of data frames, the call to `I()` can be omitted.
+When using tibbles instead of data frames, the call to `I()` can be
+omitted.
 
 ```{r}
 # tibble to be used as data for plotting insets
@@ -262,11 +269,12 @@ p.base +
 
 ## Inset tables within plots
 
-Tables are less frequently used as insets than plots. As annotations, they can be useful 
-in two situations: 1) reporting results for the statistical analysis of the
-plotted data, and 2) adding numerical summaries about the data. Very small
-tables can be also useful as data labels to highlight specific observations
-in a plot or data for locations in a map.
+Tables are less frequently used as insets than plots. As annotations,
+they can be useful in two situations: 1) reporting results for the
+statistical analysis of the plotted data, and 2) adding numerical
+summaries about the data. Very small tables can be also useful as data
+labels to highlight specific observations in a plot or data for
+locations in a map.
 
 ### Summaries
 

@@ -1,0 +1,14 @@
+---
+title: "Galleries"
+subtitle: "Galleries of illustrations with R code"
+listing:
+  contents: galleries
+  sort: "date desc"
+  type: default
+  categories: true
+  sort-ui: false
+  filter-ui: false
+page-layout: full
+toc: true
+title-block-banner: true
+---
