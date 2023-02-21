@@ -1,0 +1,14 @@
+{
+  "hash": "e6e7b7e6462b6a1ee841ba65ec66c24a",
+  "result": {
+    "markdown": "---\ntitle: \"R 4.2.0\"\nauthor: \"Pedro J. Aphalo\"\ndate: 2022-04-29\ncategories: [R]\n---\n\n\nFor Windows users the most significant changes are that now the binary distribution contains only a 64 bit executable. A new build chain is used for Rtools 4.2 is required to build from sources packages that include C, C++ or FORTRAN code. As is always the case, all CRAN packages are tested on CRAN itself.\n\nRelevant to all operating systems the recently added pipe oprerator (`|>`) now supports the use of the underscore (`_`) as a placeholder on the <strong>rhs</strong> of the operator.\n\n\n::: {.cell}\n\n```{.r .cell-code}\n1:10 |> mean() |> round()\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n[1] 6\n```\n:::\n:::\n\n::: {.cell}\n\n```{.r .cell-code}\n1:10 |> mean(x = _) |> round(x = _)\n```\n\n::: {.cell-output .cell-output-stdout}\n```\n[1] 6\n```\n:::\n:::\n\n\nThese two statements are equivalent, but `_` makes it possible to pipe by name the value returned by the **lhs** into any parameter on the **rhs**.\n\nThere are also some improvements to the 'grid' package adding flexibility to pattern and gradient fills and masks, which are recently added features. They are yet to be well supported by 'ggplot2'.\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

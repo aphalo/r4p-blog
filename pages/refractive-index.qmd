@@ -1,0 +1,19 @@
+---
+title: "For those interested in optical properties"
+author: "Pedro J. Aphalo"
+date: 2016-09-15
+categories: [data sources]
+---
+
+The site RefractiveIndex.info is an interface to a public domain
+database of refractive index data for many substances and materials.
+What makes it very useful is that the website calculates properties like
+reflectance at different angles and wavelengths interactively and
+displays the data as plots.
+
+Manybe sometime in the far away future I will write an R interface.
+The web site as is, can be instructive for example to learn how the
+reflectance of glass or acrylic changes with the angle of incidence of
+radiation.
+
+<http://refractiveindex.info/>

@@ -1,0 +1,59 @@
+---
+title: "ggspectra 0.3.8"
+author: "Pedro J. Aphalo"
+date: 2022-04-16
+categories: [R Package Update, ggspectra pkg]
+---
+
+Eighteen months from the previous release, this update brings many improvements to `autoplot()` methods. These include enhanced capabilities for handling of normalized and scaled spectral data, as well as cosmetic tweaks to labels.
+
+This update also includes smaller enhancements and fixes a bug. It tracks changes in packages 'ggrepel' (\>= 0.9.1), 'photobiology' (\>= 0.10.10) and 'ggplot2' (\>= 3.3.3) and deprecation of functions in 'tidyr' (\>= 1.0.0). The updated code depends on the revised `normalize()` function in 'photobiology' (\>= 0.10.10) and on 'ggrepel' (\>= 0.9.1).
+
+**The changes from version 0.3.7, the current CRAN release, are:**
+
+-   Revise all `autoplot()` methods to support on-the-fly normalization internally using `photobiology::normalize()`.
+
+-   Revise `autoplot()` methods for `source_spct`, `response_spct`, `filter_spct`, `reflector_spct`, `source_mspct`, `response_mspct`, `filter_mspct`, and `reflector_mspct` so that if the data are already normalized, by default the normalization is updated according to the arguments passed to `unit.out` or `plot.qty` and `range`. (Update is possible only for objects normalized with 'photobiology' (\>= 0.10.7). For objects created with earlier versions, the old behaviour of plotting spectra *as is* remains unchanged.)
+
+-   Revise `autoplot()` method for `object_mspct` to force use of facets when `plot.qty = "all"` instead of forcing plotting of transmittance only.
+
+-   Revise `autoplot()` method for `object_mspct` to correctly handle normalization of collections of spectra, one spectrum at a time, correcting a bug.
+
+-   Revise all `autoplot()` methods to generate shorter *y*-axis labels also improving reporting of scaling and normalization when needed.
+
+-   Revise all `autoplot()` methods to fix bug leading to bad object name in plot title due to delayed evaluation.
+
+-   Add `autoplot.cps_mspct()`, `autoplot.raw_mspct()` and `autoplot.generic_spct()` methods.
+
+-   Add support for faceting to all `autoplot()` methods for collections of spectra.
+
+-   Revise all `autoplot()` methods for collections of spectra adding support for `sum`, `prod`, `var`, `sd`, and `se` as summaries.
+
+-   Update `decoration()` to track changes in 'ggrepel' (\\\>= 0.9.1).
+
+-   Update `decoration()` to use `position_nudge()` and `position_nudge_repel()` to displace labels instead of "off-range" justification.
+
+-   Improve handling of multiple spectra in long form by `ggplot()` methods and by `autotitle()`.
+
+-   Remove direct dependency on 'dplyr'.
+
+-   Add to the documentation of all `autoplot()` methods an explanation of how to modify the default plot annotations and tittles using arguments passed to parameter `annotations`. Also add \*see also links to related help pages.
+
+------------------------------------------------------------------------
+
+-   Although this update should not break any code, the *y*-axis\
+    labels in plots returned by `autoplot()` methods have changed, in most cases only cosmetically to shorten them. In a few cases more significant changes correct problems.
+
+-   Although this update should not break any code, the labels for\
+    peaks and valleys can be at a slightly different position than with\
+    earlier versions.
+
+-   Although this update does not break any code, plots of collections of object spectra with normalization, will differ from earlier ones as member spectra are now normalized individually (this corrects an earlier bug!).
+
+**Package documentation web site at:** <https://docs.r4photobiology.info/ggspectra/>
+
+------------------------------------------------------------------------
+
+**NOTE: The updated package is on its way to CRAN.**
+
+Please raise issues concerning bugs or enhancements to this package through Bitbucket at <https://github.com/aphalo/ggspectra/issues>
