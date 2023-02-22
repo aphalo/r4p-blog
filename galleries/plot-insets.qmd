@@ -1,16 +1,40 @@
 ---
-title: "'ggpp' plot insets"
-subtitle: "Plots, tables and graphical objects as plot insets"
+title: "ggplot insets with package 'ggpp'"
+subtitle: "Plots, tables and graphical objects as ggplot insets"
 author: "Pedro J. Aphalo"
 date: today
-keywords: [ggplot2, ggpp, R, plot insets]
+keywords: [ggplot2, ggpp, R, plot insets, dataviz, data visualization]
 categories: [ggpp pkg, data labels, plot annotations]
 editor: 
   markdown: 
     wrap: 72
 ---
 
-## Introduction
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when 
+searching for examples. Above each plot you will find a small triangle followed
+by "Code". Clicking on the triangle "unfolds" the code chunk making visible
+the R code used to produce the plot. Except for the loading of packages shown
+in section **Preliminaries** code examples are in most cases self contained.
+When they are not, this is indicated by a comment.
+
+The code in the chunks can be copied by clicking on the top right corner, where
+an icon appears when the mouse cursor hovers over it.
+:::
+
+## Data labels and plot annotations
+
+Data labels and plot annotations differ in that data labels refer directly to
+data described by individual graphical features, like points or curves, in a
+plot. In contrast, annotations provide context to the plotted data but are
+independent of any individual graphical features in a plot. An example of
+data labels are text or icons used to identify or highlight individual
+observations. An annotation can be as simple as text giving the count of the
+number of observations depicted in a plot, a table with results from an 
+statistical analysis of the data in a plot or even another plot showing data
+that provide the context for reading the main or base figure.
+
+## What are plot insets
 
 The use of insets in plots was rather frequent when plots where drawn
 using ink and pen by draughtsmen. With the advent of computer-drawn
@@ -41,6 +65,7 @@ attached. The only function from 'ggplot2' that is redefined by 'ggpp'
 is `annotate()`, which remains backwards compatible with 'ggplot2'.
 
 ```{r}
+#| code-fold: false
 library(ggpp)
 library(dplyr)
 ```
@@ -109,6 +134,8 @@ for text labels, results in its expansion as needed to include the
 inset's *x* and *x* coordinates.
 
 ```{r}
+# CONTINUED FROM CODE CHUNK IMMEDIATELY ABOVE
+
 # whole plot using annotate() and data coordinates
 p.d.combined <- p.base + 
   annotate(geom = "plot", x = 7, y = 50, label = p.inset)
@@ -259,6 +286,8 @@ When using tibbles instead of data frames, the call to `I()` can be
 omitted.
 
 ```{r}
+# CONTINUED FROM CODE CHUNK IMMEDIATELY ABOVE
+
 # tibble to be used as data for plotting insets
 inset.tb <- 
   tibble::tibble(cyl = unique(mpg$cyl),
@@ -272,6 +301,18 @@ p.base +
                 vp.height = 0.8,
                 mapping = aes(npcx = npcx, npcy = npcy, label = plots))
 ```
+
+### Alternatives
+
+::: callout-tip
+Inset plots used as annotations, but not as data labels, can be added to base
+plots using the plot composition operators and function `inset_element()` from
+package 'patchwork'.
+
+If the desired composed plot format is a 'grid' `grob` then the individual plots
+can be converted first into grobs with function `ggplotGrob()` and these grobs 
+subsequently combined using functions from package 'grid'.
+:::
 
 ## Inset tables within plots
 
@@ -292,8 +333,8 @@ available in R or package 'ggplot2'. In this examples we use
 
 #### Summaries
 
-A simple table of medians computed using base R's `aggregate()` added using 
-`annotate()` and `geom = "table_npc"`.
+A simple table of medians computed using base R's `aggregate()` added
+using `annotate()` and `geom = "table_npc"`.
 
 ```{r}
 # compute medians grouped by number of cylinders
@@ -306,10 +347,10 @@ ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
   theme_bw()
 ```
 
-Here we use package 'dplyr' to compute the summaries, and we name the variables
-directly with the desired column titles as strings to be parsed into R
-expressions. We add the table as above but pass `parse = TRUE` so that the
-column titles display as math expressions.
+Here we use package 'dplyr' to compute the summaries, and we name the
+variables directly with the desired column titles as strings to be
+parsed into R expressions. We add the table as above but pass
+`parse = TRUE` so that the column titles display as math expressions.
 
 ```{r}
 # compute medians grouped by number of cylinders
@@ -327,9 +368,9 @@ ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
   theme_bw()
 ```
 
-In this third example we use `stat_fmt_tb()` together with `geom_table()`
-to substitute some of the column headers, select columns, size or text and 
-colours, and change the order of rows.
+In this third example we use `stat_fmt_tb()` together with
+`geom_table()` to substitute some of the column headers, select columns,
+size or text and colours, and change the order of rows.
 
 ```{r}
 tb <- mpg |>
@@ -351,19 +392,56 @@ ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
   theme_bw(15)
 ```
 
+### Alternatives
 
-## Inset graphical objects within plots
+::: callout-tip
+Inset tables used as annotations, but not as data labels, can be added to base
+plots using the plot composition operators and function `inset_element()` from
+package 'patchwork' if the table available as a 'grid' `grob`.
+
+If the desired composed plot format is a 'grid' `grob` then the plot can be
+converted first into a grob with function `ggplotGrob()` and this grob
+subsequently combined with a table grob defining a table using functions from
+package 'grid'.
+:::
+
+## Inset 'grid' graphical objects within plots
+
+Functions `geom_grob()` and `geom_grob_npc()` mimic the user interface of
+`geom_text_s()` which is a superset of that of `geom_text()` from package
+'ggplot2'. This makes them best suited for adding graphical data labels and 
+annotations. As they accept 'grid' grobs, they can add both bit maps and
+vector graphics within the same plot layer in a single call.
 
 ### Using `annotate()`
+
+Using `annotate()` together with `geom_grob_npc()` we can easily add for example
+a logo available as a bitmap file to a plot.
+
+```{r}
+logo.file.name <- 
+  system.file("extdata", "logo-ggpp.png", 
+              package = "ggpp", mustWork = TRUE)
+
+ggpp.logo <- magick::image_read(logo.file.name)
+
+ggplot(mpg, aes(displ, hwy, colour = cyl)) +
+  geom_point() +
+  annotate(geom = "grob_npc", npcx = 0.95, npcy = 0.9,
+           label = grid::rasterGrob(ggpp.logo))
+```
+
 
 ### Using `geom_table()` and `geom_table_npc()`
 
 #### Bitmaps
 
-We can use bitmaps or rasters as annotations and data labels. We need to first
-convert them into graphical objects or _grobs_ compatible with package 'grid'.
-Package 'grid' is included in the R distribution and the underlying plotting
-engine used by 'ggplot2'.
+We can use bitmaps or rasters as annotations and data labels. We need to
+first convert them into graphical objects (`grob`) compatible with
+package 'grid'. Package 'grid' is included in the R distribution and the
+underlying plotting engine used by 'ggplot2'. In this example we read a
+bitmap from a PNG file using package 'magick'. This is one out several
+ways available in R to import raster data.
 
 ```{r}
 # read a bitmap file, in this case included in 'ggpp'
@@ -379,7 +457,7 @@ Robinin.file.name <-
 
 Robinin <- magick::image_read(Robinin.file.name)
 
-# some fake concentration data
+# some fake concentration data together with grobs
 flavonoids.df <- 
   data.frame(metabolite = c("Isoquercitin", "Robinin"),
              structure = I(list(grid::rasterGrob(image = Isoquercitin),
@@ -399,10 +477,50 @@ ggplot(flavonoids.df,
   theme_bw()
 ```
 
+::: callout-tip
+Function `image_read()` supports several other bitmap formats in addition to
+PNG. Version `r magick::magick_config()$version` of 'magick', used to render
+this page supports the following formats and devices.
+
+```{r}
+names(magick::magick_config()[-(1:2)])
+```
+
+Although 'magick' is convenient to use, it is not the only way of importing or
+creating `raster` objects in R. Ploting itself, however, remains unchanged.
+:::
+
 #### Vector graphics
 
-Vector graphics can be defined directly using functions from package 'grid' or
-converted into grobs from SVG or PDF code.
+Vector graphics can be defined directly using functions from package
+'grid' or converted into grobs from SVG or PDF code.
 
+::: callout-warning
+Be aware that the PDF format supports both vector graphics and bitmaps. 
+Conversion from vector graphics into bitmaps is usually relatively easy, while
+the reverse is much more difficult.
+:::
 
+For the next example we follow the technical report [*SVG In, SVG Out*
+by Paul
+Murrell](https://www.stat.auckland.ac.nz/~paul/Reports/grImport/grimport-gridsvg-export/grimport-gridsvg-export.html)
+to create a `grob` by reading an SVG file.
+
+### Alternatives
+
+::: callout-tip
+Package 'ggplot2' defines `geom_raster()` which makes it possible to directly
+add a `raster` as a plot layer.
+
+Package 'ggimg' defines `geom_rect_img()` and `geom_point_img()`.
+
+Inset grid grobs used as annotations, but not as data labels, can be added to
+base plots using the plot composition operators and function `inset_element()`
+from package 'patchwork'.
+
+If the desired composed plot format is a 'grid' `grob` then the plot can be
+converted first into a grob with function `ggplotGrob()` and this grob
+subsequently combined with a separately created 'grid' grob using functions from
+package 'grid'.
+:::
 
