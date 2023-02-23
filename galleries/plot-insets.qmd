@@ -94,6 +94,16 @@ When package 'ggpp' is loaded and attached, package 'ggplot2' is also
 attached. The only function from 'ggplot2' that is redefined by 'ggpp'
 is `annotate()`, which remains backwards compatible with 'ggplot2'.
 
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', dev = "svg",
+               fig.show = 'hold', fig.width = 7, fig.height = 4)
+options(warnPartialMatchArgs = FALSE,
+        tibble.print.max = 4,
+        tibble.print.min = 4,
+        dplyr.summarise.inform = FALSE)
+```
+
 ```{r}
 #| code-fold: false
 library(ggpp)
@@ -557,7 +567,7 @@ this example we read two bitmaps from PNG files using package 'magick'. This is
 one out several ways available in R to import raster data.
 
 ```{r}
-# read a bitmap file, in this case included in 'ggpp'
+# read two bitmap files, in this case included in 'ggpp'
 Isoquercitin.file.path <- 
   system.file("extdata", "Isoquercitin.png", 
               package = "ggpp", mustWork = TRUE)
