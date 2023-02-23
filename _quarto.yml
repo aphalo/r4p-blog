@@ -54,8 +54,11 @@ website:
 format:
   html:
     theme: sandstone
+    linkcolor: "#0000A0"
     css: styles.css
+    highlight-style: github
 
 editor: source
 
 # for supported icons see https://icons.getbootstrap.com/
+# for themes

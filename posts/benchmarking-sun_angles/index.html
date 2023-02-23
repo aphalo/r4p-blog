@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.2.269">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pedro J. Aphalo">
+<meta name="dcterms.date" content="2019-04-24">
+
+<title>Using R for Photobiology - Benchmarking function sun_angles()</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1.6em;
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../r4p-favicon.png" rel="icon" type="image/png">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 20,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body class="nav-fixed fullcontent">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg navbar-dark ">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container">
+    <a href="../../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../../r4p-logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">Using R for Photobiology</span>
+    </a>
+  </div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../index.html"><i class="bi bi-house-door" role="img">
+</i> 
+ <span class="menu-text">blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../pages.html"><i class="bi bi-file-richtext" role="img">
+</i> 
+ <span class="menu-text">Pages</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../galleries.html"><i class="bi bi-images" role="img">
+</i> 
+ <span class="menu-text">gallery</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../pages/packages-status.html"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="menu-text">Packages</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-resources" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-info-square" role="img">
+</i> 
+ <span class="menu-text">Resources</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-resources">    
+        <li>
+    <a class="dropdown-item" href="../../pages/help.html"><i class="bi bi-question-square" role="img">
+</i> 
+ <span class="dropdown-text">Help</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/r4p-introduction.html"><i class="bi bi-sun" role="img">
+</i> 
+ <span class="dropdown-text">Suite <em>R for Photobiology</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://www.learnr-book.info/"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">Book <em>Learn R - As a Language</em></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person" role="img">
+</i> 
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../../pages/about.html"><i class="bi bi-pc-display" role="img">
+</i> 
+ <span class="dropdown-text">About <em>this site</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../../pages/pedro.html"><i class="bi bi-person" role="img">
+</i> 
+ <span class="dropdown-text">About <em>Pedro J. Aphalo</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/aphalo/r4p-blog/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">GitHub <em>this site</em></span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+              <div id="quarto-search" class="" title="Search"></div>
+          </div> <!-- /navcollapse -->
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Benchmarking function <code>sun_angles()</code></h1>
+                                <div class="quarto-categories">
+                <div class="quarto-category">photobiology pkg</div>
+                <div class="quarto-category">performance</div>
+                <div class="quarto-category">sun</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Pedro J. Aphalo </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">April 24, 2019</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+<p>As far as I know there are in CRAN four R packages implementing the computations for the position of the sun and times of sunrise and sunset: ‘photobiology’, ‘fishmethods’, ‘solartime’ and ‘suncalc’.</p>
+<p>The functions <code>sun_angles()</code> and <code>day_night()</code> from package ‘photobiology’ use Meeus equations as used by <a href="https://www.esrl.noaa.gov/gmd/grad/solcalc/">NOAA Solar Calculator</a> which could be more precise than those in NOAA’s Excel worksheet which implement a simplified version of the Meeus equations especially for far into the past or far into the future calculations. The approximations based on Meuus equations are very good for years between 1800 and 2100 and results should still be sufficiently accurate for the range from -1000 to 3000 as long as the computation of Julian dates is correct. The Excel implementation is only valid for dates between 1901 and 2099 because of how Julian dates are computed in Excel.</p>
+<p>Function <code>astrocalc4r()</code> from package ‘fishmethods’ also implements Meeus equations (the authors work at NOAA). Function <code>computeSunPosition()</code> from package ‘solartime’ uses unspecified equations and function <code>getSunlightPosition()</code> is an R interface to the ‘suncalc.js’ library, part of the <a href="http://suncalc.net">‘SunCalc.net’ project</a>.</p>
+<p>Function <code>computeSunPosition()</code> from package ‘solartime’ uses unspecified equations and function <code>getSunlightPosition()</code> is an R interface to the ‘suncalc.js’ library, part of the <a href="http://suncalc.net">‘SunCalc.net’ project</a>.</p>
+<hr>
+<p>I have noticed significant differences in the values returned by equivalent functions from different packages. Up to now the tests on the functions of my own package ‘photobiology’ have revealed only very small mismatches to the NOAA Solar Calculator. These small errors, noticeable for dates far from the present, were due to the use of base R’s <code>julian()</code> function, which is not designed to be precise enough for astronomical calculations. The code now in the repository at Bitbucket has been revised to use Meuus’ algorithm for the calculation of Julian days removing this source of small discrepancies.</p>
+<p>In contrast, while testing ‘photobiology’ against other packages, I seem to have found a bug in function <code>astrocalc4r()</code> from R package ‘fishmethods’.</p>
+<p>A minimal example follows:</p>
+<p><img src="../..\posts/benchmarking-sun_angles/fishmethods-astrocalc4r-bug.png" class="img-fluid"></p>
+<p>By only changing the hour passed as argument different times for sunrise, sunset and daylength are returned even though the day is the same. The differences are larger at high than at low latitudes. The maximum difference for the example above is 1/4 h for daylength. Comparison against the NOAA Solar Calculator shows even larger differences.</p>
+<p>(The bug has been reported to the maintainer of package ‘fishmethods’.)</p>
+<hr>
+<section id="performance" class="level2">
+<h2 class="anchored" data-anchor-id="performance">Performance</h2>
+<p>It is important to realize that this comparison is done from a users’ viewpoint, as the different functions compared differ in how many additional computed values they return. We start by comparing functions from packages ‘photobiology’ and ‘solartime’.</p>
+<p>I have not yet benchmarked function <code>astrocalc4r()</code> from package ‘fishmethods’ as time arguments are passed as several numerical values. I need to first study which parameters accept vectors. In contrast preliminary tests of <code>getSunlightPosition()</code> showed it to be so much slower than the other two functions as to not be possible to include it in the same benchmark sessions.</p>
+<p>The two implementations for computation of solar angles differ in that function <code>sun_angles()</code>from package ‘photobiology’ is implemented purely in R but optimized for performance through vectorization to avoid explicit loops and by factoring out of invariant computations and function <code>computeSunPosition()</code> from package ‘solartime’ is written in C++ using package RCpp.</p>
+<p>The mathematical algorithms used are different. Function <code>sun_angles()</code> uses one of the most precise algorithms currently available (Meeus equations as used in NOAA’s on-line web calculator), an algorithm which is valid over thousands of years before and after present time. In contrast, <code>computeSunPosition()</code> uses a simpler algorithm that returns the same angle values irrespective of the year. This may be good enough in many cases.</p>
+<p>Function <code>sun_angles()</code> has its performance optimised for the case when the sun position needs to be calculated for the same geographic coordinates and numerous time points. In this case and only this case it outperforms <code>computeSunPosition()</code> when more than a few hundred time points are passed as argument. The figure below is a log-log plot so for large numbers of time points the difference becomes significant. In practice, for this case, <code>sun_angles()</code> outperforms <code>computeSunPosition()</code> in all cases when the total computation time exceeds about 3 ms.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/total-times-ggp.svg" class="img-fluid"></p>
+<p>Expressed per time point, it is clear that once the expensive <em>equation of time</em> computation is reused for many time points <code>sun_angles()</code> becomes more than 4 times faster.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/per-timepoint-ggp.svg" class="img-fluid"></p>
+<p>When we compute the sun angles at many different latitudes, <code>computeSunPosition()</code> seemed at first a lot faster than <code>sun_angles()</code> but it was triggering a warning suggesting that vectorization was not working correctly. Using a <code>for</code> loop to walk over the latitudes may be an unfair test but it is what I would use in practice before knowing more about the origin of the warning. I will replace this test when I understand better the problem. In this case, based on what seems to me like the type of situation when one would use the functions, I computed at each location the sun position at the hour during a whole day. In this test <code>computeSunPosition()</code> takes approximately 1/3 of the time that <code>sun_angles()</code> takes.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/per-timepoint-latitudes-ggp.svg" class="img-fluid"></p>
+<p>The performance comparisons above show in my opinion that the choice of algorithm and an efficient implementation in R can be as important as the use of a compiled language like C++ in place of R. It remains to be determined how much of the difference in performance is due to the use of a simpler algorithm in computations related to geographic location and how much due to their implementation in C++. In fact there seems to be still room for further optimizations of the R code for the case of a single time point and multiple locations.</p>
+</section>
+<section id="accuracy" class="level2">
+<h2 class="anchored" data-anchor-id="accuracy">Accuracy</h2>
+<p>I have earlier tested <code>sun_angles()</code> against the NOAA interactive web page, and agreement has been very good. In addition, the values returned by <code>sun_angles()</code> and <code>astrocalc4r()</code> are unsurprisingly within a few hundreds of a degree given that they implement the same algorithm. In the output from <code>getSunlightPosition()</code> azimuth angles are expressed not only in radians, but clockwise from the South instead of from the North as is the case for the other functions. For conversion to degrees from North we need to compute<code>(pi + azimuth) * 180 / pi %% 360</code>. Preliminary tests showed very good agreement for solar elevation and some differences for azimuth. I may do a more thorough comparison in the future.</p>
+<p>The values returned by <code>sun_angles()</code> are different to those returned by <code>computeSunPosition()</code> even after expressing angles in the same units. However, for all the 64 locations each at 432 time points I tested, in most cases the differences were within a few degrees for elevation but occasionally a lot more for azimuth. The smaller differences look systematic, and they may stem from ignoring several features of the movement of the Earth and sun by using simpler equations.</p>
+<p>Anyway, the differences between values calculated with the two functions, especially in the cases when the differences are large, need further investigation. In the case of <code>computeSunPosition()</code> there are cases when the function fails to return a any value, such as at the equator, or for the azimuth as in some years and locations. These are most likely due to numerical computation errors or because of using the implemented algorithm outside its expected range of validity (In the package documentation the algorithm is not described and no reference to literature has been provided)</p>
+<p>The disagreement in the calculated solar elevation can be expected to be irrelevant in many use cases.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/elevation-error-ggp-1.svg" class="img-fluid"></p>
+<p>In the case of azimuth, differences are in some isolated cases huge, and in some cases NaN is returned by <code>computeSunPosition()</code>.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/azimuth-error-ggp.svg" class="img-fluid"></p>
+<p>To be able to observe the more frequent but smaller deviations we zoom into the few degrees of spread around no difference. This figure raises some concern as the discrepancies are large even for year 2020 and follow an unusual pattern.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/azimuth-error-detail-ggp.svg" class="img-fluid"></p>
+<p>The last concern is the calculation of solar time. Here differences are large, especially at midnight and in some years. Differences of more than 15 minutes in the error between different times of the day can be observed which seems unusual. I did compare the values returned by <code>sun_angles()</code> to those returned by the NOAA’s on-line calculator for year 0 and the disagreements are at most a few seconds.</p>
+<p><img src="../..\posts/benchmarking-sun_angles/solartime-error-ggp.svg" class="img-fluid"></p>
+<p>I started these tests mostly to verify that computations done in my package ‘photobiology’ are reliable. Differences can stem from the algorithms used, and how they are implemented in code. Some further differences can be caused by different implementations of system functions, in this case the conversion to Julian dates and times are crucial. In package ‘photobiology’ I had used <code>base::julian()</code> which ignores some leap years and introduced rather small errors. As of version 0.9.27 I have implemented Meuus algorithm for Julian days to ensure good accuracy for dates in the range 1000 BC to 3000 AD.</p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    target: function(trigger) {
+      return trigger.previousElementSibling;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ ISSN 2343-3248 (Helsinki, Finland)
+  </li>  
+</ul>
+    </div>   
+      <div class="nav-footer-center">
+        <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://orcid.org/0000-0003-3385-972X">ORCID</a>
+  </li>  
+</ul>
+      </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../../pages/about.html">About this Website</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+</body></html>
