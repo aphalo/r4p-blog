@@ -1,0 +1,23 @@
+---
+title: "Yoctopuce modules: Introduction"
+author: "Pedro J. Aphalo"
+date: 2019-02-21
+categories: [Yoctopuce, data acquisition]
+keywords: [data acquisition, R, Yoctopuce]
+---
+
+[![](yoctopuce-logo.png)](https://www.yoctopuce.com/){fig-align="left"}
+
+[Yoctopuce](https://www.yoctopuce.com/) USB interface modules provide a very elegant solution to many different sensing and control problems, including measuring radiation. I have been interested in using them to acquire data directly from within R so as to be able to use the 'r4photobiology' suite of packages for real-time or near real time analysis and plotting of the acquired data.
+
+The elegantly coded libraries supplied by Yoctopuce are available with interfaces in multiple computer programming and scripting languages. I have been trying different approaches to calling functions from these libraries in R scripts, but given the large number of functions needed to support the great variety of modules, writing an ad hoc interface for R was out of question. I first tried calling the command line version of the library functions from within R, but at least in Windows 10, the delay was too much and not consistent. Next I tried using the web server in the YoctoHub to send commands as http requests. This worked but it is a rather awkward approach, and not portable to accessing the modules directly through USB.
+
+Two days ago, after reading about the ['reticulate' package](https://rstudio.github.io/reticulate/) I decided to test an approach similar to that I have used in [package 'rOmniDriver'](https://docs.r4photobiology.info/rOmniDriver/) to access, with help from the ['rJava' package](https://www.rforge.net/rJava/), [Ocean Optics spectrometers](https://www.oceaninsight.com/) through OmniDriver, a library written in Java. In the present case using 'reticulate' to access the Python version of the YoctoPuce library. It works extremely well, and the RStudio IDE provides in the editor even auto-completion and bubble help for functions and other objects defined in the Python library!
+
+I have decided to describe here a few use cases for data acquisition or light source control using YoctoPuce models and R scripts. Most examples will be simple but useful, as they are real use cases rather than toy examples.
+
+The YoctoPuce modules, hubs and the corresponding free libraries and the documentation are available at https://www.yoctopuce.com/. The 'reticulate' package is available through CRAN, and nicely formatted documentation can be found at https://rstudio.github.io/reticulate/. The first CRAN release of 'reticulate' appeared less than a year ago.
+
+[2022-02-23: I hope to continue this series of posts, but currently there are only two of them.]
+
+

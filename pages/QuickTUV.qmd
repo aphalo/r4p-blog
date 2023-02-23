@@ -1,0 +1,30 @@
+---
+title: "Using the Quick TUV Calculator"
+author: "Pedro J. Aphalo"
+date: 2018-08-10
+categories: [photobiologyInOut pkg, Quick TUV, solar spectrum, data]
+---
+
+As our package 'photobiologyInOut' (versions \>= 0.4.15) supports the automatic import of the files returned by the Quick TUV Calculator, we show here how to produce such files, and link to an example showing how to import and plot them in R.
+
+The TUV model is a well known model of atmospheric chemistry that also simulates the solar spectrum within the atmosphere or at ground level using a radiation transfer approach. The model is written in FORTRAN and available for local use. When one needs just to compute a few spectra with no special conditions, it is possible to use the on-line interface provided by the National Centre of Atmospheric Research (NCAR) under the name of [*Quick TUV Calculator.*](http://cprm.acom.ucar.edu/Models/TUV/Interactive_TUV/)
+
+This interface is easy to use once one understands the different options and required input data. (This video, authored by Pedro J. Aphalo is published with the express permission of [Sasha Madronich](https://staff.ucar.edu/users/sasha), creator of the [TUV model](https://www2.acom.ucar.edu/modeling/tropospheric-ultraviolet-and-visible-tuv-radiation-model).)
+
+[This video](https://vimeo.com/801545088) is hosted at Vimeo.
+
+::: {style="padding:89.87% 0 0 0;position:relative;"}
+<iframe src="https://player.vimeo.com/video/801545088?h=5c92db2d35&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="quickTUV-01d">
+
+</iframe>
+:::
+
+```{=html}
+<script src="https://player.vimeo.com/api/player.js"></script>
+```
+
+</br>
+
+### Examples of the simulation results that can be obtained
+
+An [R notebook](https://docs.r4photobiology.info/articles/sun-article.nb.html) demonstrating how the solar spectrum is affected by variation in the atmospheric composition, solar elevation and observer elevation is available for reading and/or download. The R code used in embedded in this HTML file.
