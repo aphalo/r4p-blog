@@ -7,7 +7,7 @@ categories: [R Package Update, photobiology pkg]
 
 <hr />
 
-[<strong>COMPATIBILTY FIX:</strong> ]{style="background-color: #ccffcc;"}An update of package 'tidyselect' 1.2.0 now in CRAN deprecated syntax previously accepted. This change affected indirectly the syntax used in 'dplyr' and 'tidyr' resulting in lots of warnings and in a few odd behaviours in 'photobiology'. To solve this I replaced several calls to `dplyr::rename()` and `dplyr::select()` with newly written code using only base R functions and operators.
+[<strong>COMPATIBILITY FIX:</strong> ]{style="background-color: #ccffcc;"}An update of package 'tidyselect' 1.2.0 now in CRAN deprecated syntax previously accepted. This change affected indirectly the syntax used in 'dplyr' and 'tidyr' resulting in lots of warnings and in a few odd behaviours in 'photobiology'. To solve this I replaced several calls to `dplyr::rename()` and `dplyr::select()` with newly written code using only base R functions and operators.
 
 <hr />
 
