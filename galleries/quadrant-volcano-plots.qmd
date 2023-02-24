@@ -1,0 +1,468 @@
+---
+title: "Volcano and quadrant plots with 'ggpmisc'"
+subtitle: "Data labels, annotations and guides" 
+author: "Pedro J. Aphalo"
+date: today
+keywords: [ggplot2, ggpp, R, volcano plot, quadrant plot, dataviz, data visualization]
+categories: [ggpp pkg, data labels, plot annotations]
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Introduction
+
+Here you will find examples of volcano plots and quadrant plots built
+with packages 'ggplot2', 'ggpp' and 'ggpmisc'. All three packages are
+available at CRAN. The documentation of [package
+'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
+'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available
+on-line.
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find a small triangle
+followed by "Code". Clicking on the triangle "unfolds" the code chunk
+making visible the R code used to produce the plot. Except for the
+loading of packages shown in section **Preliminaries** code examples are
+in most cases self contained. When they are not, this is indicated by a
+comment.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+:::
+
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
+## Data labels, plot annotations and insets
+
+Data labels add textual information directly related to individual data
+points (shown as glyphs). Text position in this case is dependent on the
+scales used to represent data points. Text is usually displaced so that
+it does not occlude the glyph representing the data point and when the
+link to the data point is unclear, this link is signaled with a line
+segment or arrow. Data labels are distinct from annotations in that they
+contribute directly to the representation of data on a plot or map. The
+typical case for volcano and quadrant plots is to highlight individual
+points by labelling with an abbreviation of a gene name or metabolite
+name.
+
+Annotations differ from data labels, in that their position is decoupled
+from their meaning. In the case of annotations the designer of a data
+visualization has more freedom when deciding their location in an
+illustration, as long as they do not occlude features used to describe
+data. In the case of volcano and quadrant plots, a typical use of
+annotations is to indicate the number of observations in each quadrant
+of the plot.
+
+## Scales and out-of-bounds observations
+
+Volcano and quadrant plots normally have symetrical positive and
+negative limits on axes and use transformations for the scales.
+
+## Preliminaries
+
+The code used is shown on-demand above each plot and can be copied. We
+first load the packages we will use.
+
+When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
+'ggplot2' are also attached. The only function from 'ggplot2' that is
+redefined by 'ggpp' is `annotate()`, which remains backwards compatible
+with 'ggplot2'.
+
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', dev = "svg",
+               fig.show = 'hold', fig.width = 7, fig.height = 4)
+options(warnPartialMatchArgs = FALSE,
+        tibble.print.max = 4,
+        tibble.print.min = 4,
+        dplyr.summarise.inform = FALSE)
+```
+
+```{r}
+#| code-fold: false
+library(ggpmisc)
+library(ggrepel)
+library(dplyr)
+```
+
+## Quadrant plots
+
+### Simple examples using 'ggpp'
+
+Quadrant plots are scatterplots with the origin (0, 0) at the center of
+the plotting region. In the first two examples we use artificial data
+and a geom and a stat from package 'ggpp'.
+
+```{r}
+set.seed(4321)
+# generate artificial data
+x <- -99:100
+y <- x + rnorm(length(x), mean = 0, sd = abs(x))
+my.data <- data.frame(x, 
+                      y, 
+                      group = c("A", "B"))
+```
+
+A simple quadrant plot can add two lines to highlight the four quadrants
+and annotations with the number of observations per quadrant. We expand
+the *y* axis limits to enusre that the count annotations do not overlap
+the observations.
+
+```{r}
+ggplot(my.data, aes(x, y)) +
+  geom_quadrant_lines(colour = "red") +
+  stat_quadrant_counts(colour = "red") +
+  geom_point() +
+  expand_limits(y = c(-260, 260))
+```
+
+We create panels or facets for the groups, and the counts are computed
+separately within each plot panel.
+
+```{r}
+ggplot(my.data, aes(x, y, colour = group)) +
+  geom_quadrant_lines() +
+  stat_quadrant_counts(geom = "label_npc") +
+  geom_point() +
+  expand_limits(y = c(-260, 260)) +
+  facet_wrap(~group)
+```
+
+`stat_quadrant_counts()` ignores groups, it always shows the total
+counts per qudrant.
+
+```{r}
+ggplot(my.data, aes(x, y, colour = group)) +
+  geom_quadrant_lines() +
+  stat_quadrant_counts() +
+  geom_point() +
+  expand_limits(y = c(-260, 260)) 
+```
+
+Occasionally we may want to pool the counts along *x* or *y*.
+
+```{r}
+ggplot(my.data, aes(x, y)) +
+  geom_quadrant_lines(pool.along = "x") +
+  stat_quadrant_counts(pool.along = "x") +
+  geom_point() +
+  expand_limits(y = c(-260, 260)) 
+```
+
+Occasionally we may want to relocate the center.
+
+```{r}
+ggplot(my.data, aes(x, y)) +
+  geom_quadrant_lines(xintercept = 25, yintercept = -50) +
+  stat_quadrant_counts(xintercept = 25, yintercept = -50) +
+  geom_point() +
+  expand_limits(y = c(-260, 260))
+```
+
+### Realistic examples using 'ggpp' and 'ggpmisc'
+
+For the examples we will use a subset of RNAseq data for Arabidopsis,
+available in package 'ggpmisc'. We show here the first 10 rows.
+
+```{r}
+head(quadrant_example.df, n = 10)
+```
+
+```{r}
+  ggplot(subset(quadrant_example.df, 
+                xy_outcomes2factor(outcome.x, outcome.y) != "none"),
+         aes(logFC.x, logFC.y, 
+             colour = outcome2factor(outcome.x), 
+             fill = outcome2factor(outcome.y))) +
+  geom_quadrant_lines(linetype = "dotted") +
+  stat_quadrant_counts(size = 3, colour = "white") +
+  geom_point(shape = "circle filled", size = 2) +
+  scale_x_logFC(name = "Transcript abundance for x%unit") +
+  scale_y_logFC(name = "Transcript abundance for y%unit") +
+  scale_colour_outcome() +
+  scale_fill_outcome() +
+  theme_dark()
+```
+
+To plot in separate panels those observations that are significant along
+both x and y axes, x axis, y axis, or none, with quadrants merged takes
+more effort. We first define two helper functions to add counts and
+quadrant lines to each of the four panels.
+
+```{r}
+# we define two functions that call stats with different arguments based on the quadrant
+
+all_quadrant_counts <- function(...) {
+  list(  
+    stat_quadrant_counts(data = . %>% filter(outcome.xy.fct == "xy"), ...),
+    stat_quadrant_counts(data = . %>% filter(outcome.xy.fct == "x"), pool.along = "y", ...),
+    stat_quadrant_counts(data = . %>% filter(outcome.xy.fct == "y"), pool.along = "x", ...),
+    stat_quadrant_counts(data = . %>% filter(outcome.xy.fct == "none"), quadrants = 0L, ...)
+  )
+}
+
+all_quadrant_lines <- function(...) { 
+  list(
+    geom_hline(data =  data.frame(outcome.xy.fct = factor(c("xy", "x", "y", "none"),
+                                                          levels = c("xy", "x", "y", "none")),
+                                  yintercept = c(0, NA, 0, NA)),
+               aes(yintercept = yintercept),
+               na.rm = TRUE,
+               ...),
+    geom_vline(data =  data.frame(outcome.xy.fct = factor(c("xy", "x", "y", "none"),
+                                                          levels = c("xy", "x", "y", "none")),
+                                  xintercept = c(0, 0, NA, NA)),
+               aes(xintercept = xintercept),
+               na.rm = TRUE,
+               ...)
+  )
+}
+
+# we use them to plot four panels, each with a different subset of data
+# we first convert the outcomes from the statistical test into factors
+
+quadrant_example.df %>%
+  mutate(.,
+         outcome.x.fct = outcome2factor(outcome.x),
+         outcome.y.fct = outcome2factor(outcome.y),
+         outcome.xy.fct = xy_outcomes2factor(outcome.x, outcome.y)) %>%
+  ggplot(., aes(logFC.x, logFC.y, colour = outcome.x.fct, fill = outcome.y.fct)) +
+  geom_point(shape = 21) +
+  all_quadrant_lines(linetype = "dotted") +
+  all_quadrant_counts(size = 3, colour = "white") +
+  scale_x_logFC(name = "Transcript abundance for x%unit") +
+  scale_y_logFC(name = "Transcript abundance for y%unit") +
+  scale_colour_outcome() +
+  scale_fill_outcome() +
+  facet_wrap(~outcome.xy.fct) +
+  theme_dark()
+```
+
+Addition of data labels is best automated by using statistics from
+'ggpp' that filter labels based on the local density of observations,
+together with the repulsive geometries from 'ggrepel'.
+
+```{r}
+ggplot(subset(quadrant_example.df, 
+                xy_outcomes2factor(outcome.x, outcome.y) != "none"),
+         aes(logFC.x, logFC.y, 
+             label = gene)) +
+  geom_quadrant_lines(linetype = "dotted") +
+  stat_dens2d_labels(geom = "text_repel", 
+                     size = 2, 
+                     position = position_nudge_centre(x = 0.1, 
+                                                      y = 0.1, 
+                                                      direction = "radial"),
+                     keep.fraction = 0.3,
+                     keep.number = 30,
+                     keep.these = c("AtMC9", "HY5", "HYH"),
+                     min.segment.length = 0) +
+  geom_point(shape = "circle open", size = 2) +
+  scale_x_logFC(name = "Transcript abundance for x%unit") +
+  scale_y_logFC(name = "Transcript abundance for y%unit") +
+  scale_colour_outcome() +
+  scale_fill_outcome() +
+  theme_bw()
+
+```
+
+## Volcano plots
+
+### Simple examples using 'ggpp'
+
+We use here a subset of RNAseq data from Arabidopsis. The predefined
+scales simplify the plotting by handling the tick mark labels and axis
+labels, but also by setting the out of bounds parameters of the scales
+so that out-of-bounds observations are "shrunk" to the scale limit. All
+this can be done also manually but is rather tedious. The scales have
+parameters that allow the defaults to be changed.
+
+In this example, the counts are for the number of upregulated and
+downrelated genes.
+
+```{r}
+nrow(volcano_example.df)
+head(volcano_example.df, n = 10)
+```
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, PValue, colour = outcome2factor(outcome))) +
+  geom_point() +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome() +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)})
+```
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, PValue, colour = outcome2factor(outcome, n.levels = 2))) +
+  geom_point() +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome(values = "outcome:de") +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)}) +
+  theme_bw()
+```
+
+We here label those genes in regions of the plot with low local density
+of observations.
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, 
+           PValue, colour = outcome2factor(outcome, n.levels = 2),
+           label = gene)) +
+  geom_point() +
+  stat_dens2d_labels(geom = "text_repel", 
+                     size = 2,
+                     colour = "black",
+                     position = position_nudge_centre(x = 0.1, 
+                                                      y = 0.1, 
+                                                      direction = "radial"),
+                     keep.fraction = 0.03, # 3% of data points
+                     min.segment.length = 0) +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome(values = "outcome:de", de.colour = "darkgreen") +
+  theme_bw()
+
+```
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, 
+           PValue, colour = outcome2factor(outcome),
+           label = gene)) +
+  geom_point() +
+  stat_dens2d_labels(geom = "text_repel", 
+                     size = 2,
+                     colour = "black",
+                     position = position_nudge_centre(x = 0.1, 
+                                                      y = 0.1, 
+                                                      direction = "radial"),
+                     keep.fraction = 0.03, # 3% of data points
+                     min.segment.length = 0) +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome() +
+  theme_bw()
+
+```
+
+We here label only genes listed by name in `keep.these`.
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, 
+           PValue, colour = outcome2factor(outcome, n.levels = 2),
+           label = gene)) +
+  geom_point() +
+  stat_dens2d_labels(geom = "text_s", 
+                     colour = "red",
+                     size = 2, 
+                     position = position_nudge_centre(x = 0.9, 
+                                                      y = 0.9, 
+                                                      direction = "radial"),
+                     keep.fraction = 0, # 0% based on density
+                     keep.these = c("IAA30", "IAA18"),
+                     min.segment.length = 0) +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome(values = "outcome:de", de.colour = "black") +
+  theme_bw()
+
+```
+
+We here label only genes with names starting with "IAA" by passing an
+annonymous function to `keep.these`. It will be passed the variable
+mapped to the `label` aesthetic.
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, 
+           PValue, colour = outcome2factor(outcome, n.levels = 2),
+           label = gene)) +
+  geom_point() +
+  stat_dens2d_labels(geom = "text_s", 
+                     colour = "red",
+                     size = 2, 
+                     position = position_nudge_centre(x = 0.9, 
+                                                      y = 0.9, 
+                                                      direction = "radial"),
+                     keep.fraction = 0, # 0% based on density
+                     keep.these = function(x) {grepl("^IAA", x)},
+                     min.segment.length = 0) +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome(values = "outcome:de", de.colour = "black") +
+  theme_bw()
+
+```
+
+We here label only genes for which $P < 1 \times 10^{-10}$. In this case
+we pass in addition to the anonymous function to `keep.these` the name
+of the variable in data our functions expects as argument to
+`these.target`.
+
+::: callout-important
+The names to pass to `these.target` are those of aesthetics rather than
+those the columns in the user's data frame. In 'ggplot2' only variables
+mapped to aesthetics are visible to stats.
+:::
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, 
+           PValue, colour = outcome2factor(outcome, n.levels = 2),
+           label = gene)) +
+  geom_point() +
+  stat_dens2d_labels(geom = "text_repel", 
+                     colour = "red",
+                     size = 2, 
+                     position = position_nudge_centre(x = 0.9, 
+                                                      y = 0.9, 
+                                                      direction = "radial"),
+                     keep.fraction = 0,
+                     these.target = "y",
+                     keep.these = function(x) {x > 10}, # -log10(PValue) in data
+                     min.segment.length = 0,
+                     max.overlaps = Inf) + # force all labels displayed
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome(values = "outcome:de", de.colour = "black") +
+  theme_bw()
+
+```
+
+The examples above use only one approach to the selection of genes to
+label, but they can be combined. Here we combine a selection based on
+density and on *P*-value.
+
+```{r}
+ggplot(volcano_example.df, 
+       aes(logFC, 
+           PValue, colour = outcome2factor(outcome, n.levels = 2),
+           label = gene)) +
+  geom_point() +
+  stat_dens2d_labels(geom = "text_repel", 
+                     size = 2, 
+                     position = position_nudge_centre(x = 0.1, 
+                                                      y = 0.1, 
+                                                      direction = "radial"),
+                     keep.fraction = 0.03,
+                     these.target = "y",
+                     exclude.these = function(x) {x < 5}, # -log10(PValue) in data
+                     min.segment.length = 0) +
+  scale_x_logFC(name = "Transcript abundance%unit") +
+  scale_y_Pvalue() +
+  scale_colour_outcome(values = "outcome:de", de.colour = "darkgreen") +
+  theme_bw()
+
+```
