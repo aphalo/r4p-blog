@@ -37,7 +37,7 @@ For simplicity, whenever possible I use base R functions instead of
 contributed R packages. For those packages used only in specific
 examples I use colon notation to indicate the 'package'.
 
-## Data labels, plot annotations and insets
+## Data labels and plot annotations
 
 Data labels add textual information directly related to individual data
 points (shown as glyphs). Text position in this case is dependent on the
@@ -263,9 +263,9 @@ ggplot(subset(quadrant_example.df,
                      keep.these = c("AtMC9", "HY5", "HYH"),
                      min.segment.length = 0) +
   geom_point(shape = "circle open", size = 2) +
+  stat_quadrant_counts(aes(label = after_stat(count.label))) +
   scale_x_logFC(name = "Transcript abundance for x%unit") +
   scale_y_logFC(name = "Transcript abundance for y%unit") +
-  scale_colour_outcome() +
   scale_fill_outcome() +
   theme_bw()
 
@@ -331,6 +331,8 @@ ggplot(volcano_example.df,
   scale_x_logFC(name = "Transcript abundance%unit") +
   scale_y_Pvalue() +
   scale_colour_outcome(values = "outcome:de", de.colour = "darkgreen") +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)},
+                       aes(label = after_stat(count.label))) +
   theme_bw()
 
 ```
@@ -352,6 +354,8 @@ ggplot(volcano_example.df,
   scale_x_logFC(name = "Transcript abundance%unit") +
   scale_y_Pvalue() +
   scale_colour_outcome() +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)},
+                       aes(label = after_stat(count.label))) +
   theme_bw()
 
 ```
@@ -376,6 +380,8 @@ ggplot(volcano_example.df,
   scale_x_logFC(name = "Transcript abundance%unit") +
   scale_y_Pvalue() +
   scale_colour_outcome(values = "outcome:de", de.colour = "black") +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)},
+                       aes(label = after_stat(count.label))) +
   theme_bw()
 
 ```
@@ -402,6 +408,8 @@ ggplot(volcano_example.df,
   scale_x_logFC(name = "Transcript abundance%unit") +
   scale_y_Pvalue() +
   scale_colour_outcome(values = "outcome:de", de.colour = "black") +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)},
+                       aes(label = after_stat(count.label))) +
   theme_bw()
 
 ```
@@ -437,6 +445,8 @@ ggplot(volcano_example.df,
   scale_x_logFC(name = "Transcript abundance%unit") +
   scale_y_Pvalue() +
   scale_colour_outcome(values = "outcome:de", de.colour = "black") +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)},
+                       aes(label = after_stat(count.label))) +
   theme_bw()
 
 ```
@@ -463,6 +473,9 @@ ggplot(volcano_example.df,
   scale_x_logFC(name = "Transcript abundance%unit") +
   scale_y_Pvalue() +
   scale_colour_outcome(values = "outcome:de", de.colour = "darkgreen") +
+  stat_quadrant_counts(data = function(x) {subset(x, outcome != 0)},
+                       aes(label = after_stat(count.label)),
+                       colour = "darkgreen") +
   theme_bw()
 
 ```
