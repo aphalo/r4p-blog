@@ -1,0 +1,148 @@
+---
+title: "Data labels in bar plots with 'ggpp'"
+subtitle: "Nudging labels in stacked and dodged bars or columns" 
+author: "Pedro J. Aphalo"
+date: today
+keywords: [ggplot2, ggpp, R, bar plot, column plot, dataviz, data visualization]
+categories: [ggpp pkg, data labels, plot annotations]
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Introduction
+
+Here you will find examples of bar plots and column plots built
+with packages 'ggplot2' and 'ggpp'. Both packages are
+available at CRAN. The documentation of [package
+'ggpp'](https://docs.r4photobiology.info/ggpp) is available
+on-line.
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find a small triangle
+followed by "Code". Clicking on the triangle "unfolds" the code chunk
+making visible the R code used to produce the plot. Except for the
+loading of packages shown in section **Preliminaries** code examples are
+in most cases self contained. When they are not, this is indicated by a
+comment.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+:::
+
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
+## Data labels and plot annotations
+
+Data labels add textual information directly related to individual data
+"points", in this case bar and column segments (shown as glyphs). Text position
+in this case is dependent on the scales used to represent data. Text is
+frequently displaced so that it does not occlude important plot components and
+when the link to the bar or column is unclear, this link is signaled with a line
+segment or arrow. Data labels are distinct from annotations in that they
+contribute directly to the representation of data on a plot or map.
+
+## Postion functions
+
+In column and bar plots, and more generally when either _x_ or _y_ is a discrete
+factor very frequently functions `position_stack()`, `position_fill()`, 
+`position_dodge()`, `position_dodge2()` or `position_jitter()` are used to
+modify the location of the bars, columns or other geometries. The creates a
+difficulty because we usually would like to nudge the position of labels. This
+can be achieved with new position functions from 'ggpp'.
+
+An additional consideration is keeping in `data` suitable coordinates for
+drawing a connecting segment or arrow between the displaced bar and an 
+additionally nudged position for the label or text.
+
+All the position functions described in this section are compatible with most
+geometries from ggpplot2 and extensions. However, only those from packages
+‘ggpp’ and ‘ggrepel’ (> 0.9.1) plot segments and arrows linking original and
+displaced positions as saved by these position functions.
+
+## Preliminaries
+
+The code used is shown on-demand above each plot and can be copied. We
+first load the packages we will use.
+
+When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
+'ggplot2' are also attached. The only function from 'ggplot2' that is
+redefined by 'ggpp' is `annotate()`, which remains backwards compatible
+with 'ggplot2'.
+
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', dev = "svg",
+               fig.show = 'hold', fig.width = 7, fig.height = 4)
+options(warnPartialMatchArgs = FALSE,
+        tibble.print.max = 4,
+        tibble.print.min = 4,
+        dplyr.summarise.inform = FALSE)
+```
+
+```{r}
+#| code-fold: false
+library(ggpp)
+# library(ggrepel)
+library(dplyr)
+```
+
+## Bar and column plots
+
+### Simple examples
+
+```{r}
+ df <- data.frame(x1 = c(1, 2, 1, 3, -1),
+                  x2 = c("a", "a", "b", "b", "b"),
+                  grp = c("A", "B", "C", "D", "E"))
+```
+
+```{r}
+ggplot(data = df, aes(x1, x2, group = grp)) +
+   geom_col(aes(fill = grp), width = 0.8,
+            position = position_dodge()) +
+   geom_vline(xintercept = 0) +
+   geom_text(
+     aes(label = grp),
+     position = position_dodgenudge(x = 0.09, direction = "split", width = 0.8)) +
+   theme(legend.position = "none")
+```
+
+```{r}
+ ggplot(data = df, aes(x2, x1, group = grp)) +
+   geom_col(aes(fill = grp), width = 0.75,
+            position = position_dodge(width = 0.75)) +
+   geom_hline(yintercept = 0) +
+   geom_text(aes(label = grp),
+             position = position_dodgenudge(y = 0.1,
+                                            direction = "split",
+                                            width = 0.75),
+             size = 3) +
+   theme(legend.position = "none")
+```
+
+```{r}
+ ggplot(data = df, aes(x1, x2, group = grp)) +
+   geom_col(aes(fill = grp), width = 0.5) +
+   geom_vline(xintercept = 0) +
+   geom_text(
+     aes(label = grp),
+     position = position_stacknudge(vjust = 0.5, y = 0.33)) +
+   theme(legend.position = "none")
+```
+
+```{r}
+ ggplot(data = subset(df, x1 >= 0), aes(x2, x1, group = grp)) +
+   geom_col(aes(fill = grp), width=0.5, position = position_fill()) +
+   geom_vline(xintercept = 0) +
+   geom_text(
+     aes(label = grp),
+     position = position_fillnudge(vjust = 1, y = -0.05)) +
+   theme(legend.position = "none")
+```
+
+### Realistic examples
