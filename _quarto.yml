@@ -20,8 +20,8 @@ website:
       - icon: box-seam
         text: R packages
         menu:
-          - icon: list-ul
-            text: List
+          - icon: check-all
+            text: Checks and issues
             href: pages/packages-status.qmd
           - icon: box-seam
             text: 'learnrbook'
