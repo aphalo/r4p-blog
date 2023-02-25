@@ -87,19 +87,26 @@ options(warnPartialMatchArgs = FALSE,
 ```{r}
 #| code-fold: false
 library(ggpp)
-# library(ggrepel)
-library(dplyr)
+library(ggrepel)
+# library(dplyr)
 ```
 
 ## Bar and column plots
 
 ### Simple examples
 
+Some simple artificial data.
+
 ```{r}
  df <- data.frame(x1 = c(1, 2, 1, 3, -1),
                   x2 = c("a", "a", "b", "b", "b"),
                   grp = c("A", "B", "C", "D", "E"))
 ```
+
+The first few examples are graphically very simple, but very difficult to create
+within 'ggplot2' without manual tweaking. The combined position functions
+from 'ggpp' simplify the use of data labels together with stacked or dodged columns
+and bars.
 
 ```{r}
 ggplot(data = df, aes(x1, x2, group = grp)) +
@@ -108,9 +115,14 @@ ggplot(data = df, aes(x1, x2, group = grp)) +
    geom_vline(xintercept = 0) +
    geom_text(
      aes(label = grp),
-     position = position_dodgenudge(x = 0.09, direction = "split", width = 0.8)) +
+     position = position_dodgenudge(x = 0.09, 
+                                    direction = "split", 
+                                    width = 0.8)) +
    theme(legend.position = "none")
 ```
+
+After swapping the _x_ and _y_ mappings, we need to also adjust the arguments
+used for nudging.
 
 ```{r}
  ggplot(data = df, aes(x2, x1, group = grp)) +
@@ -125,6 +137,8 @@ ggplot(data = df, aes(x1, x2, group = grp)) +
    theme(legend.position = "none")
 ```
 
+Nudging can be applied along the bar or sideways, or both simultaneously.
+
 ```{r}
  ggplot(data = df, aes(x1, x2, group = grp)) +
    geom_col(aes(fill = grp), width = 0.5) +
@@ -134,6 +148,9 @@ ggplot(data = df, aes(x1, x2, group = grp)) +
      position = position_stacknudge(vjust = 0.5, y = 0.33)) +
    theme(legend.position = "none")
 ```
+
+If we use `position_fill()` for drawing the columns, we need to use the
+matching `position_fillnudge()` for the data labels.
 
 ```{r}
  ggplot(data = subset(df, x1 >= 0), aes(x2, x1, group = grp)) +
@@ -145,4 +162,97 @@ ggplot(data = df, aes(x1, x2, group = grp)) +
    theme(legend.position = "none")
 ```
 
-### Realistic examples
+Using a repulsive geom from package 'ggrepel' together with `postion_stack_nudge()` from 'ggpp' overlaps can usually be avoided.
+
+
+```{r}
+df <- tibble::tribble(
+  ~y, ~x, ~grp,
+  "a", 1,  "some long name",
+  "a", 2,  "other name",
+  "b", 1,  "other different long name",
+  "b", 3,  "another name",
+  "b", -1, "some long name"
+)
+
+ggplot(data = df, aes(x, y, group = grp)) +
+  geom_col(aes(fill = grp), width=0.5) +
+  geom_vline(xintercept = 0) +
+  geom_label_repel(aes(label = grp),
+                   position = position_stacknudge(vjust = 0.5, y = 0.4),
+                   label.size = NA) +
+  scale_fill_discrete(guide = "none")
+```
+
+In the previous example repulsion prevented overlap, while here we manually 
+divided the label text into two lines. This made is possible to use `geom_label_s()`
+also from 'ggpp', similar to `geom_label()` from 'ggplot2', but capable of plotting
+segments or arrows based on position displacements.
+
+```{r}
+df <- tibble::tribble(
+  ~y, ~x, ~grp,
+  "a", 1,  "some long name",
+  "a", 2,  "other name",
+  "b", 1,  "other different\nlong name",
+  "b", 3,  "another name",
+  "b", -1, "some long name"
+)
+
+ggplot(data = df, aes(x, y, group = grp)) +
+  geom_col(aes(fill = grp), width=0.5, show.legend = FALSE) +
+  geom_vline(xintercept = 0) +
+  geom_label_s(aes(label = grp),
+               linewidth = 0,
+               position = position_stacknudge(vjust = 0.5, y = 0.31)) +
+  theme_bw()
+```
+
+Even a small amount of nudging is enough when justification is based on
+`"position"`displacement, the default in `geom_text_s()` and `geom_label_s()`.
+
+```{r}
+ggplot(data = df, aes(x = y, y = x, group = grp)) +
+  geom_col(aes(fill = grp), width = 0.33, show.legend = FALSE) +
+  geom_vline(xintercept = 0) +
+  geom_label_s(aes(label = grp),
+               linewidth = 0,
+               position = position_stacknudge(vjust = 0.5, x = 0.05)) +
+  theme_dark()
+
+```
+
+In a stacked frequency or counts bar plot it is difficult to read the partial
+counts for each stacked segment: we need to mentally subtract two values
+read from the scale. We can add labels with these values using 
+`position_stacknudge()`.
+
+```{r}
+# This is modified from the examples for geom_bar()
+# We add labels just below the top of each part with partial counts
+ggplot(mpg, aes(class)) + 
+  geom_bar(aes(fill = drv)) +
+  geom_text(aes(label = after_stat(count), y = after_stat(count), group = drv),
+            position = position_stacknudge(vjust = 1, y = -1.1),
+            size = 2.7,
+            stat = "count")
+```
+
+When flipping the orientation of a stacked plot we may want to reverse the order of
+stacking (so that it is consistent with the legend or key).
+
+```{r}
+# This is modified from the examples for geom_bar()
+# To reverse the order of stacking we need to  position_stack() explicitly
+# reversing the order in both geoms, so that the positions match:
+ggplot(mpg, aes(y = class)) +
+  geom_bar(aes(fill = drv), position = position_stack(reverse = TRUE)) +
+  geom_text(aes(label = after_stat(count), x = after_stat(count), group = drv),
+            position = position_stacknudge(vjust = 1, x = -1.1, reverse = TRUE),
+            size = 2.7,
+            stat = "count") +
+  theme(legend.position = "top")
+```
+
+
+

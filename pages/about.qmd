@@ -16,7 +16,7 @@ about:
 
 ## Aims
 
-This web site is the home of software written Pedro J. Aphalo, using the R programming language. It provides news and documentation for the packages and occasional posts on R-related subjects.
+This web site is the home of software written Pedro J. Aphalo, using the R programming language. It provides news and documentation for the packages and occasional posts on R-related and photobiology-related subjects.
 
 The 11 R packages in the _r4photobiology_ suite implement calculations related to handling of spectral data as used in photobiology. The main purpose of this software is to make it easier for biologists to quantify and describe the visible and ultraviolet radiation conditions used in experiments or monitored in nature, in a standardized and consistent way. In accordance with the ideas of "reproducible and open science" all the code is open-source and all algorithms and data used, unless original, are linked to the original sources.
 
@@ -26,23 +26,15 @@ A package to accompany the book [_Learn R: As a Language_](https://www.r4photobi
 
 ## Scope and organization
 
-The site is divided into a blog containing short posts with news (revised only in case they contain errors) and pages with content of longer term usefulness (updated as needed).
+The site is divided into a blog containing short posts with news (revised only in case they contain errors), pages with content of longer term usefulness (updated as needed) and galleries with "cookbook" style collections of use examples for my R packages.
 
 In the blog I publish news related to the use of R in the analysis and acquisition of data in the field of photobiology as well as in relation to data analysis and plotting in general. Most frequently, blog posts describe updates to R packages. I take a very broad view of photobiology, so anything useful to a photobiologist is within scope. This includes analysis of data that is in the realm of radiation meteorology and climatology, and even geophysics. Contributions from anybody are warmly welcome, but acceptance is at the discretion of the editor.
 
-The site also contains pages with tips on using R for reproducible research and other bits of information related to data analysis and programming with R, and occasional blog posts with informal reviews of R packages that I use.
-
-## The code for the packages
-
-I have written the code using consistent naming conventions and a consistent formatting style. The packages are documented and include usage examples for all functions. Documentation follows standard R documentation practices, and includes vignettes such as user guides. The packages are compatible with Windows (x86/x64), Linux (x86/x64), and OS X. As most packages have been published through the CRAN repository they are regularly checked under multiple OSs. GitHub actions are used for checks and test coverage of some of the packages. My intention is to implement these continuous integration actions for the packages defining classes, methods and functions.  
-
-The packages have been designed trying to make code maintenance as simple and as reliable as possible. Furthermore, a central aim of the design has been to allow the easy implementation by users of additional ways of quantifying radiation, who will hopefully contribute them back to this project so that this family of packages with time caters for all aspects of photobiology. The current source code and all earlier versions are available from git repositories at [https://github.com/aphalo/](https://github.com/aphalo/).
-
 ## How the site is built and served
 
-For nearly 10 years the site has been based on WordPress which dynamically serves pages built from the content of a data base. In this new incarnation the pages in the site are static, served from files generated off-line using Quarto using Rmarkdown encoded sources, and a rendering chain based on R, knitr, and Pandoc.
+For nearly 10 years the site has been based on WordPress which dynamically serves pages built from the content of a data base. In this new incarnation the pages in the site are static, served from files generated off-line using [Quarto](https://quarto.org/) using Rmarkdown encoded sources, and a rendering chain based on R, knitr, and Pandoc.
 
-A significant drawback of the move is that post and page URLs will not be preserved.
+A significant drawback of the move is that post and page URLs have not be preserved, while on the on the other the new built-in search work well.
 
 ## Citing posts and pages
 
@@ -59,3 +51,11 @@ Aphalo, Pedro J. (2018) R 3.5.0 and spaces in file paths. [https://www.r4photobi
 Publisher and editor: Pedro J. Aphalo
 
 Place of publication: Helsinki, Finland.
+
+## Hosting service
+
+This site has been hosted for many years, and continues being hosted after the
+recent migration to a different software, by [Webbinen](https://webbinen.net)
+which I can only praise and recommend. Support has been incredibly
+knowledgeable, efficient and fast, every single time I have contacted them over
+these years. All my sites have worked without a glitch all this time.

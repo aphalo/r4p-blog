@@ -15,25 +15,83 @@ website:
       - icon: file-richtext
         href: pages.qmd
       - icon: images
-        text: gallery
+        text: R gallery
         href: galleries.qmd
       - icon: box-seam
-        href: pages/packages-status.qmd
-      - icon: info-square
-        text: Resources
+        text: R packages
         menu:
-          - icon: question-square
-            text: Help
-            href: pages/help.qmd
+          - icon: list-ul
+            text: List
+            href: pages/packages-status.qmd
+          - icon: box-seam
+            text: 'learnrbook'
+            href: https://docs.r4photobiology.info/learnrbook/
+          - icon: layers
+            text: 'ggpmisc'
+            href: https://docs.r4photobiology.info/ggpmisc/
+          - icon: layers
+            text: 'ggpp'
+            href: https://docs.r4photobiology.info/ggpp/
+          - icon: layers
+            text: 'gginnards'
+            href: https://docs.r4photobiology.info/gginnards/
           - icon: sun
-            text: Suite _R for Photobiology_
+            text: Intro _R for Photobiology Suite_
             href: pages/r4p-introduction.qmd
+          - icon: box-seam
+            text: 'photobiology'
+            href: https://docs.r4photobiology.info/photobiology/
+          - icon: layers
+            text: 'ggspectra'
+            href: https://docs.r4photobiology.info/ggspectra/
+          - icon: box-seam
+            text: 'photobiologyWavebands'
+            href: https://docs.r4photobiology.info/photobiologyWavebands/
+          - icon: box-seam
+            text: 'photobiologyInOut'
+            href: https://docs.r4photobiology.info/photobiologyInOut/
+          - icon: box
+            text: 'ooacquire'
+            href: https://docs.r4photobiology.info/ooacquire/
+          - icon: box
+            text: 'rOmniDriver'
+            href: https://docs.r4photobiology.info/rOmniDriver/
+          - icon: box-seam
+            text: 'photobiologyPlants'
+            href: https://docs.r4photobiology.info/photobiologyPlants/
+          - icon: archive
+            text: 'photobiologyLamps'
+            href: https://docs.r4photobiology.info/photobiologyLamps/
+          - icon: archive
+            text: 'photobiologyLEDs'
+            href: https://docs.r4photobiology.info/photobiologyLEDs/
+          - icon: archive
+            text: 'photobiologySun'
+            href: https://docs.r4photobiology.info/photobiologySun/
+          - icon: archive
+            text: 'photobiologyFilters'
+            href: https://docs.r4photobiology.info/photobiologyFilters/
+          - icon: archive
+            text: 'photobiologySensors'
+            href: https://docs.r4photobiology.info/photobiologySensors/
+      - icon: book
+        text: Books
+        menu:
           - icon: book
             text: Book _Learn R - As a Language_
+            href: https://www.learnr-book.info/
+          - icon: book
+            text: Handbook _Beyond the Visible_
+            href: https://www.learnr-book.info/
+          - icon: book-half
+            text: Book _R for Photobiology_
             href: https://www.learnr-book.info/
       - icon: person
         text: About
         menu:
+          - icon: question-square
+            text: Site Help
+            href: pages/help.qmd
           - icon: pc-display
             text: About _this site_
             href: pages/about.qmd
@@ -57,6 +115,7 @@ format:
     linkcolor: "#0000A0"
     css: styles.css
     highlight-style: github
+    date-format: iso
 
 editor: source
 

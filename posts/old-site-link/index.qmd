@@ -1,25 +1,20 @@
 ---
-title: "Older posts at old web site"
+title: "Site migrated to Quarto"
 author: "Pedro J. Aphalo"
-date: 	2013-09-21
+date: 	today
 ---
 
-**I have moved this website from WordPress to Quarto. For some time the two sites will co-exist. The new site is at <https://www.r4photobiology.info/>** and the old one at
-<https://old.r4photobiology.info/>
+**I have moved this website from WordPress to [Quarto](https://quarto.org/).**
+The address <https://www.r4photobiology.info/> remains unchanged.
 
-No new content will be published in the old site and old post wil the gradually
-transferred from WordPress to Quarto at the URL
-<https://www.r4photobiology.info/>
+I have migrated only part of the content from the old site. In particular I
+have not migrated package update announcements as they mostly repeated the
+contents of the NEWS file of each package, which contains the whole history.
+I have converted some posts that I consider of long-term interest into pages.
+I am building a whole new section of galleries of example plots with code
+demonstrating the use of, at the moment, packages 'ggpp' and 'ggpmisc'. The
+galleries have some new material together with examples copied or adapted from 
+the packages' documentation but organized in a way that should make them easier
+to find.
 
-Why the change? [Quarto](https://quarto.org/) is an enhanced version of
-rmarkdown, and integrates seamlessly with R, making the inclussion of code
-chunks and their output much easier. The vignettes of the packages and the NEWS
-file are also written in markdown. In addition, using a database-based system
-with dynamic rendering of pages is overkill for this website.
-
-A bare bones static site is also easier to keep safe, and does not
-need to store any information about visits and visitors, making
-compliance with privacy regulations easier.
-
-Note: The date of this post is set to that of the oldest post in the old web
-site, so that it is always listed at the end in the new site.
+_Note: The date of this post is set to the current one, to keep it at the top._
