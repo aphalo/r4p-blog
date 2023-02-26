@@ -127,7 +127,7 @@ library(ggrepel)
 library(dplyr)
 ```
 
-## Linear correlation test
+## Linear correlation
 
 ```{r}
 set.seed(94321)
@@ -138,6 +138,10 @@ my.data <- data.frame(x = rep(x, 2),
                       y = c(yA, yB),
                       group = rep(c("A", "B"), rep(length(x), 2L)))
 ```
+
+The examples in this section make use of `stat_correlation()` from package
+'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_correlation.html)
+for details.
 
 Pearson correlation.
 
@@ -238,10 +242,13 @@ and reporting.
 
 ## Polynomials
 
-Inset plots are most frequently annotations. They can be used to zoom in
-to a portion of the data, to show a less important property of
-observations, or more commonly for maps, to show a broader region to
-provide recognizable context.
+Polynomials as linear models, but many other linear models exist. The most
+common case is linear regression. They are very frequently used, and in the
+case of linear regression the role of parameters can be easily recognized.
+
+The examples in this section make use of `stat_poly_line()` and `stat_poly_eq()`
+from package 'ggpmisc'. Please, see the [help page for `stat_poly_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_line.html)
+and the [help page for `stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html) for details.
 
 ```{r}
 set.seed(4321)
@@ -502,6 +509,13 @@ If *x* and *y* are both subject to random errors, and none is clearly
 the cause of the other, we should use major axis regression instead of
 linear regression.
 
+The examples in this section make use of `stat_ma_line()` and `stat_ma_eq()`
+from package 'ggpmisc'. Please, see the [help page for
+`stat_ma_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_line.html)
+and the [help page for
+`stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_eq.html)
+for details.
+
 ```{r}
 ggplot(my_linear.data, aes(x, y)) +
   geom_point() +
@@ -519,6 +533,16 @@ Quantile regression is frequently used is some disciplines like
 Economics but less frequently in other fields. It is robust and can be
 rather easily interpreted based on its similarity to the well known box
 plots.
+
+The examples in this section make use of `stat_quant_line()`,
+`stat_quant_band()` and `stat_quant_eq()` from package 'ggpmisc'. Please, see
+the [help page for
+`stat_quant_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_line.html),
+[help page for
+`stat_quant_band()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_band.html)
+and the [help page for
+`stat_quant_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_eq.html)
+for details.
 
 ::: callout-caution
 Quantile regression fits are done by numerical approximation, and
@@ -625,4 +649,75 @@ ggplot(my.data, aes(x, y, group = group, linetype = group,
 Package 'ggplot2' defines `stat_quantile()` which can be used to plot as
 a line some types of quantile regression fits, but is less flexible than
 `stat_quant_line()` and `stat_quant_band()`.
+:::
+
+## Non-linear models
+
+The examples in previous sections were based on ready assembled labels. Here
+we show examples of how to generate labels for equations and other parameter
+estimates with an approach applicable to many different types of models.
+
+The examples in this section make use of `stat_fit_tidy()` from package
+'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_fit_tidy.html)
+for details.
+
+We use as example a fit of the Michaelis-Menthen equation of reaction quinetics,
+a function that is non-linear in its parameters.
+
+```{r}
+#| code-fold: false
+# We use methods from package 'broom'
+library(broom)
+```
+
+```{r}
+micmen.formula <- y ~ SSmicmen(x, Vm, K) 
+ggplot(Puromycin, aes(conc, rate, colour = state)) +
+  geom_point() +
+  geom_smooth(method = "nls", 
+              formula = micmen.formula,
+              se = FALSE) +
+  stat_fit_tidy(method = "nls", 
+                method.args = list(formula = micmen.formula),
+                label.x = "right",
+                label.y = "bottom",
+                aes(label = paste("V[m]~`=`~", signif(after_stat(Vm_estimate), digits = 3),
+                                  "%+-%", signif(after_stat(Vm_se), digits = 2),
+                                  "~~~~K~`=`~", signif(after_stat(K_estimate), digits = 3),
+                                  "%+-%", signif(after_stat(K_se), digits = 2),
+                                  sep = "")),
+                parse = TRUE) +
+  theme_bw()
+```
+
+```{r}
+micmen.formula <- y ~ SSmicmen(x, Vm, K) 
+ggplot(Puromycin, aes(conc, rate, colour = state)) +
+  geom_point() +
+  geom_smooth(method = "nls", 
+              formula = micmen.formula,
+              se = FALSE) +
+  stat_fit_tidy(method = "nls", 
+                method.args = list(formula = micmen.formula),
+                label.x = "center",
+                label.y = "bottom",
+                vstep = 0, hstep = -0.3,
+                aes(label = paste("V~`=`~frac(", signif(after_stat(Vm_estimate), digits = 2), "~C,",
+                                  signif(after_stat(K_estimate), digits = 2), "+C)",
+                                  sep = "")),
+                parse = TRUE) +
+  labs(x = "C", y = "V") +
+  theme_bw()
+```
+
+### Alternatives
+
+::: callout-tip
+In all cases it is possible to do the model fitting before creating the plot, assembling
+labels in one's own R code and passing them to `ggplot()` as data. The
+possibilities are nearly unlimited but implementing them, depending on one's
+own familiarity with R and 'ggplot2' can become very time consuming. I have
+in part written 'ggpp' and 'ggpmisc' to avoid as a user having to remind
+myself of how to write such code repeatedly. My hope is that others will also
+save time and effort by using the packages I have developed.
 :::
