@@ -1,0 +1,295 @@
+---
+title: "ggplot fitted-model equations with 'ggpmisc'"
+subtitle: "Polynomials, major axis, quantile and non-linear regression"
+author: "Pedro J. Aphalo"
+date: today
+keywords: [ggplot2, ggpmisc, R,plot annotations, dataviz, data visualization]
+categories: [ggpp pkg, data labels, plot annotations]
+editor: 
+  markdown: 
+    wrap: 72
+---
+
+## Introduction
+
+Here you will find examples of ggplots with insets. The insets have been
+added to the plots with geometries defined in package 'ggpp' and statistics
+from package 'ggpmisc' both available
+at CRAN.  The documentation of [package
+'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
+'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available
+on-line.
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find a small triangle
+followed by "Code". Clicking on the triangle "unfolds" the code chunk
+making visible the R code used to produce the plot. Except for the
+loading of packages shown in section **Preliminaries** code examples are
+in most cases self contained. When they are not, this is indicated by a
+comment.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+:::
+
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
+::: callout-important
+One needs to always check that annotations do not occlude anything significant,
+such as observations in the base plot. This needs special care when using
+annotations together with batch plotting. Either ensure that the scale limits of
+the base plot are expanded to avoid overlap or that the layer with the equations
+is the lowest one, i.e., added to the plot first.
+:::
+
+## Data labels and plot annotations
+
+Data labels add textual information directly related to individual data
+points (shown as glyphs). Text position in this case is dependent on the
+scales used to represent data points. Text is usually displaced so that
+it does not occlude the glyph representing the data point and when the
+link to the data point is unclear, this link is signaled with a line
+segment or arrow. Data labels are distinct from annotations in that they
+contribute directly to the representation of data on a plot or map.
+
+Annotations differ from data labels, in that their position is decoupled
+from their meaning. Insets can be thought as larger, but still
+self-contained annotations. In most cases the reading of inset tables
+and plots depends only weakly on the plot or map in which they are
+included.
+
+In the case of annotations and insets the designer of a data
+visualization has the freedom to locate them anywhere, as long as they
+do not occlude features used to describe data. I will use the term
+annotation irrespective if the "labels" are textual or graphical.
+
+The equations showing parameter estimates from models fit to data are
+normally displayed as annotations. However, it is also possible to consider
+them data labels "connected" to individual curves representing the corresponding
+model fits. 
+
+## Annotations showing parameters estimates 
+
+Fitted model equations and other related estimates can be useful in plots as
+they ensure that graphical representation as a curve and numerical values
+for parameters that cannot be read from the curve itself are displayed 
+as text on the same plot.
+
+::: callout-note
+When adding annotations one should be aware that they add clutter to a plot,
+and clutter can make it difficult to see the patterns of interest in the
+data represented as points or curves.
+
+So, as usual, less is more, include those annotations that are relevant
+to the message conveyed by a plot and nothing more.
+:::
+
+Fully automating the construction of fitted model equations is far from trivial
+for the general case, so I have implemented automation for specific types of
+models: polynomials fitted by OLS as linear models, polynomials fitted
+by quantile regression and major-axis regression fits. They are currently
+available as pairs of statistics with consistent interfaces, with each pair
+consisting in a curve-plotting statistics and an annotations statistics. 
+
+As shown below other model formulas can be rather easily assembled and added as
+annotations if one is familar with R's expressions as used for `plotmath`.
+
+## Preliminaries
+
+The code used is shown on-demand above each plot and can be copied. We
+first load the packages we will use.
+
+When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
+'ggplot2' are also attached. The only function from 'ggplot2' that is
+redefined by 'ggpp' is `annotate()`, which remains backwards compatible
+with 'ggplot2'.
+
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', dev = "svg",
+               fig.show = 'hold', fig.width = 7, fig.height = 4)
+options(warnPartialMatchArgs = FALSE,
+        tibble.print.max = 4,
+        tibble.print.min = 4,
+        dplyr.summarise.inform = FALSE)
+```
+
+```{r}
+#| code-fold: false
+library(ggpmisc)
+library(ggrepel)
+library(dplyr)
+```
+
+## Polynomials
+
+Inset plots are most frequently annotations. They can be used to zoom in
+to a portion of the data, to show a less important property of
+observations, or more commonly for maps, to show a broader region to
+provide recognizable context.
+
+### Using `stat_poly_eq()` and `stat_poly_line()`
+
+```{r}
+set.seed(4321)
+# generate artificial data
+x <- 1:100
+y <- (x + x^2 + x^3) + rnorm(length(x), mean = 0, sd = mean(x^3) / 4)
+y <- y / max(y)
+my.data <- data.frame(x, 
+                      y, 
+                      group = c("A", "B"), 
+                      y2 = y * c(1, 2) + c(0, 0.2),
+                      block = c("a", "a", "b", "b"),
+                      wt = sqrt(x))
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("eq"), formula = formula)
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("adj.R2"), formula = formula) +
+  stat_poly_eq(mapping = use_label("AIC"), label.x = "right", label.y = "bottom", size = 3,
+               formula = formula)
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label(c("eq", "adj.R2"), sep = "~~italic(\"with\")~~"),
+               formula = formula)
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("eq"),
+               eq.with.lhs = FALSE,
+               formula = formula)
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label(c("eq", "R2")),
+               eq.with.lhs = "italic(h)~`=`~",
+               eq.x.rhs = "~italic(z)",
+               formula = formula) +
+  labs(x = expression(italic(z)), y = expression(italic(h)))
+```
+
+```{r}
+formula <- y ~ poly(x, 2, raw = TRUE)
+ggplot(my.data, aes(x, log10(y + 1e6))) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("eq"),
+               eq.with.lhs = "plain(log)[10](italic(delta)+10^6)~`=`~",
+               eq.x.rhs = "~Omega",
+               formula = formula) +
+  labs(y = expression(plain(log)[10](italic(delta)+10^6)), x = expression(Omega))
+```
+
+```{r}
+formula <- y ~ poly(x, 2, raw = TRUE)
+ggplot(my.data, aes(x, log10(y + 1e6))) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("eq"),
+               eq.with.lhs = "plain(log)[10](italic(delta)+10^6)~`=`~",
+               eq.x.rhs = "~Omega",
+               formula = formula) +
+  labs(y = expression(plain(log)[10](italic(delta)+10^6)), x = expression(Omega))
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(aes(label =  ifelse(after_stat(adj.r.squared > 0.3),
+                                   paste(after_stat(eq.label), after_stat(adj.rr.label), 
+                                         sep = "*\", \"*"),
+                                   after_stat(adj.rr.label))),
+               formula = formula) +
+  labs(x = expression(italic(x)), y = expression(italic(y)))
+```
+
+We haven't shown it above, but the same code works correctly with grouping
+and facets.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y2, colour = group)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(aes(label = after_stat(eq.label)), formula = formula, vstep = 0.06)
+```
+
+```{r}
+ggplot(subset(mpg, cyl != 5), aes(displ, hwy, colour = factor(cyl))) +
+  geom_point() +
+  stat_poly_line(method = "poly_or_mean") +
+  stat_poly_eq(method = poly_or_mean,
+               mapping = use_label(c("eq", "r2", "n")),
+               label.x = "right")
+```
+
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y2)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(aes(label = after_stat(eq.label)), size = 3,
+               formula = formula) +
+  facet_wrap(facets = vars(group), scales = "free_y", ncol = 1)
+```
+
+```{r}
+poly_or_mean <- function(formula, data, ...) {
+   fm <- lm(formula = formula, data = data, ...)
+   if (anova(fm)[["Pr(>F)"]][1] > 0.1) {
+      lm(formula = y ~ 1, data = data, ...)
+   } else {
+      fm
+   }
+}
+```
+
+```{r, fig.width = 4, fig.height = 6}
+ggplot(mpg, aes(displ, hwy)) +
+   geom_point() +
+   stat_poly_line(method = "poly_or_mean") +
+   stat_poly_eq(method = poly_or_mean,
+   aes(label = after_stat(eq.label)),
+   label.x = "right") +
+   theme(legend.position = "bottom") +
+   facet_wrap(~class, ncol = 2)
+```
+
+
+### Alternatives
+
+::: callout-tip
+Package 'ggpubr' defines `geom_()` which 
+:::
