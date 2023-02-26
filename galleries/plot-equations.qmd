@@ -13,12 +13,11 @@ editor:
 ## Introduction
 
 Here you will find examples of ggplots with insets. The insets have been
-added to the plots with geometries defined in package 'ggpp' and statistics
-from package 'ggpmisc' both available
-at CRAN.  The documentation of [package
-'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
-'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available
-on-line.
+added to the plots with geometries defined in package 'ggpp' and
+statistics from package 'ggpmisc' both available at CRAN. The
+documentation of [package 'ggpp'](https://docs.r4photobiology.info/ggpp)
+and of [package 'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is
+available on-line.
 
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
@@ -39,11 +38,12 @@ contributed R packages. For those packages used only in specific
 examples I use colon notation to indicate the 'package'.
 
 ::: callout-important
-One needs to always check that annotations do not occlude anything significant,
-such as observations in the base plot. This needs special care when using
-annotations together with batch plotting. Either ensure that the scale limits of
-the base plot are expanded to avoid overlap or that the layer with the equations
-is the lowest one, i.e., added to the plot first.
+One needs to always check that annotations do not occlude anything
+significant, such as observations in the base plot. This needs special
+care when using annotations together with batch plotting. Either ensure
+that the scale limits of the base plot are expanded to avoid overlap or
+that the layer with the equations is the lowest one, i.e., added to the
+plot first.
 :::
 
 ## Data labels and plot annotations
@@ -68,35 +68,37 @@ do not occlude features used to describe data. I will use the term
 annotation irrespective if the "labels" are textual or graphical.
 
 The equations showing parameter estimates from models fit to data are
-normally displayed as annotations. However, it is also possible to consider
-them data labels "connected" to individual curves representing the corresponding
-model fits. 
+normally displayed as annotations. However, it is also possible to
+consider them data labels "connected" to individual curves representing
+the corresponding model fits.
 
-## Annotations showing parameters estimates 
+## Annotations showing parameters estimates
 
-Fitted model equations and other related estimates can be useful in plots as
-they ensure that graphical representation as a curve and numerical values
-for parameters that cannot be read from the curve itself are displayed 
-as text on the same plot.
+Fitted model equations and other related estimates can be useful in
+plots as they ensure that graphical representation as a curve and
+numerical values for parameters that cannot be read from the curve
+itself are displayed as text on the same plot.
 
 ::: callout-note
-When adding annotations one should be aware that they add clutter to a plot,
-and clutter can make it difficult to see the patterns of interest in the
-data represented as points or curves.
+When adding annotations one should be aware that they add clutter to a
+plot, and clutter can make it difficult to see the patterns of interest
+in the data represented as points or curves.
 
 So, as usual, less is more, include those annotations that are relevant
 to the message conveyed by a plot and nothing more.
 :::
 
-Fully automating the construction of fitted model equations is far from trivial
-for the general case, so I have implemented automation for specific types of
-models: polynomials fitted by OLS as linear models, polynomials fitted
-by quantile regression and major-axis regression fits. They are currently
-available as pairs of statistics with consistent interfaces, with each pair
-consisting in a curve-plotting statistics and an annotations statistics. 
+Fully automating the construction of fitted model equations is far from
+trivial for the general case, so I have implemented automation for
+specific types of models: polynomials fitted by OLS as linear models,
+polynomials fitted by quantile regression and major-axis regression
+fits. They are currently available as pairs of statistics with
+consistent interfaces, with each pair consisting in a curve-plotting
+statistics and an annotations statistics.
 
-As shown below other model formulas can be rather easily assembled and added as
-annotations if one is familar with R's expressions as used for `plotmath`.
+As shown below other model formulas can be rather easily assembled and
+added as annotations if one is familar with R's expressions as used for
+`plotmath`.
 
 ## Preliminaries
 
@@ -125,14 +127,121 @@ library(ggrepel)
 library(dplyr)
 ```
 
+## Linear correlation test
+
+```{r}
+set.seed(94321)
+x <- (1:100) / 10
+yA <- x + rnorm(length(x), sd = 2)
+yB <- x + rnorm(length(x), sd = 8)
+my.data <- data.frame(x = rep(x, 2),
+                      y = c(yA, yB),
+                      group = rep(c("A", "B"), rep(length(x), 2L)))
+```
+
+Pearson correlation.
+
+```{r}
+ggplot(subset(my.data, group == "A"), 
+       aes(x, y)) +
+  geom_point() +
+  stat_correlation()
+```
+
+```{r}
+ggplot(subset(my.data, group == "A"), 
+       aes(x, y)) +
+  geom_point() +
+  stat_correlation(small.r = TRUE)
+```
+
+Spearman correlation.
+
+```{r}
+ggplot(subset(my.data, group == "A"), 
+       aes(x, y)) +
+  geom_point() +
+  stat_correlation(method = "spearman")
+```
+
+Kendall correlation.
+
+```{r}
+ggplot(subset(my.data, group == "A"), 
+       aes(x, y)) +
+  geom_point() +
+  stat_correlation(method = "kendall")
+```
+
+Select which labels to show in plot.
+
+```{r}
+ggplot(subset(my.data, group == "A"), aes(x, y)) +
+  geom_point() +
+  stat_correlation(mapping = use_label(c("R", "P", "n")),
+                   method = "kendall")
+```
+
+Select which labels to show in plot.
+
+```{r}
+ggplot(subset(my.data, group == "A"), aes(x, y)) +
+  geom_point() +
+  stat_correlation(mapping = use_label(c("R", "t", "P", "n")))
+```
+
+Confidence interval for R.
+
+```{r}
+ggplot(subset(my.data, group == "A"), aes(x, y)) +
+  geom_point() +
+  stat_correlation(mapping = use_label(c("R", "R.confint")),
+                   r.conf.level = 0.99)
+```
+
+Grouping supported.
+
+```{r}
+ggplot(my.data, aes(x, y, color = group)) +
+  geom_point() +
+  stat_correlation()
+```
+
+Facets supported.
+
+```{r}
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_correlation(npcx = "right", npcy = "bottom") +
+  facet_wrap(~group)
+```
+
+Highlighting based on estimates, here estimated *R* but it is possible
+to use other estimates like *P*-value.
+
+```{r}
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_correlation(mapping = 
+                     aes(color = ifelse(after_stat(cor) > 0.5,
+                                        "red", "black"))) +
+  scale_color_identity() +
+  facet_wrap(~group)
+```
+
+### Alternatives
+
+::: callout-tip
+Package 'ggpubr' provides alternative approaches to corelation testing
+and reporting.
+:::
+
 ## Polynomials
 
 Inset plots are most frequently annotations. They can be used to zoom in
 to a portion of the data, to show a less important property of
 observations, or more commonly for maps, to show a broader region to
 provide recognizable context.
-
-### Using `stat_poly_eq()` and `stat_poly_line()`
 
 ```{r}
 set.seed(4321)
@@ -148,6 +257,18 @@ my.data <- data.frame(x,
                       wt = sqrt(x))
 ```
 
+$R^2$ is the default label, as it is always available.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(formula = formula)
+```
+
+Fitted model equation, available for polynomials with no missing terms.
+
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
@@ -156,15 +277,19 @@ ggplot(my.data, aes(x, y)) +
   stat_poly_eq(mapping = use_label("eq"), formula = formula)
 ```
 
+$R_\mathrm{adj}^2$ and *P*-value added separately.
+
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("adj.R2"), formula = formula) +
-  stat_poly_eq(mapping = use_label("AIC"), label.x = "right", label.y = "bottom", size = 3,
+  stat_poly_eq(mapping = use_label("P"), label.x = "right", label.y = "bottom", size = 3,
                formula = formula)
 ```
+
+Fitted model equation and $R_\mathrm{adj}^2$.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -175,6 +300,8 @@ ggplot(my.data, aes(x, y)) +
                formula = formula)
 ```
 
+Equation with no left-hand-side (lhs).
+
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y)) +
@@ -184,6 +311,8 @@ ggplot(my.data, aes(x, y)) +
                eq.with.lhs = FALSE,
                formula = formula)
 ```
+
+Variable names in the equation set to be meaningful.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -197,17 +326,7 @@ ggplot(my.data, aes(x, y)) +
   labs(x = expression(italic(z)), y = expression(italic(h)))
 ```
 
-```{r}
-formula <- y ~ poly(x, 2, raw = TRUE)
-ggplot(my.data, aes(x, log10(y + 1e6))) +
-  geom_point() +
-  stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label("eq"),
-               eq.with.lhs = "plain(log)[10](italic(delta)+10^6)~`=`~",
-               eq.x.rhs = "~Omega",
-               formula = formula) +
-  labs(y = expression(plain(log)[10](italic(delta)+10^6)), x = expression(Omega))
-```
+Even Greek charactes and maths can be incorporated when needed.
 
 ```{r}
 formula <- y ~ poly(x, 2, raw = TRUE)
@@ -218,54 +337,57 @@ ggplot(my.data, aes(x, log10(y + 1e6))) +
                eq.with.lhs = "plain(log)[10](italic(delta)+10^6)~`=`~",
                eq.x.rhs = "~Omega",
                formula = formula) +
-  labs(y = expression(plain(log)[10](italic(delta)+10^6)), x = expression(Omega))
+  labs(y = expression(plain(log)[10](italic(delta)+10^6)), 
+       x = expression(Omega))
 ```
 
-```{r}
-formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
-  geom_point() +
-  stat_poly_line(formula = formula) +
-  stat_poly_eq(aes(label =  ifelse(after_stat(adj.r.squared > 0.3),
-                                   paste(after_stat(eq.label), after_stat(adj.rr.label), 
-                                         sep = "*\", \"*"),
-                                   after_stat(adj.rr.label))),
-               formula = formula) +
-  labs(x = expression(italic(x)), y = expression(italic(y)))
-```
-
-We haven't shown it above, but the same code works correctly with grouping
-and facets.
+The examples shown above also work with groups.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y2, colour = group)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(aes(label = after_stat(eq.label)), formula = formula, vstep = 0.06)
+  stat_poly_eq(aes(label = after_stat(eq.label)), 
+               formula = formula, 
+               vstep = 0.08) +
+  theme_bw()
 ```
 
+Using colours to indicate the groups to which equations correspond is
+not always best. Here we use labels to the left of each equation.
+
 ```{r}
-ggplot(subset(mpg, cyl != 5), aes(displ, hwy, colour = factor(cyl))) +
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y2, linetype = group, grp.label = group)) +
   geom_point() +
-  stat_poly_line(method = "poly_or_mean") +
-  stat_poly_eq(method = poly_or_mean,
-               mapping = use_label(c("eq", "r2", "n")),
-               label.x = "right")
+  stat_poly_line(formula = formula, color = "black") +
+  stat_poly_eq(aes(label = after_stat(paste("bold(", grp.label, "*':')~~~", 
+                                      eq.label, sep = ""))),
+               formula = formula)
 ```
 
+Facets are also supported.
 
-```{r}
+```{r, fig.width = 7, fig.height = 7}
 formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(my.data, aes(x, y2)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(aes(label = after_stat(eq.label)), size = 3,
+  stat_poly_eq(aes(label = after_stat(eq.label)),
                formula = formula) +
   facet_wrap(facets = vars(group), scales = "free_y", ncol = 1)
 ```
 
-```{r}
+In the stats defined in 'ggpmsic' the fit method function can modify the
+model passed as argument because the one used to build the equation is
+retrieved from the fitted model object when possible. In this example, a
+linear regression is fitted if the slope is significant, but if not the
+mean is reported, both graphically and numerically.
+
+```{r, fig.width = 7, fig.height = 9}
+# user defined fit method removes the slope if 
+# the slope is not significant
 poly_or_mean <- function(formula, data, ...) {
    fm <- lm(formula = formula, data = data, ...)
    if (anova(fm)[["Pr(>F)"]][1] > 0.1) {
@@ -274,9 +396,8 @@ poly_or_mean <- function(formula, data, ...) {
       fm
    }
 }
-```
 
-```{r, fig.width = 4, fig.height = 6}
+# we create a plot as usual, but with our method
 ggplot(mpg, aes(displ, hwy)) +
    geom_point() +
    stat_poly_line(method = "poly_or_mean") +
@@ -287,9 +408,221 @@ ggplot(mpg, aes(displ, hwy)) +
    facet_wrap(~class, ncol = 2)
 ```
 
+Faceting works also with free *x* and/or *y* scales in panels.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y2, fill = block)) +
+  geom_point(shape = 21, size = 3) +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(aes(label = after_stat(rr.label)), size = 3,
+               geom = "label_npc", alpha = 0.33,
+               formula = formula) +
+  facet_wrap(~group, scales = "free_y") +
+  theme(legend.position = "top")
+```
+
+Faceting works also with free *x* and/or *y* scales in panels when the
+position of labels is set by a string.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+ggplot(my.data, aes(x, y2, fill = block)) +
+  geom_point(shape = 21, size = 3) +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(use_label("R2"), size = 3,
+               geom = "label_npc", alpha = 0.33,
+               formula = formula,
+               label.x = "right", label.y = "bottom",
+               rr.digits = 3) +
+  stat_poly_eq(use_label(c("F", "P")),
+               size = 3,
+               geom = "label_npc", alpha = 0.33,
+               formula = formula) +
+  facet_wrap(~group, scales = "free_y") +
+  theme(legend.position = "top")
+```
+
+Some artificial data with rather high random variation on both _x_ and _y_.
+
+```{r}
+set.seed(94321)
+a <- (1:100) / 10
+x <- a + rnorm(length(x), sd = 1)
+y <- a + rnorm(length(x), sd = 2)
+my_linear.data <- data.frame(x = x, y = y)
+```
+
+Linear regression through the origin.
+
+```{r}
+# model with intercept = 0
+formula <- y ~ x + 0
+ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(formula = formula,
+               mapping = use_label("eq"))
+```
+
+Regressions of *y* on *x* and *x* on *y* in the same plot. The lines are
+drawn for the range of the explanatory variable, which differs in this
+case between the two fits.
+
+```{r}
+# the default for formula is y ~ x
+ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(color = "blue") +
+  stat_poly_eq(mapping = use_label(c("R2", "eq")), 
+               color = "blue") +
+  stat_poly_line(color = "red", 
+                 orientation = "y") +
+  stat_poly_eq(mapping = use_label(c("R2", "eq")), 
+               color = "red", 
+               orientation = "y",
+               label.y = 0.9)
+```
 
 ### Alternatives
 
 ::: callout-tip
-Package 'ggpubr' defines `geom_()` which 
+Package 'ggpubr' provides a renamed copy of `stat_poly_eq()` taken from
+an old version of 'ggpmisc'. The version in 'ggpubr' is much more
+limited in its functionality and even contains bugs. The line drawing
+code in `stat_smooth()` from 'ggplot2' was used as a basis for
+`stat_poly_line()`, the main difference is that by default it uses
+`lm()` as method irrespective of the data size while `stat_smooth()`
+switches to using splines for large numbers of observations.
+:::
+
+## Major axis regression
+
+If *x* and *y* are both subject to random errors, and none is clearly
+the cause of the other, we should use major axis regression instead of
+linear regression.
+
+```{r}
+ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_ma_line() +
+  stat_ma_eq(mapping = use_label(c("R2", "eq")))
+```
+
+::: callout-tip
+No alternatives I know of.
+:::
+
+## Quantile regression
+
+Quantile regression is frequently used is some disciplines like
+Economics but less frequently in other fields. It is robust and can be
+rather easily interpreted based on its similarity to the well known box
+plots.
+
+::: callout-caution
+Quantile regression fits are done by numerical approximation, and
+frequently generate warnings for non-unique solutions or similar
+problems. Their importance needs to be assessed by users. In the
+examples below they seem mostly unimportant given the large number of
+observations and have been silenced in the output.
+:::
+
+A median regression with a band limited by the upper and lower quartile
+regressions.
+
+```{r, warning=FALSE}
+# the default for formula is y ~ x
+ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band() +
+  stat_quant_eq(quantiles = 0.5)
+```
+
+```{r, warning=FALSE}
+# model with intercept = 0
+formula <- y ~ x + 0
+ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(formula = formula) +
+  stat_quant_eq(formula = formula, quantiles = 0.5)
+```
+
+Quantile regressions of _y_ on _x_ and _x_ on _y_.
+
+```{r, warning=FALSE}
+# the default for formula is y ~ x
+ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(color = "blue") +
+  stat_quant_eq(quantiles = 0.5, color = "blue") +
+  stat_quant_band(color = "red", 
+                 orientation = "y") +
+  stat_quant_eq(quantiles = 0.5, color = "red", 
+               orientation = "y", label.y = 0.9)
+```
+
+Fitting a polynomial by quantile regression.
+
+```{r, warning=FALSE}
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(formula = y ~ poly(x, 2)) +
+  stat_quant_eq(formula = y ~ poly(x, 2), quantiles = 0.5)
+```
+
+Two quantiles are by default plotted as lines,
+
+```{r, warning=FALSE}
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_line(formula = y ~ poly(x, 2), quantiles = c(0.05, 0.95)) +
+  stat_quant_eq(formula = y ~ poly(x, 2), quantiles = c(0.05, 0.95))
+```
+
+A single quantile, here the median, is plotted as a line plus a
+confidence band.
+
+```{r, warning=FALSE}
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_line(formula = y ~ poly(x, 2), quantiles = 0.5) +
+  stat_quant_eq(formula = y ~ poly(x, 2), quantiles = 0.5)
+```
+
+Equations labelled by quantile.
+
+```{r, warning=FALSE}
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(formula = y ~ poly(x, 2), 
+                  color = "black", fill = "grey60") +
+  stat_quant_eq(aes(label = paste(after_stat(grp.label), "*\": \"*",
+                                  after_stat(eq.label), sep = "")),
+                formula = y ~ poly(x, 2)) +
+  theme_classic()
+```
+
+Equations labelled by group and quantile.
+
+```{r, warning=FALSE}
+ggplot(my.data, aes(x, y, group = group, linetype = group, 
+                    shape = group, grp.label = group)) +
+  geom_point() +
+  stat_quant_line(formula = y ~ poly(x, 2), 
+                  quantiles = c(0.1, 0.9), 
+                  color = "black") +
+  stat_quant_eq(aes(label = paste(after_stat(grp.label), "*\": \"*",
+                                  after_stat(eq.label), sep = "")),
+                formula = y ~ poly(x, 2), 
+                quantiles = c(0.1, 0.9)) +
+  theme_classic()
+```
+
+### Alternatives
+
+::: callout-tip
+Package 'ggplot2' defines `stat_quantile()` which can be used to plot as
+a line some types of quantile regression fits, but is less flexible than
+`stat_quant_line()` and `stat_quant_band()`.
 :::
