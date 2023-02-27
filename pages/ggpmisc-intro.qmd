@@ -1,0 +1,56 @@
+---
+title: "'ggpmisc', 'ggpp' and 'gginnards'"
+subtitle: "Data labels, annotations and insets for 'ggplot2'.
+author: "Pedro J. Aphalo"
+data: "2023-02-27"
+---
+
+## History
+
+It was all started by an innocent question that went something like these: "I
+see in Stackoverflow some answers to the question of how to add a fitted
+polynomial model equation, but they are so complex... Isn't there any simpler 
+way?
+
+I looked at the answers and they not only not straightforward, but case
+specific. So after some thinking and Googling, `stat_poly_eq()` was born,
+under different name. Lacking a good idea of what the package would develop
+into, following the trend set by 'Gmisc' and a few other packages I decided
+to use 'ggpmisc' (ggplot miscelanea or ggplot, pedro's miscelanea).
+
+Over the seven years since then 'ggpmisc' grew and it became clear that
+the it needed to be split into more homogeneous "units". The first spin-off
+was 'gginnards', which contains mostly functions I wrote to help myself
+mantain my extenssions to 'ggplot2' and understand how 'ggplot2' works.
+
+The second spin-off, was less drastic, and the reason was to make the geometries
+and other more generaly useful functions available on their own so that they
+could be more easily depended upon by other packages. Because of this, 'ggpmisc'
+loads and attaches 'ggpp' when it is loaded and attached. So, the aim is akin to
+providing a subset of 'ggpmisc', but keep the use and behaviour of 'ggpmisc'
+unchanged. The split was rather painless, as I had already divided the vignette
+some time before along the same line.
+
+## Design aims
+
+The underlying aim behind the design of 'ggpmisc' is to make it easy to add data
+labels, annotatoins and insets to ggplots, using a grammar consistent with that
+implemented in 'ggplot2' and without imposing restrictions on the use of the
+layered grammar of graphics. 
+
+How I approach this aim, is by trying to imaging how to remain conceptually
+consistent with the existing grammar. In other words, finding ways of reusing as
+much as possible the exisitng grammar to solve new problems. For example,
+statistics that return character labels from model fits, also return the
+corresponding numerical values. New functions for adding graphical elements as
+data labels, are consistent with 'ggplot2' stats normally used to add text-based
+data labels to plots.
+
+The approach I use in 'ggpmisc' is different to that of popular extensions like
+'ggpubr' which attempt to simplify plot creation by packaging the code for
+several plot layers into a single function. In this case, much of the grammar of
+graphics is accessible to users, and even if easier to use, these functions are
+less flexible.
+
+## Overview
+
