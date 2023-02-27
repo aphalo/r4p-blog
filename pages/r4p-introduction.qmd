@@ -4,6 +4,7 @@ subtitle: "Photobiology-related computations in R"
 author: "Pedro J. Aphalo"
 date: 2023-02-19
 categories: [R packages, documentation, R for Photobiology]
+keywords: [R, photobiology, solar radiation, artificial light, spectra]
 toc: true
 editor: 
   markdown: 
@@ -18,7 +19,7 @@ Package 'photobiology' is at the core of a suite of packages for
 analysis and plotting of data relevant to photobiology (described at
 <https://www.r4photobiology.info/>). The accompanying packages provide
 data and definitions that are to a large extent application-area
-specific while the functions in the package 'photobioloy' are widely
+specific while the functions in the package 'photobiology' are widely
 useful in photobiology and in radiation quantification in geophysics and
 meteorology. Package 'photobiology' has its main focus in the
 characterization of the light environment in a biologically relevant

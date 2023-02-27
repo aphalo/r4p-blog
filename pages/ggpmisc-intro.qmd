@@ -1,56 +1,147 @@
 ---
 title: "'ggpmisc', 'ggpp' and 'gginnards'"
-subtitle: "Data labels, annotations and insets for 'ggplot2'.
+subtitle: "Data labels, annotations and insets for 'ggplot2'"
 author: "Pedro J. Aphalo"
-data: "2023-02-27"
+data: "2023-02-28"
+categories: [R packages, documentation, data labels, plot annotations, plot insets]
+keywords: [R, ggplot2, labels, annotations, regression, anova, correlation, fitted models]
 ---
+
+## How do these packages extend 'ggplot2'? 
+
+The obvious question is in what way do these packages extend 'ggplot2'. In a 
+few words ['ggpp'](https://docs.r4photobiology.info/ggpp/) extends 
+['ggplot2'](https://ggplot2.tidyverse.org/) and the grammar of graphics to more
+consistently and powerfully handle data labels, annotations and insets. New
+geometries extend the grammar so that whole plots, tables and graphical objects
+('grid' grobs) can be used as data labels using an almost identical approach as
+used for text labels in 'ggplot2'. Another group of new geoms and scales,
+implements an enhanced grammar for annotations, by adding two pseudo aesthetics
+using normalized plot coordinated (NPC). Except for the use of `npcx` and `npcy`
+instead of `x` and `y` the grammar remains unchanged, allowing full support
+of grouping and facets for annotations. Position functions as implemented
+in 'ggplot2' do not preserve the original position, so it is difficult to
+draw connecting arrows and segments. This problem was first solved in 'ggrepel'
+for `position_nudge()` and the segment drawing for repulsed labels and text.
+'ggpp' implements the "keeping" of the original position with new position
+functions matching all 'ggplot2' position functions. This does not fully solve
+the problem, as the positioning of data labels was constrained by the fact
+that `ggplot2` position functions can not be combined. So, 'ggpp' defines
+position functions that implement the usual displacements like stacking plus
+nudging. A more recent addition to 'ggpp' is support for new types of nudging,
+including computed nudging based on the data density, fitted lines, or a 
+centroid, including radial nudging. Thanks to a fruitful collaboration with
+Kamil Slowikoski, the author of 'ggrepel', this new approaches to nudging
+are compatible with and extremely effective when combined with repulsive geoms.
+A few convenience and utility functions are also included.
+
+Package ['ggpmisc'](https://docs.r4photobiology.info/ggpmisc/) makes use of 'ggpp' to add specific annotations and insets to
+plots. 'ggpmisc' mainly defines stats, that help annotate the plots based on the
+results of model fitting, although it also provides stats for adding fitted and
+predicted curves and for highlighting and or plotting residuals. These stats
+either complement or enhance `stat_smooth()` and `stat_quantile()` from
+'ggplot2'. Annotations supported included fitted equations and other estimates
+like $R^2$ and _P_-values for continuous _x_ and _y_ and ANOVA tables when _x_
+or _y_ is a factor. Additional stats make it possible to automatically annotate
+whole plots or quadrants in plots with the number of observations, and to locate
+peaks or valleys, and label them with their _x_ and/or _y_ coordinates. A few
+convenience and utility functions are also included. I have tracked changes to
+'ggplot2', and 'ggpp' stats implement the `orientation` formal parameter if
+meaningful.
+
+[`gginnards`](https://docs.r4photobiology.info/gginnards) is mainly useful for
+debugging and learning about 'ggplot2'. It does implement the manipulation of
+ggplot layers (insertion, deletion and moving up or down) which can be useful
+not only for learning, but also for tweaking some ggplot objects returned by
+"canned" functions.
 
 ## History
 
-It was all started by an innocent question that went something like these: "I
-see in Stackoverflow some answers to the question of how to add a fitted
-polynomial model equation, but they are so complex... Isn't there any simpler 
-way?
+It was all started in 2016 by an innocent question from a colleague that went something
+like this: "I see in
+[Stackoverflow](https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph/)
+some answers to the question of how to add a regression line equation to a
+ggplot, but they are so complex... Isn't there any simpler way?
 
-I looked at the answers and they not only not straightforward, but case
-specific. So after some thinking and Googling, `stat_poly_eq()` was born,
-under different name. Lacking a good idea of what the package would develop
-into, following the trend set by 'Gmisc' and a few other packages I decided
-to use 'ggpmisc' (ggplot miscelanea or ggplot, pedro's miscelanea).
+I looked at the answers and they were not only far from straightforward, but
+were case specific. So after some thinking and "googling", `stat_poly_eq()` was
+born. Lacking a good idea of what the package would develop into, following the
+trend set by 'Gmisc' and a few other packages I decided to use 'ggpmisc' (ggplot
+miscellanea or ggplot, Pedro's miscellanea).
 
-Over the seven years since then 'ggpmisc' grew and it became clear that
-the it needed to be split into more homogeneous "units". The first spin-off
-was 'gginnards', which contains mostly functions I wrote to help myself
-mantain my extenssions to 'ggplot2' and understand how 'ggplot2' works.
+Over the seven years since then 'ggpmisc' grew both because of my own needs and
+thanks from suggestions and questions from users. Rather soon it became clear
+that 'ggpmisc' needed to be split into more homogeneous "units". The first
+spin-off was 'gginnards' in June 2018, which contains mostly functions I wrote
+to help myself maintain my extensions to 'ggplot2' and help me understand how
+'ggplot2' works.
 
-The second spin-off, was less drastic, and the reason was to make the geometries
-and other more generaly useful functions available on their own so that they
+The second spin-off took place in 2021 and was less drastic. The reason was to
+make the geometries and some other functions available on their own so that they
 could be more easily depended upon by other packages. Because of this, 'ggpmisc'
 loads and attaches 'ggpp' when it is loaded and attached. So, the aim is akin to
 providing a subset of 'ggpmisc', but keep the use and behaviour of 'ggpmisc'
 unchanged. The split was rather painless, as I had already divided the vignette
 some time before along the same line.
 
+In early 2023 I checked CRAN landing pages for the packages: 'ggpmisc' has 10
+reverse dependencies and two reverse suggests, 'ggpp' has five reverse
+dependencies and one reverse suggest, and to my surprise, even 'gginnards' has
+two reverse imports.
+
+The current chapter in this history relates to quality control, unit-test
+coverage and possible accreditation of 'ggpp'. By the initiative of Daniel
+Sabanes Bove and his team, and with a lot of help from them, progress is being
+made towards achieving high enough test coverage for accreditation. I am trying
+in parallel to enhance testing for validity of arguments and improving the
+corresponding error messages, and checking the documentation.
+
+Naturally, I intend next to apply what I am learning to 'ggpmisc' and later
+to other packages.
+
 ## Design aims
 
-The underlying aim behind the design of 'ggpmisc' is to make it easy to add data
-labels, annotatoins and insets to ggplots, using a grammar consistent with that
-implemented in 'ggplot2' and without imposing restrictions on the use of the
-layered grammar of graphics. 
+The underlying aim behind the design of 'ggpmisc' has been to make it easy to
+add data labels, annotations and insets to ggplots, using a grammar consistent
+with that implemented in 'ggplot2' and without imposing arbitrary restrictions
+on the use of the layered grammar of graphics.
 
-How I approach this aim, is by trying to imaging how to remain conceptually
-consistent with the existing grammar. In other words, finding ways of reusing as
-much as possible the exisitng grammar to solve new problems. For example,
-statistics that return character labels from model fits, also return the
-corresponding numerical values. New functions for adding graphical elements as
-data labels, are consistent with 'ggplot2' stats normally used to add text-based
-data labels to plots.
+How I approached and still approach this aim, is by trying to imaging how to
+remain conceptually consistent with the existing grammar. In other words,
+finding ways of reusing as much as possible the existing grammar to solve new
+problems. For example, statistics that return character labels from model fits,
+also return the corresponding numerical values. New functions for adding
+graphical elements as data labels, are consistent with 'ggplot2' stats used to
+add text-based data labels to plots.
 
 The approach I use in 'ggpmisc' is different to that of popular extensions like
 'ggpubr' which attempt to simplify plot creation by packaging the code for
-several plot layers into a single function. In this case, much of the grammar of
-graphics is accessible to users, and even if easier to use, these functions are
-less flexible.
+several plot layers into a single function. Using such an approach, much of the
+grammar of graphics is not accessible to users, and even if easier to use, such
+functions are much flexible.
 
-## Overview
+## Quality control and code testing
+
+Developing and maintaining 'ggpmisc' and publishing it through
+CRAN would not have been manageable without using unit tests implemented with
+packages 'testthat' and 'vdiffr'. Unit tests for 'ggplot2' extensions had been
+quite tricky to implement, causing time back trouble for CRAN and breaking
+frequently due to inconsecuential changes in 'ggplot2' or its dependencies.
+For this reason, even though I implemented the first unit tests for 'ggpmisc'
+in 2017, I have kept them for many years local and not included them in the
+package release. As I have been until recently the only developer and
+maintainer of the package, this was not the most thorough approach, but still
+kept the package nearly bug free and made development enhancements and fixing
+bugs comparatively easy.
+
+I set up continuous integration actions for running checks in GitHub rather
+recently, as I was manually using CRAN winbuilder and 'rhub' to run tests
+manually on multiple platforms. However, 'testthat' unit tests were only
+run locally in my computer as they had not been included in the package
+build. This has now changed for 'ggpp' and 'ggpmisc', and from the next
+version tests will be included in the builds. As for reporting of test coverage
+its implementation is already working in 'ggpp' at GitHub.
+
+## The future
+
 
