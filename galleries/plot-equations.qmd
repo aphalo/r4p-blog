@@ -563,6 +563,8 @@ ggplot(my_linear.data, aes(x, y)) +
   stat_quant_eq(quantiles = 0.5)
 ```
 
+Median regression through the origin.
+
 ```{r, warning=FALSE}
 # model with intercept = 0
 formula <- y ~ x + 0
