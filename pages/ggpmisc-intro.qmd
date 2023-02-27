@@ -57,17 +57,17 @@ not only for learning, but also for tweaking some ggplot objects returned by
 
 ## History
 
-It was all started in 2016 by an innocent question from a colleague that went something
+It all started in 2016 by an innocent question from my colleague, Titta Kotilainen, that went something
 like this: "I see in
 [Stackoverflow](https://stackoverflow.com/questions/7549694/add-regression-line-equation-and-r2-on-graph/)
 some answers to the question of how to add a regression line equation to a
-ggplot, but they are so complex... Isn't there any simpler way?
+ggplot, but they are so complex... Isn't there any simpler way of doing this?
 
 I looked at the answers and they were not only far from straightforward, but
-were case specific. So after some thinking and "googling", `stat_poly_eq()` was
-born. Lacking a good idea of what the package would develop into, following the
-trend set by 'Gmisc' and a few other packages I decided to use 'ggpmisc' (ggplot
-miscellanea or ggplot, Pedro's miscellanea).
+were case specific. So after some thinking and "googling", a primitive version
+of `stat_poly_eq()` was born. Lacking a good idea of what the package would
+develop into, following the trend set by 'Gmisc' and a few other packages I
+decided to use 'ggpmisc' (ggplot miscellanea or ggplot, Pedro's miscellanea).
 
 Over the seven years since then 'ggpmisc' grew both because of my own needs and
 thanks from suggestions and questions from users. Rather soon it became clear
