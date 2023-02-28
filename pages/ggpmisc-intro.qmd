@@ -126,7 +126,7 @@ Developing and maintaining 'ggpmisc' and publishing it through
 CRAN would not have been manageable without using unit tests implemented with
 packages 'testthat' and 'vdiffr'. Unit tests for 'ggplot2' extensions had been
 quite tricky to implement, causing time back trouble for CRAN and breaking
-frequently due to inconsecuential changes in 'ggplot2' or its dependencies.
+frequently due to inconsequential changes in 'ggplot2' or its dependencies.
 For this reason, even though I implemented the first unit tests for 'ggpmisc'
 in 2017, I have kept them for many years local and not included them in the
 package release. As I have been until recently the only developer and
@@ -142,6 +142,12 @@ build. This has now changed for 'ggpp' and 'ggpmisc', and from the next
 version tests will be included in the builds. As for reporting of test coverage
 its implementation is already working in 'ggpp' at GitHub.
 
-## The future
+## More information
 
+The documentation as websites including the output from examples and all vignettes are
+available for ['ggpp'](https://docs.r4photobiology.info/ggpp/), 
+['ggpmisc'](https://docs.r4photobiology.info/ggpmisc/) and
+['gginnards'](https://docs.r4photobiology.info/gginnards/).
 
+At this site there also [galleries](../galleries.html) of plot examples with the corresponding
+R code, organized by type of plot or plot features.
