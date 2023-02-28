@@ -26,6 +26,9 @@ website:
           - icon: box-seam
             text: 'learnrbook'
             href: https://docs.r4photobiology.info/learnrbook/
+          - icon: stack
+            text: Intro _'ggpmisc', 'ggpp' and 'gginnards'_
+            href: pages/ggpmisc-intro.qmd
           - icon: layers
             text: 'ggpmisc'
             href: https://docs.r4photobiology.info/ggpmisc/
@@ -50,10 +53,10 @@ website:
           - icon: box-seam
             text: 'photobiologyInOut'
             href: https://docs.r4photobiology.info/photobiologyInOut/
-          - icon: box
+          - icon: rulers
             text: 'ooacquire'
             href: https://docs.r4photobiology.info/ooacquire/
-          - icon: box
+          - icon: rulers
             text: 'rOmniDriver'
             href: https://docs.r4photobiology.info/rOmniDriver/
           - icon: box-seam
