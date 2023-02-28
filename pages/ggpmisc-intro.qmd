@@ -31,7 +31,7 @@ Another recent addition to 'ggpp' is support for new types of nudging, including
 computed nudging based on the local data 1D or 2D density, based on fitted
 lines, or away or towards a computed centroid or arbitrary point or line. When
 nudging is applied both along _x_ and _y_, even radial nudging is supported.
-Thanks to a fruitful collaboration with Kamil Slowikoski, the author of
+Thanks to a fruitful collaboration with Kamil Slowikowski, the author of
 'ggrepel', these new approaches to nudging are compatible with and extremely
 effective when combined with repulsive geoms. A few convenience and utility
 functions are also included. Perhaps surprisingly, given the good design of
