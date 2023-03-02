@@ -1,0 +1,85 @@
+---
+title: "Maddison 2020 database of GDP"
+subtitle: "Plotting examples making use of 'ggpp' and 'ggpmisc'"
+author: "Pedro J. Aphalo"
+date: 2023-03-01
+---
+
+```{r, message=FALSE}
+library(ggpmisc)
+library(readxl)
+library(tidyr)
+library(dplyr)
+```
+
+The database is available on-line at the [Maddison project page](https://www.rug.nl/ggdc/historicaldevelopment/maddison/releases/maddison-project-database-2020?lang=en).
+I will use a locally cached copy of the file, the code below downloads the file
+only if the local copy does not already exist.
+
+```{r, message=FALSE, }
+if (!file.exists("mpd2020.xlsx")) {
+  download.file("https://www.rug.nl/ggdc/historicaldevelopment/maddison/data/mpd2020.xlsx",
+                destfile = "mpd2020.xlsx",
+                mode = "wb")
+}
+
+# full data in long form
+maddison2020_Full.df <- read_xlsx("mpd2020.xlsx", sheet = "Full data")
+colnames(maddison2020_Full.df)
+nrow(maddison2020_Full.df)
+unique(maddison2020_Full.df$countrycode)
+
+# regional data in wide form
+header.df <- read_xlsx("mpd2020.xlsx", sheet = "Regional data", n_max = 3)
+data.df <- read_xlsx("mpd2020.xlsx", sheet = "Regional data", skip = 2)
+colnames(data.df) <- c("Year", as.character(header.df[1, ])[-1])
+# ncol(data.df)
+
+# regional data in long form
+GDPpc.df <- 
+  pivot_longer(data.df[c(1:9, 19)], 
+               values_to = "GDPpc", 
+               names_to = "region",
+               cols = colnames(data.df)[c(2:9)])
+colnames(GDPpc.df) <- 
+  gsub("World GDP pc", "GDPpc_World", colnames(GDPpc.df))
+
+
+population.df <-
+  pivot_longer(data.df[c(1, 10:18)], 
+               values_to = "population", 
+               names_to = "region",
+               cols = colnames(data.df)[10:17])
+colnames(population.df) <- 
+  gsub("World", "population_World", colnames(population.df))
+
+maddison2020_Regional.df <- full_join(GDPpc.df, population.df)
+colnames(maddison2020_Regional.df)
+nrow(maddison2020_Regional.df)
+
+# cleanup
+rm(header.df, data.df, GDPpc.df, population.df)
+```
+
+```{r}
+ggplot(maddison2020_Regional.df, 
+       aes(Year, GDPpc, colour = region)) +
+  geom_line() +
+  scale_y_log10()
+```
+
+```{r}
+ggplot(subset(maddison2020_Full.df, year >= 1820), 
+       aes(year, gdppc, colour = countrycode)) +
+  geom_line(show.legend = FALSE) +
+  scale_y_log10()
+```
+
+
+
+```{r}
+ggplot(subset(maddison2020_Full.df, year >= 1900 & countrycode %in% c("ARG", "CHL", "BOL", "BRA", "URY", "VEN", "COL", "CUB", "NIC", "MEX", "PER")), 
+       aes(year, gdppc, colour = country)) +
+  geom_line() +
+  scale_y_log10()
+```
