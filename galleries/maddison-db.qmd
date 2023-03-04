@@ -2,8 +2,10 @@
 title: "Maddison 2020 database of GDP"
 subtitle: "Plotting examples making use of 'ggpp' and 'ggpmisc'"
 author: "Pedro J. Aphalo"
-date: 2023-03-01
+date: 2023-03-04
 ---
+
+# Under construction!!
 
 ```{r, message=FALSE}
 library(ggpmisc)
@@ -58,6 +60,16 @@ maddison2020_Regional.df <- full_join(GDPpc.df, population.df)
 colnames(maddison2020_Regional.df)
 nrow(maddison2020_Regional.df)
 
+maddison2020_World.df <- rename(data.df[ , c("Year", "World", "World GDP pc")],
+                                year = Year,
+                                pop_World = World,
+                                gdp_World = "World GDP pc")
+
+maddison2020_Combined.df <- 
+  left_join(maddison2020_Full.df,
+            maddison2020_World.df, 
+            by = "year", multiple = "first")
+
 # cleanup
 rm(header.df, data.df, GDPpc.df, population.df)
 ```
@@ -65,28 +77,26 @@ rm(header.df, data.df, GDPpc.df, population.df)
 ```{r}
 ggplot(maddison2020_Regional.df, 
        aes(Year, GDPpc, colour = region)) +
-  geom_line() +
-  scale_y_log10()
-```
-
-```{r}
-
-
-
-ggplot(subset(maddison2020_Full.df, year > 1250 & 
-                countrycode %in% c("ESP", "FRA", "GBR", "ITA", "JPN", "NLD", "POL", "USA", "ARG")), 
-       aes(year, gdppc, colour = countrycode)) +
-  geom_line(show.legend = TRUE) +
+  geom_line(na.rm = TRUE) +
+  scale_x_continuous(limits = c(1900, NA)) +
   scale_y_log10()
 ```
 
 
 
 ```{r}
-ggplot(subset(maddison2020_Full.df, year >= 1900 & countrycode %in% c("ARG", "CHL", "BOL", "BRA", "URY", "VEN", "COL", "CUB", "NIC", "MEX", "PER")), 
-       aes(year, gdppc, colour = country)) +
-  geom_line() +
-  scale_y_log10()
+ggplot(subset(maddison2020_Full.df, 
+              year >= 1905 & countrycode %in% 
+                c("ARG", "CHL", "BOL", "BRA", "URY", "VEN", "COL", "CUB", "MEX", "PER")), 
+       aes(year, gdppc, colour = country, label = countrycode)) +
+  geom_line(show.legend = FALSE) +
+  geom_text_repel(data = function(x) {subset(x, year == 2018)},
+             position = position_nudge_to(x = 2025), colour = "black", size = 2.5,
+             direction = "y", box.padding = 0.1, min.segment.length = 0) +
+  geom_text_repel(data = function(x) {subset(x, year == 1905)},
+             position = position_nudge_to(x = 1898), colour = "black", size = 2.5,
+             direction = "y", box.padding = 0.1, min.segment.length = 0) +
+  scale_y_log10(breaks = c(500, 1000, 2000, 5000, 10000, 20000), limits = c(500, 25000))
 ```
 
 ```{r}
@@ -95,7 +105,67 @@ ggplot(subset(maddison2020_Full.df, year >= 2000 & countrycode %in% c("ARG", "CH
   geom_line(show.legend = FALSE) +
   geom_text_repel(data = function(x) {subset(x, year == 2018)},
              position = position_nudge_to(x = 2019), colour = "black", size = 3,
-             direction = "y") +
-  expand_limits(x = 2020) +
-  scale_y_log10()
+             direction = "y", box.padding = 0.1, min.segment.length = 0) +
+  geom_text_repel(data = function(x) {subset(x, year == 2000)},
+             position = position_nudge_to(x = 1999), colour = "black", size = 3,
+             direction = "y", box.padding = 0.1, min.segment.length = 0) +
+  expand_limits(x = c(1998, 2020)) +
+  scale_y_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(2000, 25000)) +
+  theme_bw()
+```
+
+```{r}
+ggplot(subset(maddison2020_Combined.df, year >= 1900 & 
+                countrycode %in% 
+                c("ARG", "CHL", "BOL", "BRA", "URY", "VEN", "COL", "CUB", "NIC", "MEX", "PER")), 
+       aes(gdp_World, gdppc, colour = country, label = countrycode)) +
+  geom_line(show.legend = FALSE, na.rm = TRUE) +
+  geom_abline(linetype = "dotted") +
+  scale_y_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(2000, 20000)) +
+  scale_x_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(2000, 20000)) +
+  facet_wrap(facets = vars(country), ncol = 5) +
+  theme_bw()
+```
+
+
+```{r}
+ggplot(subset(maddison2020_Combined.df, year >= 1900 & 
+                countrycode %in% 
+                c("FIN", "SWE", "FRA", "GBR", "POL", "ESP", "ITA", "DEU", "NLD", "PRT")), 
+       aes(gdp_World, gdppc, colour = country, label = countrycode)) +
+  geom_line(show.legend = FALSE, na.rm = TRUE) +
+  geom_abline(linetype = "dotted") +
+  scale_y_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(2000, 20000)) +
+  scale_x_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(2000, 20000)) +
+  facet_wrap(facets = vars(country), ncol = 5) +
+  theme_bw()
+```
+
+
+
+```{r}
+ggplot(subset(maddison2020_Combined.df, year >= 1900 & 
+                countrycode %in% 
+                c("UGA", "GAB", "EGY", "TUN", "KEN", "LBR", "ZAF", "TCD", "SEN", "BWA")), 
+       aes(gdp_World, gdppc, colour = country, label = countrycode)) +
+  geom_line(show.legend = FALSE, na.rm = TRUE) +
+  geom_abline(linetype = "dotted") +
+  scale_y_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(1000, 20000)) +
+  scale_x_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(1000, 20000)) +
+  facet_wrap(facets = vars(country), ncol = 5) +
+  theme_bw()
+```
+
+
+```{r}
+ggplot(subset(maddison2020_Combined.df, year >= 1900 & 
+                countrycode %in% 
+                c("RUS", "UKR", "ARM", "AZE", "BLR", "UZB")), 
+       aes(gdp_World, gdppc, colour = country, label = countrycode)) +
+  geom_line(show.legend = FALSE, na.rm = TRUE) +
+  geom_abline(linetype = "dotted") +
+  scale_y_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(3000, 20000)) +
+  scale_x_log10(breaks = c(2000, 5000, 10000, 20000), limits = c(3000, 20000)) +
+  facet_wrap(facets = vars(country), ncol = 5) +
+  theme_bw()
 ```
