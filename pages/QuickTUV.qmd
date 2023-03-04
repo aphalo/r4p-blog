@@ -25,6 +25,6 @@ This interface is easy to use once one understands the different options and req
 
 </br>
 
-### Examples of the simulation results that can be obtained
+### Exploring sunlight with the Quick TUV model and R
 
-An [R notebook](https://docs.r4photobiology.info/articles/sun-article.nb.html) demonstrating how the solar spectrum is affected by variation in the atmospheric composition, solar elevation and observer elevation is available for reading and/or download. The R code used in embedded in this HTML file.
+I published an article describing how to import and plot the data from Quick TUV using R ([Aphalo, 2018](https://doi.org/10.19232/uv4pb.2018.2.14)). A [supplementary file to the article](aphalo-tuv-supplement.nb.html) gives additional examples demonstrating how the solar spectrum is affected by variation in the atmospheric composition, solar elevation and observer elevation is available for reading and/or download. The R code used in embedded in this HTML file.
