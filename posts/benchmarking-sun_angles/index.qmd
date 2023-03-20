@@ -3,6 +3,7 @@ title: "Benchmarking function `sun_angles()`"
 author: "Pedro J. Aphalo"
 date: 2019-04-24
 categories: [photobiology pkg, performance, sun]
+keywords: [astronomical calculations]
 ---
 
 As far as I know there are in CRAN four R packages implementing the computations for the position of the sun and times of sunrise and sunset: 'photobiology', 'fishmethods', 'solartime' and 'suncalc'.

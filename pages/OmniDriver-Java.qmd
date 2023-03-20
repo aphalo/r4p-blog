@@ -1,0 +1,30 @@
+---
+title: "OmniDriver, Java and the whims of companies"
+subtitle: "Open source alternative drivers"
+author: "Pedro J. Aphalo"
+---
+
+# Acquiring spectra from Ocean Optics/Ocean Insight spectrometers
+
+## Current status
+
+When Java ended through company acquisitions and mergers under xxxx the formerly free licence was updated to a commercial one which requires payment. Ocean Optics OminiDriver driver, written in Java has been available for close to 20 years, with minimal updates in the last 10 years. This is a commercial SDK with a cost of nearly 400 € but with a free runtime. Years back, Ocean Optics, agreed to me using it in my 'ooacquire' package. The person with whom I discussed this, has left the company several years ago. Under its new name of Ocean Insight the company seems to be slowly phasing out OmniDriver and replacing it with OceanDirect, at a price of nearly 600 €.
+
+I have an old Ocean Optics S2000 spectrometer, which is no longer supported by recent releases of OmniDriver. Some years back, Ocean Optics released an open source C++ driver for its spectrometers named [SeaBreeze](https://sourceforge.net/projects/seabreeze/), which is no longer mentioned by Ocean Insight. It survives in GitHub as forks (e.g.\ [a research group in Italy](https://github.com/udyni/seabreeze), [Brookhaven National Laboratory](https://github.com/jwlodek/SeaBreeze) and [Jolz](https://github.com/jolz/SeaBreeze) ) and as a reimplementation in Python: [Python SeaBreeze](https://github.com/ap--/python-seabreeze), [well docummented](https://python-seabreeze.readthedocs.io/en/latest/) and potable.
+
+There are some acquisition front-ends based on Python SeaBreeze, such as [brizzy](https://github.com/conchoecia/brizzy)
+
+An alternative is to call [Java from R to communicate with spectrometers](https://github.com/PannetonB/Ocean-Optics-spectro-with-usb4java-in-R/blob/master/R/playWith_usb4java.R) without the driver. This is problematic as I am able to test the code only with three spectrometer models.
+
+My tests with OmniDriver 2.70 and R have failed, so I am still relying on version 2.56, but this may infringe Java's licence if used for commercial purposes. 
+
+## The future of package 'ooacquire'
+
+Package 'ooacquire' uses OmniDriver mostly to communicate with the spectrometer, so I hope to be able to replace 'rOmniDriver' by an interface based on Python SeaBreeze. SeaBreeze, however, has a different API than OmniDriver, which is not as complete, so a possible 'RPythonSeaBreeze' package may lack some functions available in 'ROmniDriver'.
+
+The time frame for this update is still uncertain, but the end of OmniDriver usefulness seems to be looming on us.
+
+
+
+
+
