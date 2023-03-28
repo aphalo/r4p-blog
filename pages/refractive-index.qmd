@@ -1,8 +1,10 @@
 ---
 title: "For those interested in optical properties"
 author: "Pedro J. Aphalo"
-date: 2016-09-15
+date: "2016-09-15"
+date-modified: "2023-02-21"
 categories: [data sources]
+keywords: [optics, optical properties, data]
 ---
 
 The site RefractiveIndex.info is an interface to a public domain

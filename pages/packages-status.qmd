@@ -2,8 +2,10 @@
 title: "My R Packages"
 subtitle: "Status, tests and repositories"
 author: "Pedro J. Aphalo"
-date: today
+date: "2023-03-04"
+date-modified: today
 categories: [R packages, status]
+keywords: [source code, tests, issues]
 ---
 
 ![R package logos](four-pkg-logos-01.png){fig-align="left" width="33%"}

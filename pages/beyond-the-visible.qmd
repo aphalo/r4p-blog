@@ -1,8 +1,10 @@
 ---
 title: "A handbook of best practice in plant UV photobiology"
 author: "Pedro J. Aphalo"
-date: 2023-02-20
+date: "2023-02-20"
+date-modified: "2023-02-20"
 categories: [books]
+keywords: [Beyond the Visible, photobiology, methods]
 ---
 
 [![Book cover](beyond-the-visible-cover.jpg){fig-alt="Book cover image"}](http://doi.org/10.31885/9789521083631){width=33%, fig-align="left"}

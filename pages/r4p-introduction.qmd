@@ -2,7 +2,8 @@
 title: "The R for Photobiology Suite"
 subtitle: "Photobiology-related computations in R"
 author: "Pedro J. Aphalo"
-date: 2023-02-19
+date: "2023-02-19"
+date-modified: "2023-02-19"
 categories: [R packages, documentation, R for Photobiology]
 keywords: [R, photobiology, solar radiation, artificial light, spectra]
 toc: true

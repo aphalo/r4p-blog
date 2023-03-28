@@ -1,8 +1,10 @@
 ---
 title: "Handbook on photobiological calculations with R"
 author: "Pedro J. Aphalo"
-date: 2023-02-20
-categories: [books]
+date: "2023-02-20"
+date-modified: "2023-02-20"
+categories: [books, R for Photobiology]
+keywords: [photobiology, R, R packages]
 ---
 
 [![Book cover](leanpub-r4photobiology.jpg)](https://leanpub.com/r4photobiology){width=33%}

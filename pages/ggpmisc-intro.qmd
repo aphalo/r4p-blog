@@ -2,9 +2,10 @@
 title: "'ggpmisc', 'ggpp' and 'gginnards'"
 subtitle: "Data labels, annotations and insets for 'ggplot2'"
 author: "Pedro J. Aphalo"
-data: "2023-02-28"
-categories: [R packages, documentation, data labels, plot annotations, plot insets]
-keywords: [R, ggplot2, labels, annotations, regression, anova, correlation, fitted models]
+date: "2023-02-28"
+date-modified: "2023-02-28"
+categories: [R packages, plotting]
+keywords: [R, ggplot2, labels, annotations, regression, anova, correlation, fitted models, data labels, plot annotations, plot insets]
 ---
 
 ## How do these packages extend 'ggplot2'? 

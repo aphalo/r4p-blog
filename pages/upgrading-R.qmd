@@ -2,9 +2,11 @@
 title: "Upgrading R"
 subtitle: "Installing R and reinstalling packages"
 author: "Pedro J. Aphalo"
-date: 2023-02-18
+date: "2023-02-18"
+date-modified: "2023-02-18"
 toc: true
 categories: [Using R]
+keywords: [update, install, R packages]
 ---
 
 ## R versions

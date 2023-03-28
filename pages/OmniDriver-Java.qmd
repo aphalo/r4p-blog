@@ -2,6 +2,10 @@
 title: "OmniDriver, Java and the whims of companies"
 subtitle: "Open source alternative drivers"
 author: "Pedro J. Aphalo"
+date: "2023-03-20"
+date-modified: "2023-03-20"
+categories: [R packages, data acquisition]
+keywords: [Ocean Optics, spectrometer, rOmniDriver pkg, ooacquire pkg]
 ---
 
 # Acquiring spectra from Ocean Optics/Ocean Insight spectrometers

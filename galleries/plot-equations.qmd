@@ -2,9 +2,9 @@
 title: "ggplot fitted-model equations with 'ggpmisc'"
 subtitle: "Polynomials, major axis, quantile and non-linear regression"
 author: "Pedro J. Aphalo"
-date: today
-keywords: [ggplot2, ggpmisc, R,plot annotations, dataviz, data visualization]
-categories: [ggpp pkg, data labels, plot annotations]
+date: "2023-02-27"
+keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
+categories: [Plotting examples]
 editor: 
   markdown: 
     wrap: 72

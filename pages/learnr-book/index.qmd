@@ -3,7 +3,7 @@ title: "Learn R: As a Language"
 subtitle: News
 author: "Pedro J. Aphalo"
 date: 2022-08-24
-categories: [Book Learn R]
+categories: [books]
 ---
 
 My book on R was published on 28 July 2020. The 'learnrbook' package available through CRAN contains data and the R code scripts and chunks from the book. The book has now its own [website](https://www.learnr-book.info).

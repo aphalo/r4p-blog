@@ -3,8 +3,8 @@ title: "Nudging + repulsion"
 subtitle: "Data labels using 'ggrepel' together with 'ggpp'"
 author: "Pedro J. Aphalo"
 data: "2023-02-28"
-categories: [R packages, documentation, data labels]
-keywords: [R, ggplot2, ggrepel, ggpp, labels]
+categories: [Plotting examples]
+keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
 ---
 
 ```{r, include=FALSE, echo=FALSE}

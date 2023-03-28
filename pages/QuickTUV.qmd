@@ -1,8 +1,10 @@
 ---
 title: "Using the Quick TUV Calculator"
 author: "Pedro J. Aphalo"
-date: 2018-08-10
-categories: [photobiologyInOut pkg, Quick TUV, solar spectrum, data]
+date: "2018-08-10"
+date-modified: "2023-03-04"
+categories: [solar spectrum, data]
+keywords: [photobiologyInOut pkg, TUV model]
 ---
 
 As our package 'photobiologyInOut' (versions \>= 0.4.15) supports the automatic import of the files returned by the Quick TUV Calculator, we show here how to produce such files, and link to an example showing how to import and plot them in R.
