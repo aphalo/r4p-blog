@@ -6,11 +6,11 @@ date: 2022-08-24
 categories: [books]
 ---
 
+![](frontcover-9780367182533-702x1024.jpg){fig-align="center" width="351"}
+
 My book on R was published on 28 July 2020. The 'learnrbook' package available through CRAN contains data and the R code scripts and chunks from the book. The book has now its own [website](https://www.learnr-book.info).
 
 In the book's website you will find free supplementary chapters as downloadable PDF files and other material complementing the book.
-
-![](frontcover-9780367182533-702x1024.jpg){fig-align="center" width="351"}
 
 **2022-06-24** Last week I started updating the book manuscript for a 2nd printing/edition. For the time being I have been adding several diagrams and flow charts, expanding the text to improve clarity and fixing all typos in text and code that I am aware of. I am also addressing the new features in R 4.2.0 and changes to the packages used in the examples. Please, do share with me anything you would like changed from the current edition and report any mistakes you may have found. All useful contributions will be acknowledged. Thanks in advance!
 

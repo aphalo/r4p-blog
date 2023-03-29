@@ -2,7 +2,7 @@
 title: "Nudging + repulsion"
 subtitle: "Data labels using 'ggrepel' together with 'ggpp'"
 author: "Pedro J. Aphalo"
-data: "2023-02-28"
+date: "2023-02-28"
 categories: [Plotting examples]
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
 ---
