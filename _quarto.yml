@@ -110,7 +110,7 @@ website:
     left:
       - text: "ISSN 2343-3248 (Helsinki, Finland)"
     center:
-      - text: ORCID
+      - text: "P. J. Aphalo @ ORCID"
         href: https://orcid.org/0000-0003-3385-972X
 format:
   html:

@@ -6,6 +6,13 @@ title: "Home page"
 
 This website's focuses mostly on methodology and R and R packages as tools. It complements R packages and books I have authored. The site emphasizes the use of the R packages I have developed, both extensions to 'ggplot2' and a suite of several R packages supporting computations, data acquisition and plotting related to photobiology. However, it also includes some content broadly applicable to data analysis and data visualization.
 
+```{r, message=FALSE}
+library(ggspectra)
+photon_as_default()
+autoplot(sun.daily.spct, annotations = c("+", "title:where:when"))
+```
+
+
 ## Contents
 
 The following sections of the site can be accessed through the menu at the top
@@ -52,4 +59,4 @@ In my research group we have used R for general data analysis, as well as for pl
 
 I have a [separate website for my research group's activities]() and a [website with material related to photography and photography techniques](). My scientific publications are listed at my [ORCID profile](https://orcid.org/0000-0003-3385-972X).
 
-I published my first website, _The Plant Photobiology Notes_, between 1995 and 2001. It survived with minor updates until around 2009, with a couple of changes in its URL. Much its contents are outdated but [the site was archived by the Wayback Machine](https://web.archive.org/web/*/http://cc.joensuu.fi/photobio*) and remains available. Much of the same spectral data are now included in my R packages.
+I published my first website, _The Plant Photobiology Notes_, between 1995 and 2001. Initially it was hosted in the desktop PC in my office, the same I used everyday for other tasks. The site survived with minor updates, mostly deletion of broken links, until around 2009. In the meantime the URL changed two or three times when I changed jobs. Much of its contents are now outdated but [the site was archived by the Wayback Machine](https://web.archive.org/web/*/http://cc.joensuu.fi/photobio*) and remains available. Most of the spectral data at the old site are now included in my R packages together with newer data.
