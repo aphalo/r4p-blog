@@ -2,7 +2,8 @@
 title: "ggpmisc 0.5.1"
 author: "Pedro J. Aphalo"
 date: 2022-10-15
-categories: [R Package Update, ggpmisc pkg]
+categories: [R Package Update]
+keywords: [ggpmisc pkg]
 ---
 
 Version 0.5.1 brings additional enhancements to the annotations based on model fits. These enhancements improve traceability by updating statistics to return additional information about the fitted models. Functions in 'ggplot2' that had been earlier announced as being at their end-of-life have now been deprecated. Some instances `aes_()` had remained lingering in the code and had to be replaced by `aes()` .

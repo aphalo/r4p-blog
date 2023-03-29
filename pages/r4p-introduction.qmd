@@ -12,7 +12,7 @@ editor:
     wrap: 72
 ---
 
-![logo](r4p-logo.png){width=10%,fig-align="left"}
+![logo](r4p-logo.png){fig-align="left" width="33%"}
 
 ## Introduction
 

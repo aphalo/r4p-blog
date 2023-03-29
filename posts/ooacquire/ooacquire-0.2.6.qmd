@@ -1,0 +1,50 @@
+---
+title: "ooacquire 0.2.6"
+author: "Pedro J. Aphalo"
+date: 2022-10-18
+categories: [R Package Update]
+keywords: [ooacquire pkg]
+---
+
+Version 0.2.6 is a maintenance update, fixing compatibility with recent versions of 'dplyr' and the just reelased 'photobiology' 0.10.14. It also includes minor enhancements to the interactive user interface (UI) of function `acq_irrad_interactive()`. OceanInsight recently released version 2.70 of OmniDriver, and removed some functions from the API. For the time being, keep using version 2.56 that is known to work.
+
+Main changes compared to version 0.2.5 are:
+
+<ul>
+
+<li>Track changes in 'photobiology \>= 0.10.14.</li>
+
+<li>Fix for deprecated functions in 'dplyr' \>= 1.0.0.</li>
+
+<li>Revise UI of `acq_irrad_interactive()` to avoid accidental overwrite of data files, and really do not save any data for discarded spectra.</li>
+
+<li>Tested working with OmniDriver 2.56.</li>
+
+<li>[DOES NOT WORK]{style="color: #ff0000;"} [yet with OmniDriver 2.70]{style="color: #ff0000;"}, please use older versions.</li>
+
+</ul>
+
+Full change history is available at: <a href="https://docs.r4photobiology.info/ooacquire/news/index.html">https://docs.r4photobiology.info/ooacquire/news/index.html</a>
+
+<strong>[NOTE:]{style="color: #ff0000;"} This package is NOT available through CRAN. </strong>
+
+This package is available through the [r4photobiology repository]{style="color: #0000ff;"}[ and through GitHub. ]{style="text-indent: 0em;"}
+
+<strong>INSTALLATION: </strong>
+
+Please, see the README page for details of requirements
+
+Note: this version needs a recently released 'rOmniDriver' version (version 2.56 is known to work), but not the latest ones (version 2.70 is know not to work). If OminiDriver is already installed it may need to be upgraded (or downgraded) before updating or installing 'ooacquire' \>= 0.2.3.
+
+<ol>
+
+<li>From the binary or source packages of the <em><strong>released version</strong></em> from the CRAN-compatible repository at <a href="http://r.r4photobiology.info/">http://r.r4photobiology.info/</a>.</li>
+
+<li>From sources of the <em><strong>under development version</strong></em> retrieved from the Git repository at GitHub. Version tags indicate the releases.</li>
+
+</ol>
+
+    devtools::install_github("aphalo/romnidriver")
+    devtools::install_github("aphalo/ooacquire")
+
+Please raise issues concerning bugs or enhancements to this package through GitHub at <a href="https://github.com/aphalo/ooacquire/issues" target="_blank" rel="noopener">https://github.com/aphalo/ooacquire/issues</a>

@@ -2,7 +2,8 @@
 title: "ggspectra 0.3.10"
 author: "Pedro J. Aphalo"
 date: "2023-02-03"
-categories: [R Package Update, ggspectra pkg]
+categories: [R Package Update]
+keywords: [ggspectra pkg]
 ---
 
 This update to 'ggspectra' tracks changes in 'photobiology' 0.10.15, 'photobiologyWavebands' 0.5.1 and 'ggplot2' 3.4.0, as well as in R 4.1.0. These are mostly deprecations that would trigger warnings. Please, be aware that these versions or later are now required.

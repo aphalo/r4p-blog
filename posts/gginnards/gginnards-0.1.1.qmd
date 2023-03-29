@@ -2,7 +2,8 @@
 title: "gginnards 0.1.1"
 author: "Pedro J. Aphalo"
 date: 2022-10-15
-categories: [R Package Update, gginnards pkg]
+categories: [R Package Update]
+keywords: [gginnards pkg]
 ---
 
 This is a maintenance release, with minor enhancements and edits for compatibility with upcoming 'ggplot2' 3.4.0. The only highly visible change is in more clearly separating the roles of the debug statistics and the debug geom by setting `geom_null()` as the default for the statistics.

@@ -1,0 +1,35 @@
+---
+title: "photobiologyInOut 0.4.25 and 0.4.26"
+author: "Pedro J. Aphalo"
+date: 2022-10-15
+categories: [R Package Update]
+keywords: [photobiologyInOut pkg]
+---
+
+Version 0.4.25 fixed a bug affecting data exchange with package 'colorSpec'. Version 0.4.26 fixes problems due to code-breaking changes in package 'readr'. This version also adds support for importing data from PSI's SpectraPen spectrometers.
+
+The main changes in [version 0.4.25]{style="color: #0000ff;"} compared to [version 0.4.24 ]{style="color: #0000ff;"}, are:
+
+<ul>
+
+<li>[Fix bug]{style="background-color: #ffff99;"} in `mspct2colorSpec()` which affected also `as.colorSpec.generic_mspct()`. Attempts to convert collections containing spectra with inconsistent wavelength vectors would fail.</li>
+
+<li>Improve compatibility with package 'colorSpec' (many thanks to Glenn Davis for his help!).</li>
+
+</ul>
+
+The main changes [in version 0.4.26]{style="color: #0000ff;"} compared to [version 0.4.25]{style="color: #0000ff;"} , are:
+
+<ul>
+
+<li>Add function `read_spectrapen_csv()` supporting PSI's SpectraPen spectrometer.</li>
+
+<li>[Bug fix:]{style="background-color: #ffff99;"} Update for code-breaking changes in package 'readr'.</li>
+
+</ul>
+
+Documentation web site at <a href="https://docs.r4photobiology.info/photobiologyInOut/">http://docs.r4photobiology.info/photobiologyInOut/</a>.
+
+[<strong>]{style="text-indent: 0em;"}[NOTE:]{style="color: #0000ff;"} This version of the package is on its way to [CRAN]{style="color: #0000ff;"}.</strong>
+
+[Please raise issues concerning bugs or enhancements to this package through Bitbucket at ]{style="text-indent: 0em;"}<a style="text-indent: 0em;" href="https://github.com/aphalo/photobiologyinout/issues">https://github.com/aphalo/photobiologyinout/issues</a>

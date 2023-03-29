@@ -2,7 +2,8 @@
 title: "ggpp 0.5.0"
 author: "Pedro J. Aphalo"
 date: 2022-12-05
-categories: [R Package Update, ggpp pkg]
+categories: [R Package Update]
+keywords: [ggpp pkg]
 ---
 
 Version [0.5.0]{style="color: #0000ff;"} includes <strong>code-breaking</strong> enhancements to `geom_text_s()` and `geom_label_s()`. The most significative is a mechanism to selectively applying aesthetics to different components of linked labels and text. This replaces the previous use of separate aesthetics applied only to segments or arrows. The reason behind this change is that segments are only links, and not meant to inform about data values on their own.

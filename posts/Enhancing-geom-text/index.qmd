@@ -2,7 +2,7 @@
 title: "Enhancing geom_text() and geom_label()"
 author: "Pedro J. Aphalo"
 date: 2022-12-17
-categories: [ggplot2 pkg, ggrepel pkg, ggpp pkg]
+categories: [R, plotting]
 ---
 
 I have defined in package 'ggpp' enhanced versions of `geom_text()` and `geom_label()` under the names of `geom_text_s()` and `geom_label_s()` . The `s` is for segment, at least it was when I thought of these names. The versions described are included in version 0.5.0 and later.

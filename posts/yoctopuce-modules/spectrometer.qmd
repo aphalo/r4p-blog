@@ -2,8 +2,8 @@
 title: "Yoctopuce modules: Spectrometer"
 author: "Pedro J. Aphalo"
 date: 2019-02-22
-categories: [Yoctopuce, data acquisition]
-keywords: [data acquisition, R, Yoctopuce]
+categories: [data acquisition]
+keywords: [Yoctopuce, R, USB module]
 ---
 
 [![](yoctopuce-logo.png)](https://www.yoctopuce.com/){fig-align="left"}

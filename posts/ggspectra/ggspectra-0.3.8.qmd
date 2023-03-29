@@ -2,7 +2,8 @@
 title: "ggspectra 0.3.8"
 author: "Pedro J. Aphalo"
 date: 2022-04-16
-categories: [R Package Update, ggspectra pkg]
+categories: [R Package Update]
+keywords: [ggspectra pkg]
 ---
 
 Eighteen months from the previous release, this update brings many improvements to `autoplot()` methods. These include enhanced capabilities for handling of normalized and scaled spectral data, as well as cosmetic tweaks to labels.

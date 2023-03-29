@@ -1,8 +1,8 @@
 ---
-title: "Galleries"
-subtitle: "Galleries of illustrations with R code"
+title: Blog
+subtitle: "Package Updates and other News"
 listing:
-  contents: galleries
+  contents: posts
   sort: "date desc"
   type: table
   fields: [date, title]
@@ -10,6 +10,5 @@ listing:
   sort-ui: true
   filter-ui: true
 page-layout: full
-toc: true
 title-block-banner: true
 ---

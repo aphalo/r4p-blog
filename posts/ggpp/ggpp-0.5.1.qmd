@@ -2,7 +2,8 @@
 title: "ggpp 0.5.1"
 author: "Pedro J. Aphalo"
 date: "2023-02-03"
-categories: [R Package Update, ggpp pkg]
+categories: [R Package Update]
+keywords: [ggpp pkg]
 image: plot1.png
 ---
 

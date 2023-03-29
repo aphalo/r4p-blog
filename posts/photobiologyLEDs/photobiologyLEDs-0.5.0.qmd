@@ -1,0 +1,27 @@
+---
+title: "photobiologyLEDs 0.5.0"
+author: "Pedro J. Aphalo"
+date: 2022-05-14
+categories: [R Package Update]
+keywords: [photobiologyLEDs pkg]
+---
+
+This is a major and code-breaking update. Naming conventions have been changed and several new spectra have been added. Previously included spectra have in most cases been recomputed and may slightly differ from earlier versions of the same data. In part this was done to reduce the size of the data objects, making it possible to include more spectra while keeping the size of the package reasonable. The number of spectra is more than 100, including several of the newest high CRI LEDs as well as some recent types for horticulture.
+
+The main changes from <span style="color: #0000ff;">version</span> <span style="color: #0000ff;">0.4.2,</span>the current CRAN release, are:
+<ul>
+ 	<li>Revise for 'ggspectra' (&gt;= 0.3.1).</li>
+ 	<li>Rebuild all data objects with 'photobiology' (== 0.10.10) taking care that all spectra in `leds.mspct` are normalized.</li>
+ 	<li>Apply function `photobiology::thin_wl()` to all spectra to reduce their stored size.</li>
+ 	<li>Add data for addtional LED types and update the metadata of most of those carried over from earlier versions.</li>
+ 	<li>Add lists of LEDs by intended use.</li>
+ 	<li>CODE BREAKING: change naming convention for members of the collection of spectra. Now names consist of "brand" and type.</li>
+ 	<li>CODE BREAKING: lists of LEDs by colour are now based on the wavelength at the peak of emission. We use ISO-standard wavelength boundaries for colours of visible radiation, except for purple &lt; 400 nm. For ultraviolet we follow ISO. All broad-spectrum LEDs are listed as white.</li>
+ 	<li>Rewrite/revise all scripts used to prepare the spectral data.</li>
+ 	<li>Migrate Git repository from Bitbucket to GitHub.</li>
+</ul>
+Documentation web site at <a style="text-indent: 0em;" href="http://docs.r4photobiology.info/photobiologyLEDs/">http://docs.r4photobiology.info/photobiologyLEDs/</a><span style="text-indent: 0em;">.</span>
+
+<span style="text-indent: 0em;"><strong><span style="color: #0000ff;">NOTE:</span> The updated package has been submitted to CRAN.</strong></span>
+
+<span style="text-indent: 0em;">Please raise issues concerning bugs or enhancements to this package through Bitbucket at </span><a style="text-indent: 0em;" href="https://github.com/aphalo/photobiologyLEDs/issues">https://github-com/aphalo/photobiologyLEDs/issues</a>

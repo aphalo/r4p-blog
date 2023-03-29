@@ -3,6 +3,7 @@ title: "Site migrated to Quarto"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
 date-modified: "2023-03-29"
+categories: [website news]
 ---
 
 **I have moved this website from WordPress to [Quarto](https://quarto.org/).**
@@ -27,3 +28,9 @@ that wastes energy. In addition the site when in WordPress required plugins
 which add a security risk as well as making more complicated GDR compliance.
 A totally static system just serves ready-made pages and does not need to
 collect information from users or the client software and/or hardware to work.
+
+The Blog index page is no longer the Home page of the website. I have for
+the time being emphasized easy of maintenance and functionality over how the 
+site looks. I am still learning the details about Quarto, and the site will
+evolve as I make progress. You will see changes, for example in the use of
+categories.

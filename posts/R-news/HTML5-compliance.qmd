@@ -1,0 +1,12 @@
+---
+title: "HTML5 compliance of R packages"
+author: "Pedro J. Aphalo"
+date: 2022-08-13
+categories: [R Update]
+---
+
+As of R 4.0.0 there is a requirement for compliance with the HTML5 standard. Until recently, package 'Roxygen2', that is used to automatically generate the documentation, included in its output some HTML4 tags that have been removed in the upgrade to HTML5.
+
+For compliance with CRAN requirements I had to rebuild packages 'ggspectra', 'photobiologyWavebands', 'photobiologyInOut', 'photobiologyLamps' and 'photobiologyLEDs'. There were no other changes in 'ggspectra'. Some minor changes were included in the updates to 'photobiologyLamps', 'photobiologyLEDs' and 'photobiologyInOut'. Changes to 'photobiologyWavebands' were more and are described in a separate post.
+
+The updated packages have been submitted to CRAN.

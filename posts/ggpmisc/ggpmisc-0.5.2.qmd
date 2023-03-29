@@ -2,7 +2,8 @@
 title: "ggpmisc 0.5.2"
 author: "Pedro J. Aphalo"
 date: 2022-12-18
-categories: [R Package Update, ggpmisc pkg]
+categories: [R Package Update]
+keywords: [ggpmisc pkg]
 ---
 
 Version 0.5.2 [fixes several bugs.]{style="background-color: #ffff99;"}

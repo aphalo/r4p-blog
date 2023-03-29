@@ -2,7 +2,8 @@
 title: "ggspectra 0.3.9"
 author: "Pedro J. Aphalo"
 date: 2022-10-15
-categories: [R Package Update, ggspectra pkg]
+categories: [R Package Update]
+keywords: [ggspectra pkg]
 ---
 
 Some of the code in this package is rather complex and contained syntax and constructs that were known for some time to be on their way to deprecation and removal in different packages from the 'tidyverse'. Updating the package to the syntax used in current 'ggplot2' versions had been in my to do list for some time. Now the update had to be done, and it is now done.

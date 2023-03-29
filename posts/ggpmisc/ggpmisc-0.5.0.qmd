@@ -2,7 +2,8 @@
 title: "ggpmisc 0.5.0"
 author: "Pedro J. Aphalo"
 date: 2022-08-05
-categories: [R Package Update, ggpmisc pkg]
+categories: [R Package Update]
+keywords: [ggpmisc pkg]
 ---
 
 Version 0.5.0 (previously announced as 0.4.8) brings enhancements to the annotations based on model fits. The most significant change for all users is the new convenience function `use_label()` that greatly simplifies the assembly of labels from components and their mapping to aesthetics. We examplify its use and some of the other new features. <span style="background-color: #ffff99;">It also contains two changes that are not backwards compatible and that can in isolated cases break existing code</span> (hence the version-number change into 0.5.0).

@@ -2,7 +2,8 @@
 title: "ggpp 0.4.5"
 author: "Pedro J. Aphalo"
 date: 2022-09-30
-categories: [R Package Update, ggpp pkg]
+categories: [R Package Update]
+keywords: [ggpp pkg]
 ---
 
 Version 0.4.5 includes fixes for compatibility with the <a href="https://www.tidyverse.org/blog/2022/08/ggplot2-3-4-0-size-to-linewidth/" target="_blank" rel="noopener">upcoming updates in</a> <a href="https://www.tidyverse.org/blog/2022/08/ggplot2-3-4-0-size-to-linewidth/" target="_blank" rel="noopener">'ggplot2'</a> version 3.4.0, and adds enhancements to `geom_text_s()` and `geom_label_s()`. The most significative is the computation of the justification from the position displacement, which works with any of the position functions exported by 'ggpp'. Another significant change is the implementation of padding.

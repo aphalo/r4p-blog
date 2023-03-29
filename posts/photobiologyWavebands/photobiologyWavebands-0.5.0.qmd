@@ -1,0 +1,20 @@
+---
+title: "photobiologyWavebands 0.5.0"
+author: "Pedro J. Aphalo"
+date: 2022-08-13
+categories: [R Package Update]
+keywords: [photobiologyWavebands pkg]
+---
+
+The main changes from version [0.4.5]{style="color: #0000ff;"} the previous CRAN release, are:
+
+-   Minor edits to documentation.
+-   Rebuilt manual to comply with HTML 5.
+-   Recognize Landsat mission `"L9"` as equal to `"L8"` as wavelengths are the same.</li>
+-   On bad arguments to parameter `std` the returned value is no-longer `NA` (a `logical` value) but instead a `waveband` object with its wavelength fields set to `NA_real_`, as returned by a call to `waveband()`. [<em>This potentially code-breaking change</em>]{style="background-color: #ffff99;"} ensures that the class of the returned objects is the same irrespective of the arguments passed in the call, and that missing values more easily propagate to downstream computations without triggering errors.
+
+<strong>Package documentation web site at:</strong><a href="https://docs.r4photobiology.info/photobiologyWavebands/"> https://docs.r4photobiology.info/photobiologyWavebands/</a>
+
+<strong>[NOTE:]{style="color: #0000ff;"} The updated package is on its way to [CRAN.]{style="color: #0000ff;"}</strong>
+
+Please raise issues concerning bugs or enhancements to this package through Bitbucket at <a href="https://github.com/aphalo/photobiologyWavebands/issues/">https://github.com/aphalo/photobiologyWavebands/issues/</a>

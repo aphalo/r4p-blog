@@ -2,7 +2,8 @@
 title: "ggpmisc 0.4.7"
 author: "Pedro J. Aphalo"
 date: 2022-06-15
-categories: [R Package Update, ggpmisc pkg]
+categories: [R Package Update]
+keywords: [ggpmisc pkg]
 ---
 
 Version 0.4.7 brings a fix for a bug that could prevent the use of weights passed through <em>aesthetic</em> `weight` in some of the model-fitting statistics. Several enhancements to the model fitting statistics make it easier to fit different models to different groups or panels, and make it possible/easier to select among methods supported by a model fit function.
