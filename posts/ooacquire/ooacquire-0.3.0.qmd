@@ -1,0 +1,48 @@
+---
+title: "ooacquire 0.3.0 (coming soon)"
+author: "Pedro J. Aphalo"
+date: 2023-04-01
+categories: [R Package Update]
+keywords: [ooacquire pkg]
+---
+
+Version 0.3.0 is a feature and bug-fix update. The new feature is the automatic 
+acquisition of time series of spectra. I started developing this feature long
+ago but only now I got it finally working smoothly. The task was simplified
+by enhancements I implemented in 'photobiology' during last year. A major
+incentive was that I need this feature for some measurements I want to start
+straight away.
+
+The main bugs fixed were caused by changes to the OmniDriver API in versions
+2.70 and 2.71. These prevented 'ooacquire' to work. Got the most recent version,
+2.71 to work, while 2.56 still works. I have not tested 2.70 with this new
+version of 'ooacquire'. Version 2.56 of OmniDriver remains important, as it
+seems to be the last one supporting old spectrometers, including an USB2000 that
+I am still using.
+
+An additional bug was caused by changes to package 'lubridate'. I am not sure
+if it was because of the change in the default time zone used or because of
+some major code base changes and bug fixes, but some acquisition times may
+have been wrongly recorded with some combinations of 'ooacuire' and 'lubridate'
+versions. Safest is to update both packages, and check the timing recorded
+in recently acquired spectra. I would expect differences of several hours,
+depending in local time zone its time offset to UTC, if there have been such
+problems at all. In this version UTC is used explicitly everywhere, which was
+the previous default in 'lubridate' functions.
+
+Several enhancements are still pending: 1) summaries for collections of time
+series of spectra are currently disabled until I update the `summary()` methods
+defined in package 'photobiology', 2) moving of calibration data out of
+'ooacquire' into their own package(s) and 3) better documentation.
+
+Finally a major update that may be soon needed is replacing OmniDriver which
+proprietary, closed source and written in Java by SeaBreeze, written in C, or
+the Python version of it. Python is easier to interface to R, but the C
+implementation could be faster. As now implemented the acquisition of time
+series is slow, as overhead seems large. I do not yet know how much of the
+slowness is due to the spectrometer and how much to the drivers. 
+
+Although tested, I consider 0.3.0 still a release candidate. At the very least,
+I need to add to it data for two fresh calibrations or alternatively put most
+calibrations in a data-only package.
+
