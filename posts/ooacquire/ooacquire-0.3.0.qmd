@@ -1,64 +1,105 @@
 ---
-title: "ooacquire 0.3.0 (coming soon)"
+title: "ooacquire 0.3.0/0.3.1 (coming soon)"
 author: "Pedro J. Aphalo"
-date: 2023-04-01
+date: 2023-04-10
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
 
-Version 0.3.0 is a feature and bug-fix update. The new important feature is the
-automatic acquisition of time series of spectra. I started developing this
-feature long ago but only now I got it finally working smoothly. The task was
-simplified by enhancements I implemented in 'photobiology' during last year. A
-major incentive was that I need this feature for some measurements I want to
-start next week. I also introduced some small enhancements to the user
-interface.
+Versions 0.3.0 and 0.3.1 are feature and bug-fix updates. The new important
+feature is the _automatic acquisition of time series of spectra_. I started
+developing this feature long ago but only now I got it finally working smoothly.
+The task was simplified by enhancements I recently implemented in packages
+'photobiology' () and 'ggspectra' (). A major incentive was that I needed this feature
+for some measurements I wanted to do. In version 0.3.0 time series acquired at
+maximum possible speed are not available. In version 0.3.1 I implemented as a
+variation on the new "series" interface mode the support for high speed
+acquisition of time series of spectra using the special functions in the
+OmniDriver API. The API wrappers are already implemented in 'rOmniDriver' (>=
+0.1.18) and starting from 'ooacquire' (0.3.1) is the minimum version needed.
+**Before using the new `"series"` mode please read [the 'ooacquire' vignette
+that describes acquisition of
+spectra](https://docs.r4photobiology.info/ooacquire/articles/userguide-acquisition.html).
+This is crucial as timing considerations are far from straightforward because of
+how spectrometers work.**
 
-The main bugs fixed were caused by changes to the OmniDriver API in versions
-2.70 and 2.71. These changes broke data acquisition with 'ooacquire' as a
-function that had been in use was removed from the OmniDriver API. I got the
-most recent version, 2.71 to work, while 2.56 continues to work. Some of the
-metadata concerning the optical bench can no longer be retrieved from the
-spectrometer. Currently, bench-related metadata is marked as missing, but this
-information could in the future be added to the descriptor saved with
-calibration data. I have not tested version 2.70 with this new version of
-'ooacquire'. _Version 2.56 of OmniDriver remains important, as it seems to be
-the last one supporting old spectrometers, including an USB2000 that I am still
-using._
+Support for _OmniDriver version 2.56_ remains important, as this seems to be the
+last one supporting old spectrometers, including an USB2000 that I am still
+using. Compatibility requires a firmware update of the USB2000, which has a
+firmware version number not recognized by OmniDriver 2.56, but this has only
+minor consequences for its use.
+
+Another enhancement is the storage of additional information in the instrument
+descriptors containing the metadata: storage of a description of the entrance
+optics used (make, model, serial number, area) and the source of the calibration
+data (e.g., file name or spectrometer EEPROM). This allows reliably using a
+given spectrometer with different entrance optics, with a different calibration
+for each one.
+
+I implemented minor enhancements to the user interface of previously available
+modes: wording of options in menus, a new option to skip automatic tuning of
+integration time and clearer progress messages.
+
+Following the bug fix in 'photobiologyWavebands', in 'ooacquire' versions >=
+0.3.1  users can choose between _PAR_ and _PhR_ waveband definitions. PhR is
+defined as a range of wavelengths while PAR is defined as a biologically
+effective quantity based on McCree's definition. When used to compute photon
+irradiance or photon fluence PhR and PAR do not differ. However, when used to
+compute energy irradiance they result in different quantities. The magnitude of
+the difference depends on the shape of the measured spectrum.
+
+I also added data for new calibrations of two of our own spectrometers.
+
+The critical bugs fixed were caused by changes to the OmniDriver API in versions
+2.70 and 2.71. These changes broke data acquisition with 'ooacquire' because a
+function that had been in use was removed from the OmniDriver API. The most
+recent version, 2.71, is now supported, while versions 2.46 and 2.56 continue to
+work. Possibly versions of OmniDriver released before and in-between these also
+work but I have not tested 'ooacquire' with them.
+
+The function that was removed from the OmniDriver API and previsouly used in
+'ooacquire' made it possible to query the optical bench configuration from the
+spectrometer. When a descriptor of the spectrometer with calibration information
+has been included as part of 'ooacquire' the optical bench description attached
+as metadata to spectra will remain unchanged. However, in those cases when the
+calibration is retrieved from the spectromter EEPROM, with the new versions of
+OmniDriver information about the optical bench will be missing from the
+metadata. When creating descriptors for new spectrometers the metadata about the
+optical bench will have to be entered manually. _The information stored
+in the EEPROM and returned by this function was not always correct, so this
+change is not much of drawback._
 
 An additional bug was caused, most likely, by changes in package 'lubridate'. I
-am not sure if the wrong times retrieved from the computer were because of the
-change in the default time zone used or because of some major code base changes
-and bug fixes in 'lubridate' interacted with code in 'ooacquire' that unwisely
-relied on default arguments. It is possible that timestamps may have been
-wrongly recorded with some recent combinations of 'ooacquire' and 'lubridate'
-versions. _Safest is to update both packages, and check the timing recorded in
-recently acquired spectra for time shifts._ If they happened, I would expect
-differences of several hours, depending in local time zone its time offset to
-UTC, if there have been such problems at all. In this version UTC is used
-explicitly everywhere, which was the previous default in 'lubridate' functions.
+noticed during testing that wrong times were in some cases retrieved from the
+computer. Most likely this was because of the change in the default time zone
+used in 'lubridate' or because of some major code base changes and bug fixes in
+'lubridate'. These changes may have interacted with code in 'ooacquire' that
+unwisely relied on default arguments in functions imported from 'lubridate'. It
+is possible that time stamps may have been wrongly recorded with some recent
+combinations of 'ooacquire' and 'lubridate' versions. _Safest is to update both
+packages, and check the timing recorded in recently acquired spectra for time
+shifts._ In case time shifts happened, I would expect differences of several
+hours, depending on the local time zone and its time offset to UTC. In this
+version UTC is used explicitly everywhere to keep things as simple and reliable
+as possible. Currently messages related to time series acquisition report times
+in UTC, which may be surprising.
 
-Several enhancements are still pending: 1) summaries for collections of time
-series of spectra are currently disabled until I update the `summary()` methods
-defined in package 'photobiology', 2) moving of calibration data out of
-'ooacquire' into their own package(s), 3) better documentation and 4) most
-import unit tests for data acquisition. Such _live_ tests are not simple as they
-need to be run with spectrometers together with a stable light source with
-precisely repeatable light output to be thorough. Current unit tests for only
-for computations and based on stored raw counts data.
+Several enhancements are still pending: 1) better documentation and 2) unit
+tests for data acquisition based on the underlying functions as these do not
+need interactive user input. These would need to be _live_ run with
+spectrometers. Current unit tests are based on stored raw counts data and test
+computations used to convert raw counts into physical units and the reading of
+raw spectral data stored in the different file formats supported.
 
-Finally a major update that may be soon needed is removing the dependency on
-OmniDriver which is proprietary, closed source and written in Java. The
-alternative is SeaBreeze, in its original version written in C, or the Python
-version of it. Python is easier to interface to R, but the C implementation
-could be faster. As now implemented the acquisition of time series is too slow 
-for the study of dynamics, as overhead for acquiring a spectrum from the 
-instrument seems large. I do not yet know how much of the slowness is due to the
-spectrometer and how much to the drivers, anyway it is surprising to me that
-it seems to depend on the integration time in the case of the USB2000 with
-which I have done most of the testing.
+In the future it may be necessary to remove the dependency on OmniDriver, which
+is proprietary, closed source software written in Java. Java itself is no longer
+free for commercial use since Oracle changed the more permissive licencing SUN
+had for Java. The alternative is SeaBreeze, in its original version written in
+C, or the Python version of it. Python is easier to interface to R, but the C
+implementation could be faster.
 
-Although tested, as of 2023-04-01 I still consider 0.3.0 a release candidate. At
-the very least, I need to add to it data for two fresh calibrations or
-alternatively put most calibrations in a data-only package.
+Although well tested, as of 2023-04-10 I still consider 0.3.0.9001 (future
+version 0.3.1) as under development. I may introduce a few additional changes
+and enhancements before its release to solve problems detected during further
+testing.
 
