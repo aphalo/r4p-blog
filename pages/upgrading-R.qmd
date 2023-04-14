@@ -33,10 +33,9 @@ The first step is to run at the R console of the <em>old version of R</em> the f
 
 ```{r, eval=FALSE}
 # run in old installation
-current.pkg.list &lt;- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
-current.pkg.list &lt;- as.character(current.pkg.list)
+current.pkg.list <- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
+current.pkg.list <- as.character(current.pkg.list)
 save(current.pkg.list, file = "~/old-pkg-list.rda")
-
 ```
 
 We need then to open the console in the newly installed version of R, read the file with the vector of package names, and install them.
@@ -48,43 +47,38 @@ We need then to open the console in the newly installed version of R, read the f
 setRepositories()
 
 load(file = "~/old-pkg-list.rda")
-new.pkg.list &lt;- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
-new.pkg.list &lt;- as.character(new.pkg.list)
-missing.pkg.list &lt;- setdiff(current.pkg.list, new.pkg.list)
+new.pkg.list <- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
+new.pkg.list <- as.character(new.pkg.list)
+missing.pkg.list <- setdiff(current.pkg.list, new.pkg.list)
 install.packages(missing.pkg.list)
-
 ```
 
 After installation we can check if there are any differences remaining. Possible causes of failure to install packages are: 1) a different set of repositories was selected, 2) some packages had been installed directly from a Git repository using functions from package 'devtools', 3) some packages are not compatible with the new version of R, and have been removed from CRAN meanwhile the maintainers update, and 4) some packages were installed locally from files and are not available at the default repositories.
 
 ```{r, eval=FALSE}
 # check what packages are still missing
-new.pkg.list &lt;- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
-new.pkg.list &lt;- as.character(new.pkg.list)
-missing.pkg.list &lt;- setdiff(current.pkg.list, new.pkg.list)
+new.pkg.list <- installed.packages()[is.na(installed.packages()[ , "Priority"]), 1]
+new.pkg.list <- as.character(new.pkg.list)
+missing.pkg.list <- setdiff(current.pkg.list, new.pkg.list)
 cat(missing.pkg.list, sep = "\n")
-
 ```
 
 As a final step we may want to clean-up by deleting the file. I suggest not to delete this file immediately as it can still be useful.
 
 ```{r, eval=FALSE}
 file.remove("~/old-pkg-list.rda)
-
 ```
 
 <em> As a side note</em>, be aware that the list of packages is just an R character vector. Above, we used `save()` to write the vector to a binary file. Alternatively, the vector can be saved to a text file using `cat()`. The next chunk shows how to save the names one per line to a text file, by inserting a new line `\n` as separator.
 
 ```{r, eval=FALSE}
 cat(old.pkg.list, sep = "\n", file = "~/old-pkg-list.txt")
-
 ```
 
 And then read with `scan()`.
 
 ```{r, eval=FALSE}
-old.pkg.list &lt;- scan("~/old-pkg-list.txt", what = character())
-
+old.pkg.list <- scan("~/old-pkg-list.txt", what = character())
 ```
 
 In-between saving and reading one can edit the file in a text editor to remove or add package names.

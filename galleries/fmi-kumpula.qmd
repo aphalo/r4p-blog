@@ -1,0 +1,178 @@
+---
+title: "Download data from FMI"
+author: "Pedro J. Aphalo"
+date: "2023-04-15"
+date-modified: "2023-04-15"
+toc: true
+code-fold: false
+categories: [Using R]
+keywords: [R packages, weather data, FMI, Finnish Meteorological Institute]
+---
+
+## Introduction
+
+The FMI WPS API has limits to the amount of data that can be downloaded per query. In addition if we need to frequently retrieve fresh data from the same station or group of stations we can retrieve the missing data and append it to those previously downloaded instead of fetching again and again the same data. Of course if data changes retrospectively in the FMI service we will want to retrieve a fresh copy.
+
+## Installing the 'fmi2' package
+
+The original version is available at (https://github.com/rOpenGov/fmi2).
+
+An edited version that adds a function to retrieve solar radiation and a version of this file as a second vignette is available at (https://github.com/aphalo/fmi2). The package can be installed directly from GitHub with:
+
+```{r}
+remotes::install_github("https://github.com/aphalo/fmi2")
+```
+
+## Set up
+
+```{r}
+library(fmi2)
+library(dplyr)
+library(sf)
+library(lubridate)
+library(ggplot2)
+library(ggpmisc)
+```
+
+We can query by FMI station ID, for simplicity we set it here.
+
+```{r}
+# ID code of the station from where we fetch data
+stn_fmisid <- 101004 # Kumpula, change as needed
+starttime.char <- "2022-12-31 22:00" # UTC midnight in Finland
+```
+
+We can query information about the station.
+
+
+## Downloading hourly data values
+
+We store data locally in a file and if the file exists load and append to it 
+the missing data between its end and "now". We need to be careful with time zones!!
+It is simplest to use UTC for the data and only change the time zone for
+plotting.
+
+:::
+To force the data to be retrieved again, we only need to delete the file we
+use to store it locally (or "cache").
+:::
+
+```{r}
+if (!file.exists("fmi-weather-data-wide.Rda")) {
+  # Used only once or when replacing all data
+  starttime <- ymd_hm(starttime.char, tz = "UTC")
+  wide_weather_data <- data.frame()
+} else {
+  load("fmi-weather-data-wide.Rda")
+  # we start 59 min after end of previously downloaded data
+  starttime <-force_tz(max(wide_weather_data$time), tzone = "UTC") + minutes(59)
+}
+
+endtime <- trunc(now(), units = "mins")
+```
+
+```{r}
+  # we read the new data to a new dataframe
+  # (to avoid appending repeatedly to a long one)
+  new_wide_data <- data.frame()
+  while (starttime < endtime) {
+    sliceendtime <- starttime + days(28) # keep query size at max of 4 weeks
+    if (sliceendtime > endtime) {
+      sliceendtime <- endtime
+    }
+    kumpula_data <- obs_weather_hourly(starttime = as.character(starttime),
+                                       endtime = as.character(sliceendtime),
+                                       fmisid = stn_fmisid)
+
+    slice_data <- kumpula_data %>%
+      tidyr::spread(variable, value) %>%
+      # convert the sf object into a regular tibble
+      sf::st_set_geometry(NULL)
+
+    new_wide_data <- rbind(new_wide_data, slice_data)
+    starttime <- sliceendtime + minutes(1)
+    cat(".")
+  }
+
+  range(new_wide_data$time) # freshly read
+
+  wide_weather_data <- rbind(wide_weather_data, new_wide_data)
+  range(wide_weather_data$time) # all data to be saved
+  colnames(wide_weather_data)
+
+  save(wide_weather_data, file = "fmi-weather-data-wide.Rda")
+```
+
+The description of the variables can be obtained from the server.
+
+```{r}
+fmi2::describe_variables(colnames(wide_weather_data)[-1])
+```
+
+
+```{r}
+ggplot(wide_weather_data, aes(with_tz(time, tzone = "EET"), TA_PT1H_AVG)) +
+  geom_line()
+```
+
+## Downloading radiation data at 1 min
+
+The station ID was set above, and we use it again.
+
+```{r}
+if (!file.exists("fmi-sun-data-wide.Rda")) {
+  # Used only once or when replacing all data
+  starttime.char <- "2023-01-15 22:00"  # UTC at midnight in Finland
+  starttime <- ymd_hm(starttime.char)
+  wide_sun_data <- data.frame()
+} else {
+  load("fmi-sun-data-wide.Rda")
+  # we start 1 h after end of previously downloaded data
+  starttime <- max(wide_sun_data$time) + minutes(1) + hours(2) # convert to UTC + 2h
+}
+
+endtime <- trunc(now(), units = "mins")
+```
+
+```{r}
+# we read the new data to a new dataframe
+# (to avoid appending repeatedly to a long one)
+new_wide_data <- data.frame()
+while (starttime < endtime) {
+  sliceendtime <- starttime + days(7) # keep query size at max of 1 week
+  if (sliceendtime > endtime) {
+    sliceendtime <- endtime
+  }
+  kumpula_data <- obs_radiation_minute(starttime = as.character(starttime),
+                                       endtime = as.character(sliceendtime),
+                                       fmisid = 101004)
+  
+  slice_data <- kumpula_data %>%
+    tidyr::spread(variable, value) %>%
+    # convert the sf object into a regular tibble
+    sf::st_set_geometry(NULL)
+
+  new_wide_data <- rbind(new_wide_data, slice_data)
+  starttime <- sliceendtime + minutes(1)
+  cat(".")
+}
+
+range(new_wide_data$time)
+
+wide_sun_data <- rbind(wide_sun_data, new_wide_data)
+range(wide_sun_data$time)
+colnames(wide_sun_data)
+
+save(wide_sun_data, file = "fmi-sun-data-wide.Rda")
+```
+
+```{r}
+fmi2::describe_variables(colnames(wide_sun_data)[-1])
+```
+
+```{r}
+ggplot(wide_sun_data, aes(with_tz(time, tzone = "EET"), GLOB_1MIN)) +
+  geom_line()
+```
+
+
