@@ -1,27 +1,62 @@
 ---
-title: "Download data from FMI"
+title: "Download weather data from FMI"
+subtitle: "**FMI** = _Finnish Meteorological Institute_, or _Ilmatieteen laitos_"
 author: "Pedro J. Aphalo"
 date: "2023-04-15"
-date-modified: "2023-04-15"
+date-modified: "2023-04-16"
 toc: true
 code-fold: false
 categories: [Using R]
 keywords: [R packages, weather data, FMI, Finnish Meteorological Institute]
+editor: 
+  markdown: 
+    wrap: 72
 ---
 
 ## Introduction
 
-The FMI WPS API has limits to the amount of data that can be downloaded per query. In addition if we need to frequently retrieve fresh data from the same station or group of stations we can retrieve the missing data and append it to those previously downloaded instead of fetching again and again the same data. Of course if data changes retrospectively in the FMI service we will want to retrieve a fresh copy.
+The [Finnish Meteorological Institute](https://en.ilmatieteenlaitos.fi/)
+shares a large amount of data openly. One way of accessing observations
+from meteorological stations is through its [open data web
+site](https://en.ilmatieteenlaitos.fi/download-observations). Data can
+be obtained both by manually downloading them or automatically using a
+computer program or script through calls to an API interface. Package
+'fmi2' implements calls to some of the [WPS
+API](https://en.ilmatieteenlaitos.fi/open-data-manual) functions,
+allowing downloads directly from R.
 
-## Installing the 'fmi2' package
+The FMI also makes available [climate data from 1961 to the
+present](https://www.climateguide.fi/articles/from-point-observations-to-regionally-comprehensive-climate-grids/)
+spatially interpolated to a 10 km x 10 km grid. However, I haven't found
+an API to access the gridded data.
+
+The FMI WPS API has limits to the amount of data that can be downloaded
+per query. In addition if we need to frequently retrieve fresh data from
+the same station or group of stations we can retrieve the missing data
+and append it to those previously downloaded instead of fetching again
+and again the same data. Of course if data changes retrospectively in
+the FMI service we will want to retrieve a fresh copy also of the older
+data.
+
+## Installing R package 'fmi2'
 
 The original version is available at (https://github.com/rOpenGov/fmi2).
 
-An edited version that adds a function to retrieve solar radiation and a version of this file as a second vignette is available at (https://github.com/aphalo/fmi2). The package can be installed directly from GitHub with:
+An edited version that adds a function to retrieve solar radiation and a
+version of this file as a second vignette is available at
+(https://github.com/aphalo/fmi2). The package can be installed directly
+from GitHub with:
 
-```{r}
-remotes::install_github("https://github.com/aphalo/fmi2")
+```{r, eval=FALSE}
+remotes::install_github("https://github.com/aphalo/fmi2", 
+                        ref = "HY2-develop")
 ```
+
+Its dependencies may need to be installed manually from CRAN.
+
+::: callout-note
+The [documentation for the modified 'fmi2' package](https://docs.r4photobiology.info/fmi2-fork/) is available on-line and can be read without need to locally install the package.
+:::
 
 ## Set up
 
@@ -44,18 +79,15 @@ starttime.char <- "2022-12-31 22:00" # UTC midnight in Finland
 
 We can query information about the station.
 
-
 ## Downloading hourly data values
 
-We store data locally in a file and if the file exists load and append to it 
-the missing data between its end and "now". We need to be careful with time zones!!
-It is simplest to use UTC for the data and only change the time zone for
-plotting.
+We store data locally in a file and if the file exists load and append
+to it the missing data between its end and "now". We need to be careful
+with time zones!! It is simplest to use UTC for the data and only change
+the time zone for plotting.
 
-:::
-To force the data to be retrieved again, we only need to delete the file we
-use to store it locally (or "cache").
-:::
+::: To force the data to be retrieved again, we only need to delete the
+file we use to store it locally (or "cache"). :::
 
 ```{r}
 if (!file.exists("fmi-weather-data-wide.Rda")) {
@@ -108,7 +140,6 @@ The description of the variables can be obtained from the server.
 ```{r}
 fmi2::describe_variables(colnames(wide_weather_data)[-1])
 ```
-
 
 ```{r}
 ggplot(wide_weather_data, aes(with_tz(time, tzone = "EET"), TA_PT1H_AVG)) +
@@ -174,5 +205,3 @@ fmi2::describe_variables(colnames(wide_sun_data)[-1])
 ggplot(wide_sun_data, aes(with_tz(time, tzone = "EET"), GLOB_1MIN)) +
   geom_line()
 ```
-
-
