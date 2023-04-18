@@ -3,7 +3,7 @@ project:
 
 website:
   title: "Using R for Photobiology"
-  site-url: https://www.r4photobiology.info/static/
+  site-url: https://www.r4photobiology.info/
   favicon: r4p-favicon.png
   search: true
   navbar:
