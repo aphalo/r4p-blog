@@ -1,0 +1,83 @@
+---
+title: "Spectral Irradiance with 'ooacquire'"
+subtitle: "A Brief Tutorial"
+author: "Pedro J. Aphalo"
+date: 2023-04-27
+date-modified: 2023-04-27
+categories: [R Package Update]
+keywords: [ooacquire pkg]
+---
+
+## Interface modes
+
+Function `acq_irrad_interactive()` is like a Swiss Army Knife. It has multiple
+''personalities'' and the first step is the choice of `interface.mode`, which
+determines which interface will be shown to the user. Basically, the selected
+`interface.mode` determines which options can be modified by the user through
+the interactive UI and which ones are fixed at the values set when the
+function is called.
+
+Normally, we measure several spectra in a row, any redundant input from the
+user is distracting and time consuming. Four modes are available, and can only
+be selected when `acq_irrad_interactive()` is called.
+
+There are four main interface modes, with `"auto"` as default.
+
+```{mermaid}
+flowchart TB
+  A[interface.mode = ] -.-> B("simple")
+  A --> C("auto")
+  A -.-> D("series")
+  A -.-> E("full")
+```
+
+Appending `-attr` to these mode names enables the UI for setting the values of 
+attributes `what.measured` and `comment`. For example, `"simple"` becomes
+`"simple-attr"`.
+
+## User Interface Loop
+
+We start with a complete flowchart of the acquisition of spectra.
+
+```{mermaid}
+flowchart TB
+  A((start)) --> B(select spectrometer and channel?)
+  B --> D(session name, user name and folder name?) --> E((1)) --> G(protocol?)
+  G --> I(object name?) --> J(attributes?) --> K(acquisition\nparameters?)
+  K --> L(series parameters?) --> M[[measurement]] --> N[(plot and save)] 
+  N --> N1{collect?} --yes--> N2[(plot and save\ncollection)] --> O{next\n repeat\n or end?}
+  N1 --no--> O
+  I -.repeat.-> L
+  O -.repeat.-> I
+  O --next--> G
+  O --> P((end))
+```
+
+## Series mode
+
+```{mermaid}
+flowchart TB
+  E((1)) --> G(protocol?)
+  G --> I(object name?) --> K(acquisition\nparameters?)
+  K --> L(series parameters?) --> M[[measurement]] --> N[(plot and save)]
+  N --> N1{collect?} --yes--> N2[(plot and save\ncollection)] --> O{next\n repeat\n or end?}
+  N1 --no--> O
+  I -.repeat.-> L
+  O -.repeat.-> I
+  O --next--> G
+  O --> P((end))
+```
+
+## Simple mode
+
+```{mermaid}
+flowchart
+  E((1)) --> G(protocol?)
+  G --> I(object name?) --> K(acquisition parameters?)
+  K --> M[[measurement]] --> N[(plot and save)] --> O{next\n repeat\n or end?}
+  I -.repeat.-> M
+  O -.repeat.-> I
+  O --next--> G
+  O --> P((end))
+```
+
