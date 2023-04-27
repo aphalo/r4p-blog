@@ -1,17 +1,34 @@
 ---
-title: "ooacquire 0.3.0/0.3.1/0.3.2"
+title: "ooacquire 0.3.0/0.3.1/0.3.2/0.3.2-1"
+subtitle: "Acquisition of time series of spectra and other recent enhancements"
 author: "Pedro J. Aphalo"
 date: 2023-04-10
-date-modified: 2023-04-18
+date-modified: 2023-04-27
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
 
-Versions 0.3.0, 0.3.1 and 0.3.2 are feature and bug-fix updates. Nearly all
+::: callout-info
+
+As part of moving the site to Quarto I intend to write a single post to
+describe multiple minor versions of the packages. In this case, all versions
+in the 0.3.x series. I will update this same post in the case of minor
+version updates, and start a new post when the first version in the 0.4.x
+series is developed. I hope this will reduce the clutter and still provide
+a good overview of progress. The details are listed in the 
+[NEWS file](https://docs.r4photobiology.info/ooacquire/news/index.html).
+
+:::
+
+Versions 0.3.0, 0.3.1 and 0.3.2 are feature and bug-fix updates. Version 
+0.3.2-1 adds some improvements to the user interface. Nearly all
 changes are related to the interactive measurement of spectral irradiance with
-function `acq_irrad_interactive()`. Some of the enhancements required changes
-to lower level functions so these functions also have enhancements. Some of
-the bugs fixed affected all data acquisition related functions.
+function `acq_irrad_interactive()`. The logic of the current user interface
+modes in described in detail in a [tutorial](../../pages/acq-irrad-tutorial.qmd). 
+
+Some of the enhancements required changes to lower level functions so these
+functions also have enhancements. Some of the bugs fixed affected all data
+acquisition related functions.
 
 The most important new feature is the _automatic acquisition of time series of
 spectra_. I started developing this feature long ago but only now I got it
@@ -20,9 +37,10 @@ in packages 'photobiology' (0.10.16) and 'ggspectra' (0.3.11). A major incentive
 was that I needed this feature for some measurements I wanted to do. In version
 0.3.1 I implemented as a variation on the new "series" interface mode of 0.3.0
 the support for high speed acquisition of time series of spectra using the
-special functions in the OmniDriver API. The API wrappers are already
-implemented in 'rOmniDriver' (>= 0.1.18) and starting from 'ooacquire' (0.3.1)
-is the minimum version of 'rOmniDriver' supported.
+special functions in the OmniDriver API. The API wrappers were already
+implemented in 'rOmniDriver' (>= 0.1.18) but initialization of the API would
+sometimes fail. This bug was fixed in 'rOmniDriver' (>= 0.1.19) and starting 
+from 'ooacquire' (0.3.2) this is the minimum version of 'rOmniDriver' supported.
 
 **Before using the new `"series"` mode for acquiring spectra at a rate faster 
 than about once per minute, please read [the 'ooacquire' vignette
@@ -120,7 +138,6 @@ had for Java. The alternative is SeaBreeze, in its original version written in
 C, or the Python version of it. Python is easier to interface to R, but the C
 implementation could be faster.
 
-Already well tested by me with two different spectrometers and a few hundreds of 
-measurements, as of 2023-04-18 I think version 0.3.1 is good for everyday use.
-Future version 0.3.2 is still under testing.
-
+Already well tested by me with three different spectrometers and a few hundreds of 
+measurements, as of 2023-04-18 I think version 0.3.2 is good for everyday use.
+Future version 0.3.2-1 still needs a final round of testing.
