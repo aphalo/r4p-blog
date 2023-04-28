@@ -1,0 +1,39 @@
+---
+title: "ggpp 0.5.0/0.5.1/0.5.2"
+subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
+author: "Pedro J. Aphalo"
+date: "2022-12-05"
+date-modified: "2023-04-28"
+categories: [R Package Update]
+keywords: [ggpp pkg]
+---
+
+::: callout-note
+
+As part of moving the site to Quarto I intend to write a single post to give an
+overview of changes in minor versions of the packages. In this case, all
+versions in the 0.5.x series. I will update this same post in the case of minor
+version updates, and start a new post when the first version in the 0.6.x series
+is developed. I hope this will reduce the clutter and still provide a good
+overview of progress. Differences between versions are listed in detail in the
+[NEWS file](https://docs.r4photobiology.info/ggpp/news/).
+
+:::
+
+## Overview of changes
+
+_Version 0.5.0_ includes **code-breaking** enhancements to `geom_text_s()` and `geom_label_s()`. The most significative is a mechanism to selectively applying aesthetics to different components of linked labels and text. This replaces the previous use of separate aesthetics applied only to segments or arrows. The reason behind this change is that segments are only links, and not meant to inform about data values on their own. Please see the post [Enhancing geom_text() and geom_label()](../Enhancing-geom-text/) for example plots.
+
+New functions `stat_panel_counts()` and `stat_group_counts()` make it easy to annotate plots with the number of observations.
+
+_Version 0.5.1_ brings enhancements to the density-based statistics. They gain several new features without changing their default behaviour. The aim is to add flexibility to allow improved support of the annotation of volcano and quadrant plots. Two types of plots frequently used to present gene transcript abundance estimates obtained by RNAseq or microarray methods.
+
+_Version 0.5.2_ brings additional enhancements to the density-based statistics. Mainly smoothing the rough edges left by the overhaul done in _version 0.5.1_ to these functions. In `position_nudge_to()` make it possible to evenly spread positions to reduce overlaps. **Most importantly** add many unit tests to reach > 90% code coverage by tests (contribution of Daniel Sabanés Bové and his team). 
+
+::: callout-note
+
+[*Documentation web site*](http://docs.r4photobiology.info/ggpp/) includes all help pages, with output from all examples, vignettes in HTML format and a cheatsheet as a PDF file.
+
+Please raise issues concerning bugs or enhancements to this package through GitHub at <https://github.com/aphalo/ggpp/issues>. Pull requests are also welcome.
+
+:::

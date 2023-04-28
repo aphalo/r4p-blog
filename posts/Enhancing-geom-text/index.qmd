@@ -1,13 +1,15 @@
 ---
 title: "Enhancing geom_text() and geom_label()"
+subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: 2022-12-17
 categories: [R, plotting]
+keywords: [ggpp pkg, ggplot2 pkg]
 ---
 
 I have defined in package 'ggpp' enhanced versions of `geom_text()` and `geom_label()` under the names of `geom_text_s()` and `geom_label_s()` . The `s` is for segment, at least it was when I thought of these names. The versions described are included in version 0.5.0 and later.
 
-The idea of better supporting the use of data labels in plot created with R package 'ggplot2' is not new. I have been for a long time a user of the repulsive geometries `geom_text_repel()` and `geom_label_repel()` from package 'ggrepel'. I have even contributed some code to 'ggrepel'. However, some time back when designing some new position functions, the idea of developing non-repulsive geometries suitable for data labels started growing on me.
+The idea of better supporting the use of data labels in plots created with R package 'ggplot2' is not new. I have been for a long time a user of the repulsive geometries `geom_text_repel()` and `geom_label_repel()` from package 'ggrepel'. I have even contributed some code to 'ggrepel'. However, some time back when designing some new position functions, the idea of developing non-repulsive geometries suitable for data labels started growing on me.
 
 Considering data visualization principles, and the philosophy of the grammar of graphics the proliferation of multiple versions of the same aesthetics is to be avoided. Colour and mappings of colours to values using a single scale per plot ensure that there is a single meaning for each value of an aesthetic values. Aesthetics `linewidth` and `linetype` can be applied to the border of label boxes provide an approach for highlighting or distinguishing individual data labels, when colour is not available.
 

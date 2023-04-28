@@ -1,37 +1,71 @@
 ---
 title: "ooacquire 0.3.0/0.3.1/0.3.2/0.3.2-1"
-subtitle: "Acquisition of time series of spectra and other recent enhancements"
+subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-04-10
-date-modified: 2023-04-27
+date-modified: 2023-04-28
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
 
-::: callout-info
+::: callout-note
 
-As part of moving the site to Quarto I intend to write a single post to
-describe multiple minor versions of the packages. In this case, all versions
-in the 0.3.x series. I will update this same post in the case of minor
-version updates, and start a new post when the first version in the 0.4.x
-series is developed. I hope this will reduce the clutter and still provide
-a good overview of progress. The details are listed in the 
-[NEWS file](https://docs.r4photobiology.info/ooacquire/news/index.html).
+As part of moving the site to Quarto I intend to write a single post to give an
+overview of changes in minor versions of the packages. In this case, all
+versions in the 0.3.x series. I will update this same post in the case of minor
+version updates, and start a new post when the first version in the 0.4.x series
+is developed. I hope this will reduce the clutter and still provide a good
+overview of progress. Differences between versions are listed in detail in the
+[NEWS file](https://docs.r4photobiology.info/ooacquire/news/).
 
 :::
 
-Versions 0.3.0, 0.3.1 and 0.3.2 are feature and bug-fix updates. Version 
-0.3.2-1 adds some improvements to the user interface. Nearly all
+## Overview of changes
+
+_Versions 0.3.0, 0.3.1 and 0.3.2_ are feature and bug-fix updates. Nearly all
 changes are related to the interactive measurement of spectral irradiance with
 function `acq_irrad_interactive()`. The logic of the current user interface
 modes in described in detail in a [tutorial](../../pages/acq-irrad-tutorial.qmd). 
-
-Some of the enhancements required changes to lower level functions so these
-functions also have enhancements. Some of the bugs fixed affected all data
-acquisition related functions.
-
 The most important new feature is the _automatic acquisition of time series of
-spectra_. I started developing this feature long ago but only now I got it
+spectra_. 
+
+Another enhancement is the possibility of storing of additional information in
+the instrument descriptors: storage of a description of the entrance optics used
+(make, model, serial number, area of diffuser, and optical fibre) and the source
+of the calibration data (e.g., file name or spectrometer EEPROM). This allows
+reliably using a given spectrometer with different entrance optics, with a
+different calibration for each one.
+
+_Version 0.3.2_ adds function `irrad_summary_table()`, which is an enhanced
+version of a function previously used only internally by the package. 
+
+This version also adds a _repeat_ entry to the menu shown at the end of a
+measurement event. This makes it possible to quickly take a new measurement
+without modifying the integration time settings or protocol used, reusing
+the previous "dark" and "light" measurements for a new "light" measurement.
+In "series" mode, the parameters of the series can still be modified for the
+repeated data acquisition.
+
+Some enhancements to the user interface of previously available modes included
+changes to the wording of options in menus, a new option to skip automatic
+tuning of integration time and clearer progress messages.
+
+Following the bug fix in 'photobiologyWavebands', in 'ooacquire' versions >=
+0.3.1  users can choose between _PAR_ and _PhR_ waveband definitions. PhR is
+defined as a range of wavelengths while PAR is defined as a biologically
+effective quantity based on McCree's definition. When used to compute photon
+irradiance or photon fluence PhR and PAR do not differ. However, when used to
+compute energy irradiance they result in different values and represent
+different quantities. The magnitude of the difference depends on the shape of
+the measured spectrum.
+
+Data for new calibrations of two of our own spectrometers were added, and the
+wavelength range of some calibrations already present in earlier versions was
+extended to cover the full usable range of the calibration data.
+
+## Time series of spectra
+
+I started developing this feature long ago but only now I got it
 working smoothly. The task was simplified by enhancements I recently implemented
 in packages 'photobiology' (0.10.16) and 'ggspectra' (0.3.11). A major incentive
 was that I needed this feature for some measurements I wanted to do. In version
@@ -49,44 +83,7 @@ spectra](https://docs.r4photobiology.info/ooacquire/articles/userguide-acquisiti
 This is crucial as timing considerations are far from straightforward because of
 how spectrometers work.**
 
-Support for _OmniDriver version 2.56_ from 2018 remains important, as this seems
-to be the last version supporting old spectrometers, including an USB2000 that I
-am still using. Compatibility with Windows 10 requires a firmware update of the
-USB2000. (This firmware version is not recognized by OmniDriver 2.56, but this
-has only minor consequences for its use.)
-
-Another enhancement is the possibility of storing of additional information in
-the instrument descriptors: storage of a description of the entrance optics used
-(make, model, serial number, area of diffuser, and optical fibre) and the source
-of the calibration data (e.g., file name or spectrometer EEPROM). This allows
-reliably using a given spectrometer with different entrance optics, with a
-different calibration for each one.
-
-Version 0.3.2 exports function `irrad_summary_table()`, which is an enhanced
-version of a function previously used only internally by the package. The
-enhancements are reflected in the summary table created when saving collections
-of spectra.
-
-Version 0.3.2 adds a _repeat_ entry to the menu shown at the end of a
-measurement event. This makes it possible to quickly take a new measurement
-without modifying the integration time settings or protocol used, reusing
-the previous "dark" and "light" measurements for a new "light" measurement.
-In "series" mode, the parameters of the series can still be modified.
-
-In addition, I implemented some minor enhancements to the user interface of
-previously available modes: wording of options in menus, a new option to skip
-automatic tuning of integration time and clearer progress messages.
-
-Following the bug fix in 'photobiologyWavebands', in 'ooacquire' versions >=
-0.3.1  users can choose between _PAR_ and _PhR_ waveband definitions. PhR is
-defined as a range of wavelengths while PAR is defined as a biologically
-effective quantity based on McCree's definition. When used to compute photon
-irradiance or photon fluence PhR and PAR do not differ. However, when used to
-compute energy irradiance they result in different values and represent
-different quantities. The magnitude of the difference depends on the shape of
-the measured spectrum.
-
-I also added data for new calibrations of two of our own spectrometers.
+## Bugs fixed
 
 The critical bugs fixed were caused by changes to the OmniDriver API in versions
 2.70 and 2.71. These changes broke data acquisition with 'ooacquire' because a
@@ -94,6 +91,12 @@ function that had been in use was removed from the OmniDriver API. The most
 recent version, 2.71, is now supported, while versions 2.46 and 2.56 continue to
 work. Possibly versions of OmniDriver released before and in-between these also
 work but I have not tested 'ooacquire' with them.
+
+Support for _OmniDriver version 2.56_ from 2018 remains important, as this seems
+to be the last version supporting old spectrometers, including an USB2000 that I
+am still using. Compatibility with Windows 10 requires a firmware update of the
+USB2000. (This firmware version is not recognized by OmniDriver 2.56, but this
+has only minor consequences for its use.)
 
 The function that was removed from the OmniDriver API and previsouly used in
 'ooacquire' made it possible to query the optical bench configuration from the
@@ -124,6 +127,8 @@ as possible. Currently messages related to time series acquisition report times
 in UTC, which may be surprising. Plots include timezone information with the
 time stamp.
 
+## Plans for the future
+
 Some enhancements are still pending: 1) better documentation and 2) unit
 tests for data acquisition based on the underlying functions as these do not
 need interactive user input. These would need to be run _live_ with
@@ -138,6 +143,13 @@ had for Java. The alternative is SeaBreeze, in its original version written in
 C, or the Python version of it. Python is easier to interface to R, but the C
 implementation could be faster.
 
-Already well tested by me with three different spectrometers and a few hundreds of 
-measurements, as of 2023-04-18 I think version 0.3.2 is good for everyday use.
-Future version 0.3.2-1 still needs a final round of testing.
+::: callout-note
+
+[*Documentation web site*](http://docs.r4photobiology.info/ooacquire/) includes
+all help pages, with output from all examples and vignettes in HTML format .
+
+Please raise issues concerning bugs or enhancements to this package through
+GitHub at <https://github.com/aphalo/ooacquire/issues>. Pull requests are also
+welcome.
+
+:::
