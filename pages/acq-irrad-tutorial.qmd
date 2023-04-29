@@ -3,17 +3,30 @@ title: "Spectral Irradiance with 'ooacquire'"
 subtitle: "A Brief Tutorial (PARTIAL DRAFT)"
 author: "Pedro J. Aphalo"
 date: 2023-04-27
-date-modified: 2023-04-27
+date-modified: 2023-04-29
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 code-fold: false
 ---
 
+::: callout-note
+
+Package 'ooacquire' is part of the [R for Photobiology suite of R
+packages](r4p-introduction.qmd) and its [full
+documentation](https://docs.r4photobiology.info/ooacquire) is available
+on-line. It depends on package 'rOmniDriver', whose [full
+documentation](https://docs.r4photobiology.info/rOmniDriver) is also
+available on-line.
+
+:::
+
 ::: callout-warning
+
 The description and diagrams shown in this page are valid for 'ooacquire'
-version 0.3.2-1. Versions <= 0.3.2 differ from version 0.3.2-1 differ in the
+version 0.3.2-1. Versions <= 0.3.2 differ from version 0.3.2-1 in the
 user interface implemented in function `acq_irrad_interactive()` described in
 this page.
+
 :::
 
 ## Introduction
@@ -26,20 +39,34 @@ Ocean Optics spectrometers from [Ocean Insight](https://www.oceaninsight.com/).
 Package 'ooacquire' imports and uses classes, methods and functions defined in other
 packages of the suite.
 
-Package 'ooacquire' has been evolving for more than 10 years and will continue
-to evolve, specially with respect to interactive acquisition of spectral data. 
-The user interface for spectral irradiance is currently more polished and complex than
-the interfaces for fluence spectra and transmittance and refleectance spectra.
-This is because both myself and other users most of the time use 'ooacquire'
-to measure spectral irradiance. 
+Function `acq_irrad_interactive()` implements the interactive acquisition of
+spectral irradiance data using Ocean Optics array spectrometers. It returns the
+acquired data as a _side effect_ by saving them to files on disk. The raw-counts
+data are acquired and converted into spectral irradiance values. The data for
+each measurement event are saved as soon as acquired, but a group of
+successively acquired spectra can be collected into a single object, summarized
+and/or saved to a file on disk in addition to the individual files per
+measurement event. In every case the raw counts data, instrument descriptor,
+instrument settings and either computed spectral irradiance or computed counts
+per second are saved to disk. Plots are displayed on the screen for each
+measurement event. A measurement event consists of either a single light
+spectrum or of a time series of light spectra.
+
+Package 'ooacquire' has been evolving for several years and will continue to
+evolve, specially with respect to interactive acquisition of spectral data. The
+user interface for spectral irradiance is currently more polished and complex
+than the interfaces for fluence spectra and transmittance and reflectance
+spectra. This is because both myself and other users most of the time use
+'ooacquire' to measure spectral irradiance.
 
 The user interfaces (UIs) implemented in functions `acq_irrad_interactive()`,
-`acq_fluence_interactive()` and `acq_fraction_interactive()` are text based
-rather than graphical. The design is optimized for frequent users rather than
-for occasional users. A key design objective has been to make the acquisition of
-multiple spectra per measurement session as comfortable and as fast as possible,
-i.e., avoid tedious. This is different to what is usually meant by _user
-friendly_ involving hand-holding and verbose options within the interface. 
+`acq_fluence_interactive()`, `acq_fraction_interactive()` and their variations
+are text based rather than graphical. The design is optimized for frequent users
+rather than for occasional users. A key design objective has been to make the
+acquisition of multiple spectra per measurement session as comfortable and as
+fast as possible, i.e., avoid tedious. This is different to what is usually
+meant by _user friendly_ involving hand-holding and verbose options within the
+interface.
 
 As much as possible, options are selected by typing a single character, or even
 just the enter key, thanks to context and state dependent defaults. The
@@ -338,4 +365,50 @@ flowchart LR
 
 ## Acquisition parameters
 
-**COMING SOON**
+We describe the data acquisition parameters only briefly here, and refer the
+reader to the [vignette that describes the algorithms
+used](https://docs.r4photobiology.info/ooacquire/articles/userguide-algorithms.html)
+included in package 'ooacquire'.
+
+For the _integration time_ used for the acquisition of data a distinction is made
+between the duration of a single integration event and the total added-up
+integration time resulting from successive integrations averaged by the
+spectrometer or driver. The duration of individual integrations needs to be
+adjusted or tuned so that full use is made of the dynamic range and signal to
+noise headroom of the instrument. The total measured time, can obviously be
+only as long or longer than a single integration. When spectral irradiance 
+is constant in time, the longer the total time over which scans are averaged
+the better "random" noise is controlled.
+
+To increase the dynamic range we can use different integration times for
+different wavelength-regions of the spectrum (HDR or "bracketing") and splice the
+counts per second spectra during their conversion into spectral irradiance.
+Dynamic range is not the only limiting factor. Stray light and thermal noise
+limit the signal to noise ratio. Stray light may depend on the shape of the
+measured spectrum and thermal noise on the temperature of the spectrometer.
+In normal cases the achievable increase in dynamic range with the HDR approach 
+is approxinately one order of magnitude.
+
+Stray light can be most effectively corrected for by measuring it separately
+from the target of the measurements. This is the role of the filter
+measurements in the protocols described above.
+
+Acquisition parameters include the integration time (= duration of a single
+integration) which is normally, but not always, adjusted by automatic tuning
+(i.e., by trial and error, taking into account a target margin of headroom
+supplied by the user), and a target duration range for the sum of multiple
+integration times desired, which is always explicitly supplied by the user. For
+bracketing the user supplies a vector of multipliers to be applied to the
+optimal or set integration time. All parameters have defaults, and user-entered
+values persist between successive measurement events unless modified again by
+the user.
+
+::: callout-note
+
+For additional information, please, see the [help page for
+`acq_irrad_interactive()`](https://docs.r4photobiology.info/ooacquire/reference/acq_irrad_interactive.html)
+and the vignetters of package 'ooacquire', especially that [describing the
+algorithms
+used](https://docs.r4photobiology.info/ooacquire/articles/userguide-algorithms.html).
+
+:::
