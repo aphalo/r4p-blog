@@ -3,28 +3,194 @@ title: "Enhancing geom_text() and geom_label()"
 subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: 2022-12-17
+date-modified: 2023-04-30
 categories: [R, plotting]
-keywords: [ggpp pkg, ggplot2 pkg]
+keywords: [ggpp pkg, ggplot2 pkg, data visualization, dataviz]
+code-fold: true
 ---
+
+::: callout-warning
+Versions of package ['ggpp'](https://docs.r4photobiology.info/ggpp) released before 0.5.0 included a preliminary attempt at the design of these geometries based on a different logic and interface. At the time of writing, version 0.5.2 is available through CRAN. To reproduce the examples at the end of this page please use 'ggpp' (\>= 0.5.0) and preferably 'ggpp' (\>= 0.5.2).
+:::
+
+## Selective mapping of aesthetics
 
 I have defined in package 'ggpp' enhanced versions of `geom_text()` and `geom_label()` under the names of `geom_text_s()` and `geom_label_s()` . The `s` is for segment, at least it was when I thought of these names. The versions described are included in version 0.5.0 and later.
 
 The idea of better supporting the use of data labels in plots created with R package 'ggplot2' is not new. I have been for a long time a user of the repulsive geometries `geom_text_repel()` and `geom_label_repel()` from package 'ggrepel'. I have even contributed some code to 'ggrepel'. However, some time back when designing some new position functions, the idea of developing non-repulsive geometries suitable for data labels started growing on me.
 
-Considering data visualization principles, and the philosophy of the grammar of graphics the proliferation of multiple versions of the same aesthetics is to be avoided. Colour and mappings of colours to values using a single scale per plot ensure that there is a single meaning for each value of an aesthetic values. Aesthetics `linewidth` and `linetype` can be applied to the border of label boxes provide an approach for highlighting or distinguishing individual data labels, when colour is not available.
+Considering data visualization principles, and the philosophy of the grammar of graphics the proliferation of multiple versions of the same aesthetics is to be avoided. Colour and mappings of colours to values using a single scale per plot ensure that there is a single meaning for each *value* of the aesthetic. Aesthetics `linewidth` and `linetype` can be applied to the border of label boxes and provide an additional approach for highlighting or distinguishing individual data labels, when colour is not available.
 
-In `geom_text()` transparency set with `alpha` affects the text while in `geom_label()` it affects only `fill` . In `geom_label()` the `colour` aesthetics controls at the same time the colour of the text and the line bordering the label; `label.size` controls the size of the border line, but it is a parameter rather than an aesthetic. This means that it is not possible to use the border width, its abscence or its colour to highlight selected data labels. Lack of support for the linetype aesthetic of the borber, makes it dificult to highlight individual data labels in black and white printing.
+In `geom_text()` transparency set with `alpha` affects the text while in `geom_label()` it affects only `fill`. In `geom_label()` the `colour` aesthetics controls at the same time the colour of the text and the line bordering the label; `label.size` controls the size of the border line, but it is a parameter rather than an aesthetic. This means that it is not possible to use the border width, its abscence or its colour to highlight selected data labels. Lack of support for the linetype aesthetic of the borber, makes it dificult to highlight individual data labels in black and white printing.
 
-I aimed from the start to keep the use of any new geometries simple, and as consistent with the grammar of graphics as possible. The interfaces of `geom_text_s()` and `geom_label_s()` are still not stable. However, some features can be considered rather stable: by default they behave (almost?) as the equivalent geometries from 'ggplot2'. They do not make use of any new aesthetic, they have additional formal parameters instead.
+I aimed from the start to keep the use of any new geometries simple, and as consistent with the grammar of graphics as possible. The interfaces of `geom_text_s()` and `geom_label_s()` are still not completely stable. However, these geometries are very likely to remain backwards compatible in future versions of 'ggpp'. By default `geom_text()` and `geom_label()` behave (almost?) as their counterparts from 'ggplot2'. They do not make use of any new aesthetic, they have additional formal parameters instead.
 
-The enhancements are: 1) if used with one of the position functions from 'ggpp', which keep the original position, segments are drawn connecting the text or label to the observation. The justification, `vjust` and `hjust` and thus the anchoring point of the segment to the text or label are computed automatically based on the direction of displacement. 2) A new formal parameter `colour.target` makes it possible to select to which elements to apply the mapped colour and to which elements to apply the default colour. 3) Similarly a new formal parameter `alpha.target` allows similar control of to what elements to apply the mapped alpha values and to which ones the default alpha. Currently supported elements are `"text"`, `"segment"`, `"box.line"` and `"box.fill"` in any combination, and `"box"` and `"all"` as aliases to save typing. 4) Support `linewidth` and `linetype` aesthetics in `geom_label_s()` .
+The enhancements are: 1) if used with one of the position functions from 'ggpp', which keep the original position, segments are drawn connecting the text or label to the observation. The justification, `vjust` and `hjust` and thus the anchoring point of the segment to the text or label are computed automatically based on the direction of displacement. 2) A new formal parameter `colour.target` makes it possible to select to which elements to apply the mapped colour and to which elements to apply the default colour. 3) Similarly a new formal parameter `alpha.target` allows similar control of what elements obey the mapped alpha values and which ones obey the default alpha. Currently supported elements are `"text"`, `"segment"`, `"box.line"` and `"box.fill"` in any combination, and `"box"` and `"all"` as aliases to save typing. 4) Add support for `linewidth` and `linetype` aesthetics in `geom_label_s()` applying them to the box border line, independently of `segment.linewidth` which a parameter.
 
-The use of segments or arrows to make clear to which data observation data labels are linked is frequent except in very sparse clouds of observations. Using by default <em>automatic</em> justification based on the direction of displacement by nudging, dodging, etc., to select the anchor point ensures that short segments will not cause difficulties even with long text labels. Of course, the `vjust` and `hjust` aesthetics otherwise work as usual when overridden with the usual values.
+The use of segments or arrows to make clear to which data observation data labels are linked is frequent except in very sparse clouds of observations. Using by default *automatic* justification `"position"` based on the direction of displacement by nudging, dodging, etc., to select the anchor point ensures that short segments will not cause difficulties even with long text labels. It also means that small displacements away from observations are enough to avoid overlaps between label and labelled observation. Of course, the `vjust` and `hjust` aesthetics except for the support of the additional value `"position"`, work as accepting the same values as `geom_text()` and `geom_label()` and to the same effect.
 
-In this example using `geom_label_s()` , intead of applying colour aesthetic to the text, we apply it to the box border and the arrows. (The default legend still needs improvement.)
+In the case of these two geometries, the design stage was time-consuming and included attempts that in use resulted awkward. Implementation of the new features was straightforward. The examples below show some of the new possibilities for the graphical design of text label annotations in ggplots that `geom_text_s()` and `geom_label_s()` make possible.
 
-![Plot using `geom_label_s()` from R package 'ggpp'.](/posts/Enhancing-geom-text/geom-label-s.png){fig-alt="Plot" fig-align="center"}
+## Examples
 
-A second example using `geom_text_s()` we apply the colour aesthetic to both the text and arrows.
+::: callout-tip
+Above each plot you will find the code used to create the figures, folded behind a triangle and the word Code. Clicking on the triangle or on "Code" makes the code visible. The code can be easily copied by clicking on the icon that appears when the cursor in on the upper right corner of the box.
 
-![Plot using `geom_text_s()` from package 'ggpp'.](/posts/Enhancing-geom-text/geom-text-s.png){fig-alt="Plot" fig-align="center"}
+The code used for the individual plots requires the core in the code chunk immediately under this callout to be run first to attach the packages used, prepare the data and save a base plot.
+:::
+
+```{r, message=FALSE}
+library(ggpp)
+my.cars <- mtcars[c(TRUE, FALSE, FALSE, FALSE), ]
+my.cars$name <- rownames(my.cars)
+p <- 
+  ggplot(my.cars, aes(wt, mpg, label = name)) +
+  scale_colour_discrete(l = 40) # luminance, make colours darker
+```
+
+A simple example, using nudging to displace the labels.
+
+```{r}
+# Use nudging
+p +
+  geom_text_s(nudge_x = 0.12) +
+  geom_point() +
+  expand_limits(x = 6.2)
+```
+
+We add arrow points to the segments.
+
+```{r}
+p +
+  geom_text_s(nudge_x = 0.15,
+              arrow = arrow(length = grid::unit(1.5, "mm")),
+              point.padding = 0.4) +
+  geom_point() +
+  expand_limits(x = 6.2)
+
+```
+
+Using colour with the default target, which, consistently with `geom_text()` it is the text label.
+
+```{r}
+p +
+  geom_text_s(aes(colour = factor(cyl)),
+              angle = 90,
+              nudge_y = 1) +
+  geom_point() +
+  expand_limits(y = 27)
+```
+
+We can select a different graphic element as the target for the colour aesthetic, here we apply colour to the connecting segments.
+
+```{r}
+p +
+  geom_text_s(aes(colour = factor(cyl)),
+              colour.target = "segment",
+              angle = 90,
+              nudge_y = 1,
+              show.legend = FALSE) +
+  geom_point(aes(colour = factor(cyl))) +
+  expand_limits(y = 27)
+```
+
+And here we apply colour to all the elements created by `geom_text_s()`.
+
+```{r}
+p +
+  geom_text_s(aes(colour = factor(cyl)),
+              colour.target = "all",
+              angle = 90,
+              nudge_y = 1) +
+  geom_point() +
+  expand_limits(y = 27)
+```
+
+In the case of `geom_label_s()` additional targets for colour are available. We start with the default, that is consistent with `geom_label()` applying the colour aesthetic to the border line and text.
+
+```{r}
+p +
+  geom_label_s(aes(colour = factor(cyl)), nudge_x = 0.3) +
+  geom_point() +
+  expand_limits(x = 7)
+
+```
+
+We set the default coulour to `"grey50"` to make segments and box borders less
+prominent, achieving a calm design.
+
+```{r}
+p +
+  geom_label_s(aes(colour = factor(cyl)),
+               colour.target = "text",
+               default.colour = "grey50",
+               linewidth = 0.4,
+               nudge_x = 0.3) +
+  geom_point() +
+  expand_limits(x = 7) +
+  theme_bw()
+
+```
+
+We can use the opposite approach, keeping the text black for maximum legibility at a small size and apply colour to the remaining elements.
+
+```{r}
+p +
+  geom_label_s(aes(colour = factor(cyl)), 
+               size = 2.8,
+               colour.target = c("box", "segment"),
+               linewidth = 0.4,
+               nudge_x = 0.3) +
+  geom_point(aes(colour = factor(cyl)), size = 3) +
+  expand_limits(x = 7)
+
+```
+
+Aesthetic `linetype` can be used to unobtrusively highlight some labels in the previous plot.
+
+```{r}
+p +
+  geom_label_s(aes(colour = factor(cyl), linetype = grepl("Merc", name)), 
+               size = 2.8,
+               colour.target = c("box", "segment"),
+               linewidth = 0.4,
+               nudge_x = 0.3) +
+  geom_point(aes(colour = factor(cyl)), size = 3) +
+  expand_limits(x = 7)
+
+```
+
+A visually simple and space-saving design, by combining fill and colour but.
+
+```{r}
+p +
+  geom_label_s(aes(colour = factor(cyl), fill = factor(cyl)),
+               nudge_x = 0.2,
+               size = 3.5,
+               colour.target = "all",
+               alpha.target = c("box", "segment"),
+               alpha = 0.15,
+               linewidth = 0,
+               segment.linewidth = 1,
+               label.padding = grid::unit(0.12, "lines")) +
+  geom_point(aes(colour = factor(cyl)), size = 2.5) +
+  expand_limits(x = 7) +
+  theme_bw()
+```
+
+If we disable the plotting of segments, `geom_tetx_s()` behaves like `geom_text()` and `geom_label_s()` as `geom_label()` except for the flexibility in the mapping of `colour` and `alpha` aesthetics in `geom_label_s()` and the default justification `"position"`.
+
+```{r}
+p +
+  geom_text_s(aes(colour = factor(cyl)),
+              add.segments = FALSE,
+              angle = 90,
+              nudge_y = 0.4,
+              show.legend = FALSE) +
+  geom_point(aes(colour = factor(cyl)), size = 2.5) +
+  expand_limits(y = 27)
+```
+
+::: callout-tip
+For additional information, please, see the [help page for geometries `geom_text_s()` and `geom_label_s()`](https://docs.r4photobiology.info/ggpp/reference/geom_text_s.html) and the [documentation of package 'ggpp'](https://docs.r4photobiology.info/ggpp), including a vignette.
+:::

@@ -1,10 +1,10 @@
 ---
 title: "Spectral Irradiance with 'ooacquire'"
-subtitle: "A Brief Tutorial (PARTIAL DRAFT)"
+subtitle: "Tutorial and Description of the Interactive User Interface"
 author: "Pedro J. Aphalo"
 date: 2023-04-27
 date-modified: 2023-04-29
-categories: [R Package Update]
+categories: [R for Photobiology, data acquisition]
 keywords: [ooacquire pkg]
 code-fold: false
 ---
