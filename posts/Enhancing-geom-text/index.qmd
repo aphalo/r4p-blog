@@ -154,7 +154,8 @@ p +
                size = 2.8,
                colour.target = c("box", "segment"),
                linewidth = 0.4,
-               nudge_x = 0.3) +
+               nudge_x = 0.3,
+               show.legend = FALSE) +
   geom_point(aes(colour = factor(cyl)), size = 3) +
   expand_limits(x = 7)
 
