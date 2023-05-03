@@ -1,0 +1,154 @@
+---
+title: "'ggplot2' basics (DRAFT)"
+subtitle: "The Layeerd Grammar of Graphics"
+author: "Pedro J. Aphalo"
+date: 2022-05-03
+date-modified: 2023-05-03
+categories: [R, plotting]
+keywords: [ggplot2 pkg, data visualization, dataviz]
+code-fold: false
+---
+
+::: callout-warning
+Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code brealking' you should be aware that the examples in this page have been tested with version (==3.4.2).
+:::
+
+## The main steps
+
+1.    Build an R object with data and instructions for making the plot.
+
+1.    (Possibly add to or even "edit" the R object).
+
+2.    "Render" the plot (convert it into a graphical object).
+
+3.    Display the graphical object or save it in a file.
+
+## The data flow
+
+```{mermaid}
+%%| fig-align: center
+flowchart LR
+  A[Layer data] --> B[statistic] --> C[geometry] --> d[layer 'grobs']
+  A --> b[identity\nstatistic] --> C
+```
+
+## Building a plot step by step
+
+```{r}
+library(scales)
+library(ggplot2)
+library(gginnards)
+```
+
+```{r}
+ggplot()
+```
+
+
+```{r}
+ggplot(data = mtcars)
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg))
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point()
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point(color = "red", shape = "square")
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  stat_smooth(geom = "line", method = "lm", formula = y ~ x)
+```
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  stat_smooth(geom = "line", method = "lm", formula = y ~ x) +
+  scale_y_log10()
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  stat_smooth(geom = "line", method = "lm", formula = y ~ x) +
+  coord_cartesian(ylim = c(15, 25))
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  stat_smooth(geom = "line", method = "lm", formula = y ~ x) +
+  coord_trans(y = "log10")
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  theme_classic()
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  theme_classic(base_size = 20, base_family = "serif")
+```
+
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  labs(x = "Engine displacement (cubic inches)",
+       y = "Fuel use efficiency\n(miles per gallon)",
+       title = "Motor Trend Car Road Tests",
+       subtitle = "Source: 1974 Motor Trend US magazine")
+```
+
+
+```{r}
+ggplot(data = mtcars, aes(x = disp / cyl, y = mpg)) +
+  geom_point()
+```
+
+## The internals
+
+```{r}
+p <- ggplot(mpg, aes(x = displ, y = hwy)) +
+  geom_point()
+summary(p)
+```
+
+```{r}
+str(p, max.level = 1, list.len = 4)
+```
+
+```{r}
+str(p$layers, max.level = 1)
+```
+
