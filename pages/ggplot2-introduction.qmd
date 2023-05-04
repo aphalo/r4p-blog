@@ -13,7 +13,19 @@ code-fold: false
 Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code brealking' you should be aware that the examples in this page have been tested with version (==3.4.2).
 :::
 
+## Layered Grammar of Graphics
+
+It is best to think of 'ggplot2' and its extensions as a language used to specify how to build a plot. This language gives access to an abstraction about about the structure of data plots and how to assemble this structure. This is the most important aspect of learning to create ggplots. Once one grasps the general picture, what remains is just the choice among different "building blocks", as building blocks of the same "kind" can in most cases replace each other, differing drastically in the graphical output, but minimally in how they are added to a plot.
+
+::: callout-note
+I consider packages like 'ggrepel', 'ggpmisc', and 'ggbeeswarm' that provide extensions to the grammar, as extensions to package 'ggplot2'. Some packages like 'ggpubr' mostly define functions that build whole plots using 'ggplot2' and return 'gg' objects, but are designed to be used on their own. Such functions do not extend the grammar of graphics, they define their own user interface. Package 'ggspectra' has double personality as it extends the grammar but also defines special `autoplot()` methods for spectra. It remains consistent with 'ggplot2' because the generic method `autoplot()` is defined by package 'ggplot2'.
+:::
+
 ## The main steps
+
+Differently to many other data plotting approaches, ggplots are constructed as R objects. So ploting data consists in the following sequence of events. Building an object that can be stored and rendered as a graphical representation at every single step of its construction has two main advantages: 1) we can save parts of the object and reuse them, and 2) we can build a plot bit by bit check the effect of each addition on the plot. It is possible, but infrequently needed, to edit an existing ggplot object: one can add, remove and replace components and also change the order of the layers. In most cases it is easier to edit the code used to create the plot, but if one does not have access to the original code or data, editing a ggplot can save the day. Editing is also an effective way of learning the _internals_ of ggplots if one is interested. My package 'gginnards' makes editing easier. I developed to help me learn how 'ggplot2' works and to debug the code in my other packages with extensions to 'ggplot2'.
+
+The steps are:
 
 1.    Build an R object with data and instructions for making the plot.
 
@@ -23,14 +35,59 @@ Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over
 
 3.    Display the graphical object or save it in a file.
 
+## The layers
+
+We can use different abstractions to describe a plot, both static and dynamic. A plot can be thought as a stack of layers each drawn on a transparent substrate. What we draw first may be occluded by something we draw on top of it. When we construct a ggplot we build complex plots layer by layer, even if not drawn at the time we add them, they will be rendered into graphical objects in the order we have added them to the object. This abstraction based on layer is the key to the flexibility of ggplots: we can build an almost infinite variety of plots by combining different layers, each one of them, quite simple and with an easy to understand role. In reality, we can also adjust things to an extent within each layer. Not only functions defined in 'ggplot2' can add layers to ggplots but also layer functions defined in other R packages or by the user.
+
 ## The data flow
 
+I consider now, a dynamic abstraction, the data flow describing what transformations are applied to the data in different components of a ggplot. These transformations take place when the plot is rendered, not when it is built, and take place separately in each layer. A ggplot object contains data but also functions that describe the operations to be carried on the data during rendering.
+
 ```{mermaid}
+%%| label: fig-layer-data-flow
+%%| fig-cap: Data flow in a single plot layer. ggplot objects can contain zero, one, or more layers.
 %%| fig-align: center
 flowchart LR
-  A[Layer data] --> B[statistic] --> C[geometry] --> d[layer 'grobs']
-  A --> b[identity\nstatistic] --> C
+  A(Layer data) --> B[statistic] --> C[geometry] --> D[layer 'grobs']
+  A -.-> b[identity\nstatistic] -.-> C
 ```
+
+The data in a ggplot can be shared among all or some layers or be different for each layer. What gets combined are the graphical objects, or instructions to draw features in the final plot. Not yet the plot itself, which is rendered by R graphic devices into any of the format supported by R.
+
+```{mermaid}
+%%| label: fig-plot-default-data-flow
+%%| fig-cap: Data flow in a plot containing three layers, sharing the same data. The geoms during plot rendering output graphical objects, or "plot drawing instructions". The final rendering into a specific file or screen format is done by R's graphic devices, not by code in the 'ggplot2' package.
+%%| fig-align: center
+flowchart LR
+  A(Plot data) --> B1[statistic 1] --> C1[geometry 1] --> D[layer 1 'grobs'\nlayer 2 'grobs'\nlayer 3 'grobs']
+  A--> B2[statistic 2] --> C2[geometry 2] --> D 
+  A--> B3[statistic 3] --> C3[geometry 3] --> D 
+  D --> E1(computer screen)
+  D -.-> E2(PDF file)
+  D -.-> E3(EPS file)
+  D -.-> E4(JPEG file)
+  D -.-> E5(SVG file)
+  D -.-> E6(PNG file)
+  D -.-> E7(TIFF file)
+```
+
+```{mermaid}
+%%| label: fig-plot-layer-data-flow
+%%| fig-cap: Data flow in a plot containing two layers, each one with different data. See legend to @fig-plot-default-data-flow for details.
+%%| fig-align: center
+flowchart LR
+  A1(Layer 1 data) --> B1[statistic 1] --> C1[geometry 1] --> D[layer 1 'grobs'\nlayer 2 'grobs']
+  A2(Layer 2 data) --> B2[statistic 2] --> C2[geometry 2] --> D 
+  D --> E1(computer screen)
+  D -.-> E2(PDF file)
+  D -.-> E3(EPS file)
+  D -.-> E4(JPEG file)
+  D -.-> E5(SVG file)
+  D -.-> E6(PNG file)
+  D -.-> E7(TIFF file)
+```
+
+As with all abstractions, the simple diagrams and explanations above ignored the real complexity. One of the ignored steps is crucial: how information in the data is encoded as graphical elements drawn in the plot, and how can we control this step.
 
 ## Building a plot step by step
 
