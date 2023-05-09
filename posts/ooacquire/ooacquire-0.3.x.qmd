@@ -3,7 +3,7 @@ title: "ooacquire 0.3.x"
 subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-04-10
-date-modified: 2023-05-09
+date-modified: 2023-05-10
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
@@ -29,30 +29,12 @@ modes in described in detail in a
 [tutorial](../../pages/acq-irrad-tutorial.qmd). The most important new feature
 is the _automatic acquisition of time series of spectra_.
 
-Three approaches to the acquisition of time series are supported: a) _buffered_,
-which is the fastest, as spectra are retrieved by the driver to a memory buffer, so
-that measurements take place non-stop, with the previous spectrum being
-transferred to the computer while the current one is being acquired. It is used
-when the step delay is set to 0 s and no HDR bracketing is used, i.e., no
-settings need to be modified in the spectrometer while acquiring the whole time
-series. b) _fast_, minimizes the delay with HDR bracketing. It is slower than
-_buffered_ as acquisition of spectra stops and restarts when settings are
-modified, and because spectra are retrieved directly by R without buffering.
-_fast_ acquisition is enabled when step delay is 0 s but HDR bracketing is in
-use. c) _timed_, the user sets the time interval at which the successive spectra
-will be acquired. This approach is enabled whenever the step delay is more than
-zero, with the caveat that an estimate of the time taken by individual
-measurements will be computed and this estimate used to limit the shortest accepted
-setting for step delay. If the step delay is deemed too short, it will be 
-changed to zero and spectra acquired using either the fast or the buffered
-approach, or to the step delay set to the estimated duration.
-
-Another enhancement is the possibility of storing of additional information in
-the instrument descriptors: storage of a description of the entrance optics used
+Another enhancement is the possibility of storing additional information in
+the instrument descriptors: a description of the entrance optics used
 (make, model, serial number, area of diffuser, and optical fibre) and the source
 of the calibration data (e.g., file name or spectrometer EEPROM). This allows
-reliably using a given spectrometer with different entrance optics, with a
-different calibration for each one.
+reliably using a given spectrometer with multiple entrance optics, with a
+different calibrations for each of them.
 
 _Version 0.3.2_ adds function `irrad_summary_table()`, which is an enhanced
 version of a function previously used only internally by the package. 
@@ -86,13 +68,36 @@ extended to cover the full usable range of the calibration data.
 I started developing this feature long ago but only now I got it
 working smoothly. The task was simplified by enhancements I recently implemented
 in packages 'photobiology' (0.10.16) and 'ggspectra' (0.3.11). A major incentive
-was that I needed this feature for some measurements I wanted to do. In version
-0.3.1 I implemented as a variation on the new "series" interface mode of 0.3.0
-the support for high speed acquisition of time series of spectra using the
-special functions in the OmniDriver API. The API wrappers were already
+was that I needed this feature for some measurements I wanted to do. 
+
+In version 0.3.1 I implemented as a variation on the new "series" interface mode
+of 0.3.0 the support for high speed acquisition of time series of spectra using
+the special functions in the OmniDriver API. The API wrappers were already
 implemented in 'rOmniDriver' (>= 0.1.18) but initialization of the API would
-sometimes fail. This bug was fixed in 'rOmniDriver' (>= 0.1.19) and starting 
+sometimes fail. This bug was fixed in 'rOmniDriver' (>= 0.1.19) and starting
 from 'ooacquire' (0.3.2) this is the minimum version of 'rOmniDriver' supported.
+In version 0.3.3 I fixed some bugs affecting specific boundary conditions for
+acquisition of time series and better targetted messages of progress. Version
+0.3.4 (under development) will extend all the new features to the measurement
+of spectral fluence.
+
+Three approaches to the acquisition of time series of spectra are supported: a)
+_buffered_, which is the fastest, as spectra are retrieved by the driver to a
+memory buffer, so that measurements take place non-stop, with the previous
+spectrum being transferred to the computer while the current one is being
+acquired. It is used when the step delay is set to 0 s and no HDR bracketing is
+used, i.e., no settings need to be modified in the spectrometer while acquiring
+the whole time series. b) _fast_, minimizes the delay with HDR bracketing. It is
+slower than _buffered_ as acquisition of spectra stops and restarts when
+settings are modified, and because spectra are retrieved directly by R without
+buffering. _fast_ acquisition is enabled when step delay is 0 s but HDR
+bracketing is in use. c) _timed_, the user sets the time interval at which the
+successive spectra will be acquired. This approach is enabled whenever the step
+delay is more than zero, with the caveat that an estimate of the time taken by
+individual measurements will be computed and this estimate used to limit the
+shortest accepted setting for step delay. If the step delay is deemed too short,
+it will be changed to zero and spectra acquired using either the fast or the
+buffered approach, or to the step delay set to the estimated duration.
 
 **Before using the new `"series"` mode for acquiring spectra at a rate faster 
 than about once per minute, please read [the 'ooacquire' vignette
