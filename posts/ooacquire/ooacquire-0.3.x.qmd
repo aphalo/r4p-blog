@@ -1,9 +1,9 @@
 ---
-title: "ooacquire 0.3.0/0.3.1/0.3.2/0.3.2-1"
+title: "ooacquire 0.3.x"
 subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-04-10
-date-modified: 2023-04-28
+date-modified: 2023-05-09
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
@@ -22,12 +22,30 @@ overview of progress. Differences between versions are listed in detail in the
 
 ## Overview of changes
 
-_Versions 0.3.0, 0.3.1 and 0.3.2_ are feature and bug-fix updates. Nearly all
-changes are related to the interactive measurement of spectral irradiance with
-function `acq_irrad_interactive()`. The logic of the current user interface
-modes in described in detail in a [tutorial](../../pages/acq-irrad-tutorial.qmd). 
-The most important new feature is the _automatic acquisition of time series of
-spectra_. 
+_Versions 0.3.0, 0.3.1, 0.3.2 and 0.3.3_ are feature and bug-fix updates. Nearly
+all changes are related to the interactive measurement of spectral irradiance
+with function `acq_irrad_interactive()`. The logic of the current user interface
+modes in described in detail in a
+[tutorial](../../pages/acq-irrad-tutorial.qmd). The most important new feature
+is the _automatic acquisition of time series of spectra_.
+
+Three approaches to the acquisition of time series are supported: a) _buffered_,
+which is the fastest, as spectra are retrieved by the driver to a memory buffer, so
+that measurements take place non-stop, with the previous spectrum being
+transferred to the computer while the current one is being acquired. It is used
+when the step delay is set to 0 s and no HDR bracketing is used, i.e., no
+settings need to be modified in the spectrometer while acquiring the whole time
+series. b) _fast_, minimizes the delay with HDR bracketing. It is slower than
+_buffered_ as acquisition of spectra stops and restarts when settings are
+modified, and because spectra are retrieved directly by R without buffering.
+_fast_ acquisition is enabled when step delay is 0 s but HDR bracketing is in
+use. c) _timed_, the user sets the time interval at which the successive spectra
+will be acquired. This approach is enabled whenever the step delay is more than
+zero, with the caveat that an estimate of the time taken by individual
+measurements will be computed and this estimate used to limit the shortest accepted
+setting for step delay. If the step delay is deemed too short, it will be 
+changed to zero and spectra acquired using either the fast or the buffered
+approach, or to the step delay set to the estimated duration.
 
 Another enhancement is the possibility of storing of additional information in
 the instrument descriptors: storage of a description of the entrance optics used
@@ -41,10 +59,10 @@ version of a function previously used only internally by the package.
 
 This version also adds a _repeat_ entry to the menu shown at the end of a
 measurement event. This makes it possible to quickly take a new measurement
-without modifying the integration time settings or protocol used, reusing
-the previous "dark" and "light" measurements for a new "light" measurement.
-In "series" mode, the parameters of the series can still be modified for the
-repeated data acquisition.
+without modifying the integration time settings or protocol used, reusing the
+previous "dark" and "filter" reference measurements for a new "light"
+measurement. In "series" mode, the parameters of the series can still be
+modified for the repeated data acquisition.
 
 Some enhancements to the user interface of previously available modes included
 changes to the wording of options in menus, a new option to skip automatic
