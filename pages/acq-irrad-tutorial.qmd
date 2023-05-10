@@ -1,11 +1,11 @@
 ---
 title: "Spectral Irradiance with 'ooacquire'"
-subtitle: "Tutorial and Description of the Interactive User Interface"
+subtitle: "Tutorial and Description of the UI of acq_irrad_interactive()"
 author: "Pedro J. Aphalo"
 date: 2023-04-27
-date-modified: 2023-04-29
+date-modified: 2023-05-10
 categories: [R for Photobiology, data acquisition]
-keywords: [ooacquire pkg]
+keywords: [ooacquire pkg, acq_irrad_interactive, spectral irradiance, spectral fluence]
 code-fold: false
 ---
 
@@ -23,9 +23,10 @@ available on-line.
 ::: callout-warning
 
 The description and diagrams shown in this page are valid for 'ooacquire'
-version 0.3.2-1. Versions <= 0.3.2 differ from version 0.3.2-1 in the
-user interface implemented in function `acq_irrad_interactive()` described in
-this page.
+versions >= 0.3.2-1. Versions <= 0.3.2 differ from version 0.3.2-1 in the user
+interface implemented in function `acq_irrad_interactive()` described in this
+page. Acquisition of fluence spectra with function `acq_irrad_interactive()` is
+possible only in versions >= 0.3.4 of 'ooacquire'.
 
 :::
 
@@ -39,18 +40,34 @@ Ocean Optics spectrometers from [Ocean Insight](https://www.oceaninsight.com/).
 Package 'ooacquire' imports and uses classes, methods and functions defined in other
 packages of the suite.
 
+Spectral energy irradiance is expressed in $W\,m^{-2}\,nm^{-1}$ and spectral
+fluence in $J\,m^{-2}\,nm^{-1}$. The corresponding photon-based units are
+$mol\,s^{-1}\,m^{-2}\,nm^{-1}$ and $mol\,m^{-2}\,nm^{-1}$. Irradiance is a flux
+rate expressed per unit time and fluence is an exposure expressed per event.
+When illumination is constant during a short measurement event, it is customary
+to describe its intensity using irradiance. When illumination is a discrete
+pulse shorter than the duration of the measurement event, fluence is used to
+describe the amount of energy or number of photons per pulse. Fluence can be
+easily computed from irradiance if we known the duration of the exposure.
+Computing actual irradiance from fluence is nearly impossible unless the pulse
+are from a square wave and we know their duration. Of course, if pulse are
+regularly spaced in time, have the same duration and amplitude and the
+measurement last for long enough, we can obtain an average irradiance across a
+train of pulses, as emitted by some light sources, e.g., because of AC mains
+power. PWM dimming or other non-DC power lamp drivers.
+
 Function `acq_irrad_interactive()` implements the interactive acquisition of
-spectral irradiance data using Ocean Optics array spectrometers. It returns the
-acquired data as a _side effect_ by saving them to files on disk. The raw-counts
-data are acquired and converted into spectral irradiance values. The data for
-each measurement event are saved as soon as acquired, but a group of
-successively acquired spectra can be collected into a single object, summarized
-and/or saved to a file on disk in addition to the individual files per
-measurement event. In every case the raw counts data, instrument descriptor,
-instrument settings and either computed spectral irradiance or computed counts
-per second are saved to disk. Plots are displayed on the screen for each
-measurement event. A measurement event consists of either a single light
-spectrum or of a time series of light spectra.
+spectral irradiance and spectral fluence data using Ocean Optics array
+spectrometers. It returns the acquired data as a _side effect_ by saving them to
+files on disk. The raw-counts data are acquired and converted into spectral
+irradiance values. The data for each measurement event are saved as soon as
+acquired, but a group of successively acquired spectra can be collected into a
+single object, summarized and/or saved to a file on disk in addition to the
+individual files per measurement event. In every case the raw counts data,
+instrument descriptor, instrument settings and either computed spectral
+irradiance or computed counts per second are saved to disk. Plots are displayed
+on the screen for each measurement event. A measurement event consists of either
+a single light spectrum or of a time series of light spectra.
 
 Package 'ooacquire' has been evolving for several years and will continue to
 evolve, specially with respect to interactive acquisition of spectral data. The
@@ -85,7 +102,7 @@ options(warn = 1)
 acq_irrad_interactive()
 ```
 
-The video below demostrates the use of the interface for an old version of
+The video below demonstrates the use of the interface for an old version of
 'ooacquire' (will be replaced by an up-to-date one).
 
 {{< video https://vimeo.com/821595528 >}}
@@ -130,13 +147,16 @@ There are four main interface modes built into `acq_irrad_interactive()` with
 `"auto"` as default.
 
 ```{mermaid}
+%%| label: fig-modes
+%%| fig-cap: Supported user-interface modes. The default, `"auto"`, is highlighted.
 %%{ init: {"graph": {"htmlLabels": true}} }%%
 %%| fig-align: center
 flowchart TB
   A[interface.mode = ] -.-> B("simple")
   A --> C(<b>auto</b>)
   A -.-> D("series")
-  A -.-> E("full")
+  A -.-> E("manual")
+  A -.-> F("full")
 ```
 
 Appending `-attr` to these mode names enables the UI for setting the values of 
@@ -150,6 +170,8 @@ it is not part of the loop for the acquisition of individual spectra or series
 of spectra.
 
 ```{mermaid}
+%%| label: fig-startup-diagram
+%%| fig-cap: Flow chart of the user interaction at the start of a data acquisition session.
 %%| fig-align: center
 flowchart TB
   A((<b>start</b>)) --> B(select spectrometer\nand channel?)
@@ -177,6 +199,8 @@ _filter_ reference spectra (`repeat`) or with the possibility of changing
 these settings and acquiring fresh _dark_ and _filter_ reference spectra (`next`).
 
 ```{mermaid}
+%%| label: fig-complete-diagram
+%%| fig-cap: Flow chart of the user interaction loop repeated for each spectrum acquired. Showing all steps, only some of which are displayed depending on the interface mode in use.
 %%| fig-align: center
 flowchart TB
   E(((<b>1</b>))) --> G(protocol?)
@@ -184,7 +208,7 @@ flowchart TB
   K --> L(series parameters?) --> M[[measure\nspectra]] --> N[(plot and save)] 
   N --> N1{collect?} --yes--> N2[(plot and save\ncollection)] --> O{next\n repeat\n or end?}
   N1 --no--> O
-  I -.repeat.-> L
+  J -.repeat.-> L
   O -.repeat.-> I
   O --next--> G
   O --> P((<b>end</b>))
@@ -193,9 +217,11 @@ flowchart TB
 ### `"simple"` mode
 
 The `"simple"` interface mode provides a minimalist UI, quite similar to the only UI available
-in early versions of 'ooacquire'. It is intended for the acquisition of individual spectra.
+in early versions of 'ooacquire'. It is intended for the acquisition of individual irradiance spectra.
 
 ```{mermaid}
+%%| label: fig-simple-diagram
+%%| fig-cap: Flow chart of the user interaction loop repeated for each spectrum acquired. Showing steps enabled under mode `"simple"`.
 %%| fig-align: center
 %%{ init: {"graph": {"htmlLabels": true}} }%%
 flowchart
@@ -210,9 +236,11 @@ flowchart
 
 ### `"auto"` mode
 
-The `"auto"` interface mode provides a complete UI intended for the acquisition of individual spectra and possibly packing groups of spectra into collections.
+The `"auto"` interface mode provides a complete UI intended for the acquisition of individual spectra and possibly packing groups of spectra into collections and computing summaries. The default is to adjust the integration time automatically by measurement, and it is best suited to the measurement of sources that emit light continuously with an output that varies little in the short time.
 
 ```{mermaid}
+%%| label: fig-auto-diagram
+%%| fig-cap: Flow chart of the user interaction loop repeated for each spectrum acquired. Showing steps enabled under mode `"auto"`.
 %%| fig-align: center
 %%{ init: {"graph": {"htmlLabels": true}} }%%
 flowchart TB
@@ -227,11 +255,17 @@ flowchart TB
   O --> P((<b>end</b>))
 ```
 
+### `"manual"` mode
+
+Mode `"manual"` differs from `"auto"` in that the default is for the user to directly set the integration time. It is most useful when measuring _fluence_ from manually triggered light pulses, such as a xenon flash.   
+
 ### `"series"` mode
 
-The `"series"` interface mode provides a complete UI intended for the acquisition of time series of spectra and possibly packing groups of time series of spectra into collections.
+The `"series"` interface mode provides a complete UI intended for the acquisition of time series of spectra and possibly packing groups of time series of spectra into collections and computing summaries.
 
 ```{mermaid}
+%%| label: fig-series-diagram
+%%| fig-cap: Flow chart of the user interaction loop repeated for each spectrum acquired. Showing steps enabled under mode `"series"`.
 %%| fig-align: center
 %%{ init: {"graph": {"htmlLabels": true}} }%%
 flowchart TB
@@ -246,13 +280,17 @@ flowchart TB
   O --> P((<b>end</b>))
 ```
 
+### `"full"` mode
+
+Mode "full" is in practice of little or no use except for testing as it makes all settings of the UI visible to the user.
+
 ### `"-attr"` variants of the  modes
 
-Appending `"-attr"` to the name of any `interface-mode` enables the menue
+Appending `"-attr"` to the name of any `interface.mode` enables the menu
 and dialogues that enable the setting of the `what.measured` and `comment`
 attributes of the `source_spct` objects into which spectra are saved. This
-can be represented in the diagrams by the insertion of the `attributes?` box 
-between `object name?` and `acquistion parameters?` as shown in the first
+could be represented in the diagrams by the insertion of an `attributes?` box 
+immediately below `object name?` as shown in the first
 diagram showing the full logic. 
 
 ### Selecting the interface mode
@@ -294,7 +332,8 @@ needed.
 
 ::: callout-note
 Saving plots of large collections of spectra or of long time series of spectra 
-to disk is a slow process. Disabling this step can be worthwhile in such cases.
+to disk is a slow process. Disabling this step by passing `save.pdfs = FALSE`
+could be worthwhile in such cases.
 :::
 
 ## Measurement protocols
@@ -307,16 +346,26 @@ reference measurements (`repeat`). The same measurement protocols are available
 in the different user interface modes. We show here the protocols available by
 default. However, users can define their own protocols. In the diagrams below,
 `start` and `end` represent the start and end of a measurement event, i.e., the
-boundaries of the generic `measure spectra` boxes in the diagrams above.
+boundaries of the generic `measure spectra` boxes in the diagrams above. Within
+each step in most cases several spectra are acquired, with the same integration
+time when averaging is used and with different integration times when HDR is
+used. In all modes except series, the same number of raw spectra are acquired
+for _dark_, _filter_ and _light_ if used, and combined into a single irradiance
+or fluence spectrum. In the case of series, measurements are repeated in time
+for _light_ so that several irradiance spectra are obtained measured at regular
+time intervals.
 
 ### Protocol `l`
 
 `l` stands for acquisition of _light_ scans.
 
 ```{mermaid}
+%%| label: fig-protocol-l
+%%| fig-cap: Flow chart of the measurement steps for protocol _light_ or `l`.
 flowchart LR
   S((<b>start</b>)) --> C
   C[light\nspectrum or\nspectra] --> E((<b>end</b>))
+  C -.series.-> C
 ```
 
 ### Protocol `ld`
@@ -324,10 +373,13 @@ flowchart LR
 `ld` stands for acquisition of _light_ and _dark_ scans sequentially in this order.
 
 ```{mermaid}
+%%| label: fig-protocol-ld
+%%| fig-cap: Flow chart of the measurement steps for protocol _light + dark_ or `ld`.
 flowchart LR
   S((<b>start</b>)) --> A
   A -.repeat.-> E
   A[light\nspectrum or\nspectra] --next--> D[dark\nspectrum] --> E((<b>end</b>))
+  A -.series.-> A
 ```
 
 ### Protocol `lfd`
@@ -335,10 +387,13 @@ flowchart LR
 `lfd` stands for acquisition of _light_, _filter_ and _dark_ scans sequentially in this order.
 
 ```{mermaid}
+%%| label: fig-protocol-lfd
+%%| fig-cap: Flow chart of the measurement steps for protocol _light + filter + dark_ or `lfd`.
 flowchart LR
   S((<b>start</b>)) --> A
   A -.repeat.-> E
   A[light\nspectrum or\nspectra] --next--> B[filter\nspectrum] --> C[dark\nspectrum] --> E((<b>end</b>))
+  A -.series.-> A
 ```
 
 ### Protocol `dl`
@@ -346,10 +401,13 @@ flowchart LR
 `dl` is identical to `ld` except for the sequential order of the acquisition of data.
 
 ```{mermaid}
+%%| label: fig-protocol-dl
+%%| fig-cap: Flow chart of the measurement steps for protocol _dark + light_ or `dl`.
 flowchart LR
   S((<b>start</b>)) --next--> A
   S -.repeat.-> C
   A[dark\nspectrum] --> C[light\nspectrum or\nspectra] --> E((<b>end</b>))
+  C -.series.-> C
 ```
 
 ### Protocol `dfl`
@@ -357,16 +415,32 @@ flowchart LR
 `dfl` is identical to `lfd` except for the sequential order of the acquisition of data.
 
 ```{mermaid}
+%%| label: fig-protocol-dfl
+%%| fig-cap: Flow chart of the measurement steps for protocol _dark + filter + light_ or `dfl`.
 flowchart LR
   S((<b>start</b>)) --next--> A
   S -.repeat.-> C
   A[dark\nspectrum] --> B[filter\nspectrum] --> C[light\nspectrum or\nspectra] --> E((<b>end</b>))
+  C -.series.-> C
 ```
+
+## Spectral quantity
+
+Through parameter `qty.out` we can choose between four alternatives: `"raw"`
+(raw instrument counts for each detector pixel), `"cps"` (counts per second for
+each detector pixel), `"irrad"` (energy and/or photon spectral irradiance) and
+`"fluence"` (energy and/or photon spectral fluence). Spectral irradiance and
+spectral fluence can be computed in near real time only if irradiance
+calibration factors and correction method definitions are available for the
+spectrometer used. The raw detector counts are always returned allowing in all
+cases spectral irradiance and spectral fluence to be computed or recomputed at a
+later time.
 
 ## Acquisition parameters
 
-We describe the data acquisition parameters only briefly here, and refer the
-reader to the [vignette that describes the algorithms
+We describe the data acquisition parameters affecting the acquisition of
+spectral irardiance only briefly here, and refer the reader to the [vignette
+that describes the algorithms
 used](https://docs.r4photobiology.info/ooacquire/articles/userguide-algorithms.html)
 included in package 'ooacquire'.
 
@@ -402,6 +476,13 @@ bracketing the user supplies a vector of multipliers to be applied to the
 optimal or set integration time. All parameters have defaults, and user-entered
 values persist between successive measurement events unless modified again by
 the user.
+
+In the case of spectral fluence, although available, several of the corrections
+are in practice difficult to implement because of the discontinuous light
+emission by the sources. If pulses can be triggered on demand and the output per
+pulse is reproducible, stray light correction is applicable. Adjustment of
+signal level and eventually bracketing need to be done based on the number of
+pulses per detector integration.
 
 ::: callout-note
 
