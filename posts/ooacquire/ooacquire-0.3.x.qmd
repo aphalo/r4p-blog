@@ -152,7 +152,13 @@ time stamp.
 
 ## Plans for the future
 
-Some enhancements are still pending: 1) better documentation and 2) unit
+Function `acq_fraction_interactive()` used for the acquisition of transmittance
+and reflectance spectra needs to be updated to match the design and features of
+function `acq_irrad_interactive()` used for the acquisition of spectral
+irradiance and spectral fluence. It also needs to be thoroughly tested,
+and any bugs found, fixed.
+
+Some other enhancements are also pending: 1) better documentation and 2) unit
 tests for data acquisition based on the underlying functions as these do not
 need interactive user input. These would need to be run _live_ with
 spectrometers. Current unit tests are based on stored raw counts data and test
@@ -162,7 +168,9 @@ raw spectral data stored in the different file formats supported.
 In the future it may be necessary to remove the dependency on OmniDriver, which
 is proprietary, closed source software written in Java. Java itself is no longer
 free for commercial use since Oracle changed the more permissive licencing SUN
-had for Java. The alternative is SeaBreeze, in its original version written in
+had for Java. This licencing change can be worked around using one of the 
+OpenJDK distributions. Another alternative is to use the free and open source
+SeaBreeze driver instead of OmniDriver, in its original version written in
 C, or the Python version of it. Python is easier to interface to R, but the C
 implementation could be faster.
 
