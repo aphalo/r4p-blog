@@ -1,0 +1,175 @@
+---
+title: "Spectral fluorescence with 'ooacquire'"
+subtitle: "Tools: reflectance probe and LED"
+author: "Pedro J. Aphalo"
+date: 2023-04-27
+date-modified: 2023-05-10
+categories: [R for Photobiology, data acquisition]
+keywords: [ooacquire pkg, acq_irrad_interactive, spectral irradiance, spectral fluence]
+code-fold: true
+fig-format: svg
+---
+
+## Introduction
+
+## Methods
+
+I used an old Ocean Optics USB2000 array spectrometer with an Ocean Optics
+reflectance probe type QR200-REF-UV-VIS with the measuring fibre attached to the
+spectrometer, the excitation fibre attached to an Amphenol SMA "bulkhead"
+(receptacle flange mount 905-117-5000) while the reference branch remained
+detached. The probe both delivers the excitation and collects the radiation to
+be measured. For measurements the probe was set normal to the measured surface.
+
+::: callout-note
+Acquisition of all quantitative spectral data requires that the spectrometer has
+been calibrated for wavelength. In addition the dose response must have been
+measured and a linearization function obtained. On the other hand, unlike
+irradiance or fluorescence, measurement of reflectance and transmittance are
+indenpendent of the wavelength sensitivity of array pixels because reference and
+target values needed to compute a reflectance or transmittance as a ratio are
+measured by the same pixel in the detector array. Fluorescence is normally
+emitted at a longer wavelength than the excitation, and consequently an internal
+reference is lacking.
+:::
+
+As excitation sources I used 5 mm LEDs powered by a "Compact handheld LED
+Tester" from Roithner-Laser or an identical one from Lumitronix. I used two
+different LEDs types in 5 mm clear epoxy packages: LED405-05V (maximum rated
+radiant power 15 mW and a beam angle of 100 degrees) and RLS-UV380 (maximum
+rated radiant power 20 mW and a beam angle of 20 degrees), both supplied by
+Roithner LaserTechnik. The LEDs were driving by a DC current of 20 mA to 25 mA.
+
+As a "white" high reflectance and non-fluorescing reference I used a 5 mm-thick
+slab of virgin (not-recycled) PTFE. I assumed a reflectance of 90% for this
+reference based on the properties of PTFE.
+
+The subjects tested were papers I had on my desk: a note pad, an invoice,
+paperback book and a yellow Post-It note.
+
+Spectra were acquired as counts per second (cps) using function
+`acq_irrad_interactive()` from R package
+['ooacquire'](https://docs.r4photobiology.info/ooacquire) version 0.3.2 under [R](https://www.r-project.org/)
+version 4.3.0. Further calculations relied on R package
+['photobiology'](https://docs.r4photobiology.info/photobiology) version 0.10.16.
+Plots were created with R package
+['ggspectra'](https://docs.r4photobiology.info/ggspectra) version 0.3.11.
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter. Above each
+plot you will find a small triangle followed by "Code". Clicking on the triangle
+"unfolds" the code chunk making visible the R code used to produce the plot. Two
+additional chunks below are used to attach the packages used and load the data.
+The code in the chunks can be copied by clicking on the top right corner, where
+an icon appears when the mouse cursor hovers over the code listing.
+:::
+
+## Results
+
+```{r, message=FALSE}
+library(ggspectra)
+```
+
+```{r}
+load("collection.reflectance.fluorescence.Rda")
+# names(collection.reflectance.fluorescence.cps.mspct)
+```
+### UV-A radiation excitation at 380 nm
+
+The probe was handheld during measurements so measurements are only approximate.
+On the other hand differences among surfaces are huge and enough to demonstrate
+the viability of the approach. 
+
+The area under the reference curve between 360 nm
+and 410 nm is $`r round(reference.integral <-
+integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[26]],
+range = c(360, 410))), -3)`$ arbitrary units (@fig-white-reference-380nm).
+
+```{r}
+#| label: fig-white-reference-380nm
+#| fig-cap: Excitation spectrum measured as reflected from a PTFE slab used as reference.
+autoplot(collection.reflectance.fluorescence.cps.mspct[[26]])
+```
+
+The area under the paper curves between 360 nm and 410 nm are $`r round(paper1.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[27]], range = c(360, 410))), -1)`$  and $`r round(paper2.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[28]], range = c(360, 410))), -2)`$  arbitrary units  (@fig-white-paper-380nm). So reflectances of approximately $`r round(paper1.integral / reference.integral / 0.9 * 100, 1)` \%$ and $`r round(paper2.integral / reference.integral / 0.9 * 100, 1)` \%$. 
+
+The areas between 410 nm and 650 nm are $`r round(integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[27]], range = c(410, 650))), -3)`$  and $`r round(integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[28]], range = c(410, 650))), -3)`$  arbitrary units  (@fig-white-paper-380nm). So, for these two papers most of the excitation radiation seems to be absorbed, and a sizable portion re-emitted as fluorescence at longer wavelengths. 
+
+```{r, message=FALSE}
+#| label: fig-white-paper-380nm
+#| fig-cap: Reflectance plus fluorescence spectra from two different sheets of white paper.
+autoplot(smooth_spct(collection.reflectance.fluorescence.cps.mspct[27:28])) +
+  theme(legend.position = "bottom")
+```
+
+The area under the pocketbook paper curve between 360 nm and 410 nm is $`r round(pocketbook.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[29]], range = c(360, 410))), -3)`$ arbitrary units  (@fig-pocketbook-380nm). So reflectance of approximately $`r round(pocketbook.integral / reference.integral / 0.9 * 100, 1)` \%$. 
+
+The area between 410 nm and 650 nm is $`r round(integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[29]], range = c(410, 650))), -3)`$  arbitrary units  (@fig-pocketbook-380nm). So, for this yellowish-looking paper most of the UV-A1 excitation radiation is absorbed similarly as by the white papers, but only a rather small fraction of the absorbed radiation is re-emitted as fluorescence at longer wavelengths. 
+
+```{r}
+#| label: fig-pocketbook-380nm
+#| fig-cap: Excitation spectrum measured as reflected plus fluorescence from a page of pocket book that is visually yellowish.
+autoplot(despike(collection.reflectance.fluorescence.cps.mspct[29]))
+```
+
+The area under the curve for the green gaffer tape between 360 nm and 410 nm is $`r round(gaffer.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[30]], range = c(360, 410))), -2)`$ arbitrary units  (@fig-green-gapher-380nm). So reflectance of approximately $`r round(gaffer.integral / reference.integral / 0.9 * 100, 1)` \%$. 
+
+The area between 410 nm and 650 nm is $`r round(integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[30]], range = c(410, 650))), -3)`$  arbitrary units  (@fig-green-gapher-380nm). So, this green looking tape absorbs most of the UV-A1 excitation radiation and a fraction of the absorbed radiation is re-emitted as green fluorescence in a single and well-defined peak at even longer wavelengths than by the paper. 
+
+```{r, message=FALSE}
+#| label: fig-green-gapher-380nm
+#| fig-cap: Reflectance plus fluorescence spectra from green fluorescent gaffer tape.
+autoplot(despike(smooth_spct(collection.reflectance.fluorescence.cps.mspct[30])))
+```
+
+The area under the curve for the pale-yellow glass filter between 360 nm and 410 nm is $`r round(JB450.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[31]], range = c(360, 410))), -1)`$ arbitrary units  (@fig-JB450-380nm). So reflectance of approximately $`r round(JB450.integral / reference.integral / 0.9 * 100, 1)` \%$. 
+
+The area between 450 nm and 800 nm is $`r round(integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[31]], range = c(450, 800))), -2)`$  arbitrary units  (@fig-JB450-380nm). So, this slightly yellow glass absorbs nearly all of the UV-A1 excitation radiation and a small fraction of the absorbed radiation is re-emitted as yellow-green fluorescence in a single and broad peak. 
+
+```{r}
+#| label: fig-JB450-380nm
+#| fig-cap: Reflectance plus fluorescence spectra from a pale yellow glass filter (type JB450 2 mm-thick).
+autoplot(despike(collection.reflectance.fluorescence.cps.mspct[31]))
+```
+
+### Violet light excitation at 405 nm
+
+The area under the reference curve between 380 nm and 460 nm is $`r round(reference405.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[21]], range = c(380, 460))), -3)`$ arbitrary units (@fig-white-reference-405nm). The difference compared to the other LED is because of the LED combined with a posisbly higher sensititvity of the spectrometer to longer wavelengths, as PTE has a nearly flat reflectance spectrum.
+
+```{r}
+#| label: fig-white-reference-405nm
+#| fig-cap: Excitation spectrum measured as reflected from a PTFE slab used as reference.
+autoplot(collection.reflectance.fluorescence.cps.mspct[[21]])
+```
+
+The excitation and fluorescence wavelengths are so close that the peaks merge.
+
+```{r}
+#| label: fig-white-paper-405nm
+#| fig-cap: Reflectance plus fluorescence spectra from two different sheets of white paper.
+autoplot(despike(collection.reflectance.fluorescence.cps.mspct[23:24])) +
+  theme(legend.position = "bottom")
+```
+
+In the case of the Post-It Note the fluorescence is minimal, but there is reflection present. The area under the curve between 380 nm and 460 nm is $`r round(postit405.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[25]], range = c(380, 460))), -3)`$ arbitrary units (@fig-white-reference-405nm). So reflectance of approximately $`r round(postit405.integral / reference405.integral / 0.9 * 100, 0)` \%$. 
+
+```{r}
+#| label: fig-postit-note-405nm
+#| fig-cap: Reflectance plus fluorescence spectra from a yellow Post-It Note.
+autoplot(despike(collection.reflectance.fluorescence.cps.mspct[25]))
+```
+
+Finally detached green leaf from a dying plant surprisingly shows no fluorescence and unsurprisingly very low reflectance in the violet region. The area under the curve between 380 nm and 460 nm is $`r round(green.leaf.405.integral <- integrate_spct(trim_wl(collection.reflectance.fluorescence.cps.mspct[[12]], range = c(380, 460))), 1)`$ arbitrary units (@fig-white-reference-405nm). So reflectance of approximately $`r round(green.leaf.405.integral / reference405.integral / 0.9 * 100, 2)` \%$. 
+
+```{r}
+#| label: fig-green-leaf-405nm
+#| fig-cap: Excitation spectrum measured as reflected excitation plus fluorescence from a green leaf.
+autoplot(despike(collection.reflectance.fluorescence.cps.mspct[12]))
+```
+
+## Discussion
+
+-   If the LED is rather well coupled to the excitation optical fibre, small (cheap) LEDs can be used for UV-A and VIS excitation. I have yet to test this, but the same approach can be expected to work with LEDs emitting at shorter wavelengths than those tested. Anyway, additional optical power for excitation would be helpful for decreasing noise in spectra measured from dark objects. For wavelengths longer than 365 nm LEDs emitting 10 to 20 times more radiation than those I used are readily available in packages relatively easy to couple to an optical fibre and very cheaply.
+-   When measuring reflectance with a broad spectrum light source, apparent reflectance can be a composite of true reflectance plus fluorescence.
+-   The spectrometer I used is not calibrated for irradiance, so although reflectance was computed from the CPS data, the yield of fluorescence could not be estimated based on the areas under the curves. With a calibrated spectrometer this computation would be possible, but the spectrometer would need to be calibrated with the actual fibre and probe used for the measurements.
+

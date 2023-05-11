@@ -9,3 +9,4 @@ title-block-banner: true
 
 code-fold: true
 toc: true
+fig-format: svg

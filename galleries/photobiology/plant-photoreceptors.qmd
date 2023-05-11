@@ -1,0 +1,326 @@
+---
+title: "Plant photoreceptors"
+subtitle: "Data and calculations" 
+author: "Pedro J. Aphalo"
+date: "2023-05-11"
+date-modified: "2023-05-11"
+keywords: [photobiology pkg, photobiologyPlants pkg]
+categories: [Photobiology exaamples]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: false
+---
+
+## Introduction
+
+The R for Photobiology suite of packages contains data and tools useful in
+teaching and research. It includes spectral data for the different families of
+plant photoreceptors, and in the case of phytochromes functions for the
+calculation of reaction rates as well as the photoequilibrium.
+
+For other photoreceptors currently only spectral data is included in the
+suite. The examples below demonstrate some possible uses.
+
+```{r,message=FALSE}
+library(photobiology)
+library(photobiologyLEDs)
+library(photobiologyPlants)
+library(photobiologyWavebands)
+library(ggspectra)
+library(ggrepel)
+
+photon_as_default()
+theme_set(theme_bw() + theme(legend.position = "bottom"))
+```
+
+## Phytochrome
+
+Phytochromes are photochromic pigments that interconvert between to stable
+forms Pr and Pfr through the action of photons.
+
+### Photoequilibrium
+
+In the examples below we use the solar spectral data included in package 'photobiology' as a data frame in object `sun.spct`. 
+
+We can calculate the phytochrome photoequilibrium from spectral irradiance data contained in a `source_spct` object as follows.
+
+```{r}
+Pfr_Ptot(sun.spct)
+```
+
+We can also calculate the red:far-red photon ratio, in this second example, for the same spectrum as above
+
+```{r}
+R_FR(sun.spct)
+```
+
+which is equivalent to calculating it using package 'photobiology' directly,
+with wavebands 10 nm wide centred on 660 nm and 735 nm.
+
+```{r}
+q_ratio(sun.spct, Red("Smith10"), Far_red("Smith10"))
+```
+
+We can, and should whenever spectral data are available, calculate the photoequilibrium as above, directly from these data. It is possible to obtain and approximation in case of the solar spectrum and other broad spectra, using the red:far-red photon ratio. The calculation, however, is only strictly valid, for di-chromatic illumination with 660 nm red plus 735 nm far-red light. 
+
+```{r}
+Pfr_Ptot_R_FR(unname(R_FR(sun.spct)))
+```
+
+Here we calculated the R:FR ratio from spectral data, but in practice one would use this function only when spectral data is not available as when a R plus FR sensor is used. We can see that in such a case the photoequilibrium calculated is only a  rough approximation. For sunlight, in the example above
+when using spectral data we obtained a value of `r signif(Pfr_Ptot(sun.spct), 3)` in contrast to `r signif(Pfr_Ptot_R_FR(R_FR(sun.spct)), 3)` when using the R:FR photon ratio. For other light sources differences can be much larger. Furthermore, here we used the true R:FR ratio calculated from the spectrum, while broad-band red:far-red sensors give only an approximation, which is good for sunlight, but which will be inaccurate for artificial light, unless a special calibration is done for each type of lamp.
+
+::: callout-note 
+To test how how big is the error introduced by estimating Pfr:Ptot from the
+R:FR photon ratio we calculate Pfr:Ptot using both approaches for sunlight and
+seven different LEDs sold for plant cultivation. We start by plotting the
+spectra.
+
+```{r}
+#| fig-asp: 1.5
+some_leds.mspct <- leds.mspct[plant_grow_leds]
+some_leds.mspct[["sun"]] <- sun.spct
+some_leds.mspct <- normalize(some_leds.mspct)
+autoplot(some_leds.mspct, idfactor = "LED", span = 101, facets = 2)
+```
+
+We then compute the three ratios for each spectrum and collect them into a 
+table.
+
+```{r}
+summaries.tb <- R_FR(some_leds.mspct)
+summaries.tb[["Pfr:Ptot (spectrum)"]] <-
+  msdply(some_leds.mspct, Pfr_Ptot)[[2]]
+summaries.tb[["Pfr:Ptot (ratio)"]] <-
+  Pfr_Ptot_R_FR(R_FR(some_leds.mspct)[[2]])
+names(summaries.tb)[1] <- "LED or daylight"
+knitr::kable(summaries.tb[order(summaries.tb$`Pfr:Ptot (spectrum)`), ], 
+             digits = 2)
+```
+
+To make the estimation errors easier to appreciate we plot Pfr:Ptot computed
+from the R:FR ratios vs. Pfr:Ptot computed from the spectra. The labels 
+```{r}
+#| fig-asp: 1
+ggplot(summaries.tb, aes(x = `Pfr:Ptot (spectrum)`, 
+                         y = `Pfr:Ptot (ratio)`, 
+                         label = paste("R:FR =", round(`R:FR[q:q]`, 2)),
+                         colour = ifelse(`LED or daylight` == "sun",
+                                         "sun", "LED"))) +
+  geom_point() +
+  geom_abline(linetype = "dashed") +
+  geom_text_repel(min.segment.length = 0, size = 3, show.legend = FALSE) +
+  labs(colour = "Light source") +
+  coord_equal()
+```
+
+We can see that in all cases Ptot:Pfr is overestimated when computed from the
+R:FR photon ratio. On the other hand the computation of Ptot:Pfr is based on
+the incident spectrum instead of that inside the plant and based on properties
+of phytochromes measured in vitro. The Osram LED deviates the most, but it is
+not intended to be used by itself, as it emits almost no red light.
+:::
+
+In the case of monochromatic light we can still use the same functions, as the defaults are such that we can use a single value as the 'w.length' argument, to obtain the Pfr:P ratio. For monochromatic light, irradiance is irrelevant for the photoequilibrium (steady-state).
+
+```{r}
+Pfr_Ptot(660)
+Pfr_Ptot(735)
+Pfr_Ptot(c(660, 735))
+Pfr_Ptot(435)
+```
+
+We can also plot Pfr:Ptot as a function of wavelength (nm) of monochromatic light. The default is to return a vector for short input vectors, and a `response_spct` object otherwise, but this can be changed through argument `spct.out`.
+
+```{r}
+autoplot(Pfr_Ptot(300:770), norm = NULL, unit.out = "photon",
+         w.band = Plant_bands(),
+         annotations = c("colour.guide", "labels", "boxes", "peaks", "valleys"),
+         span = 31) +
+  labs(y = "Phytochrome photoequilibrium, Pfr:Ptot ratio")
+```
+
+It is, of course, also possible to use base R plotting functions, or as shown here functions from package 'ggplot2'
+
+```{r}
+ggplot(data = Pfr_Ptot(300:770), aes(w.length, s.q.response)) +
+  geom_line() +
+  labs(x = "Wavelength (nm)",
+       y = "Phytochrome photoequilibrium, Pfr:Ptot ratio")
+```
+
+In the case of dichromatic illumination with red (660 nm) and far-red (730 nm) light, we can use a different function that takes the R:FR photon ratio as argument.
+
+**These computations are valid only for true mixes of light at these two wavelengths but not valid for broad spectra like sunlight and especially
+inaccurate for plant growth lamps with peaks in their output spectrum, such as most discharge lamps (sodium, mercury, multi-metal, fluorescent tubes) and many LED lamps.** 
+
+```{r}
+Pfr_Ptot_R_FR(1.15)
+Pfr_Ptot_R_FR(0.01)
+Pfr_Ptot_R_FR(c(1.15,0.01))
+```
+
+It is also easy to plot Pfr:P ratio as a function of R:FR photon ratio. However we have to remember that such values are exact only for dichromatic light, and only a very rough approximation for wide-spectrum light sources. For wide-spectrum light sources, the photoequilibrium should, if possible, be calculated from spectral irradiance data.
+
+```{r}
+ex6.data <- data.frame(r.fr = seq(0.01, 5.0, length.out = 100), 
+                       Pfr.p = numeric(100))
+ex6.data$Pfr.p <- Pfr_Ptot_R_FR(ex6.data$r.fr)
+ggplot(data = ex6.data, aes(r.fr, Pfr.p)) +
+  geom_line() +
+    labs(x ="R:FR photon ratio",
+         y = "Phytochrome photoequilibrium, Pfr:Ptot ratio")
+```
+
+::: callout-note
+As red and far-red LEDs do not emit monochromatic ligth, we may want to check the photoequilibrium based on the spectrum.
+
+```{r}
+#| fig-asp: 1
+RFR_leds.mspct <- leds.mspct[unique(grep("^Quantum", c(red_leds, ir_leds), value = TRUE))]
+RFR_leds.mspct <- normalize(RFR_leds.mspct)
+autoplot(RFR_leds.mspct, idfactor = "LED", span = 101, facets = 2)
+```
+
+```{r}
+summaries.tb <- R_FR(RFR_leds.mspct)
+summaries.tb[["Pfr:Ptot (spectrum)"]] <-
+  msdply(RFR_leds.mspct, Pfr_Ptot)[[2]]
+summaries.tb[["Pfr:Ptot (nominal peak)"]] <- Pfr_Ptot(c(660, 680, 700, 735))
+knitr::kable(summaries.tb, digits = 2)
+```
+
+:::
+
+## Reaction rates
+
+To compute actual reactions rates we have to use actual spectral irradiances. 
+Using normalized spectra gives wrong results as the reaction rates depend on the
+flow rate of photons of different wavelengths. This is different to the 
+R:FR photon ratio and the Pfr:Ptot ratio at the photoequilibrium which depend
+on the relative abundance of photons of different wavelengths, as the assumption
+is that expossure has been enough for steady-state photoequilibrium.
+
+```{r}
+with(clip_wl(sun.spct, c(300,770)), 
+     Phy_reaction_rates(w.length, s.e.irrad))
+```
+
+## Absorption cross section vs. wavelength
+
+The phytochrome photoequilibrium cannot be calculated from the absorptance spectra
+of Pr and Pfr, because Pr and Pfr have different quantum yields for the
+respective phototransformations. We need to use action spectra, which in this
+context are usually called 'absorption cross-sections'. They can be calculated
+as the product of absorptance and quantum yield. The values in these spectra,
+in the case of Phy are called `Sigma'.
+
+Here we reproduce Figure 3 in Mancinelli (1994), which gives the 'Relative photoconversion cross-sections' of Pr ($\sigma_R$) and Pfr ($\sigma_{FR}$). The values are expressed relative to $\sigma_R$ at its maximum at $\lambda = 666$ nm.
+
+```{r}
+ex7.data <- 
+  data.frame(w.length=seq(300, 770, length.out=100))
+ex7.data$sigma.r <- Phy_Sigma_R(ex7.data$w.length)
+ex7.data$sigma.fr <- Phy_Sigma_FR(ex7.data$w.length)
+ex7.data$sigma <- Phy_Sigma(ex7.data$w.length)
+ggplot(ex7.data, aes(x = w.length)) +
+  geom_line(aes(y = sigma.r/ max(sigma.r)), colour = "red") +
+  geom_line(aes(y = sigma.fr/ max(sigma.r))) +
+  labs(x = "Wavelength (nm)", 
+       y = expression(sigma[R]~"and"~sigma[FR]))
+rm(ex7.data) # clean up
+```
+
+## Cryptochromes
+
+The absorbance spectrum of crytpchromes has been shown to change upon exposure
+to light and its dynamics described. However, while for phytochromes rather good
+data are available both for absorption and quantum efficiency, for the other
+families of plant photoreceptors informations is not as readily available.
+
+### Spectral absorbance
+
+```{r}
+names(CRYs.mspct)
+```
+
+Here we approximate Figure 1.B from Banerjee et al.\ (2007).
+
+```{r}
+A_as_default()
+autoplot(interpolate_wl(CRYs.mspct$CRY2_dark, 300:500), 
+         span = 31, annotations = c("+", "valleys"))
+```
+
+```{r}
+autoplot(CRYs.mspct[c("CRY2_dark", "CRY2_light")], 
+         range = c(300,700), span = 51, annotations = c("+", "valleys")) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+autoplot(CRYs.mspct[c("CRY1_dark", "CRY1_light")], 
+         span = 51, annotations = c("+", "valleys")) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+autoplot(CRYs.mspct["CRY3_dark"], range = c(300,700),
+         span = 31, annotations = c("+", "valleys"))
+```
+
+```{r}
+ggplot(CRYs.mspct[c("CRY1_dark", "CRY2_dark", "CRY3_dark")]) +
+  geom_line(aes(linetype = spct.idx)) +
+  expand_limits(x = 300) +
+  theme(legend.position = "bottom")
+```
+
+## Phototropins
+
+### Spectral absorbance
+
+```{r}
+names(PHOTs.mspct)
+```
+
+```{r}
+autoplot(PHOTs.mspct[c("PHOT1_fluo", "PHOT2_fluo")],
+         span = 31, annotations = c("+", "valleys")) +
+  expand_limits(x = 300) +
+  theme(legend.position = "bottom")
+```
+
+```{r}
+autoplot(PHOTs.mspct[c("PHOT1_dark", "PHOT1_light")], 
+         span = 21, annotations = c("+", "valleys")) +
+  theme(legend.position = "bottom")
+```
+
+## UVR8
+
+### Spectral absorbance
+
+```{r}
+names(UVR8s.mspct)
+```
+
+```{r}
+autoplot(UVR8s.mspct, span = 51, annotations = c("+", "valleys"))
+```
+
+## Zeitloupe proteins
+
+### Spectral absorbance
+
+```{r}
+names(ZTLs.mspct)
+```
+
+```{r}
+autoplot(ZTLs.mspct, span = 21, annotations = c("+", "valleys")) +
+  expand_limits(x = 300) +
+  theme(legend.position = "bottom")
+```
+
