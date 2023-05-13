@@ -121,6 +121,7 @@ format:
     date-format: iso
 
 editor: source
+license: "CC BY-SA"
 
 # for supported icons see https://icons.getbootstrap.com/
 # for themes

@@ -3,7 +3,7 @@ title: "Plant photoreceptors"
 subtitle: "Data and calculations" 
 author: "Pedro J. Aphalo"
 date: "2023-05-11"
-date-modified: "2023-05-11"
+date-modified: "2023-05-13"
 keywords: [photobiology pkg, photobiologyPlants pkg]
 categories: [Photobiology exaamples]
 editor: 
@@ -19,8 +19,15 @@ teaching and research. It includes spectral data for the different families of
 plant photoreceptors, and in the case of phytochromes functions for the
 calculation of reaction rates as well as the photoequilibrium.
 
+This page is based on a part of the User Guide of package 'photobiologyPlants'
+but contains additional examples that make use of packages 'photobiologyLEDs'
+and 'ggrepel'.
+
 For other photoreceptors currently only spectral data is included in the
-suite. The examples below demonstrate some possible uses.
+suite. The examples below demonstrate some possible uses. For the all examples
+to run without warnings the most recent releases of the packages are
+recommended, and 'photobiologyPlants' (>= 0.4.3) is needed. Original data
+sources are given in the packages documentation and not repeated here.
 
 ```{r,message=FALSE}
 library(photobiology)
@@ -36,8 +43,8 @@ theme_set(theme_bw() + theme(legend.position = "bottom"))
 
 ## Phytochrome
 
-Phytochromes are photochromic pigments that interconvert between to stable
-forms Pr and Pfr through the action of photons.
+Phytochromes are photochromic pigments that interconvert between two stable
+forms, Pr and Pfr through the action of red and far-red photons.
 
 ### Photoequilibrium
 
@@ -72,7 +79,7 @@ Here we calculated the R:FR ratio from spectral data, but in practice one would 
 when using spectral data we obtained a value of `r signif(Pfr_Ptot(sun.spct), 3)` in contrast to `r signif(Pfr_Ptot_R_FR(R_FR(sun.spct)), 3)` when using the R:FR photon ratio. For other light sources differences can be much larger. Furthermore, here we used the true R:FR ratio calculated from the spectrum, while broad-band red:far-red sensors give only an approximation, which is good for sunlight, but which will be inaccurate for artificial light, unless a special calibration is done for each type of lamp.
 
 ::: callout-note 
-To test how how big is the error introduced by estimating Pfr:Ptot from the
+To test how big is the error introduced by estimating Pfr:Ptot from the
 R:FR photon ratio we calculate Pfr:Ptot using both approaches for sunlight and
 seven different LEDs sold for plant cultivation. We start by plotting the
 spectra.
@@ -85,11 +92,14 @@ some_leds.mspct <- normalize(some_leds.mspct)
 autoplot(some_leds.mspct, idfactor = "LED", span = 101, facets = 2)
 ```
 
-We then compute the three ratios for each spectrum and collect them into a 
-table.
+We then compute the four ratios for each spectrum and collect them into a 
+table. Kusuma and Bugbee (2021) proposed the use of FR/(R + FR) as an easier to
+understand quantity varying between 0 and 1. It can be computed as 
+1 / (1 + R:FR), so we also include this so called "FR fraction" in the table.
 
 ```{r}
 summaries.tb <- R_FR(some_leds.mspct)
+summaries.tb[["FR:(R+FR)[q:q]"]] <- 1 / (1 + summaries.tb[["R:FR[q:q]"]])
 summaries.tb[["Pfr:Ptot (spectrum)"]] <-
   msdply(some_leds.mspct, Pfr_Ptot)[[2]]
 summaries.tb[["Pfr:Ptot (ratio)"]] <-
@@ -100,7 +110,8 @@ knitr::kable(summaries.tb[order(summaries.tb$`Pfr:Ptot (spectrum)`), ],
 ```
 
 To make the estimation errors easier to appreciate we plot Pfr:Ptot computed
-from the R:FR ratios vs. Pfr:Ptot computed from the spectra. The labels 
+from the R:FR ratios vs. Pfr:Ptot computed from the spectra.
+
 ```{r}
 #| fig-asp: 1
 ggplot(summaries.tb, aes(x = `Pfr:Ptot (spectrum)`, 
@@ -122,7 +133,10 @@ of phytochromes measured in vitro. The Osram LED deviates the most, but it is
 not intended to be used by itself, as it emits almost no red light.
 :::
 
-In the case of monochromatic light we can still use the same functions, as the defaults are such that we can use a single value as the 'w.length' argument, to obtain the Pfr:P ratio. For monochromatic light, irradiance is irrelevant for the photoequilibrium (steady-state).
+In the case of monochromatic light we can still use the same functions, as the
+defaults are such that we can use a single value as the 'w.length' argument, to
+obtain the Pfr:P ratio. For monochromatic light, irradiance is irrelevant for
+the photoequilibrium (steady-state).
 
 ```{r}
 Pfr_Ptot(660)
@@ -131,7 +145,10 @@ Pfr_Ptot(c(660, 735))
 Pfr_Ptot(435)
 ```
 
-We can also plot Pfr:Ptot as a function of wavelength (nm) of monochromatic light. The default is to return a vector for short input vectors, and a `response_spct` object otherwise, but this can be changed through argument `spct.out`.
+We can also plot Pfr:Ptot as a function of wavelength (nm) of monochromatic
+light. The default is to return a vector for short input vectors, and a
+`response_spct` object otherwise, but this can be changed through argument
+`spct.out`.
 
 ```{r}
 autoplot(Pfr_Ptot(300:770), norm = NULL, unit.out = "photon",
@@ -161,10 +178,14 @@ Pfr_Ptot_R_FR(0.01)
 Pfr_Ptot_R_FR(c(1.15,0.01))
 ```
 
-It is also easy to plot Pfr:P ratio as a function of R:FR photon ratio. However we have to remember that such values are exact only for dichromatic light, and only a very rough approximation for wide-spectrum light sources. For wide-spectrum light sources, the photoequilibrium should, if possible, be calculated from spectral irradiance data.
+It is also easy to plot Pfr:P ratio as a function of R:FR photon ratio. However
+we have to remember that such values are exact only for dichromatic light, and
+only a very rough approximation for wide-spectrum light sources. For
+wide-spectrum light sources, the photoequilibrium should, if possible, be
+calculated from spectral irradiance data.
 
 ```{r}
-ex6.data <- data.frame(r.fr = seq(0.01, 5.0, length.out = 100), 
+ex6.data <- data.frame(r.fr = seq(0.01, 10.0, length.out = 100), 
                        Pfr.p = numeric(100))
 ex6.data$Pfr.p <- Pfr_Ptot_R_FR(ex6.data$r.fr)
 ggplot(data = ex6.data, aes(r.fr, Pfr.p)) +
@@ -172,6 +193,22 @@ ggplot(data = ex6.data, aes(r.fr, Pfr.p)) +
     labs(x ="R:FR photon ratio",
          y = "Phytochrome photoequilibrium, Pfr:Ptot ratio")
 ```
+
+As mentioned in the callout above, Kusuma and Bugbee (2021) proposed the use of
+FR/(R + FR) as an easier to understand quantity varying between 0 and 1. It can
+be computed as 1 / (1 + R:FR), so we plot Pfr;Ptot also as a function of this
+"FR fraction".
+
+```{r}
+ggplot(data = ex6.data, aes(1 / (1 + r.fr), Pfr.p)) +
+  geom_line() +
+    labs(x ="FR photon fraction, FR:(R+FR)",
+         y = "Phytochrome photoequilibrium, Pfr:Ptot ratio")
+```
+
+We see, indeed, that the relationship is in this case less asymptotic, so not
+only the range 0 to 1 is easier to interpret but can be expected to better
+reflect plant responses as shown by Kusuma and Bugbee (2021).
 
 ::: callout-note
 As red and far-red LEDs do not emit monochromatic ligth, we may want to check the photoequilibrium based on the spectrum.
@@ -185,15 +222,17 @@ autoplot(RFR_leds.mspct, idfactor = "LED", span = 101, facets = 2)
 
 ```{r}
 summaries.tb <- R_FR(RFR_leds.mspct)
+summaries.tb[["spct.idx"]] <- gsub("_", " ", summaries.tb[["spct.idx"]])
+summaries.tb[["FR:(R+FR)[q:q]"]] <- 1 / (1 + summaries.tb[["R:FR[q:q]"]])
 summaries.tb[["Pfr:Ptot (spectrum)"]] <-
   msdply(RFR_leds.mspct, Pfr_Ptot)[[2]]
 summaries.tb[["Pfr:Ptot (nominal peak)"]] <- Pfr_Ptot(c(660, 680, 700, 735))
-knitr::kable(summaries.tb, digits = 2)
+knitr::kable(summaries.tb, digits = 3)
 ```
 
 :::
 
-## Reaction rates
+### Reaction rates
 
 To compute actual reactions rates we have to use actual spectral irradiances. 
 Using normalized spectra gives wrong results as the reaction rates depend on the
@@ -207,7 +246,7 @@ with(clip_wl(sun.spct, c(300,770)),
      Phy_reaction_rates(w.length, s.e.irrad))
 ```
 
-## Absorption cross section vs. wavelength
+### Absorption cross section vs. wavelength
 
 The phytochrome photoequilibrium cannot be calculated from the absorptance spectra
 of Pr and Pfr, because Pr and Pfr have different quantum yields for the

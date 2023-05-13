@@ -1,0 +1,56 @@
+---
+title: "Markdown Basics"
+subtitle: "Text mark up vs. visual editors"
+author: "Pedro J. Aphalo"
+date: 2022-05-03
+date-modified: 2023-05-13
+categories: [Text markup]
+keywords: [markdown pkg, knittr pkg, text markup]
+format:
+  html:
+    code-fold: true
+    code-tools: true
+---
+
+To see the source of this document click on "</> CODE" to the right of the
+page title. _Italics_ and **bold** are easily indicated and _can be **combined**_.
+
+# Text mark up
+
+## Italics and bold
+
+The basic idea of markdown as a text mark up language is to make it easy to type
+a page of text non-stop, by avoiding use of menues and the mouse, or even
+ctrl-based key combinations. In other words when typing-in content, we only
+worry about the contents and ignore how the formatted text will look like.
+Initially, markdown was extremely simple and thus limited. But still entering
+numbered lists of items or tables was possible.
+
+## Itemized and numbered lists
+
+Although we enter numbers of letters to tell what type of labels we want, their
+exact values are irrelevant as their sequence is set automatically.
+
+1.   This is the first item.
+1.   This is the second item.
+
+a.   This is the first item.
+a.   This is the second item.
+
+-   This is the first item.
+-   This is the second item.
+
+Nesting is possible
+
+1.  This is the first item.
+1.  This is the second item.
+    a.  This is the first item.
+    a.  This is the second item.
+
+::: callout-caution
+Empty lines and indentation are a meaningful part of the mark up, and can be
+confusing at first.
+:::
+
+## Tables
+

@@ -1,9 +1,9 @@
 ---
-title: "'ggplot2' basics (DRAFT)"
-subtitle: "The Layeerd Grammar of Graphics"
+title: "'ggplot2' Basics"
+subtitle: "The Layered Grammar of Graphics"
 author: "Pedro J. Aphalo"
 date: 2022-05-03
-date-modified: 2023-05-03
+date-modified: 2023-05-13
 categories: [R, plotting]
 keywords: [ggplot2 pkg, data visualization, dataviz]
 code-fold: false
@@ -18,14 +18,14 @@ Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over
 It is best to think of 'ggplot2' and its extensions as a language used to specify how to build a plot. This language gives access to an abstraction about about the structure of data plots and how to assemble this structure. This is the most important aspect of learning to create ggplots. Once one grasps the general picture, what remains is just the choice among different "building blocks", as building blocks of the same "kind" can in most cases replace each other, differing drastically in the graphical output, but minimally in how they are added to a plot.
 
 ::: callout-note
-I consider packages like 'ggrepel', 'ggpmisc', and 'ggbeeswarm' that provide extensions to the grammar, as extensions to package 'ggplot2'. Some packages like 'ggpubr' mostly define functions that build whole plots using 'ggplot2' and return 'gg' objects, but are designed to be used on their own. Such functions do not extend the grammar of graphics, they define their own user interface. Package 'ggspectra' has double personality as it extends the grammar but also defines special `autoplot()` methods for spectra. It remains consistent with 'ggplot2' because the generic method `autoplot()` is defined by package 'ggplot2'.
+I consider packages like 'ggrepel', 'ggpmisc', and 'ggbeeswarm' that provide extensions to the grammar, as extensions to package 'ggplot2'. Some packages like 'ggpubr' mostly define functions that build whole plots using 'ggplot2' and return `"gg"` objects, but are designed to be used on their own. Such functions do not extend the grammar of graphics, they define their own user interface. Package 'ggspectra' has double personality as it extends the grammar but also defines special `autoplot()` methods for spectra. It remains consistent with 'ggplot2' because the generic method `autoplot()` is defined in package 'ggplot2'.
 :::
 
 ## The main steps
 
-Differently to many other data plotting approaches, ggplots are constructed as R objects. So ploting data consists in the following sequence of events. Building an object that can be stored and rendered as a graphical representation at every single step of its construction has two main advantages: 1) we can save parts of the object and reuse them, and 2) we can build a plot bit by bit check the effect of each addition on the plot. It is possible, but infrequently needed, to edit an existing ggplot object: one can add, remove and replace components and also change the order of the layers. In most cases it is easier to edit the code used to create the plot, but if one does not have access to the original code or data, editing a ggplot can save the day. Editing is also an effective way of learning the _internals_ of ggplots if one is interested. My package 'gginnards' makes editing easier. I developed to help me learn how 'ggplot2' works and to debug the code in my other packages with extensions to 'ggplot2'.
+Differently to many other data plotting approaches, ggplots are constructed as R objects. So plotting data consists in a constructing an object of class `"gg"` followed by its rendering. As any R object, `"gg"` objects can be stored in variables and can be printed to display them. When printed ggplots are rendered by default as a graphical representation, however they can also be displayed as text to reveal their structure. That both representations can be obtained at each step of their construction and that `"gg"` objects can be built by the succesive addition of components has two main advantages: 1) we can save parts of a `"gg"` object and reuse them, and 2) we can build a plot bit by bit and check the effect of each addition to the `"gg"` objects. It is possible, but infrequently needed, to edit an existing ggplot object: one can add, remove and replace components and also change the order of the layers. In most cases it is easier to edit the code used to create the plot, but if one does not have access to the original code or data, editing a ggplot can save the day. Editing is also an effective way of learning the _internals_ of ggplots if one is interested in them. My package 'gginnards' makes editing easier. I developed this pacakge to help me learn how 'ggplot2' works and to debug the code in my other packages with extensions to 'ggplot2'.
 
-The steps are:
+The steps needed to create a plot using the grammar of graphics are:
 
 1.    Build an R object with data and instructions for making the plot.
 
@@ -37,11 +37,17 @@ The steps are:
 
 ## The layers
 
-We can use different abstractions to describe a plot, both static and dynamic. A plot can be thought as a stack of layers each drawn on a transparent substrate. What we draw first may be occluded by something we draw on top of it. When we construct a ggplot we build complex plots layer by layer, even if not drawn at the time we add them, they will be rendered into graphical objects in the order we have added them to the object. This abstraction based on layer is the key to the flexibility of ggplots: we can build an almost infinite variety of plots by combining different layers, each one of them, quite simple and with an easy to understand role. In reality, we can also adjust things to an extent within each layer. Not only functions defined in 'ggplot2' can add layers to ggplots but also layer functions defined in other R packages or by the user.
+We can use different abstractions to describe a plot, both static and dynamic. Structurally, a plot can be thought as a stack of graphic layers each drawn on a transparent imaginary substrate. Thus, similarly as when drafting a plot with ink on paper, what we draw first can be occluded by something we draw on top of it. When we build complex plots we construct a `"gg"` object layer by layer; these layers even if not drawn at the time we add them, will be rendered into graphical objects in the order we have added them to the `"gg"` object. 
+
+The abstraction based on layers is the key to the flexibility of ggplots: we can build an almost infinite variety of plots by combining different layers, each one of them, quite simple and with an easy to understand role. In reality, we can also adjust things to an extent within each layer. Importantly, not only layer functions defined in 'ggplot2' but also layer functions defined in other R packages or in a user script can be used to add layers to ggplots, further expanding the available range of available types of layers.
+
+::: callout-note
+Defining new layer functions is fairly simple as layer functions defined in extension packages or scripts can rely on 'ggplot2' to do most of the work. This suggests that the overwhelming success of 'ggplot2' is similarly to the success of R itself supported by the easy with which new types of plots can be implemented as extensions.
+:::
 
 ## The data flow
 
-I consider now, a dynamic abstraction, the data flow describing what transformations are applied to the data in different components of a ggplot. These transformations take place when the plot is rendered, not when it is built, and take place separately in each layer. A ggplot object contains data but also functions that describe the operations to be carried on the data during rendering.
+I consider now, a dynamic abstraction, the data flow describing what transformations are applied to the data in different components of a ggplot (@fig-layer-data-flow). These transformations take place when the plot is rendered, not when it is built, and take place separately in each layer. A ggplot object contains data but also functions that describe the operations to be carried on the data during rendering.
 
 ```{mermaid}
 %%| label: fig-layer-data-flow
@@ -52,7 +58,7 @@ flowchart LR
   A -.-> b[identity\nstatistic] -.-> C
 ```
 
-The data in a ggplot can be shared among all or some layers or be different for each layer. What gets combined are the graphical objects, or instructions to draw features in the final plot. Not yet the plot itself, which is rendered by R graphic devices into any of the format supported by R.
+The data plotted in a ggplot can be shared among all (@fig-plot-default-data-flow) or some layers or be different for each layer (@fig-plot-layer-data-flow). During rendering each layer generates graphical objects (_grobs_ for short) and other code in 'ggplot2' creates the ancillary grobs such as those for the axes, grid, background and legends or keys. When a plot is rendered, all these grobs are collected into an R object, i.e., what code within 'ggplot2' creates are instructions to draw all graphical features in the final plot. Not yet the plot itself, which is in a final step rendered by R's _graphic devices_ into any of the formats supported by R.
 
 ```{mermaid}
 %%| label: fig-plot-default-data-flow
@@ -87,9 +93,11 @@ flowchart LR
   D -.-> E7(TIFF file)
 ```
 
-As with all abstractions, the simple diagrams and explanations above ignored the real complexity. One of the ignored steps is crucial: how information in the data is encoded as graphical elements drawn in the plot, and how can we control this step.
+As with all abstractions, the simple diagrams and explanations above ignored the real complexity. One of the ignored steps is crucial: how information in the data is encoded as graphical elements drawn in the plot, and how can we control this step or _mapping_. In the next section we will build a plot one step at a time. 
 
 ## Building a plot step by step
+
+Building a plot one step at a time, and printing it at each step demonstrates how the grammar of graphics and 'ggplot2' work. The first step is to attach the packages we will use.
 
 ```{r}
 library(scales)
@@ -97,21 +105,34 @@ library(ggplot2)
 library(gginnards)
 ```
 
+An _empty_ `"gg"` object can be rendered as a plot.
+
 ```{r}
 ggplot()
 ```
 
+We pass a data frame containing the data to be plotted. As we pass it as an
+argument to `ggplot()` it becomes the default data for the individual layers we
+will later add. Once a mapping is present, the range of values mapped to each
+aesthetic becomes known, and _x_ and _y_ axes are added.
 
 ```{r}
 ggplot(data = mtcars)
 ```
 
+The mapping of variables in the data to plot _aesthetics_ is done with function
+`aes()`.  As we pass the value returned by function `aes()` as an argument to
+`ggplot()` this mapping becomes the default mapping for the individual layers we
+will later add.
 
 ```{r}
 ggplot(data = mtcars,
        aes(x = disp, y = mpg))
 ```
 
+Geometries are layer functions, `geom_point()` used here, creates a graphical
+representation of the data as mapped to the _x_ and _y_ aesthetics as symbols or
+points on the drawing area of the plot.
 
 ```{r}
 ggplot(data = mtcars,
@@ -119,13 +140,23 @@ ggplot(data = mtcars,
   geom_point()
 ```
 
+Above, the shape and colour of the points are the default ones. We can, instead
+of mapping variables to aesthetics, assign constant values to aesthetics. This
+is best done directly as arguments to layer functions as shown here rather than
+using `aes()`.
 
 ```{r}
 ggplot(data = mtcars,
        aes(x = disp, y = mpg)) +
-  geom_point(color = "red", shape = "square")
+  geom_point(color = "red", shape = "square open", size = 3)
 ```
 
+The default _statistic_ of `geom_point()` is `stat_identity()` that does not
+alter the data. So by default `geom_point()` behaves as is no statistic was
+present, thus above the observations were plotted as is. All other statistics
+modify the data before it reaches the geometry. We add as an example
+`stat_smooth()` which fits a smoother to the data. We override the default
+geometry of `stat_smooth()` setting it to `geom_line()` with `geom = "line"`.
 
 ```{r}
 ggplot(data = mtcars,
@@ -133,6 +164,13 @@ ggplot(data = mtcars,
   geom_point() +
   stat_smooth(geom = "line", method = "lm", formula = y ~ x)
 ```
+
+The correspondence between values in the data and values of an aesthetic is
+controlled by the corresponding _scale_. Here we replace the scale used by
+default (`scale_y_continuous()`) by `scale_y_log10()` so that the _y_ axis
+uses a logarithmic scale. Scales, as shown here only change the graphical
+representation. The legends and tick labels still show the values before the
+transformation, which in most cases makes the plot easy to read.
 
 ```{r}
 ggplot(data = mtcars,
@@ -142,6 +180,13 @@ ggplot(data = mtcars,
   scale_y_log10()
 ```
 
+_Coordinates_ are applied after the statistics "see" the data, so changing the
+limits with them is similar to zooming into a finalized plot based on all the
+data. This is **very important** to remember when statistics are used as in a
+plot like this using scale limits to zoom in would result in the regression
+being fitted only to the data actually visible within the plotting area, while
+using coordinate limits will ensure that the regression is fitted to the whole
+data set.
 
 ```{r}
 ggplot(data = mtcars,
@@ -151,6 +196,12 @@ ggplot(data = mtcars,
   coord_cartesian(ylim = c(15, 25))
 ```
 
+A transformation applied through a coordinate affects the values after the
+statistics has computed them, thus in this plot the linear regression is
+represented by a curve. This is in contrast to the example above with
+`scale_y_log10()` where the linear regression was fit to the `log10()`
+transformed data and thus graphically represented by a straight line in spite of
+the transformed _y_ scale.
 
 ```{r}
 ggplot(data = mtcars,
@@ -160,6 +211,9 @@ ggplot(data = mtcars,
   coord_trans(y = "log10")
 ```
 
+_Themes_ are similar to style sheets, and they control the appearance and
+position of only those graphical elements that are _not_ created by layer
+functions.
 
 ```{r}
 ggplot(data = mtcars,
@@ -168,6 +222,10 @@ ggplot(data = mtcars,
   theme_classic()
 ```
 
+Many elements in themes are defined hierarchically, and for example text sizes
+are by default set relative to a base size. Here we increase the size of text
+elements and change the base font family. However, the size of the points is not
+affected.
 
 ```{r}
 ggplot(data = mtcars,
@@ -176,6 +234,22 @@ ggplot(data = mtcars,
   theme_classic(base_size = 20, base_family = "serif")
 ```
 
+We can modify individual theme settings, instead or in addition to replacing
+the theme as a whole.
+
+```{r}
+ggplot(data = mtcars,
+       aes(x = disp, y = mpg)) +
+  geom_point() +
+  theme(axis.title = element_text(face = "bold"),
+        axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1))
+```
+
+In a plot for publication, axis and legend labels usually need to be clearer and
+more elegant that simple variable names. `labs()` is a convenience function that
+makes setting these texts straightforward. Embedding of _new line_ characters
+(`\n`) withing the character strings is supported, and in some cases very
+useful.
 
 ```{r}
 ggplot(data = mtcars,
@@ -187,13 +261,21 @@ ggplot(data = mtcars,
        subtitle = "Source: 1974 Motor Trend US magazine")
 ```
 
+Finally, as shown here, mappings can be to R expressions not just variables in
+data. For example here we plot `mpg` (miles per gallon) vs. `disp / cyl` (the
+displacement of individual engine cylinders).
 
 ```{r}
-ggplot(data = mtcars, aes(x = disp / cyl, y = mpg)) +
+ggplot(data = mtcars, 
+       aes(x = disp / cyl, y = mpg, colour = factor(cyl))) +
   geom_point()
 ```
 
 ## The internals
+
+For most users of 'ggplot2' and its extensions it is crucial to understand the grammar of graphics. The internals of `"gg"` objects can be ignored by most users, although a rough idea of how 'ggplot2' works can be useful when facing error messages and "code that does not work". It can be also useful in cases when modifying an existing `"gg"` object is the only available or easiest approach.
+
+Above we have implicitly printed the plots into their graphical representation. Here we save the `"gg"` object into variable `p` and then explore the structure of the object, which reveals how the different components of the "plot drawing recipe" are stored. For example, one can see that "actions" are stored in the object as function definitions.
 
 ```{r}
 p <- ggplot(mpg, aes(x = displ, y = hwy)) +
@@ -209,3 +291,12 @@ str(p, max.level = 1, list.len = 4)
 str(p$layers, max.level = 1)
 ```
 
+Package 'gginnards' makes it rather easy to modify `"gg"` objects. I find occasionally useful to alter the order of layers and to insert layers out-of-order in an exisiting `"gg"` object . Deleting those variables that have not been mapped to aesthetics from the data stored within an exisiting `"gg"` object can be sometimes simpler than constructing again the plot object with a subset of the data.
+
+::: callout-tip
+This brief introduction only touched on the basic aspects of the grammar of graphics as implemented in R package 'ggplot2'. This is enough to get many different types of plots done successfully. In most cases, doing different types of plots requires one to find a suitable layer function. While in many cases default arguments to these functions will yield a usable plot, normally, studying the help page of a layer function will make clear its features and how to use them effectively. Thus, it is not necessary, and a waste of time, to try to become an expert across all possible types of plots. It is enough to understand how plots are assembled, and learn when the need arises, how to use individual layer functions.
+
+A good place to start looking for layer functions vailable in extension packages is to visiti the site [**ggplot2** extensions](https://exts.ggplot2.tidyverse.org/) and its [gallery](https://exts.ggplot2.tidyverse.org/gallery/), which is especially effective for those packages that are specialized and export a single or a few layer functions because the gallery displays a single example plot per package, and the list of extensions only very few examples per package. 
+
+[Several of the pages](https://www.r4photobiology.info/galleries.html#category=Plotting%20examples) here listed under _galleries_ contain many examples of the use of the extensions to 'ggplot2' that I have published in packages 'ggpp', 'ggpmisc', 'gginnards' and 'ggspectra'.
+:::
