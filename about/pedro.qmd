@@ -23,9 +23,12 @@ about:
     - icon: envelope
       text: e-mail
       href: mailto:pedro.aphalo@hrlsinki.fi
+    - icon: mastodon
+      href: https://mastodon.social/@aphalo
 ---
 
 I am a senior university lecturer in _physiological plant ecology_ and principal investigator at the [Organismal and Evolutionary Biology Research Programme (OEB)](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences/research/organismal-and-evolutionary-biology), [Faculty of Biological and Environmental Sciences](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences) of the [University of Helsinki](https://www.helsinki.fi/en) and member of the [Viikki Plant Science Center (ViPS)](https://www.helsinki.fi/en/researchgroups/viikki-plant-science-centre).
 
 I am the leader of the research group [Sensory and Physiological Ecology of Plants (SenPEP)](https://blogs.helsinki.fi/senpep-blog).
 
+<a rel="me" href="https://mastodon.social/@aphalo">Mastodon</a>

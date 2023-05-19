@@ -107,7 +107,7 @@ options(warnPartialMatchArgs = FALSE,
         dplyr.summarise.inform = FALSE)
 ```
 
-```{r}
+```{r, message=FALSE}
 #| code-fold: false
 library(ggpp)
 library(dplyr)
@@ -711,6 +711,12 @@ to create pictorial representations of data.
 Inset grid grobs used as annotations, but not as data labels, can be
 added to base plots using the plot composition operators and function
 `inset_element()` from package 'patchwork'.
+
+Adding a _grob_, _grob list_ or _grob tree_ as a plot layer is made easy by
+functions `grid_group()` and `grid_panel()` from package 'gggrid'. These two
+functions are neither geometries nor statistics, directly adding graphical
+objects to those generated from data by layer functions working according to the
+grammar of graphics.
 
 If the desired composed plot format is a 'grid' `grob` then the ggplot
 can be converted first into a grob with function `ggplotGrob()` and this
