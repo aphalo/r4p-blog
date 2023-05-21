@@ -1,11 +1,34 @@
 ---
 title: "Home page"
+subtitle: "A brief presenttaion of the site"
 fig-format: svg
+editor: 
+  markdown: 
+    wrap: 72
 ---
+
+## News and announcements
+
+I publish announcements through Mastodon. I use [hashes to differentiate
+posts by subject](posts/Mastodon-updates/index.qmd) so that you can
+follow what you are interested in without cluttering your Mastodon Home.
+You can see my first post through Mastodon or [my first
+*toot*](https://mastodon.social/@aphalo/110389057352585332).
+
+[![Click to see the toot live](first-toot.png){fig-alt="Image of how the toot looks like"
+fig-align="center"}](https://mastodon.social/@aphalo/110389057352585332)
+
+Visit my Mastodon profile at [https://mastodon.social/@aphalo](https://mastodon.social/@aphalo).
 
 ## R, data analysis and photobiology
 
-This website's focuses mostly on methodology and R and R packages as tools. It complements R packages and books I have authored. The site emphasizes the use of the R packages I have developed, both extensions to 'ggplot2' and a suite of several R packages supporting computations, data acquisition and plotting related to photobiology. However, it also includes some content broadly applicable to data analysis and data visualization.
+This website's focuses mostly on methodology, and R and R packages as
+tools. It complements R packages and books I have authored. The site
+emphasizes the use of the R packages I have developed and maintain,
+including extensions to 'ggplot2' and a suite of several R packages
+supporting computations, data acquisition and plotting related to
+photobiology. However, this website also includes some content broadly
+applicable to data analysis and data visualization.
 
 ```{r, message=FALSE}
 library(ggspectra)
@@ -13,51 +36,72 @@ photon_as_default()
 autoplot(sun.daily.spct, annotations = c("+", "title:where:when"))
 ```
 
-
 ## Contents
 
-The following sections of the site can be accessed through the menu at the top
-of the screen.
+The following sections of the site can be accessed through the menu at
+the top of the screen.
 
 ### Blog
 
-The [blog](posts.qmd) contains short articles, mostly news that once published
-are not revised, except for mistakes.
+The [blog](posts.qmd) contains short articles, mostly news that once
+published are not revised, except for mistakes.
 
 ### Pages
 
-The [pages](pages.qmd) are informative articles and tutorials that once published
-are updated as needed to keep them useful and relevant.
+The [pages](pages.qmd) are informative articles and tutorials that once
+published are updated as needed to keep them useful and relevant.
 
 ### R Gallery
 
-The [R gallery](galleries.qmd) are pages that demonstrate use cases of R and R
-packages, mostly my own packages. Each page contains multiple R-code recipes for ploting and
-computations for specific tasks, cookbook style. The aim is to provide
-additional recipes complementing those in the well known 
-[Cookbook for R](http://www.cookbook-r.com/) website. Once published they are updated as needed to keep
-them useful and relevant, and possibly to expand them.
+The [R gallery](galleries.qmd) are pages that demonstrate use cases of R
+and R packages, mostly my own packages. Each page contains multiple
+R-code recipes for ploting and computations for specific tasks, cookbook
+style. The aim is to provide additional recipes complementing those in
+the well known [Cookbook for R](http://www.cookbook-r.com/) website.
+Once published they are updated as needed to keep them useful and
+relevant, and possibly to expand them.
 
 ### R packages
 
-This menu entry gives access to the documentation in HTML format for all the R packages that
-I actively maintain. It also lists a page that summarizes the results of the latest test runs at
-CRAN and GitHub and links for reporting bugs or requesting support.
+This menu entry gives access to the documentation in HTML format for all
+the R packages that I actively maintain. It also lists a page that
+summarizes the results of the latest test runs at CRAN and GitHub and
+links for reporting bugs or requesting support.
 
 ### Books
 
-This menu entry gives access to pages related to books I have written or edited about R and/or photobiology.
+This menu entry gives access to pages related to books I have written or
+edited about R and/or photobiology.
 
 ### About
 
-Pages with additional information about the site and its webmaster and author.
+Pages with additional information about the site and its webmaster and
+author.
 
 ## My websites
 
-I have been using and teaching [R](https://www.r-project.org/), the free software environment for statistical computing and graphics, for more than 20 years. I am a researcher working in the field of sensory ecology of plants. I have been interested throughout my carreer in plants' responses to light.
+I have been using and teaching [R](https://www.r-project.org/), the free
+software environment for statistical computing and graphics, for more
+than 20 years. I am a researcher working in the field of sensory ecology
+of plants. I have been interested throughout my carreer in plants'
+responses to light.
 
-In my research group we have used R for general data analysis, as well as for plotting and calculations related to photobiology. As a result of all these activities I developed several R packages and published them through CRAN. I have also written books both on R and on photobiology. 
+In my research group we have used R for general data analysis, as well
+as for plotting and calculations related to photobiology. As a result of
+all these activities I developed several R packages and published them
+through CRAN. I have also written books both on R and on photobiology.
 
-I have a [separate website for my research group's activities]() and a [website with material related to photography and photography techniques](). My scientific publications are listed at my [ORCID profile](https://orcid.org/0000-0003-3385-972X).
+I have a [separate website for my research group's activities]() and a
+[website with material related to photography and photography
+techniques](). My scientific publications are listed at my [ORCID
+profile](https://orcid.org/0000-0003-3385-972X).
 
-I published my first website, _The Plant Photobiology Notes_, between 1995 and 2001. Initially it was hosted in the desktop PC in my office, the same I used everyday for other tasks. The site survived with minor updates, mostly deletion of broken links, until around 2009. In the meantime the URL changed two or three times when I changed jobs. Much of its contents are now outdated but [the site was archived by the Wayback Machine](https://web.archive.org/web/*/http://cc.joensuu.fi/photobio*) and remains available. Most of the spectral data at the old site are now included in my R packages together with newer data.
+I published my first website, *The Plant Photobiology Notes*, between
+1995 and 2001. Initially it was hosted in the desktop PC in my office,
+the same I used everyday for other tasks. The site survived with minor
+updates, mostly deletion of broken links, until around 2009. In the
+meantime the URL changed two or three times when I changed jobs. Much of
+its contents are now outdated but [the site was archived by the Wayback
+Machine](https://web.archive.org/web/*/http://cc.joensuu.fi/photobio*)
+and remains available. Most of the spectral data at the old site are now
+included in my R packages together with newer data.

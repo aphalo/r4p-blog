@@ -1,0 +1,12 @@
+---
+title: "I have started using Mastodon..."
+subtitle: "...to announce new releases of my R packages"
+author: "Pedro J. Aphalo"
+date: 2023-05-21
+categories: [R packages, Announcements]
+keywords: [Mastodon, package updates, blog posts, website]
+---
+
+Going forward I will announce updates to my R packages and related posts at my website through Mastodon "toots". I will use tag **#ggpmisc** for announcements related to packages ['ggpmisc'](https://docs.r4photobiology.info/ggpmisc/), ['ggpp'](https://docs.r4photobiology.info/ggpp/) and ['gginnards'](https://docs.r4photobiology.info/gginnards/) and I will use tag **#r4photobiology** for the R packages in the [R for photobioloy suite of packages](https://www.r4photobiology.info/pages/r4p-introduction.html): ['photobiology'](https://docs.r4photobiology.info/photobiology/), ['photobiologyWavebands'](https://docs.r4photobiology.info/photobiologyWavebands/), ['ggspectra'](https://docs.r4photobiology.info/ggspectra/), ['photobiologyPlants'](https://docs.r4photobiology.info/photobiologyPlants), ['photobiologyFilters'](https://docs.r4photobiology.info/photobiologyFilters/). ['photobioloyLamps'](https://docs.r4photobiology.info/photobiologyLamps/), ['photobiologyLEDs'](https://docs.r4photobiology.info/photobiologyLEDs/), ['PhotobiologySun](https://docs.r4photobiology.info/photobiologySun/) ['photobiologySensors'](https://docs.r4photobiology.info/photobiologySensors/), ['photobiologyInOut'](https://docs.r4photobiology.info/photobiologyInOut/), ['ooacquire'](https://docs.r4photobiology.info/ooacquire/) and ['rOmniDriver'](https://docs.r4photobiology.info/rOmniDriver/). I will use tag **#learnrbook** for announcements related to the book [_Learn R: As a Language_](https://www.learnr-book.info/) and its accopanying R package ['learnrbook'](https://docs.r4photobiology.info/learnrbook/). I will also use tags **#rstats**, **#ggplot2** and other relevant tags based on the subject. You can follow the tags you are interested in, or just follow my [Mastodon profile](https://mastodon.social/@aphalo) using **@aphalo**.
+
+In brief, [Mastodon](https://joinmastodon.org/) is a non-commercial and open system that aims to give users better control upon the contents they publish and view than Twitter providing a friendly, user-monitored and managed platform for short posts or "toots".
