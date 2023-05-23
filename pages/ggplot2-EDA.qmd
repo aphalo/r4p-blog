@@ -1,0 +1,48 @@
+---
+title: "EDA with 'ggplot2'"
+subtitle: "EDA = Exploratory Data Analysis"
+author: "Pedro J. Aphalo"
+date: 2022-05-03
+date-modified: 2023-05-13
+categories: [R, plotting]
+keywords: [ggplot2 pkg, data visualization, dataviz]
+code-fold: false
+---
+
+::: callout-warning
+Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code brealking' you should be aware that the examples in this page have been tested with version (==3.4.2).
+:::
+
+## The stages of an experiment or survey
+
+Exploratory data analysis, or EDA, can play two distinct roles, depending on the type of experiment or survey. 
+
+1. Some research is based on testing of hypotheses set _a priori_ (before the the experiment is designed, or at least independently of the data collected in the current study), in which case EDA can be seen mainly as a quality control step asking whether there is anything unusual in the data that suggests problems during its collection or in the assumptions on which the design of the study was based.
+
+2. In other cases research aims at describing the system under study, in most cases, searching for meaningful relationships among variables. In such research EDA plays an additional role, it conveys information about the system under study. In such cases it is in most cases necessary to divide the data into a set used to generate testable hypotheses and a set used for validation (= testing of hypotheses).
+
+3. It is also possible to have as an aim to develop a purely empirical way of achieving a prediction. This is almost never the aim in basic scientific research because it aims at improving understanding. However this tends to be the norm when artificial intelligence and machine learning are used in practical applications.
+
+::: callout-tip
+Even in an experiment or survey is designed to tests hypotheses set _a priori_, EDA can suggest new hypotheses to be tested in future experiments. Even if not validated, such hypotheses can be discussed during communication of results. However, in all cases it is imperative to clearly distinguish statements _supported by strong evidence_ from _new hypotheses suggested_ by the results of an experiment or survey.
+:::
+
+The diagram in @fig-EDA-flowchart shows the position of EDA in the research process. Solid arrows show the most direct flow of information, while the dotted arrows show information-dependent connections that are also crucial. For example the design of an experiment determines how the data collected can be analysed and interpreted. Decisions about what can be considered an outlier are informed by annomalies observed during the course of an experiment, thus the need to keep a written record of them.
+
+```{mermaid}
+%%| label: fig-EDA-flowchart
+%%| fig-cap: A diagram showing the steps of a scientific study. This abstraction can be applied to empirical research, but with small changes (not shown) also to simulation studies.
+%%{init: {"htmlLabels": true} }%%
+
+flowchart TD
+  A(Design) --> B(Realization) -.-> C[<strong>EDA</strong>] --> D(Model\nfitting) --> E(Interpretation) --> F(Communication)
+  A -.-> D
+  B <--> H
+  A -.-> E
+  A -.-> H(Data collection) --> C
+  C --> G(Tests of\nHypothesis) --> E
+  A -.-> G
+```
+
+In most cases EDA relies heavily on the graphical display of data. It is however important to remember that different types of plots make it easy to visualize different aspects of a data set. In this page I show some examples using R and package 'ggplot2'.
+
