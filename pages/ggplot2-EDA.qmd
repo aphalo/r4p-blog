@@ -2,17 +2,24 @@
 title: "EDA with 'ggplot2'"
 subtitle: "EDA = Exploratory Data Analysis"
 author: "Pedro J. Aphalo"
-date: 2022-05-03
-date-modified: 2023-05-13
+date: 2022-05-24
+date-modified: 2023-05-24
 categories: [R, plotting]
 keywords: [ggplot2 pkg, data visualization, dataviz]
-code-fold: false
+format:
+  html:
+    code-fold: false
+    code-tools: true
 ---
+
+::: callout-note
+To see the source of this document click on "</> CODE" to the right of the
+page title. The page is written using [Quarto](https://quarto.org/) which is an enhanced version of [R Markdown](https://rmarkdown.rstudio.com/). The diagrams are created with [Mermaid](https://mermaid.js.org/), a language inspired by the simplicity of [Markdown](https://daringfireball.net/projects/markdown/syntax).
+:::
 
 ::: callout-warning
 Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code brealking' you should be aware that the examples in this page have been tested with version (==3.4.2).
 :::
-
 
 ## The stages of an experiment or survey
 
@@ -25,10 +32,10 @@ Exploratory data analysis, or EDA, can play two distinct roles, depending on the
 3. It is also possible to have as an aim to develop a purely empirical way of achieving a prediction. This is almost never the aim in basic scientific research because it aims at improving understanding. However this tends to be the norm when artificial intelligence and machine learning are used in practical applications.
 
 ::: callout-tip
-Even in an experiment or survey is designed to tests hypotheses set _a priori_, EDA can suggest new hypotheses to be tested in future experiments. Even if not validated, such hypotheses can be discussed during communication of results. However, in all cases it is imperative to clearly distinguish statements _supported by strong evidence_ from _new hypotheses suggested_ by the results of an experiment or survey.
+Even if an experiment or survey is designed to test hypotheses set _a priori_, EDA can suggest new hypotheses to be tested in future experiments. Even if not testable with the same data, such hypotheses can be discussed during communication of results as something to be considered in future studies. However, in all cases it is imperative to clearly distinguish statements _supported by strong evidence_ from _new hypotheses suggested_ by the results of an experiment or survey.
 :::
 
-The diagram in @fig-EDA-flowchart shows the position of EDA in the research process. Solid arrows show the most direct flow of information, while the dotted arrows show information-dependent connections that are also crucial. For example the design of an experiment determines how the data collected can be analysed and interpreted. Decisions about what can be considered an outlier are informed by annomalies observed during the course of an experiment, thus the need to keep a written record of them.
+The diagram in @fig-EDA-flowchart shows the position of EDA in the research process. Solid arrows show the most direct flow of information, while the dotted arrows show information-dependent connections that are also crucial. The dot "arrow" heads indicate that the connection imposes restrictions. For example the design of an experiment determines how the data collected can be analysed and interpreted. Decisions about what can be considered an outlier are informed by anomalies observed during the course of an experiment, thus the need to keep a written record of them. I have included _Tests of Hypotheses_ and _Model Selection_ as alternatives, but wording is rather unsatisfactory. The distinction is between testing hypotheses set _a priori_, versus searching for a model that describes the data well. In the first case we are interested in the _P_-values themselves, in the second case in the actual parameters estimates, such as the slope and intercept of a linear regression. In the first case, our _a priori_  hypotheses are hypotheses still about the values of parameter estimates from a fit of data to a model, so in both cases we rely on fitting one or more models to the observed data for our statistical analysis.
 
 ```{mermaid}
 %%| label: fig-EDA-flowchart
@@ -40,8 +47,8 @@ flowchart TD
   A -.-o D
   B <--> H
   A -.-o E
-  A -.-o H(Data collection) --> C
-  C --> G(Tests of\nHypothesis) --> E
+  A -.-> H(Data collection) --> C
+  C --> G(Tests of\nHypotheses) --> E
   A -.-o G
 ```
 
@@ -55,7 +62,7 @@ Before any plotting it is good to start by tabulating the data. `table()` is use
 table(iris$Species)
 ```
 
-With two factors we get a two-way table, and with additional factors, aditional 2D tables. From this very simple table we can see that we have 50 observations per species. Had we had wrongly typed the species name in one cell we would get a different table.
+With two factors we get a two-way table, and with additional factors, additional 2D tables. From this very simple table we can see that we have 50 observations per species. Had we had wrongly typed the species name in one cell we would get a different table.
 
 ```{r, include=FALSE}
 bad_iris <- iris
@@ -67,13 +74,13 @@ bad_iris$Species <- factor(bad_iris$Species)
 ```{r}
 table(bad_iris$Species)
 ```
-We now know that there is a badly encoded value, and we can find in which row it is.
+We now know that there is an incorrectly encoded value, and we can find in which row it is.
 
 ```{r}
 which(bad_iris$Species == "acetosa")
 ```
 
-We can also replace, if we are sure that this is a mistake. The code below will replace all instances of `"acetosa"` by `"setosa"`.
+We can also replace it, if we are sure that this is a mistake. The code below will replace all instances of `"acetosa"` by `"setosa"`.
 
 ```{r}
 bad_iris$Species[bad_iris$Species == "acetosa"] <- "setosa" # replaces the value
@@ -94,10 +101,10 @@ summary(iris)
 
 Summary is useful in that it provides a quick view of all the columns of the data frame and will also report the number of `NA` values in each colum.
 
-I am not showing an example, but when reading data from a text file (e.g., `.csv` file) if the decimal mark (`,` or `.`) is not recognized as such, numbers are read as text (`character` values) instead numbers (`numeric` values). It is enough that a single value in a whole column has the wrong decimal, for the whole column to be read as text. `summary()` can also help in such a case, as the summary for the afected column will not be numeric. 
+I am not showing an example, but when reading data from a text file (e.g., `.csv` file) if the decimal mark (`,` or `.`) is not recognized as such, numbers are read as text (`character` values) instead numbers (`numeric` values). It is enough that a single value in a whole column has the wrong decimal marker, for the whole column to be read as text. `summary()` can also help in such a case, as the summary for the affected column will not be numeric. 
 
 ::: callout-tip
-`NA` is an abbreviation for _Not Available_, it is used to indicate missing data. Observations that should have been available but were lost or are missing because of an "accident". They propagate in arithmetic operations. One or more missing values make the result that would have been obtained had the value(s) been available, also not available or unknown.
+`NA` is an abbreviation for _Not Available_, it is used to indicate missing data. Observations that should have been available but were lost or are missing because of an "accident". They propagate in arithmetic operations. One or more missing values make the result that would have been obtained had the value(s) been available, also not available or unknown. In general, in R, removal of `NA` values is not the default, but can be explicitly requested.
 
 ```{r}
 NA + 10
@@ -132,14 +139,14 @@ ggplot(iris, aes(x = Species, y = Petal.Length)) +
 ```
 
 ::: callout-caution
-The advice is not to use box plots with small data sets, say fewer than 10 to 15 observations per box plot (e.g., for each of species in the figure above). The shape of the boxes and whiskers is quite reasonable with 50 observations per species, with few observations the plots become less informative than showing all the observations.
+The advice is not to use box plots with small data sets, say with fewer than 10 to 15 observations per box plot (e.g., 50 observations for each of species in the figure above). The shape of the boxes and whiskers is quite reasonable with 50 observations per species, with very few observations the box plots are less informative than showing all the observations individually.
 :::
 
-An enhancement to simple box plots is to show an approximate 95% confidence interval as a notch in the box plot.
+An enhancement to simple box plots is to show an approximate 95% confidence interval as a notch in the box plot. We can also make them narrower.
 
 ```{r}
 ggplot(iris, aes(x = Species, y = Petal.Length)) +
-  geom_boxplot(notch = TRUE)
+  geom_boxplot(notch = TRUE, width = 0.3)
 ```
 ### Dot plot
 
@@ -276,7 +283,8 @@ ggplot(barley, aes(x = year, y = yield)) +
 #| fig-height: 4
 library(lattice)
 ggplot(barley, aes(x = year, y = yield)) +
-  stat_summary(fun = median, geom = "col", width = 0.67) +
+  stat_summary(fun = median, geom = "col", 
+               width = 0.67) +
   expand_limits(y = 0) +
   facet_grid(cols = vars(site))
 ```
@@ -288,7 +296,8 @@ We can make the difference even more visible by better distinguishing the years.
 #| fig-height: 4
 library(lattice)
 ggplot(barley, aes(x = year, y = yield, fill = year)) +
-  stat_summary(fun = median, geom = "col", colour = "black", width = 0.67) +
+  stat_summary(fun = median, geom = "col", 
+               colour = "black", width = 0.67) +
   expand_limits(y = 0) +
   scale_fill_grey() +
   facet_grid(cols = vars(site)) +
