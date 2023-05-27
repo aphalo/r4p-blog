@@ -1,0 +1,65 @@
+---
+title: "'photobiology' 0.10.1x"
+subtitle: "Most significant recent changes"
+author: "Pedro J. Aphalo"
+date: 2023-05-28
+categories: [R Package Update]
+keywords: [photobiology pkg]
+---
+
+## Uses
+
+I have started measuring time series of spectra for my research and thus I
+have tried to make working with collections of many spectra easier. Some other
+changes have aimed at smoothing some rough edges.
+
+## Metadata
+
+More detailed metadata for spectral data and its update during operations allow
+keeping a more complete trace or record of the operations applied to the data
+and its origin. The tricky aspect is how to treat objects created with earlier
+versions of the package. Once implemented in 'photobiology', other packages in
+the _R for Photobiology Suite_ have to be updated to take full advantage of the
+changes, in particular the metadata of spectral objects included in the
+different packages need to be updated filling in the new "slots".
+
+## Normalization
+
+Normalization is dependent on the physical quantity and basis of expression. So,
+for example a conversion of energy irradiance into photon irradiance, disrupts
+any pre-existing normalization. The more detailed metadata makes it now possible,
+and is now the default, to "refresh" or `"update"` the normalization after the
+conversion re-applying the previous normalization settings and adjusting the
+metadata.
+
+## Collections of spectra
+
+Now collections of spectra can contain member spectra each with multiple spectra
+stored in long format, and all collecrtions are treated equally during
+operations. Conversion between collections and spectra in long form and back are
+now are now easier, and in some cases automatic. Package 'ggspectra' has
+already been updated to take advantage of this in `autoplot()` methods.
+
+## Coefficients of attenuation
+
+New classes `solute_spct` and `solute_mspct` have been added. They can be used
+to store spectral coefficients of attenaution for substances. Most, but not yet
+all operators and methods have been implemented in 'photobiology' however not
+yet in any other package, so are still of limited use.
+
+## New methods and functions
+
+- `summary()` implemented for collections of spectra.
+- `illuminance()` to compute illuminance.
+- `is_daytime()` is a wrapper on `day_night()` returning a logical vector.
+-  `wl2wavenumber()`, `wavenumber2wl()`, `wl2frequency()`, `frequency2wl()`, 
+`wl2energy()` and `energy2wl()` conversions among quantities related to
+wavelength.
+
+## Bug fixes
+
+- Several bugs were fixed. Some existing but mostly inconsequential bugs became 
+errors because of improved checks in recent R versions. Other bugs and
+"regressions" were triggered by changes in packages on which 'photobiology'
+depends, including some affecting time zones.
+

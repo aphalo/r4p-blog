@@ -43,7 +43,7 @@ The diagram in @fig-EDA-flowchart shows the position of EDA in the research proc
 %%{init: {"htmlLabels": true} }%%
 
 flowchart TD
-  A(Design) --> B(Realization) <-.-> C[<strong>EDA</strong>] --> D(Model\nfitting) --> E(Interpretation) --> F(Communication)
+  A(Design) --> B(Realization) <-.-> C[<strong>EDA</strong>] --> D(Model\nSelection) --> E(Interpretation) --> F(Communication)
   A -.-o D
   B <--> H
   A -.-o E

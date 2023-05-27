@@ -1,6 +1,6 @@
 ---
 title: "Home page"
-subtitle: "A brief presenttaion of the site"
+subtitle: "A brief presentation of the site"
 fig-format: svg
 editor: 
   markdown: 
