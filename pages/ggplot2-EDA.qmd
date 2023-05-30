@@ -126,6 +126,7 @@ The plots we will create today are for data exploration, not communication of re
 
 ```{r}
 library(ggplot2)
+theme_set(theme_bw(16))
 ```
 
 ### Box plot
@@ -222,8 +223,7 @@ Now that we have dealt with the overlaps, we can use a common scale, to be able 
 ```{r}
 ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
   geom_point(alpha = 0.25, position = position_jitter(width = 0.05, height = 0.05)) +
-  facet_wrap(facets = vars(Species)) +
-  theme_bw()
+  facet_wrap(facets = vars(Species))
 ```
 
 ```{r}
@@ -231,8 +231,7 @@ ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
   geom_point(alpha = 0.25, position = position_jitter(width = 0.05, height = 0.05)) +
   facet_wrap(facets = vars(Species)) +
   scale_x_log10() +
-  scale_y_log10() +
-  theme_bw()
+  scale_y_log10()
 ```
 
 With many observations we face again the problem of overlaps, and the best option is again to describe the 2D empirical distribution of the data. As with violin plots outliers can disappear from our view. One approach is to add the outliers as individual observations to a density plot. We start with a plain density plot. Package 'ggplot2' provides `stat_density2D()`, however, `stat_hdr()` presents the areas in a more useful way. For this particular data set `stat_density2D()`, using default arguments fails. I use the `iris` data set, although this approach is specially well suited to large data sets (I have used it with over 500000 observations per plot).
@@ -242,8 +241,7 @@ library(ggdensity)
 ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
   stat_hdr() +
   expand_limits(x = c(-0.5, 3), y = c(0, 7.5)) +
-  facet_wrap(facets = vars(Species)) +
-  theme_bw()
+  facet_wrap(facets = vars(Species))
 ```
 
 To understand the relationship between the density estimates and the observations, we can add the observations as semitransparent points.
@@ -256,8 +254,7 @@ ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
              alpha = 0.5, 
              position = position_jitter(width = 0.05, height = 0.05)) +
   expand_limits(x = c(-0.5, 3), y = c(0, 7.5)) +
-  facet_wrap(facets = vars(Species)) +
-  theme_bw()
+  facet_wrap(facets = vars(Species))
 ```
 
 ## Errors are not always obvious
@@ -275,7 +272,8 @@ library(lattice)
 ggplot(barley, aes(x = year, y = yield)) +
   geom_col(width = 0.67) +
   expand_limits(y = 0) +
-  facet_grid(rows = vars(variety), cols = vars(site))
+  facet_grid(rows = vars(variety), cols = vars(site)) +
+  theme_bw(12)
 ```
 
 ```{r}
@@ -286,7 +284,8 @@ ggplot(barley, aes(x = year, y = yield)) +
   stat_summary(fun = median, geom = "col", 
                width = 0.67) +
   expand_limits(y = 0) +
-  facet_grid(cols = vars(site))
+  facet_grid(cols = vars(site)) +
+  theme_bw(12)
 ```
 
 We can make the difference even more visible by better distinguishing the years. This plot is more refined graphically than the usual EDA plots, but tries to demonstrate that the selection of graphical representation affects affects what patterns we recognize easily.
@@ -301,8 +300,8 @@ ggplot(barley, aes(x = year, y = yield, fill = year)) +
   expand_limits(y = 0) +
   scale_fill_grey() +
   facet_grid(cols = vars(site)) +
-  theme_bw() +
-  theme(legend.position = "top")
+  theme(legend.position = "top") +
+  theme_bw(12)
 ```
 
 Errors become obvious when we discover them, but before we plot the data in a revealing way they are not obvious at all! In this case, it is difficult after some many years to get to the root of the problem. We may guess a miscoding of years for the data from Morris, but as far as I know, this is just a hypothesis. Had the odd results been noticed by those collecting the data, and either corrected or described as being a real feature when they reported them in a publication, we could be sure of what had happened.
