@@ -5,11 +5,15 @@ author: "Pedro J. Aphalo"
 date: "2023-05-11"
 date-modified: "2023-05-13"
 keywords: [photobiology pkg, photobiologyPlants pkg]
-categories: [Photobiology exaamples]
+categories: [Photobiology examples]
 editor: 
   markdown: 
     wrap: 72
 code-fold: false
+format:
+  html: 
+    code-link: true
+    code-tools: true
 ---
 
 ## Introduction

@@ -5,6 +5,10 @@ author: "Pedro J. Aphalo"
 date: 2023-05-28
 categories: [R Package Update]
 keywords: [photobiology pkg]
+format:
+  html: 
+    code-link: true
+    code-tools: true
 ---
 
 ## Introduction
@@ -99,7 +103,8 @@ depends, including some affecting time zones.
 ## Unit tests
 
 Unit tests were added for the new features, including new methods and functions.
-Tests' code coverage is not yet computed or reported. Even though the package
-includes more than 5000 unit tests, coverage is far from complete, and
+Tests' code coverage is not yet reported. Even though the package
+includes more than 5000 unit tests, coverage is far from complete at 52%, and
 occasionally bugs in new code are caught late, i.e., during reverse
-dependencies' checks.
+dependencies' checks. I aim to gradually improve test coverage in the next few
+releases.

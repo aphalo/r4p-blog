@@ -1,0 +1,81 @@
+---
+title: "Functional analysis of spectra (DRAFT)"
+subtitle: "From 'photobiology' to 'fda.usc' and back."
+author: "Pedro J. Aphalo"
+date: "2023-06-02"
+keywords: [photobiology pkg, fda.usc pkg, ggspectra pkg, functional data analysis]
+categories: [Photobiology examples]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
+---
+
+## Introduction
+
+I have started measuring time series of spectra, and one approach to 
+summarizing them and for removing outlier curves is to use _functional
+data analisys_ (FDA). Package 'fda.usc' and in particular objects of class
+`fdata` provides a unified entry point to many different methods for FDA.
+
+Package 'photobiologyInOut' (>= 0.4.27) makes it easy to convert of objects
+of classes `source_spct`, `response_spct`, `filter_spct` and `reflector_spct``
+into objects of class `fdata` and back.
+
+In this page I will collect examples of code that I have found useful.
+
+## Deepest curve
+
+```{r, message=FALSE}
+library(photobiology)
+library(photobiologyInOut)
+library(ggspectra)
+library(magrittr)
+library(rlang)
+library(fda.usc)
+library(lubridate)
+
+theme_set(theme_bw())
+
+energy_as_default()
+```
+The example data are a time series of 45 spectra of sunlight acquired with a
+time step of one minute under broken clouds.
+
+```{r}
+load("sun.cosine.spct.Rda")
+sun.cosine.spct <- clean(sun.cosine.spct)
+when_measured(sun.cosine.spct)[c(1, 45)]
+how_measured(sun.cosine.spct)
+```
+
+### Highlight the "median" spectrum
+
+```{r}
+autoplot(sun.cosine.spct, 
+         annotations = c("-", "peaks")) +
+  geom_line(data = . %>% spct2fdata() %>% func.med.FM() %>% fdata2spct(),
+            colour = "red", linewidth = 1, alpha = 0.67)
+```
+
+
+### Highlight the "trimmed mean" spectrum
+
+```{r}
+autoplot(sun.cosine.spct, 
+         annotations = c("-", "peaks")) +
+  geom_line(data = . %>% spct2fdata() %>% func.trim.FM(trim = 0.25) %>% fdata2spct(),
+            colour = "green", linewidth = 1, alpha = 0.67)
+```
+
+### Highlight the "mean" spectrum
+
+```{r, eval=FALSE}
+autoplot(sun.cosine.spct, 
+         annotations = c("-", "peaks")) +
+  geom_line(data = . %>% spct2fdata() %>% func.mean() %>% fdata2spct(), # fdata2spct() returns zero rows
+            colour = "green", linewidth = 1, alpha = 0.67)
+```

@@ -8,6 +8,10 @@ categories: [Plotting examples]
 editor: 
   markdown: 
     wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
 ---
 
 ## Introduction
@@ -27,6 +31,9 @@ making visible the R code used to produce the plot. Except for the
 loading of packages shown in section **Preliminaries** code examples are
 in most cases self contained. When they are not, this is indicated by a
 comment.
+
+All "words" defined in base R or in extension packages are linked to the
+corresponding HTML-rendered help pages.
 
 The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
@@ -120,7 +127,7 @@ options(warnPartialMatchArgs = FALSE,
         dplyr.summarise.inform = FALSE)
 ```
 
-```{r}
+```{r, message=FALSE}
 #| code-fold: false
 library(ggpmisc)
 library(ggrepel)
