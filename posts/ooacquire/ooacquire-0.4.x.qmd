@@ -1,0 +1,75 @@
+---
+title: "ooacquire 0.4.x"
+subtitle: "ooacquire: Acquire Data from OO Spectrometers"
+author: "Pedro J. Aphalo"
+date: 2023-06-10
+date-modified: 2023-06-10
+categories: [R Package Update]
+keywords: [ooacquire pkg]
+---
+
+::: callout-note
+
+As part of moving the site to Quarto I intend to write a single post to give an
+overview of changes in minor versions of the packages. In this case, all
+versions in the 0.4.x series. I will update this same post in the case of minor
+version updates, and start a new post when the first version in the 0.5.x series
+is developed. I hope this will reduce the clutter and still provide a good
+overview of progress. Differences between versions are listed in detail in the
+[NEWS file](https://docs.r4photobiology.info/ooacquire/news/).
+
+:::
+
+## Overview of changes
+
+_Versions 0.4.0 and 0.4.1_ have full support for acquisition of time series
+of spectra. Version 0.4.1 adds checks for two conditions that are frequent when acquiring time series of spectra: 1) increased dark counts in only a part of the detector array, and 2) changes in irradiance between successive exposures when using integration time bracketing for HDR (high dynamic range) measurements. In the case of 1) all that is possible is to issue a warning, set an attribute to mark the spectrum as failing the quality control and expect the operator to solve the overheating problem. In the case of 2) merging of spectra taken with different integration times is skipped if they are not consistent and a message is emitted. This ensures that spectra with distorted shape can be avoided at the cost of a decrease in dynamic range in those cases that HDR cannot be validly applied.
+
+The logic of the current user interface modes in described in detail in a
+[tutorial](../../pages/acq-irrad-tutorial.qmd). The most important new feature
+is the _automatic acquisition of time series of spectra_.
+
+## Time series of spectra
+
+Three approaches to the acquisition of time series of spectra are supported: a)
+_buffered_, which is the fastest, as spectra are retrieved by the driver to a
+memory buffer, so that measurements take place non-stop, with the previous
+spectrum being transferred to the computer while the current one is being
+acquired. It is used when the step delay is set to 0 s and no HDR bracketing is
+used, i.e., no settings need to be modified in the spectrometer while acquiring
+the whole time series. b) _fast_, minimizes the delay with HDR bracketing. It is
+slower than _buffered_ as acquisition of spectra stops and restarts when
+settings are modified, and because spectra are retrieved directly by R without
+buffering. _fast_ acquisition is enabled when step delay is 0 s but HDR
+bracketing is in use. c) _timed_, the user sets the time interval at which the
+successive spectra will be acquired. This approach is enabled whenever the step
+delay is more than zero, with the caveat that an estimate of the time taken by
+individual measurements will be computed and this estimate used to limit the
+shortest accepted setting for step delay. If the step delay is deemed too short,
+it will be changed to zero and spectra acquired using either the fast or the
+buffered approach, or to the step delay set to the estimated duration.
+
+**Before using the new `"series"` mode for acquiring spectra at a rate faster 
+than about once per minute, please read [the 'ooacquire' vignette
+that describes acquisition of
+spectra](https://docs.r4photobiology.info/ooacquire/articles/userguide-acquisition.html).
+This is crucial as timing considerations are far from straightforward because of
+how spectrometers work.**
+
+## Plans for the near future
+
+If spectrometers are maintained at constant temperature, measurement of long
+time series spanning even multiple days is possible. For this type of
+measurements, regular timed saving to disk of time-series-data chunks 
+becomes necessary for reliability.
+
+::: callout-note
+
+[*Documentation web site*](http://docs.r4photobiology.info/ooacquire/) includes
+all help pages, with output from all examples and vignettes in HTML format .
+
+Please raise issues concerning bugs or enhancements to this package through
+GitHub at <https://github.com/aphalo/ooacquire/issues>. Pull requests are also
+welcome.
+
+:::
