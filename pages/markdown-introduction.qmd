@@ -1,8 +1,8 @@
 ---
-title: "Markdown Basics"
+title: "Markdown Basics (PARTIAL DRAFT)"
 subtitle: "Text mark up vs. visual editors"
 author: "Pedro J. Aphalo"
-date: 2022-05-03
+date: 2023-05-03
 date-modified: 2023-05-13
 categories: [Text markup]
 keywords: [markdown pkg, knittr pkg, text markup]
@@ -12,8 +12,12 @@ format:
     code-tools: true
 ---
 
+::: callout-note
 To see the source of this document click on "</> CODE" to the right of the
-page title. _Italics_ and **bold** are easily indicated and _can be **combined**_.
+page title. The page is written using [Quarto](https://quarto.org/) which is an enhanced version of [R Markdown](https://rmarkdown.rstudio.com/). The diagrams are created with [Mermaid](https://mermaid.js.org/), a language inspired by the simplicity of [Markdown](https://daringfireball.net/projects/markdown/syntax).
+:::
+
+_Italics_ and **bold** are easily indicated and _can be **combined**_.
 
 # Text mark up
 
@@ -54,3 +58,5 @@ confusing at first.
 
 ## Tables
 
+Coming soon...
+ 

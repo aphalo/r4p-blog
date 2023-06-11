@@ -1,0 +1,110 @@
+---
+title: "'photobiology' 0.10.1x"
+subtitle: "Most significant recent changes"
+author: "Pedro J. Aphalo"
+date: 2023-05-28
+categories: [R Package Update]
+keywords: [photobiology pkg]
+format:
+  html: 
+    code-link: true
+    code-tools: true
+---
+
+## Introduction
+
+The 'photobiology' package has been around for almost 10 years, and I initially
+created it in part reusing code in even older R scripts. I normally use it
+several times per week. When updating it I have tried to avoid code-breaking
+changes, and I have in most cases succeeded.
+
+Package 'photobiology' has a long development history, consequently, few major
+features are missing. Instead, some computations have a more roundabout user
+interface than others. Thus, many of the recent changes are based on the
+addition of small functions that are in many cases wrappers on previously
+existing ones.
+
+A classification of changes into bug fixes and enhancements is not always
+straightforward as only one of the bugs fixed in recent updates affected the
+validity of returned values, and this bug occurred as the result of changes to
+another package.
+
+However, I have recently started measuring time series of spectra for my
+research. This has given me a different perspective than earlier and made
+obvious some enhancements needed to make it easier to work with and acquire
+100's if not 1000's of spectra.
+
+I have also aimed at smoothing some rough edges in 'photobiology' that
+originated from the long development history and others from limited time
+available over the years for _polishing_ and seamlessly merging new features
+into old code.
+
+The design of package 'photobiology' was from the beginning focused on
+reproducibility and storage of metadata together with data was implemented very
+early. On the other hand, ensuring that metadata remain valid 
+requires updating them almost every time the data are altered by computations.
+The logic is not straightforward and coding and testing is time consuming. Some
+of the recent updates improved this aspect replacing inavlidation by updating 
+of metadata.
+
+## Metadata
+
+More detailed metadata for spectral data and its update during operations allow
+keeping a more complete trace or record of the operations applied to the data
+and its origin. The tricky aspect is how to treat objects created with earlier
+versions of the package. Once implemented in 'photobiology', other packages in
+the _R for Photobiology Suite_ have to be updated to take full advantage of the
+changes, in particular the metadata of spectral objects included in the
+different packages need to be updated filling in the new "slots".
+
+## Enhancements to normalization
+
+Normalization is dependent on the physical quantity and basis of expression. So,
+for example a conversion of energy irradiance into photon irradiance, disrupts
+any pre-existing normalization. The more detailed metadata makes it now possible,
+and is now the default, to "refresh" or `"update"` the normalization after the
+conversion re-applying the previous normalization settings and adjusting the
+metadata.
+
+## Enhancements to collections of spectra
+
+Now collections of spectra can contain member spectra each with multiple spectra
+stored in long format. Conversion between collections and spectra in long form
+and back are now are now easier, and in several cases automatic. Package
+'ggspectra' has already been updated to take advantage of this in `autoplot()`
+methods.
+
+## New classes
+
+Classes `solute_spct` and `solute_mspct` have been added. They can be used
+to store spectral coefficients of attenuation for substances. Most, but not yet
+all operators and methods have been implemented in 'photobiology' however not
+yet in any other package, so are still of limited use.
+
+## New methods and functions
+
+- `summary()` implemented for collections of spectra.
+- `illuminance()` to compute illuminance.
+- `is_daytime()` is a wrapper on `day_night()` returning a logical vector.
+-  `wl2wavenumber()`, `wavenumber2wl()`, `wl2frequency()`, `frequency2wl()`, 
+`wl2energy()` and `energy2wl()` implement conversions among quantities related 
+to wavelength.
+-  `e_fraction()` and `q_fraction`, `Rfr_ratio()`, `Rfr_fraction()` and 
+`Rfr_normdiff()`, `Tfr_ratio()`, `Tfr_fraction()` and `Tfr_normdiff()`
+provide additional ways for summarizing or describing properties of spectra.
+
+## Bug fixes
+
+- Several bugs were fixed. Some existing but mostly inconsequential bugs became 
+errors because of improved checks in recent R versions. Other bugs and
+"regressions" were triggered by changes in packages on which 'photobiology'
+depends, including some affecting time zones.
+
+## Unit tests
+
+Unit tests were added for the new features, including new methods and functions.
+Tests' code coverage is not yet reported. Even though the package
+includes more than 5000 unit tests, coverage is far from complete at 52%, and
+occasionally bugs in new code are caught late, i.e., during reverse
+dependencies' checks. I aim to gradually improve test coverage in the next few
+releases.

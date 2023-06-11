@@ -5,6 +5,10 @@ author: "Pedro J. Aphalo"
 date: "2023-02-28"
 categories: [Plotting examples]
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
+format:
+  html: 
+    code-link: true
+    code-tools: true
 ---
 
 ```{r, include=FALSE, echo=FALSE}
