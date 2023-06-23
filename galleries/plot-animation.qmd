@@ -1,0 +1,698 @@
+---
+title: "ggplot fitted-model equations with 'ggpmisc'"
+subtitle: "Animations with 'gganimate'"
+author: "Pedro J. Aphalo"
+date: "2023-06-24"
+keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, gganimate pkg, ggplotly pkg, plot annotations, model equations]
+categories: [Plotting examples]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
+---
+
+::: callout-warning
+Animations are possible with 'ggpmisc' (>= 0.5.3). In earlier versions the
+statistics that generate labels of model equations and various parameters were
+incomatible with package's 'gganimate'.
+:::
+
+## Introduction
+
+Here you will find examples of _animated_ ggplots using
+geometries defined in package 'ggpp' and statistics from package 'ggpmisc' both
+available at CRAN. The documentation of [package
+'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
+'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available on-line.
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find a small triangle
+followed by "Code". Clicking on the triangle "unfolds" the code chunk
+making visible the R code used to produce the plot. Except for the
+loading of packages shown in section **Preliminaries** code examples are
+in most cases self contained. When they are not, this is indicated by a
+comment.
+
+All "words" defined in base R or in extension packages are linked to the
+corresponding HTML-rendered help pages.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+:::
+
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
+::: callout-important
+One needs to always check that annotations do not occlude anything
+significant, such as observations in the base plot. This needs special
+care when using annotations together with batch plotting. Either ensure
+that the scale limits of the base plot are expanded to avoid overlap or
+that the layer with the equations is the lowest one, i.e., added to the
+plot first.
+:::
+
+## Annotations showing parameters estimates
+
+Fitted model equations and other related estimates can be useful in
+plots as they ensure that graphical representation as a curve and
+numerical values for parameters that cannot be read from the curve
+itself are displayed as text on the same plot.
+
+::: callout-note
+When adding annotations one should be aware that they add clutter to a
+plot, and clutter can make it difficult to see the patterns of interest
+in the data represented as points or curves.
+
+So, as usual, less is more, include those annotations that are relevant
+to the message conveyed by a plot and nothing more.
+
+Animations that gradually add layers to a plot can help solve this problem.
+One can first show observations then overplot the prediction from a fitted
+model and finally show annotations with numeriacal values.
+:::
+
+See page [ggplot fitted-model equations with 'ggpmisc'](plot-equations.qmd) for
+explanations about the annotations. Here we focus on how to animate similar
+plots to those described there.
+
+## Preliminaries
+
+The code used is shown on-demand above each plot and can be copied. We
+first load the packages we will use.
+
+When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
+'ggplot2' are also attached. The only function from 'ggplot2' that is
+redefined by 'ggpp' is `annotate()`, which remains backwards compatible
+with 'ggplot2'.
+
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', dev = "svg",
+               fig.show = 'hold', fig.width = 7, fig.height = 4)
+options(warnPartialMatchArgs = FALSE,
+        tibble.print.max = 4,
+        tibble.print.min = 4,
+        dplyr.summarise.inform = FALSE)
+```
+
+```{r, message=FALSE}
+#| code-fold: false
+library(ggpmisc)
+library(ggrepel)
+library(dplyr)
+library(gganimate)
+theme_set(theme_bw(16))
+```
+
+## Linear correlation
+
+```{r}
+set.seed(94321)
+x <- (1:100) / 10
+yA <- x + rnorm(length(x), sd = 2)
+yB <- x + rnorm(length(x), sd = 8)
+my.data <- data.frame(x = rep(x, 2),
+                      y = c(yA, yB),
+                      group = rep(c("A", "B"), rep(length(x), 2L)))
+```
+
+The examples in this section make use of `stat_correlation()` from package
+'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_correlation.html)
+for details.
+
+Pearson correlation. Using `group` aesthetic we create two discrete scenes.
+
+```{r}
+p <- 
+  ggplot(my.data, 
+       aes(x, y, group = group)) +
+  geom_point() +
+  stat_correlation(vstep = 0, 
+                   mapping = use_label(c("R", "P", "n")),
+                   label.x = "right",
+                   label.y = "bottom") +  
+  transition_states(group,
+                    transition_length = 1,
+                    state_length = 3) + 
+  enter_fade() +
+  exit_fade()
+
+animate(p, 
+        fps=8, 
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Confidence interval for R. Using `colour` aesthetic we create two discrete scenes.
+
+```{r}
+p <-
+  ggplot(my.data, aes(x, y, colour = group)) +
+  geom_point() +
+  stat_correlation(mapping = use_label(c("R", "R.confint")),
+                   r.conf.level = 0.99,
+                   vstep = 0) +  
+  scale_color_viridis_d(option = "A", begin = 0.33, end = 0.67) +
+  expand_limits(y = 30) +
+  transition_states(group,
+                    transition_length = 1,
+                    state_length = 3) + 
+  enter_fade() +
+  exit_fade()
+
+animate(p, 
+        fps=8, 
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Highlighting based on estimates, here estimated *R* but it is possible
+to use other estimates like *P*-value. Here we first show the data followed
+by the correlation estimate as a label.
+
+```{r}
+p <-
+  ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_correlation(mapping = 
+                     aes(color = ifelse(after_stat(cor) > 0.5,
+                                        "red", "black"))) +
+  scale_color_identity() +
+  facet_wrap(~group)  +
+  transition_layers(transition_length = 1,
+                    layer_length = 3)
+
+animate(p, 
+        fps=8, end_pause = 10,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+  
+```
+
+## Polynomials
+
+Polynomials as linear models, but many other linear models exist. The most
+common case is linear regression. They are very frequently used, and in the
+case of linear regression the role of parameters can be easily recognized.
+
+The examples in this section make use of `stat_poly_line()` and `stat_poly_eq()`
+from package 'ggpmisc'. Please, see the [help page for `stat_poly_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_line.html)
+and the [help page for `stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html) for details.
+
+```{r}
+set.seed(4321)
+# generate artificial data
+x <- 1:100
+y <- (x + x^2 + x^3) + rnorm(length(x), mean = 0, sd = mean(x^3) / 4)
+y <- y / max(y)
+my.data <- data.frame(x, 
+                      y, 
+                      group = c("A", "B"), 
+                      y2 = y * c(1, 2) + c(0, 0.2),
+                      block = c("a", "a", "b", "b"),
+                      wt = sqrt(x))
+```
+
+Fitted model equation, available for polynomials with no missing terms.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+p <-
+  ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("eq"), formula = formula, label.y = 0.95) +
+  stat_poly_eq(mapping = use_label(c("F", "P")), formula = formula, label.y = 0.87) +
+  stat_poly_eq(mapping = use_label("R2"), formula = formula, label.y = 0.80) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+The examples shown above also work with groups.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+
+p <-
+  ggplot(my.data, aes(x, y2, group = group)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(aes(label = after_stat(eq.label)), 
+               formula = formula, 
+               vstep = 0) +
+   transition_states(group,
+                    transition_length = 1,
+                    state_length = 3) + 
+  enter_fade() +
+  exit_fade()
+
+animate(p, 
+        fps=8, 
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16) 
+```
+
+Using colours to indicate the groups to which equations correspond is
+not always best. Here we use labels to the left of each equation and build
+the plot one group at a time.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+
+p <-
+  ggplot(my.data, aes(x, y2, linetype = group, grp.label = group)) +
+  geom_point() +
+  stat_poly_line(formula = formula, color = "black") +
+  stat_poly_eq(aes(label = after_stat(paste("bold(", grp.label, "*':')~~~", 
+                                      eq.label, sep = ""))),
+               formula = formula) +
+   transition_states(group,
+                    transition_length = 3,
+                    state_length = 3) + 
+  enter_fade() +
+  exit_fade() +
+  shadow_mark()
+
+animate(p, 
+        fps=8, end_pause = 16,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16) 
+```
+
+Facets are also supported.
+
+```{r, fig.width = 7, fig.height = 7}
+formula <- y ~ poly(x, 3, raw = TRUE)
+
+p <-
+  ggplot(my.data, aes(x, y2, group = group)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(aes(label = after_stat(eq.label)),
+               formula = formula) +
+  facet_wrap(facets = vars(group), scales = "free_y", ncol = 1) +
+   transition_states(group,
+                    transition_length = 8,
+                    state_length = 8) + 
+  shadow_mark(alpha = 0.2, past = TRUE, future = TRUE)
+
+animate(p, 
+        fps=8,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16) 
+```
+
+In the stats defined in 'ggpmsic' the fit method function can modify the
+model passed as argument because the one used to build the equation is
+retrieved from the fitted model object when possible. In this example, a
+linear regression is fitted if the slope is significant, but if not the
+mean is reported, both graphically and numerically.
+
+```{r, fig.width = 7, fig.height = 9}
+# user defined fit method removes the slope if 
+# the slope is not significant
+poly_or_mean <- function(formula, data, ...) {
+   fm <- lm(formula = formula, data = data, ...)
+   if (anova(fm)[["Pr(>F)"]][1] > 0.1) {
+      lm(formula = y ~ 1, data = data, ...)
+   } else {
+      fm
+   }
+}
+
+# we create a plot as usual, but with our method
+p <-
+  ggplot(mpg, aes(displ, hwy)) +
+  geom_point() +
+  stat_poly_line(method = "poly_or_mean") +
+  stat_poly_eq(method = poly_or_mean,
+               aes(label = after_stat(eq.label)),
+               label.x = "right") +
+  theme(legend.position = "bottom") +
+  facet_wrap(~class, ncol = 2) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 10, units = "in", res = 96, pointsize = 16)
+```
+
+Faceting works also with free *x* and/or *y* scales in panels when the
+position of labels is set by a string.
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+
+p <-
+  ggplot(my.data, aes(x, y2, fill = block)) +
+  geom_point(shape = 21, size = 3) +
+  stat_poly_line(aes(colour = block), formula = formula) +
+  stat_poly_eq(use_label("R2"), size = 3,
+               geom = "label_npc", alpha = 0.33,
+               formula = formula,
+               label.x = "right", label.y = "bottom",
+               rr.digits = 3) +
+  stat_poly_eq(use_label(c("F", "P")),
+               size = 3,
+               geom = "label_npc", alpha = 0.33, 
+               formula = formula) +
+  facet_wrap(~group, scales = "free_y") +
+  theme(legend.position = "top") +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+```{r}
+formula <- y ~ poly(x, 3, raw = TRUE)
+
+p <-
+  ggplot(my.data, aes(x, y2, fill = block)) +
+  geom_point(shape = 21, size = 3) +
+  stat_poly_line(aes(colour = block), formula = formula) +
+  stat_poly_eq(use_label("R2"), size = 3,
+               geom = "label_npc", alpha = 0.33,
+               formula = formula,
+               label.x = "right", label.y = "bottom",
+               rr.digits = 3,
+               vstep = 0) +
+  stat_poly_eq(use_label(c("F", "P")),
+               size = 3,
+               geom = "label_npc", alpha = 0.33, 
+               formula = formula,
+               vstep = 0) +
+  facet_wrap(~group, scales = "free_y") +
+  theme(legend.position = "top") +
+  transition_states(block,
+                    transition_length = 8,
+                    state_length = 8) +
+  enter_fade() +
+  exit_fade()
+  
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+## Major axis regression
+
+If *x* and *y* are both subject to random errors, and none is clearly
+the cause of the other, we should use major axis regression instead of
+linear regression.
+
+The examples in this section make use of `stat_ma_line()` and `stat_ma_eq()`
+from package 'ggpmisc'. Please, see the [help page for
+`stat_ma_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_line.html)
+and the [help page for
+`stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_eq.html)
+for details.
+
+Some artificial data with rather high random variation on both _x_ and _y_.
+
+```{r}
+set.seed(94321)
+a <- (1:100) / 10
+x <- a + rnorm(length(x), sd = 1)
+y <- a + rnorm(length(x), sd = 2)
+my_linear.data <- data.frame(x = x, y = y)
+```
+
+```{r}
+p <-
+  ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_ma_line() +
+  stat_ma_eq(mapping = use_label(c("R2", "eq"))) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+## Quantile regression
+
+Quantile regression is frequently used is some disciplines like
+Economics but less frequently in other fields. It is robust and can be
+rather easily interpreted based on its similarity to the well known box
+plots.
+
+The examples in this section make use of `stat_quant_line()`,
+`stat_quant_band()` and `stat_quant_eq()` from package 'ggpmisc'. Please, see
+the [help page for
+`stat_quant_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_line.html),
+[help page for
+`stat_quant_band()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_band.html)
+and the [help page for
+`stat_quant_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_eq.html)
+for details.
+
+::: callout-caution
+Quantile regression fits are done by numerical approximation, and
+frequently generate warnings for non-unique solutions or similar
+problems. Their importance needs to be assessed by users. In the
+examples below they seem mostly unimportant given the large number of
+observations and have been silenced in the output.
+:::
+
+A median regression with a band limited by the upper and lower quartile
+regressions.
+
+```{r, warning=FALSE}
+# the default for formula is y ~ x
+p <-
+  ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band() +
+  stat_quant_eq(quantiles = 0.5) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Median regression through the origin.
+
+```{r, warning=FALSE}
+# model with intercept = 0
+formula <- y ~ x + 0
+
+p <-
+  ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(formula = formula) +
+  stat_quant_eq(formula = formula, quantiles = 0.5) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Quantile regressions of _y_ on _x_ and _x_ on _y_.
+
+```{r, warning=FALSE}
+# the default for formula is y ~ x
+p <-
+  ggplot(my_linear.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(color = "blue") +
+  stat_quant_eq(quantiles = 0.5, color = "blue") +
+  stat_quant_band(color = "red", 
+                 orientation = "y") +
+  stat_quant_eq(quantiles = 0.5, color = "red", 
+               orientation = "y", label.y = 0.9) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Two quantiles are by default plotted as lines,
+
+```{r, warning=FALSE}
+p <-
+  ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_line(formula = y ~ poly(x, 2), quantiles = c(0.05, 0.95)) +
+  stat_quant_eq(formula = y ~ poly(x, 2), quantiles = c(0.05, 0.95)) +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Equations labelled by quantile.
+
+```{r, warning=FALSE}
+p <-
+  ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_quant_band(formula = y ~ poly(x, 2), 
+                  color = "black", fill = "grey60") +
+  stat_quant_eq(aes(label = paste(after_stat(grp.label), "*\": \"*",
+                                  after_stat(eq.label), sep = "")),
+                formula = y ~ poly(x, 2)) +
+  theme_classic()  +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+Equations labelled by group and quantile.
+
+```{r, warning=FALSE}
+p <-
+  ggplot(my.data, aes(x, y, group = group, linetype = group, 
+                    shape = group, grp.label = group)) +
+  geom_point() +
+  stat_quant_line(formula = y ~ poly(x, 2), 
+                  quantiles = c(0.1, 0.9), 
+                  color = "black") +
+  stat_quant_eq(aes(label = paste(after_stat(grp.label), "*\": \"*",
+                                  after_stat(eq.label), sep = "")),
+                formula = y ~ poly(x, 2), 
+                quantiles = c(0.1, 0.9)) +
+  theme_classic() +
+  transition_states(group,
+                    transition_length = 0, # transition of lines fails
+                    state_length = 8)
+
+animate(p, 
+        fps=0.1,
+        nframes = 2,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+## Non-linear models
+
+The examples in previous sections were based on ready assembled labels. Here
+we show examples of how to generate labels for equations and other parameter
+estimates with an approach applicable to many different types of models.
+
+The examples in this section make use of `stat_fit_tidy()` from package
+'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_fit_tidy.html)
+for details.
+
+We use as example a fit of the Michaelis-Menthen equation of reaction quinetics,
+a function that is non-linear in its parameters.
+
+```{r}
+#| code-fold: false
+# We use methods from package 'broom'
+library(broom)
+```
+
+```{r}
+micmen.formula <- y ~ SSmicmen(x, Vm, K) 
+
+p <-
+  ggplot(Puromycin, aes(conc, rate, colour = state)) +
+  geom_point() +
+  geom_smooth(method = "nls", 
+              formula = micmen.formula,
+              se = FALSE) +
+  stat_fit_tidy(method = "nls", 
+                method.args = list(formula = micmen.formula),
+                label.x = "right",
+                label.y = "bottom",
+                aes(label = paste("V[m]~`=`~", signif(after_stat(Vm_estimate), digits = 3),
+                                  "%+-%", signif(after_stat(Vm_se), digits = 2),
+                                  "~~~~K~`=`~", signif(after_stat(K_estimate), digits = 3),
+                                  "%+-%", signif(after_stat(K_se), digits = 2),
+                                  sep = "")),
+                parse = TRUE)  +
+  transition_layers(transition_length = 3,
+                    layer_length = 5)
+
+animate(p, 
+        fps=8, end_pause = 20,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
+
+```{r}
+micmen.formula <- y ~ SSmicmen(x, Vm, K) 
+
+p <-
+  ggplot(Puromycin, aes(conc, rate, colour = state)) +
+  geom_point() +
+  geom_smooth(method = "nls", 
+              formula = micmen.formula,
+              se = FALSE) +
+  stat_fit_tidy(method = "nls", 
+                method.args = list(formula = micmen.formula),
+                label.x = "center",
+                label.y = "bottom",
+                vstep = 0, hstep = -0.3,
+                aes(label = paste("V~`=`~frac(", signif(after_stat(Vm_estimate), digits = 2), "~C,",
+                                  signif(after_stat(K_estimate), digits = 2), "+C)",
+                                  sep = "")),
+                parse = TRUE) +
+  labs(x = "C", y = "V")  +
+  transition_states(state,
+                    transition_length = 0, # transition of lines fails
+                    state_length = 8)
+
+animate(p, 
+        fps=0.125,
+        nframes = 2,
+        renderer = gifski_renderer(loop = TRUE), 
+        dev = 'png',
+        width = 8, height = 5, units = "in", res = 96, pointsize = 16)
+```
