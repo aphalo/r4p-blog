@@ -17,7 +17,13 @@ format:
 ::: callout-warning
 Animations are possible with 'ggpmisc' (>= 0.5.3). In earlier versions the
 statistics that generate labels of model equations and various parameters were
-incomatible with package's 'gganimate'.
+incompatible with package 'gganimate'.
+
+Package 'gganimate' is widely compatible with ggplot2 and extensions, however,
+before version 0.5.3, 'ggpmisc' assumed that ggplot2's variable `group` was
+always `integer`. However, 'gganimate' changes it into `character` to add indexing
+information about scenes and transitions. A different approach to decoding the
+original groups' indices is now used when needed to ensure compatibility.
 :::
 
 ## Introduction
@@ -65,6 +71,12 @@ plots as they ensure that graphical representation as a curve and
 numerical values for parameters that cannot be read from the curve
 itself are displayed as text on the same plot.
 
+See page [ggplot fitted-model equations with 'ggpmisc'](plot-equations.qmd) for
+explanations about the annotations. Here I focus on how to animate similar
+plots to those described earlier in this other page. Although the examples
+include annoations the animation code is applicable many other plots built
+with 'ggplot2' together with many other extension packages.
+
 ::: callout-note
 When adding annotations one should be aware that they add clutter to a
 plot, and clutter can make it difficult to see the patterns of interest
@@ -77,10 +89,6 @@ Animations that gradually add layers to a plot can help solve this problem.
 One can first show observations then overplot the prediction from a fitted
 model and finally show annotations with numeriacal values.
 :::
-
-See page [ggplot fitted-model equations with 'ggpmisc'](plot-equations.qmd) for
-explanations about the annotations. Here we focus on how to animate similar
-plots to those described there.
 
 ## Preliminaries
 
@@ -113,6 +121,8 @@ theme_set(theme_bw(16))
 
 ## Linear correlation
 
+I first generate some artificial data to use in the plotting examples.
+
 ```{r}
 set.seed(94321)
 x <- (1:100) / 10
@@ -127,7 +137,9 @@ The examples in this section make use of `stat_correlation()` from package
 'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_correlation.html)
 for details.
 
-Pearson correlation. Using `group` aesthetic we create two discrete scenes.
+Pearson correlation shown but Kendall and Spearman methods are also implemented. 
+
+Using `group` aesthetic we create two discrete scenes.
 
 ```{r}
 p <- 
@@ -151,7 +163,7 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-Confidence interval for R. Using `colour` aesthetic we create two discrete scenes.
+Confidence interval for R. Using `colour` aesthetic we create two discrete scenes based on variable `group`.
 
 ```{r}
 p <-
@@ -175,9 +187,8 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-Highlighting based on estimates, here estimated *R* but it is possible
-to use other estimates like *P*-value. Here we first show the data followed
-by the correlation estimate as a label.
+Highlighting based on estimates. In this example the colour depends on the estimated value for *R*, but it is possible
+to use other estimates like *P*-value to decide the colour used to display the *R* estimate. Here we first show the observations followed by the correlation estimate as a label. Transitions are based on layers rather than grouping.
 
 ```{r}
 p <-
@@ -201,13 +212,15 @@ animate(p,
 
 ## Polynomials
 
-Polynomials as linear models, but many other linear models exist. The most
-common case is linear regression. They are very frequently used, and in the
+Polynomials are linear models, but many other linear models exist. The most
+common case is linear regression. Polynomials are very frequently used, and in the
 case of linear regression the role of parameters can be easily recognized.
 
 The examples in this section make use of `stat_poly_line()` and `stat_poly_eq()`
 from package 'ggpmisc'. Please, see the [help page for `stat_poly_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_line.html)
 and the [help page for `stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html) for details.
+
+I generate different artificial data to use in the polynomial regression examples.
 
 ```{r}
 set.seed(4321)
@@ -223,7 +236,7 @@ my.data <- data.frame(x,
                       wt = sqrt(x))
 ```
 
-Fitted model equation, available for polynomials with no missing terms.
+Fitted model equation, is available for polynomials with no missing terms. Here I add different labels in different plot layers and animate the plot over layers. (In this example, the model is fitted four times to the same data.)
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -244,7 +257,7 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-The examples shown above also work with groups.
+A similar plot but animated by group, which can be a good way of highlighting differences between groups of observations.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -269,9 +282,9 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16) 
 ```
 
-Using colours to indicate the groups to which equations correspond is
-not always best. Here we use labels to the left of each equation and build
-the plot one group at a time.
+Using colours to indicate the groups to which equations correspond is not always
+possible or if possible not the best design. Here I use labels to the left of
+each equation and build the plot one group at a time.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -325,7 +338,9 @@ In the stats defined in 'ggpmsic' the fit method function can modify the
 model passed as argument because the one used to build the equation is
 retrieved from the fitted model object when possible. In this example, a
 linear regression is fitted if the slope is significant, but if not the
-mean is reported, both graphically and numerically.
+mean is reported instead, both graphically and numerically. Here it is
+animated over plot layers. The animation takes place in parallel in all
+the panels in the plot.
 
 ```{r, fig.width = 7, fig.height = 9}
 # user defined fit method removes the slope if 
@@ -360,7 +375,8 @@ animate(p,
 ```
 
 Faceting works also with free *x* and/or *y* scales in panels when the
-position of labels is set by a string.
+position of labels is set by a character string. Animation as above remains
+possible.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -389,6 +405,9 @@ animate(p,
         dev = 'png',
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
+The same plot with multiple panels can be animated over groups, in this case
+using variable `block` to display one of two block at a time, using fading
+to make it easier to assess the differences.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
@@ -436,7 +455,7 @@ and the [help page for
 `stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_eq.html)
 for details.
 
-Some artificial data with rather high random variation on both _x_ and _y_.
+Another set of artificial data with rather high random variation on both _x_ and _y_.
 
 ```{r}
 set.seed(94321)
@@ -445,6 +464,8 @@ x <- a + rnorm(length(x), sd = 1)
 y <- a + rnorm(length(x), sd = 2)
 my_linear.data <- data.frame(x = x, y = y)
 ```
+
+For this data set the most useful animations are over layers.
 
 ```{r}
 p <-
@@ -591,7 +612,7 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-Equations labelled by group and quantile.
+Equations labelled by group and quantile, animated over groups, based on variable `group`.
 
 ```{r, warning=FALSE}
 p <-
@@ -626,16 +647,18 @@ estimates with an approach applicable to many different types of models.
 
 The examples in this section make use of `stat_fit_tidy()` from package
 'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_fit_tidy.html)
-for details.
+for details. Package 'broom' must be installed before runing the examples below.
 
-We use as example a fit of the Michaelis-Menthen equation of reaction quinetics,
-a function that is non-linear in its parameters.
+We use as example a fit of the Michaelis-Menthen equation of reaction kinetics,
+a function that is non-linear in its parameters. 
 
 ```{r}
 #| code-fold: false
 # We use methods from package 'broom'
 library(broom)
 ```
+
+Animation works as ín the examples in previous sections, here over layers.
 
 ```{r}
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
@@ -665,6 +688,7 @@ animate(p,
         dev = 'png',
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
+The animation is in this variation of the plot over groups based on variable `state`.
 
 ```{r}
 micmen.formula <- y ~ SSmicmen(x, Vm, K) 
@@ -696,3 +720,14 @@ animate(p,
         dev = 'png',
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
+### Alternatives
+
+::: callout-tip
+In all cases it is possible to do the model fitting before creating the plot,
+assembling labels in one's own R code and passing them to `ggplot()` as data.
+The possibilities are nearly unlimited but implementing them, depending on one's
+own familiarity with R and 'ggplot2' can become time consuming. I have in part
+written 'ggpp' and 'ggpmisc' to avoid as a user having to remind myself of how
+to write such code repeatedly. My hope is that others will also save time and
+effort by using the packages I have developed.
+:::
