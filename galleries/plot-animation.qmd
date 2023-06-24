@@ -3,7 +3,7 @@ title: "ggplot fitted-model equations with 'ggpmisc'"
 subtitle: "Animations with 'gganimate'"
 author: "Pedro J. Aphalo"
 date: "2023-06-24"
-keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, gganimate pkg, ggplotly pkg, plot annotations, model equations]
+keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, gganimate pkg, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
   markdown: 
