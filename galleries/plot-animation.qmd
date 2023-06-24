@@ -17,7 +17,13 @@ format:
 ::: callout-warning
 Animations are possible with 'ggpmisc' (>= 0.5.3). In earlier versions the
 statistics that generate labels of model equations and various parameters were
-incomatible with package's 'gganimate' modification of grouping.
+incompatible with package 'gganimate'.
+
+Package 'gganimate' is widely compatible with ggplot2 and extensions, however,
+before version 0.5.3, 'ggpmisc' assumed that ggplot2's variable `group` was
+always `integer`. However, 'gganimate' changes it into `character` to add indexing
+information about scenes and transitions. A different approach to decoding the
+original groups' indices is now used when needed to ensure compatibility.
 :::
 
 ## Introduction
@@ -724,10 +730,4 @@ own familiarity with R and 'ggplot2' can become time consuming. I have in part
 written 'ggpp' and 'ggpmisc' to avoid as a user having to remind myself of how
 to write such code repeatedly. My hope is that others will also save time and
 effort by using the packages I have developed.
-
-Package 'gganimate' is widely compatible with ggplot2 and extensions, however,
-before version 0.5.3, 'ggpmisc' assumed that ggplot2's variable `group` was
-always `integer` but 'gganimate' changes it into `character` to add indexing
-information about scenes and transitions. A different approach to decoding the
-original groups' indices is now used when needed.
 :::
