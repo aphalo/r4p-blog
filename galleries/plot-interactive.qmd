@@ -1,6 +1,6 @@
 ---
-title: "Fitted-model equations with 'ggpmisc' and 'plotly'"
-subtitle: "Dynamic plots with 'plotly'"
+title: "Fitted-model labels with 'ggpmisc' and 'plotly'"
+subtitle: "Interactive ggplots with model equations, _R_<sup>2</sup>, _F_, _P_, etc."
 author: "Pedro J. Aphalo"
 date: "2023-06-25"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, plotly pkg, plot annotations, model equations]
