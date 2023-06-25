@@ -1,6 +1,6 @@
 ---
-title: "ggplot fitted-model equations with 'ggpmisc'"
-subtitle: "Dynamic plots with 'ggiraph' and 'plotly'"
+title: "Fitted-model equations with 'ggpmisc' and 'plotly'"
+subtitle: "Dynamic plots with 'plotly'"
 author: "Pedro J. Aphalo"
 date: "2023-06-25"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, plotly pkg, plot annotations, model equations]
@@ -15,18 +15,19 @@ format:
 ---
 
 ::: callout-warning
-Animations are possible with 'ggpmisc' (>= 0.5.3). In earlier versions the
-statistics that generate labels of model equations and various parameters were
-incomatible with package's 'gganimate'.
+This page is a preliminary draft as I haven't been able to get the output of 'plotly' included by Quarto in the HTML output.
+
+It is possible to combine 'ggpmisc' and 'plotly' in the same plot but only by using the most basic formatting of the equation. I give for the time being a single example.
 :::
 
 ## Introduction
 
-Here you will find examples of _animated_ ggplots using
-geometries defined in package 'ggpp' and statistics from package 'ggpmisc' both
+Here you will find examples of *animated* ggplots using geometries
+defined in package 'ggpp' and statistics from package 'ggpmisc' both
 available at CRAN. The documentation of [package
 'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
-'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available on-line.
+'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available
+on-line.
 
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
@@ -88,17 +89,27 @@ theme_set(theme_bw())
 
 ## Using 'plotly'
 
-Plotly can convert a regular ggplot into an interactive plot that can be embedded in HTML output. The advantage is that one uses the usual layer functions, but control of output is rather limited. It is implemented as a parsing engine that recognizes only some 'ggplot2' layer functions. As can be seen in the example below this approach makes rendering math difficult as expressions or text labels marked to be parsed into expressions are displayed as unparsed text.
+Plotly can convert a regular ggplot into an interactive plot that can be
+embedded in HTML output. The advantage is that one uses the usual layer
+functions, but control of output is rather limited. It is implemented as
+a parsing engine that recognizes only some 'ggplot2' layer functions. As
+can be seen in the example below this approach makes rendering math
+difficult as expressions or text labels marked to be parsed into
+expressions are displayed as unparsed text.
 
-Several of the statistics from 'ggpmisc' can still be used but the formating is not as nice as when using R graphic devices.
+Several of the statistics from 'ggpmisc' can still be used but the
+formating is not as nice as when using R graphic devices.
 
 ```{r}
 df <- data.frame(x = c(1:100))
 df$y <- 2 + 3 * df$x + rnorm(100, sd = 40)
 ```
 
+Even though this example works without problems at the R console, I have
+not been able to get it to work within the Quarto file. So below the
+code I include a non-interactive PNG of the 'plotly' interactive plot.
 
-```{r}
+```{r, eval=FALSE}
 #| fig-cap: Test
 my.formula <- y ~ x
 p <- ggplot(data = df, aes(x = x, y = y)) +
@@ -112,3 +123,12 @@ p <- ggplot(data = df, aes(x = x, y = y)) +
 
 ggplotly(p)
 ```
+
+![Static export from the interactive plot](plotly-export.png)
+
+### Alternatives
+
+::: callout-tip
+I have not yet tested 'ggigraph' together with 'ggpmisc', but I plan to, as it seems to allow finer grained control of the interaction. On the other hand, it could be incompatible.
+:::
+
