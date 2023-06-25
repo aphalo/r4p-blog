@@ -1,0 +1,134 @@
+---
+title: "Fitted-model equations with 'ggpmisc' and 'plotly'"
+subtitle: "Dynamic plots with 'plotly'"
+author: "Pedro J. Aphalo"
+date: "2023-06-25"
+keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, plotly pkg, plot annotations, model equations]
+categories: [Plotting examples]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
+---
+
+::: callout-warning
+This page is a preliminary draft as I haven't been able to get the output of 'plotly' included by Quarto in the HTML output.
+
+It is possible to combine 'ggpmisc' and 'plotly' in the same plot but only by using the most basic formatting of the equation. I give for the time being a single example.
+:::
+
+## Introduction
+
+Here you will find examples of *animated* ggplots using geometries
+defined in package 'ggpp' and statistics from package 'ggpmisc' both
+available at CRAN. The documentation of [package
+'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
+'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available
+on-line.
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find a small triangle
+followed by "Code". Clicking on the triangle "unfolds" the code chunk
+making visible the R code used to produce the plot. Except for the
+loading of packages shown in section **Preliminaries** code examples are
+in most cases self contained. When they are not, this is indicated by a
+comment.
+
+All "words" defined in base R or in extension packages are linked to the
+corresponding HTML-rendered help pages.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+:::
+
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
+::: callout-important
+One needs to always check that annotations do not occlude anything
+significant, such as observations in the base plot. This needs special
+care when using annotations together with batch plotting. Either ensure
+that the scale limits of the base plot are expanded to avoid overlap or
+that the layer with the equations is the lowest one, i.e., added to the
+plot first.
+:::
+
+## Preliminaries
+
+The code used is shown on-demand above each plot and can be copied. We
+first load the packages we will use.
+
+When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
+'ggplot2' are also attached. The only function from 'ggplot2' that is
+redefined by 'ggpp' is `annotate()`, which remains backwards compatible
+with 'ggplot2'.
+
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', dev = "svg",
+               fig.show = 'hold', fig.width = 7, fig.height = 4)
+options(warnPartialMatchArgs = FALSE,
+        tibble.print.max = 4,
+        tibble.print.min = 4,
+        dplyr.summarise.inform = FALSE)
+```
+
+```{r, message=FALSE}
+#| code-fold: false
+library(ggplot2)
+library(ggpmisc)
+library(plotly)
+theme_set(theme_bw())
+```
+
+## Using 'plotly'
+
+Plotly can convert a regular ggplot into an interactive plot that can be
+embedded in HTML output. The advantage is that one uses the usual layer
+functions, but control of output is rather limited. It is implemented as
+a parsing engine that recognizes only some 'ggplot2' layer functions. As
+can be seen in the example below this approach makes rendering math
+difficult as expressions or text labels marked to be parsed into
+expressions are displayed as unparsed text.
+
+Several of the statistics from 'ggpmisc' can still be used but the
+formating is not as nice as when using R graphic devices.
+
+```{r}
+df <- data.frame(x = c(1:100))
+df$y <- 2 + 3 * df$x + rnorm(100, sd = 40)
+```
+
+Even though this example works without problems at the R console, I have
+not been able to get it to work within the Quarto file. So below the
+code I include a non-interactive PNG of the 'plotly' interactive plot.
+
+```{r, eval=FALSE}
+#| fig-cap: Test
+my.formula <- y ~ x
+p <- ggplot(data = df, aes(x = x, y = y)) +
+  geom_smooth(method = "lm", se=FALSE, color="black", formula = my.formula) +
+  stat_poly_eq(geom = "text",
+               output.type = "text",
+               formula = my.formula,
+               mapping = use_label(c("eq", "R2"), sep = ",  "),
+               label.x = 20) +
+  geom_point()
+
+ggplotly(p)
+```
+
+![Static export from the interactive plot](plotly-export.png)
+
+### Alternatives
+
+::: callout-tip
+I have not yet tested 'ggigraph' together with 'ggpmisc', but I plan to, as it seems to allow finer grained control of the interaction. On the other hand, it could be incompatible.
+:::
+
