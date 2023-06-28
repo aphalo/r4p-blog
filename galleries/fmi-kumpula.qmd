@@ -30,6 +30,11 @@ present](https://www.climateguide.fi/articles/from-point-observations-to-regiona
 spatially interpolated to a 10 km x 10 km grid. However, I haven't found
 an API to access the gridded data.
 
+[Monthly climatology for individual weather stations](https://www.ilmatieteenlaitos.fi/ilmastollinen-vertailukausi) is also available. There are separate pages for each variable.
+
+I find it convenient to use an R scrip to download weather data from FMI,
+but data can also be downloaded through FMI's web pages. The scrip below caches a local copy of the data, and when run again appends the new data.
+
 The FMI WPS API has limits to the amount of data that can be downloaded
 per query. In addition if we need to frequently retrieve fresh data from
 the same station or group of stations we can retrieve the missing data
@@ -73,7 +78,8 @@ We can query by FMI station ID, for simplicity we set it here.
 
 ```{r}
 # ID code of the station from where we fetch data
-stn_fmisid <- 101004 # Kumpula, change as needed
+stn_fmisid <- 101004 # Kumpula, change as needed, both weather and radiation
+# stn_fmisid <- 101154 # Lammi, change as needed, only weather
 starttime.char <- "2022-12-31 22:00" # UTC midnight in Finland
 ```
 
@@ -87,7 +93,8 @@ with time zones!! It is simplest to use UTC for the data and only change
 the time zone for plotting.
 
 ::: To force the data to be retrieved again, we only need to delete the
-file we use to store it locally (or "cache"). :::
+file we use to store it locally (or "cache"). 
+:::
 
 ```{r}
 if (!file.exists("fmi-weather-data-wide.Rda")) {
@@ -112,11 +119,11 @@ endtime <- trunc(now(), units = "mins")
     if (sliceendtime > endtime) {
       sliceendtime <- endtime
     }
-    kumpula_data <- obs_weather_hourly(starttime = as.character(starttime),
+    stn_data <- obs_weather_hourly(starttime = as.character(starttime),
                                        endtime = as.character(sliceendtime),
                                        fmisid = stn_fmisid)
 
-    slice_data <- kumpula_data %>%
+    slice_data <- stn_data %>%
       tidyr::spread(variable, value) %>%
       # convert the sf object into a regular tibble
       sf::st_set_geometry(NULL)
@@ -148,7 +155,7 @@ ggplot(wide_weather_data, aes(with_tz(time, tzone = "EET"), TA_PT1H_AVG)) +
 
 ## Downloading radiation data at 1 min
 
-The station ID was set above, and we use it again.
+The station ID was set above, and we use it again. However, FEW WEATHER STATIONS measure radiation! e.g., Kumpula does, but Lammi does not.
 
 ```{r}
 if (!file.exists("fmi-sun-data-wide.Rda")) {
@@ -174,11 +181,11 @@ while (starttime < endtime) {
   if (sliceendtime > endtime) {
     sliceendtime <- endtime
   }
-  kumpula_data <- obs_radiation_minute(starttime = as.character(starttime),
+  stn_data <- obs_radiation_minute(starttime = as.character(starttime),
                                        endtime = as.character(sliceendtime),
                                        fmisid = 101004)
   
-  slice_data <- kumpula_data %>%
+  slice_data <- stn_data %>%
     tidyr::spread(variable, value) %>%
     # convert the sf object into a regular tibble
     sf::st_set_geometry(NULL)
@@ -205,3 +212,4 @@ fmi2::describe_variables(colnames(wide_sun_data)[-1])
 ggplot(wide_sun_data, aes(with_tz(time, tzone = "EET"), GLOB_1MIN)) +
   geom_line()
 ```
+
