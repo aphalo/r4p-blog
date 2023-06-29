@@ -157,12 +157,13 @@ flowchart TB
   A3(<i>weights</i>) -.-> B
   C --> CI[query methods]
   C --> C1["<code>step()</code>"]
-  subgraph "<strong>Model selection</strong>"
+  subgraph Z ["<strong>Model selection</strong>"]
   C1 --> C3(<code>lm</code>  object)
   z1(most complex\n<i>model formula</i>) -.-> C1
   z2(simplest nested\n<i>model formula</i>) -.-> C1
   C3 --> CF[query methods]
   end
+  style Z fill:#fff
 ```
 
 ## What do the query methods return?
