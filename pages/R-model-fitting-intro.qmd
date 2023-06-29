@@ -3,7 +3,7 @@ title: "Model fitting in R"
 subtitle: "An introduction"
 author: "Pedro J. Aphalo"
 date: 2023-05-30
-date-modified: 2023-05-30
+date-modified: 2023-06-29
 categories: [R, model fitting]
 keywords: [predicted values, residual values, parameter estimates, model formulas]
 format:

@@ -3,6 +3,7 @@ title: "Fitted-model labels with 'ggpmisc' and 'plotly'"
 subtitle: "Interactive ggplots with model equations, _R_<sup>2</sup>, _F_, _P_, etc."
 author: "Pedro J. Aphalo"
 date: "2023-06-25"
+date-modified: "2023-06-26"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, plotly pkg, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
@@ -15,7 +16,7 @@ format:
 ---
 
 ::: callout-warning
-This page is a preliminary draft as I haven't been able to get the output of 'plotly' included by Quarto in the HTML output.
+To get the output of 'plotly' included by Quarto in the HTML output, currently the pre-release of Quarto 1.4.x is required.
 
 It is possible to combine 'ggpmisc' and 'plotly' in the same plot but only by using the most basic formatting of the equation. I give for the time being a single example.
 :::
@@ -109,8 +110,8 @@ Even though this example works without problems at the R console, I have
 not been able to get it to work within the Quarto file. So below the
 code I include a non-interactive PNG of the 'plotly' interactive plot.
 
-```{r, eval=FALSE}
-#| fig-cap: Test
+```{r}
+#| fig-cap: Works with Quarto 1.4.x!
 my.formula <- y ~ x
 p <- ggplot(data = df, aes(x = x, y = y)) +
   geom_smooth(method = "lm", se=FALSE, color="black", formula = my.formula) +
@@ -124,7 +125,6 @@ p <- ggplot(data = df, aes(x = x, y = y)) +
 ggplotly(p)
 ```
 
-![Static export from the interactive plot](plotly-export.png)
 
 ### Alternatives
 

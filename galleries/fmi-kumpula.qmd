@@ -3,7 +3,7 @@ title: "Download weather data from FMI"
 subtitle: "**FMI** = _Finnish Meteorological Institute_, or _Ilmatieteen laitos_"
 author: "Pedro J. Aphalo"
 date: "2023-04-15"
-date-modified: "2023-04-16"
+date-modified: "2023-06-27"
 toc: true
 code-fold: false
 categories: [Using R]

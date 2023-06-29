@@ -1,13 +1,19 @@
 ---
-title: "Upgrading R"
-subtitle: "Installing R and reinstalling packages"
+title: "R, RStudio and Quarto"
+subtitle: "Installation and updates"
 author: "Pedro J. Aphalo"
 date: "2023-02-18"
-date-modified: "2023-02-18"
+date-modified: "2023-06-29"
 toc: true
 categories: [Using R]
 keywords: [update, install, R packages]
+format:
+  html:
+    code-fold: false
+    code-tools: true
 ---
+
+# R
 
 ## R versions
 
@@ -17,16 +23,16 @@ It is important to remember that different versions of R can coexist in the same
 
 ## Installing R
 
-Just download the installer from CRAN and run it. If R is already installed, the new version will be installed without removing any older version but making the last installed version the one used by default. For major version updates such as 4.2.3 to 4.3.0 a new library will be created and the recommended packages installed into it. See the next section for an approach to synchronizing the new library with the new one. For minor version updates such as 4.2.2 to 4.2.3 the existing library continues in use. Once you are sure that you the old version of R is no longer needed you can uninstall it and for major updates also delete the library.
+Just download the installer from CRAN and run it if using Windows or follow the instructions for other operating systems. If R is already installed, the new version will be installed without removing any older version but making the last installed version the one used by default. For major version updates such as updating from 4.2.3 to 4.3.0 a new library will be created and the recommended packages installed. See the next section for an approach to synchronizing the new library with the new one. For minor version updates such as 4.2.2 to 4.2.3 the existing library continues in use. Once you are sure that you the old version of R is no longer needed you can uninstall it and for major updates also delete the library.
 
 ## Copying R libraries
 
-The procedure for a manual copy is conceptually very simple. First we save to a file the names of all packages installed in the old R library, and in a second step we use the saved list to install the same packages in another R library. There are a few additional tricks we can use on the way.
+The procedure for a manual install of the same packages in a new library is conceptually very simple and available under all operating systems. First we save to a file the names of all packages installed in the old R library, and in a second step we use the saved list to install the same packages in another R library. This approach works both as a way of populating the library after a major version update of R in the same computer, or for synchronizing libraries accross computers, or even accross operating systems. There are a few additional tricks we can use during the process.
 
 ::: callout-caution
 ## Availability of packages
 
-Major R updates usually require packages to be re-built. Exceptionally package code may need to be modified to allow a package to work with a new major version of R. These means that immediately after the release of a major version of R, some packages main remain unavailable for some time. Before deleting the previous version of R it is wise to check that the packages one uses are all available.
+Major R updates usually require packages to be re-built. Exceptionally package code may need to be modified to allow a package to work with a new major version of R. These means that immediately after the release of a major version of R, some packages can remain unavailable for some time. Before deleting the previous version of R it is wise to check that the packages one uses are all available.
 :::
 
 The first step is to run at the R console of the <em>old version of R</em> the following commands to create a `vector` of character strings with the names of user-installed packages and save the vector to a file on disk. You may want to edit the vector, or to remove packages no longer needed from the old installation before creating the list of packages to install.
@@ -82,3 +88,20 @@ old.pkg.list <- scan("~/old-pkg-list.txt", what = character())
 ```
 
 In-between saving and reading one can edit the file in a text editor to remove or add package names.
+
+::: callout-note
+The code above checks for already installed packages, so when synchronizing libraries, only the missing packages are installed. It does not remove any packages, only installs the missing ones.
+:::
+
+# RStudio
+
+RStudio can be downloaded from [Posit's RStudio page](https://posit.co/download/rstudio-desktop/) and installed following the instructions specific to each operating system. Upgrades can be done through the **Help** menu of RStudio. Alternatively, one can proceed as for a fresh install, at least under Windows.
+
+# Quarto
+
+Quarto is an executable program that is used together with R package 'quarto'. Recent versions of RStudio include Quarto. If Quarto is installed separately
+with one of the installers at [Posit's Quarto page](https://quarto.org/docs/download/) this version will override the one included in the RStudio distribution.
+
+::: callout-caution
+Quarto is new software and under very active development. Some features are available only in the most recent version, and other features may be buggy in specific releases. Once it is more stable, there will be seldom need to use a different version than that included with RStudio.
+:::
