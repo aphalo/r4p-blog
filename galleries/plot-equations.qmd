@@ -3,6 +3,7 @@ title: "ggplot fitted-model equations with 'ggpmisc'"
 subtitle: "Polynomials, major axis, quantile and non-linear regression"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
+date-modified: "2023-06-30"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
@@ -137,13 +138,15 @@ library(dplyr)
 ## Linear correlation
 
 ```{r}
+# generate artifical data for a linear relationship
+# two groups with different standard deviation around a slope = 1
 set.seed(94321)
 x <- (1:100) / 10
 yA <- x + rnorm(length(x), sd = 2)
 yB <- x + rnorm(length(x), sd = 8)
-my.data <- data.frame(x = rep(x, 2),
-                      y = c(yA, yB),
-                      group = rep(c("A", "B"), rep(length(x), 2L)))
+df1 <- data.frame(x = rep(x, 2),
+                  y = c(yA, yB),
+                  group = rep(c("A", "B"), rep(length(x), 2L)))
 ```
 
 The examples in this section make use of `stat_correlation()` from package
@@ -153,14 +156,14 @@ for details.
 Pearson correlation.
 
 ```{r}
-ggplot(subset(my.data, group == "A"), 
+ggplot(subset(df1, group == "A"), 
        aes(x, y)) +
   geom_point() +
   stat_correlation()
 ```
 
 ```{r}
-ggplot(subset(my.data, group == "A"), 
+ggplot(subset(df1, group == "A"), 
        aes(x, y)) +
   geom_point() +
   stat_correlation(small.r = TRUE)
@@ -169,7 +172,7 @@ ggplot(subset(my.data, group == "A"),
 Spearman correlation.
 
 ```{r}
-ggplot(subset(my.data, group == "A"), 
+ggplot(subset(df1, group == "A"), 
        aes(x, y)) +
   geom_point() +
   stat_correlation(method = "spearman")
@@ -178,7 +181,7 @@ ggplot(subset(my.data, group == "A"),
 Kendall correlation.
 
 ```{r}
-ggplot(subset(my.data, group == "A"), 
+ggplot(subset(df1, group == "A"), 
        aes(x, y)) +
   geom_point() +
   stat_correlation(method = "kendall")
@@ -187,7 +190,7 @@ ggplot(subset(my.data, group == "A"),
 Select which labels to show in plot.
 
 ```{r}
-ggplot(subset(my.data, group == "A"), aes(x, y)) +
+ggplot(subset(df1, group == "A"), aes(x, y)) +
   geom_point() +
   stat_correlation(mapping = use_label(c("R", "P", "n")),
                    method = "kendall")
@@ -196,7 +199,7 @@ ggplot(subset(my.data, group == "A"), aes(x, y)) +
 Select which labels to show in plot.
 
 ```{r}
-ggplot(subset(my.data, group == "A"), aes(x, y)) +
+ggplot(subset(df1, group == "A"), aes(x, y)) +
   geom_point() +
   stat_correlation(mapping = use_label(c("R", "t", "P", "n")))
 ```
@@ -204,7 +207,7 @@ ggplot(subset(my.data, group == "A"), aes(x, y)) +
 Confidence interval for R.
 
 ```{r}
-ggplot(subset(my.data, group == "A"), aes(x, y)) +
+ggplot(subset(df1, group == "A"), aes(x, y)) +
   geom_point() +
   stat_correlation(mapping = use_label(c("R", "R.confint")),
                    r.conf.level = 0.99)
@@ -213,7 +216,7 @@ ggplot(subset(my.data, group == "A"), aes(x, y)) +
 Grouping supported.
 
 ```{r}
-ggplot(my.data, aes(x, y, color = group)) +
+ggplot(df1, aes(x, y, color = group)) +
   geom_point() +
   stat_correlation()
 ```
@@ -221,7 +224,7 @@ ggplot(my.data, aes(x, y, color = group)) +
 Facets supported.
 
 ```{r}
-ggplot(my.data, aes(x, y)) +
+ggplot(df1, aes(x, y)) +
   geom_point() +
   stat_correlation(npcx = "right", npcy = "bottom") +
   facet_wrap(~group)
@@ -231,7 +234,7 @@ Highlighting based on estimates, here estimated *R* but it is possible
 to use other estimates like *P*-value.
 
 ```{r}
-ggplot(my.data, aes(x, y)) +
+ggplot(df1, aes(x, y)) +
   geom_point() +
   stat_correlation(mapping = 
                      aes(color = ifelse(after_stat(cor) > 0.5,
@@ -257,25 +260,51 @@ The examples in this section make use of `stat_poly_line()` and `stat_poly_eq()`
 from package 'ggpmisc'. Please, see the [help page for `stat_poly_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_line.html)
 and the [help page for `stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html) for details.
 
+The model corresponding to lineal regression is a first degree polynomial.
+
+```{r}
+ggplot(df1, aes(x, y)) +
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq"), 
+               label.x = "right", label.y = "bottom") +
+  facet_wrap(~group)
+```
+
+Most likely the variables mapped onto aesthetics `x` and `y` have different names. If we use a symbol to represent these variables, we may want to use these symbols in the equation.
+
+```{r}
+ggplot(df1, aes(x, y)) +
+  geom_point() +
+  stat_poly_line() +
+  stat_poly_eq(use_label("eq"), 
+               eq.with.lhs = "italic(t)~`=`~", 
+               eq.x.rhs = "~italic(E)",
+               label.x = "right", label.y = "bottom") +
+  labs(x = expression("Irrandiance, "*italic(E)~~(W~m^{-2})),
+       y = expression("Temperature, "*italic(t)~~(degree*"C"))) +
+  facet_wrap(~group)
+```
+
 ```{r}
 set.seed(4321)
-# generate artificial data
+# generate artificial data for a 3rd degree polynomial
 x <- 1:100
 y <- (x + x^2 + x^3) + rnorm(length(x), mean = 0, sd = mean(x^3) / 4)
 y <- y / max(y)
-my.data <- data.frame(x, 
-                      y, 
-                      group = c("A", "B"), 
-                      y2 = y * c(1, 2) + c(0, 0.2),
-                      block = c("a", "a", "b", "b"),
-                      wt = sqrt(x))
+df2 <- data.frame(x, 
+                  y, 
+                  group = c("A", "B"), 
+                  y2 = y * c(1, 2) + c(0, 0.2),
+                  block = c("a", "a", "b", "b"),
+                  wt = sqrt(x))
 ```
 
-$R^2$ is the default label, as it is always available.
+$R^2$ is the default label, as its estimate is always available.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(formula = formula)
@@ -285,7 +314,7 @@ Fitted model equation, available for polynomials with no missing terms.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("eq"), formula = formula)
@@ -295,7 +324,7 @@ $R_\mathrm{adj}^2$ and *P*-value added separately.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("adj.R2"), formula = formula) +
@@ -307,7 +336,7 @@ Fitted model equation and $R_\mathrm{adj}^2$.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label(c("eq", "adj.R2"), sep = "~~italic(\"with\")~~"),
@@ -318,7 +347,7 @@ Equation with no left-hand-side (lhs).
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("eq"),
@@ -330,7 +359,7 @@ Variable names in the equation set to be meaningful.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label(c("eq", "R2")),
@@ -344,7 +373,7 @@ Even Greek charactes and maths can be incorporated when needed.
 
 ```{r}
 formula <- y ~ poly(x, 2, raw = TRUE)
-ggplot(my.data, aes(x, log10(y + 1e6))) +
+ggplot(df2, aes(x, log10(y + 1e6))) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("eq"),
@@ -355,11 +384,38 @@ ggplot(my.data, aes(x, log10(y + 1e6))) +
        x = expression(Omega))
 ```
 
+::: callout-caution
+`stat_poly_eq()` by default assumes that the fitted polynomial has the variable
+mapped to the `x` or `y` aesthetic as explanatory variable depending on the
+model formula and argument passed to parameter `orientation`. It does not decode
+any transformations applied on the fly to `x` or `y`. In addition it does not
+function correctly with linear models that are not polynomials.
+
+If a transformation is applied, the user is responsible for replacing as shown
+below the $x$ (and/or $y$) symbol in the equation by setting an alternative 
+value matching the transformation applied in the model formula.
+
+```{r}
+formula <- y ~ I(x^2) # we apply a transformation to x within the formula
+ggplot(df2, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(formula = formula) +
+  stat_poly_eq(mapping = use_label("eq"), 
+               eq.x.rhs = "~x^2",
+               formula = formula)
+```
+
+In some cases, like when applying a power as transformation and fitting higher
+degree polynomials, one may need to manually build the R expression representing
+the equation to simplify it.
+:::
+
+
 The examples shown above also work with groups.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y2, colour = group)) +
+ggplot(df2, aes(x, y2, colour = group)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(aes(label = after_stat(eq.label)), 
@@ -373,7 +429,7 @@ not always best. Here we use labels to the left of each equation.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y2, linetype = group, grp.label = group)) +
+ggplot(df2, aes(x, y2, linetype = group, grp.label = group)) +
   geom_point() +
   stat_poly_line(formula = formula, color = "black") +
   stat_poly_eq(aes(label = after_stat(paste("bold(", grp.label, "*':')~~~", 
@@ -385,7 +441,7 @@ Facets are also supported.
 
 ```{r, fig.width = 7, fig.height = 7}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y2)) +
+ggplot(df2, aes(x, y2)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(aes(label = after_stat(eq.label)),
@@ -426,7 +482,7 @@ Faceting works also with free *x* and/or *y* scales in panels.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y2, fill = block)) +
+ggplot(df2, aes(x, y2, fill = block)) +
   geom_point(shape = 21, size = 3) +
   stat_poly_line(formula = formula) +
   stat_poly_eq(aes(label = after_stat(rr.label)), size = 3,
@@ -441,7 +497,7 @@ position of labels is set by a string.
 
 ```{r}
 formula <- y ~ poly(x, 3, raw = TRUE)
-ggplot(my.data, aes(x, y2, fill = block)) +
+ggplot(df2, aes(x, y2, fill = block)) +
   geom_point(shape = 21, size = 3) +
   stat_poly_line(formula = formula) +
   stat_poly_eq(use_label("R2"), size = 3,
@@ -464,7 +520,7 @@ set.seed(94321)
 a <- (1:100) / 10
 x <- a + rnorm(length(x), sd = 1)
 y <- a + rnorm(length(x), sd = 2)
-my_linear.data <- data.frame(x = x, y = y)
+df3 <- data.frame(x = x, y = y)
 ```
 
 Linear regression through the origin.
@@ -472,7 +528,7 @@ Linear regression through the origin.
 ```{r}
 # model with intercept = 0
 formula <- y ~ x + 0
-ggplot(my_linear.data, aes(x, y)) +
+ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(formula = formula,
@@ -485,7 +541,7 @@ case between the two fits.
 
 ```{r}
 # the default for formula is y ~ x
-ggplot(my_linear.data, aes(x, y)) +
+ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_poly_line(color = "blue") +
   stat_poly_eq(mapping = use_label(c("R2", "eq")), 
@@ -524,7 +580,7 @@ and the [help page for
 for details.
 
 ```{r}
-ggplot(my_linear.data, aes(x, y)) +
+ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_ma_line() +
   stat_ma_eq(mapping = use_label(c("R2", "eq")))
@@ -564,7 +620,7 @@ regressions.
 
 ```{r, warning=FALSE}
 # the default for formula is y ~ x
-ggplot(my_linear.data, aes(x, y)) +
+ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_quant_band() +
   stat_quant_eq(quantiles = 0.5)
@@ -575,7 +631,7 @@ Median regression through the origin.
 ```{r, warning=FALSE}
 # model with intercept = 0
 formula <- y ~ x + 0
-ggplot(my_linear.data, aes(x, y)) +
+ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = formula) +
   stat_quant_eq(formula = formula, quantiles = 0.5)
@@ -585,7 +641,7 @@ Quantile regressions of _y_ on _x_ and _x_ on _y_.
 
 ```{r, warning=FALSE}
 # the default for formula is y ~ x
-ggplot(my_linear.data, aes(x, y)) +
+ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_quant_band(color = "blue") +
   stat_quant_eq(quantiles = 0.5, color = "blue") +
@@ -598,7 +654,7 @@ ggplot(my_linear.data, aes(x, y)) +
 Fitting a polynomial by quantile regression.
 
 ```{r, warning=FALSE}
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = y ~ poly(x, 2)) +
   stat_quant_eq(formula = y ~ poly(x, 2), quantiles = 0.5)
@@ -607,7 +663,7 @@ ggplot(my.data, aes(x, y)) +
 Two quantiles are by default plotted as lines,
 
 ```{r, warning=FALSE}
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_line(formula = y ~ poly(x, 2), quantiles = c(0.05, 0.95)) +
   stat_quant_eq(formula = y ~ poly(x, 2), quantiles = c(0.05, 0.95))
@@ -617,7 +673,7 @@ A single quantile, here the median, is plotted as a line plus a
 confidence band.
 
 ```{r, warning=FALSE}
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_line(formula = y ~ poly(x, 2), quantiles = 0.5) +
   stat_quant_eq(formula = y ~ poly(x, 2), quantiles = 0.5)
@@ -626,7 +682,7 @@ ggplot(my.data, aes(x, y)) +
 Equations labelled by quantile.
 
 ```{r, warning=FALSE}
-ggplot(my.data, aes(x, y)) +
+ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = y ~ poly(x, 2), 
                   color = "black", fill = "grey60") +
@@ -639,7 +695,7 @@ ggplot(my.data, aes(x, y)) +
 Equations labelled by group and quantile.
 
 ```{r, warning=FALSE}
-ggplot(my.data, aes(x, y, group = group, linetype = group, 
+ggplot(df2, aes(x, y, group = group, linetype = group, 
                     shape = group, grp.label = group)) +
   geom_point() +
   stat_quant_line(formula = y ~ poly(x, 2), 

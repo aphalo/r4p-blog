@@ -136,7 +136,7 @@ flowchart LR
 %%{init: {"htmlLabels": true} }%%
 
 flowchart LR
-  A1(<i>model formula</i>) --> B["<code>gls()</code>"] --> C(<code>nls</code> object) --> C1[query methods]
+  A1(<i>model formula</i>) --> B["<code>nls()</code>"] --> C(<code>nls</code> object) --> C1[query methods]
   A2(<i>observations</i>) --> B
   A3(<i>weights</i>) -.-> B
   A5(<i>starting values</i>) --> B
