@@ -115,7 +115,7 @@ website:
         href: https://orcid.org/0000-0003-3385-972X
 format:
   html:
-    theme: sandstone
+    theme: spacelab
     linkcolor: "#0000A0"
     css: styles.css
     highlight-style: github
