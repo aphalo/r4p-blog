@@ -1,0 +1,359 @@
+---
+title: "Data Analysis: Simulated Experiments"
+subtitle: "Use these Apps to develop data skills"
+author: "Pedro J. Aphalo"
+date: "2023-07-02"
+format:
+  html:
+    code-fold: true
+    code-tools: true
+runtime: shiny
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, message=FALSE}
+library(shiny)
+library(ggplot2)
+library(ggpmisc)
+library(broom)
+```
+
+## Introduction
+
+- Data analysis is not an exact science
+- It involves developing skills, such as "reading" plots.
+- We will use interactive Apps to visualize the effect of replication and variability. 
+- In the apps, data are simulated by drawing (pseudo-)random samples from the Normal distribution.
+
+## How do sampled data look as population parameters change?
+
+In this App:
+
+- The mean of the Control distribution is kept at zero.
+- You can choose the value of the mean for Treatment.
+- You can choose the value of the standard deviation used.
+- You can choose the size of samples ($\approx$ number of replicates).
+- The plot shows: simulated observations as rug plots on the $x$ axis, _sample_ 
+  "empirical" distributions and the _population_ means as blue vertical dotted lines.
+- **To do:** Run the simulation multiple times for each set of values you set for the
+  population parameters.
+
+```{r sampling, cache=FALSE}
+inputPanel(
+  selectInput("mean_treat", label = "Mean of 'Treatment':",
+              choices = c(0.001, 0.01, 0.1, 1, 10, 100), selected = 10),
+  
+  selectInput("n_replicates", label = "Number of replicates:",
+              choices = c(10, 20, 40, 100, 1000, 10000), selected = 100),
+  
+  sliderInput("sd_adjust", label = "Standard deviation:",
+              min = 0, max = 10, value = 1, step = 0.2),
+  
+  actionButton("refresh", "New simulation")
+  
+)
+
+generate_samples <- function() {
+  num_replicates <- as.numeric(input$n_replicates)
+  num_mean <- as.numeric(input$mean_treat)
+  y <- c(rnorm(n = num_replicates, mean = 0, sd = input$sd_adjust),
+         rnorm(n = num_replicates, mean = num_mean, sd = input$sd_adjust))
+  group <- factor(rep(c("Control", "Treatment"), rep(num_replicates, 2)))
+  data.frame(y, group)
+} 
+
+renderPlot({
+  ggplot(generate_samples(), aes(y, colour = group)) +
+    geom_vline(xintercept = c(0, as.numeric(input$mean_treat)), 
+               linetype = "dotted", color = "blue") +
+    geom_rug() +
+    geom_density(fill = NA) +
+    stat_group_counts(size = 5) +
+    annotate(x = 1.5, y = 0, label = input$refresh, alpha = 0, geom = "text") +
+    scale_x_continuous(limits = function(x) {x + (diff(x) * 0.1) * c(-1,1)}) +
+    theme_bw(20)
+})
+```
+
+## Sample summaries (mean and standard deviation)
+
+- **To do:** For each condition run **15** or more simulations.
+    * observe how the sample mean and sd change when you:
+- Keep constant the standard deviation of the populations sampled
+    * and change the Treatment effect size.
+- Keep the Treatment effect size constant
+    * and change the standard deviation of the populations sampled.
+- Keep the Treatment effect size and the standard deviation constant
+    * and change number of replicates.
+
+```{r summaries, cache=FALSE}
+inputPanel(
+  selectInput("mean_treat1", label = "Mean of 'Treatment':",
+              choices = c(0.001, 0.01, 0.1, 1, 10, 100), selected = 1),
+  
+  selectInput("n_replicates1", label = "Number of replicates:",
+              choices = c(3, 5, 10, 20, 40, 100, 1000, 10000), selected = 10),
+  
+  sliderInput("sd_adjust1", label = "Standard deviation:",
+              min = 0, max = 10, value = 1, step = 0.2),
+  
+  checkboxInput("disp_ttest", label = "t-test", value = FALSE),
+  
+  actionButton("refresh1", "New simulation")
+  
+)
+
+renderPrint({
+  num_replicates <- as.numeric(input$n_replicates1)
+  num_mean <- as.numeric(input$mean_treat1)
+  y <- c(rnorm(n = num_replicates, mean = 0, sd = input$sd_adjust1),
+         rnorm(n = num_replicates, mean = num_mean, sd = input$sd_adjust1))
+  group <- factor(rep(c("Control", "Treatment"), rep(num_replicates, 2)))
+  df <- data.frame(y, group)
+  if (input$disp_ttest) {
+    t.test(y ~ group, data = df)
+  } else {
+    data.frame(group = c("Control", "Treatment"),
+               n = num_replicates,
+               pop.mean = c(0, num_mean),
+               samp.mean = signif(c(mean(df[df$group == "Control", "y"]),
+                                    mean(df[df$group == "Treatment", "y"])), 3),
+               pop.sd = input$sd_adjust1,
+               samp.sd = signif(c(sd(df[df$group == "Control", "y"]),
+                                  sd(df[df$group == "Treatment", "y"])), 3),
+               simulation.id = rep(input$refresh1[1], 2)
+    )
+  }
+})
+
+```
+
+## Simulation experiment: ANOVA
+
+- **To do:** For each condition run **15** or more simulations.
+    * consider if a non-significant _p_-value demonstrate lack of treatment effect or not.
+- Keep the Treatment effect size constant.
+    * change number of replicates and see how this affects the _p_-value and the plotted standard error.
+- Keep the Treatment effect size constant.
+    * change the standard deviation of the populations sampled.
+    
+- What can you conclude from a significant _p_-value?
+- Can you conclude something more than "significant effect"?
+
+```{r replication, cache=FALSE}
+inputPanel(
+  selectInput("mean_treat2", label = "Mean of 'Treatment':",
+              choices = c(0.001, 0.01, 0.1, 1, 10, 100), selected = 1),
+  
+  selectInput("n_replicates2", label = "Number of replicates:",
+              choices = c(3, 5, 10, 20, 40, 100, 1000, 10000), selected = 10),
+  
+  sliderInput("sd_adjust2", label = "Standard deviation:",
+              min = 0, max = 10, value = 1, step = 0.2),
+  
+  actionButton("refresh2", "New simulation")
+  
+)
+
+generate_data <- function() {
+  num_replicates <- as.numeric(input$n_replicates2)
+  num_mean <- as.numeric(input$mean_treat2)
+  y <- c(rnorm(n = num_replicates, mean = 0, sd = input$sd_adjust2),
+         rnorm(n = num_replicates, mean = num_mean, sd = input$sd_adjust2))
+  x <- factor(rep(c("Control", "Treatment"), rep(num_replicates, 2)))
+  data.frame(y, x)
+} 
+
+renderPlot({
+  ggplot(generate_data(), aes(x, y)) +
+    geom_point(alpha = 0.25, size = 2) +
+    stat_summary(fun.data = "mean_se", color = "red") +
+    geom_hline(yintercept = c(0, as.numeric(input$mean_treat2)), 
+               linetype = "dotted", color = "blue") +
+    stat_fit_tb(tb.type = "anova", size = 5) +
+    annotate(x = 1.5, y = 0, label = input$refresh2, alpha = 0, geom = "text") +
+    theme_bw(20)
+})
+
+```
+
+## Simulation experiment: linear regression
+
+- **To do:** For each condition run **15** or more simulations.
+    * observe how statistical significance and $R^2$ very when you:
+- Keep constant the standard deviation of the populations sampled.
+    * change the slope size.
+    * change the intercept size.
+- Keep the slope size constant.
+    * change the standard deviation of the populations sampled.
+- Keep the Treatment effect size and the standard deviation constant.
+    * change number of replicates.
+
+```{r lm2, cache=FALSE}
+generate_data4 <- function() {
+  num_observations <- as.integer(input$num_observations4)
+  num_slope <- as.numeric(input$num_slope4)
+  num_intercept <- as.numeric(input$num_intercept4)
+  x <- seq(from = 0, to = 50, length.out = num_observations)
+  y <- num_intercept + x * num_slope + 
+    c(rnorm(n = num_observations, mean = 0, sd = input$sd_adjust4))
+  data.frame(x, y)
+} 
+
+sidebarLayout(
+  sidebarPanel(
+    selectInput("num_intercept4", label = "Intercept:",
+                choices = c(-1, -0.1, 0, 0.1, 1), selected = 0),
+    
+    selectInput("num_slope4", label = "Slope of resp. to x:",
+                choices = c(-1, -0.1, 0, 0.1, 1), selected = 0.1),
+    
+    selectInput("num_observations4", label = "n data:",
+                choices = c(5, 10, 25, 50, 100, 1000, 10000), selected = 100),
+    
+    sliderInput("sd_adjust4", label = "s.d.:",
+                min = 0, max = 10, value = 1, step = 0.2),
+    
+    checkboxInput("disp_equation4", label = "Equation", value = TRUE),
+    
+    actionButton("refresh4", "New simulation")
+  ),
+  mainPanel(
+    renderPlot({
+      p <-
+        ggplot(generate_data4(), aes(x, y)) +
+        geom_point() +
+        geom_abline(intercept = as.numeric(input$num_intercept4), 
+                    slope = as.numeric(input$num_slope4), 
+                    linetype = "dotted", color = "blue") +
+        geom_rug() +
+        stat_poly_line(formula = y ~ x) +
+        scale_x_continuous(name = "Dose, x") +
+        scale_y_continuous(name = "Response, y") +
+        annotate(x = 1.5, y = 0, label = input$refresh4, alpha = 0, geom = "text") +
+        theme_bw(20)
+      
+      if (input$disp_equation4) {
+        p + stat_poly_eq(use_label(c("eq", "R2", "P")),
+                         formula = y ~ x, parse = TRUE, size = 5)
+      } else {
+        p + stat_fit_tb(label.x = "left", size = 4)
+      }
+    })
+  )
+)
+
+```
+
+## The _t_ distribution
+
+Explore how the shape of the _t_-distribution changes with changes in the degrees of freedom (df). Consider how this change in shape with df affects _P_-values and thus the calculated _t_ values that are considered an indication of statistical significance.
+
+```{r tdist, cache=FALSE}
+
+sidebarLayout(
+  sidebarPanel(
+    sliderInput("df",
+                "Degrees of freedom (df):",
+                min = 1,
+                max = 100,
+                value = 4),
+    sliderInput("max_t",
+                markdown("Maximum of _t_ scale in plot:"),
+                min = 1,
+                max = 50,
+                value = 15),
+    radioButtons("tails",
+                 "Choose tail",
+                 choices = c("right", "left", "both"),
+                 selected = "both",
+                 inline = TRUE),
+    markdown("Arrows show quantiles for _P_ = 0.1 (red), 0.01 (orange), 0.001 (green) for the area away from zero."),
+    markdown("**Note:** Remember that the area under the curve as a whole represents _P_ = 1"),
+    markdown("The dashed line shows the _Normal_ distribution with mean = 0, and s.d. = 1.")
+  ),
+  mainPanel(
+    renderPlot({
+      # generate 100 points to plot
+      t <- seq(-input$max_t, input$max_t, length.out = 250)
+      density <- dt(t, input$df)
+      density_norm <- dnorm(t)
+      
+      p.values <- switch(input$tails,
+                         right = c(0.900, 0.990, 0.999),
+                         left = c(0.1, 0.01, 0.001),
+                         both = c(0.05, 0.005, 0.0005, 0.95, 0.995, 0.9995))
+      
+      colours <- switch(input$tails,
+                        right = c("red", "orange", "green"),
+                        left = c("red", "orange", "green"),
+                        both = c("red", "orange", "green", "red", "orange", "green"))
+      
+      ggplot(data.frame(t, density, density_norm), aes(t, density)) +
+        geom_area(fill = "white") +
+        geom_line() +
+        geom_line(aes(y = density_norm), colour = "darkblue", linetype = "dashed") +
+        geom_x_margin_arrow(xintercept = qt(p.values, input$df),
+                            colour = colours, size = 1) +
+        xlim(-input$max_t, input$max_t) +
+        labs(x = expression(italic(t)-value), y = "Density")
+      
+    })
+  )
+)
+```
+
+## The _F_ distribution
+
+Explore how the shape of the _F_-distribution changes with changes in the degrees of freedom (df<sub>1</sub>, df<sub>2</sub>). Consider how this change in shape with df<sub>1</sub> and df<sub>2</sub> affects _P_-values and thus the calculated _F_ values that are considered an indication of statistical significance.
+
+```{r Fdist, cache=FALSE}
+
+sidebarLayout(
+  sidebarPanel(
+    sliderInput("df1",
+                "Numerator df:",
+                min = 1,
+                max = 100,
+                value = 4),
+    sliderInput("df2",
+                "Denominator df:",
+                min = 1,
+                max = 100,
+                value = 10)
+    ,
+    sliderInput("max_F",
+                markdown("Maximum value of _F_ in the plot axis:"),
+                min = 1,
+                max = 50,
+                value = 15),
+    markdown("Arrows show quantiles for _P_ = 0.1 (red), 0.01 (orange), 0.001 (green) for the area to its right."),
+    markdown("**Note:** Remember that the area under the curve as a whole represents _P_ = 1")
+  ),
+  mainPanel(
+renderPlot({
+        # generate 100 points to plot
+        F <- seq(0, input$max_F, length.out = 250)
+        density <- df(F, input$df1, input$df2)
+
+        ggplot(data.frame(F, density), aes(F, density)) +
+            geom_area(fill = "white") +
+            geom_line() +
+            geom_x_margin_arrow(xintercept = qf(1 - c(0.1, 0.01, 0.001), input$df1, input$df2),
+                                colour = c("red", "orange", "green"), size = 1) +
+            xlim(0, input$max_F) +
+            labs(x = expression(italic(F)-value), y = "Density")
+    })
+  )
+)
+```
+
+## How did I make these interactive displays?
+
+This Quarto HTML page is made interactive using Shiny, an R package. The viewers of the presentation can change the assumptions underlying what's presented and see the results immediately. 
+
+To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+
