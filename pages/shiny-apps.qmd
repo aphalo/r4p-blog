@@ -23,23 +23,35 @@ library(broom)
 
 ## Introduction
 
-- Data analysis is not an exact science
-- It involves developing skills, such as "reading" plots.
-- We will use interactive Apps to visualize the effect of replication and variability. 
-- In the apps, data are simulated by drawing (pseudo-)random samples from the Normal distribution.
+-   Data analysis is not an exact science
+-   It involves developing skills, such as "reading" plots.
+-   We will use interactive Apps to visualize the effect of replication
+    and variability.
+-   In the apps, data are simulated by drawing (pseudo-)random samples
+    from the Normal distribution.
+
+::: callout-note
+This page collects several Shiny + R Apps that aim at helping those new
+to data analaysis to start developing these skills. They provide a
+tasting of what skills support data analysis. Of course, they are no
+substitute for practice in analysing true rather than simulated data.
+Neither there is a substitute to multiple starts at analysing data and
+extracting information from them.
+:::
 
 ## How do sampled data look as population parameters change?
 
 In this App:
 
-- The mean of the Control distribution is kept at zero.
-- You can choose the value of the mean for Treatment.
-- You can choose the value of the standard deviation used.
-- You can choose the size of samples ($\approx$ number of replicates).
-- The plot shows: simulated observations as rug plots on the $x$ axis, _sample_ 
-  "empirical" distributions and the _population_ means as blue vertical dotted lines.
-- **To do:** Run the simulation multiple times for each set of values you set for the
-  population parameters.
+-   The mean of the Control distribution is kept at zero.
+-   You can choose the value of the mean for Treatment.
+-   You can choose the value of the standard deviation used.
+-   You can choose the size of samples ($\approx$ number of replicates).
+-   The plot shows: simulated observations as rug plots on the $x$ axis,
+    *sample* "empirical" distributions and the *population* means as
+    blue vertical dotted lines.
+-   **To do:** Run the simulation multiple times for each set of values
+    you set for the population parameters.
 
 ```{r sampling, cache=FALSE}
 inputPanel(
@@ -80,14 +92,14 @@ renderPlot({
 
 ## Sample summaries (mean and standard deviation)
 
-- **To do:** For each condition run **15** or more simulations.
-    * observe how the sample mean and sd change when you:
-- Keep constant the standard deviation of the populations sampled
-    * and change the Treatment effect size.
-- Keep the Treatment effect size constant
-    * and change the standard deviation of the populations sampled.
-- Keep the Treatment effect size and the standard deviation constant
-    * and change number of replicates.
+-   **To do:** For each condition run **15** or more simulations.
+    -   observe how the sample mean and sd change when you:
+-   Keep constant the standard deviation of the populations sampled
+    -   and change the Treatment effect size.
+-   Keep the Treatment effect size constant
+    -   and change the standard deviation of the populations sampled.
+-   Keep the Treatment effect size and the standard deviation constant
+    -   and change number of replicates.
 
 ```{r summaries, cache=FALSE}
 inputPanel(
@@ -133,15 +145,16 @@ renderPrint({
 
 ## Simulation experiment: ANOVA
 
-- **To do:** For each condition run **15** or more simulations.
-    * consider if a non-significant _p_-value demonstrate lack of treatment effect or not.
-- Keep the Treatment effect size constant.
-    * change number of replicates and see how this affects the _p_-value and the plotted standard error.
-- Keep the Treatment effect size constant.
-    * change the standard deviation of the populations sampled.
-    
-- What can you conclude from a significant _p_-value?
-- Can you conclude something more than "significant effect"?
+-   **To do:** For each condition run **15** or more simulations.
+    -   consider if a non-significant *p*-value demonstrate lack of
+        treatment effect or not.
+-   Keep the Treatment effect size constant.
+    -   change number of replicates and see how this affects the
+        *p*-value and the plotted standard error.
+-   Keep the Treatment effect size constant.
+    -   change the standard deviation of the populations sampled.
+-   What can you conclude from a significant *p*-value?
+-   Can you conclude something more than "significant effect"?
 
 ```{r replication, cache=FALSE}
 inputPanel(
@@ -182,15 +195,15 @@ renderPlot({
 
 ## Simulation experiment: linear regression
 
-- **To do:** For each condition run **15** or more simulations.
-    * observe how statistical significance and $R^2$ very when you:
-- Keep constant the standard deviation of the populations sampled.
-    * change the slope size.
-    * change the intercept size.
-- Keep the slope size constant.
-    * change the standard deviation of the populations sampled.
-- Keep the Treatment effect size and the standard deviation constant.
-    * change number of replicates.
+-   **To do:** For each condition run **15** or more simulations.
+    -   observe how statistical significance and $R^2$ very when you:
+-   Keep constant the standard deviation of the populations sampled.
+    -   change the slope size.
+    -   change the intercept size.
+-   Keep the slope size constant.
+    -   change the standard deviation of the populations sampled.
+-   Keep the Treatment effect size and the standard deviation constant.
+    -   change number of replicates.
 
 ```{r lm2, cache=FALSE}
 generate_data4 <- function() {
@@ -248,9 +261,12 @@ sidebarLayout(
 
 ```
 
-## The _t_ distribution
+## The *t* distribution
 
-Explore how the shape of the _t_-distribution changes with changes in the degrees of freedom (df). Consider how this change in shape with df affects _P_-values and thus the calculated _t_ values that are considered an indication of statistical significance.
+Explore how the shape of the *t*-distribution changes with changes in
+the degrees of freedom (df). Consider how this change in shape with df
+affects *P*-values and thus the calculated *t* values that are
+considered an indication of statistical significance.
 
 ```{r tdist, cache=FALSE}
 
@@ -306,9 +322,13 @@ sidebarLayout(
 )
 ```
 
-## The _F_ distribution
+## The *F* distribution
 
-Explore how the shape of the _F_-distribution changes with changes in the degrees of freedom (df<sub>1</sub>, df<sub>2</sub>). Consider how this change in shape with df<sub>1</sub> and df<sub>2</sub> affects _P_-values and thus the calculated _F_ values that are considered an indication of statistical significance.
+Explore how the shape of the *F*-distribution changes with changes in
+the degrees of freedom (df<sub>1</sub>, df<sub>2</sub>). Consider how
+this change in shape with df<sub>1</sub> and df<sub>2</sub> affects
+*P*-values and thus the calculated *F* values that are considered an
+indication of statistical significance.
 
 ```{r Fdist, cache=FALSE}
 
@@ -351,9 +371,13 @@ renderPlot({
 )
 ```
 
-## How did I make these interactive displays?
+::: callout-note
+How did I make these interactive displays?
 
-This Quarto HTML page is made interactive using Shiny, an R package. The viewers of the presentation can change the assumptions underlying what's presented and see the results immediately. 
+This Quarto HTML page is made interactive using Shiny, an R package. The
+viewers of the presentation can change the assumptions underlying what's
+presented and see the results immediately.
 
-To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
-
+To learn more, see [Interactive
+Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+:::
