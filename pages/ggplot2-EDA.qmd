@@ -3,7 +3,7 @@ title: "EDA with 'ggplot2'"
 subtitle: "EDA = Exploratory Data Analysis"
 author: "Pedro J. Aphalo"
 date: 2023-05-24
-date-modified: 2023-05-24
+date-modified: 2023-07-10
 categories: [R, plotting]
 keywords: [ggplot2 pkg, data visualization, dataviz]
 format:
@@ -64,7 +64,8 @@ table(iris$Species)
 
 With two factors we get a two-way table, and with additional factors, additional 2D tables. From this very simple table we can see that we have 50 observations per species. Had we had wrongly typed the species name in one cell we would get a different table.
 
-```{r, include=FALSE}
+```{r}
+# Make version of iris with a wrongly encoded value
 bad_iris <- iris
 bad_iris$Species <- as.character(bad_iris$Species)
 bad_iris$Species[5] <- "acetosa"
