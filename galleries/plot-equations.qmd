@@ -9,6 +9,7 @@ categories: [Plotting examples]
 editor: 
   markdown: 
     wrap: 72
+code-fold: true
 format:
   html: 
     code-link: true
