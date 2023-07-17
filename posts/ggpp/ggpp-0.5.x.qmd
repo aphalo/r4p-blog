@@ -3,7 +3,7 @@ title: "ggpp 0.5.0/0.5.1/0.5.2"
 subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: "2022-12-05"
-date-modified: "2023-04-28"
+date-modified: "2023-07-16"
 categories: [R Package Update]
 keywords: [ggpp pkg]
 ---
@@ -28,7 +28,11 @@ New functions `stat_panel_counts()` and `stat_group_counts()` make it easy to an
 
 _Version 0.5.1_ brings enhancements to the density-based statistics. They gain several new features without changing their default behaviour. The aim is to add flexibility to allow improved support of the annotation of volcano and quadrant plots. Two types of plots frequently used to present gene transcript abundance estimates obtained by RNAseq or microarray methods.
 
-_Version 0.5.2_ brings additional enhancements to the density-based statistics. Mainly smoothing the rough edges left by the overhaul done in _version 0.5.1_ to these functions. In `position_nudge_to()` make it possible to evenly spread positions to reduce overlaps. **Most importantly** add many unit tests to reach > 90% code coverage by tests (contribution of Daniel Sabanés Bové and his team). 
+_Version 0.5.2_ brings additional enhancements to the density-based statistics. Mainly smoothing the rough edges left by the overhaul done in _version 0.5.1_ to these functions. A change to `position_nudge_to()` makes it possible to evenly spread positions to reduce overlaps. **Most importantly** add many unit tests to reach > 90% code coverage by tests (contribution of Daniel Sabanés Bové and his team). 
+
+_Version 0.5.3_ brings enhancements to `stat_quadrant_counts()` and `stat_group_counts()`. They are now both based on a _compute panel_ function, which makes it possible to compute the same counts as in earlier versions but also the count for the whole panel. This in turn facilitates the creation of labels based on percents and fractions of the total number of observations. The default behaviour remains the same as in earlier versions, with labels for counts.
+
+The new statistic `stat_functions()` implements ploting of multiple functions per layer and supports groups and facets, i.e., the grammar of graphics. Be aware that `stat_functions()` is under development and its interface may change in future versions.
 
 ::: callout-note
 
