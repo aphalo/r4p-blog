@@ -2,6 +2,7 @@
 title: "gginnards 0.1.1"
 author: "Pedro J. Aphalo"
 date: 2022-10-15
+date-modified: 2022-10-15
 categories: [R Package Update]
 keywords: [gginnards pkg]
 ---

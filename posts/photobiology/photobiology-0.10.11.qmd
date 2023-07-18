@@ -2,6 +2,7 @@
 title: "photobiology 0.10.11"
 author: "Pedro J. Aphalo"
 date: 2022-07-10
+date-modified: 2022-07-10
 categories: [R Package Update]
 keywords: [photobiology pkg]
 ---

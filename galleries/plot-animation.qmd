@@ -3,6 +3,7 @@ title: "Fitted-model labels with 'ggpmisc' and 'gganimate'"
 subtitle: "Animated ggplots with model equations, _R_<sup>2</sup>, _F_, _P_, etc."
 author: "Pedro J. Aphalo"
 date: "2023-06-24"
+date-modified: "2023-06-24"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, gganimate pkg, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 

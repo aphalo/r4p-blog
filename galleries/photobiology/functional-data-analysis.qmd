@@ -102,7 +102,7 @@ autoplot(sun.cosine.mspct,
 
 ### Highlight the "mean" spectrum
 
-```{r, eval=FALSE}
+```{r}
 autoplot(sun.cosine.mspct, 
          annotations = c("-", "peaks")) +
   geom_line(data = . %>% spct2fdata() %>% func.mean() %>% fdata2spct(),

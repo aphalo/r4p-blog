@@ -2,6 +2,7 @@
 title: "ggpp 0.4.5"
 author: "Pedro J. Aphalo"
 date: 2022-09-30
+date-modified: 2022-09-30
 categories: [R Package Update]
 keywords: [ggpp pkg]
 ---

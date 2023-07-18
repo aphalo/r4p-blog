@@ -3,6 +3,7 @@ title: "I have started using Mastodon..."
 subtitle: "...to announce new releases of my R packages"
 author: "Pedro J. Aphalo"
 date: 2023-05-21
+date-modified: 2023-05-21
 categories: [R packages, Announcements]
 keywords: [Mastodon, package updates, blog posts, website]
 ---

@@ -2,6 +2,7 @@
 title: "Performance of package 'photobiology'"
 author: "Pedro J. Aphalo"
 date: 2020-07-12
+date-modified: 2020-07-12
 catgories: [R code performance]
 keywords: [photobiology pkg]
 ---

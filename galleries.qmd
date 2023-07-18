@@ -3,9 +3,9 @@ title: "Galleries"
 subtitle: "Galleries of illustrations with R code"
 listing:
   contents: galleries
-  sort: "date desc"
+  sort: "date-modified desc"
   type: table
-  fields: [date, title]
+  fields: [date-modified, date, title]
   categories: true
   sort-ui: true
   filter-ui: true

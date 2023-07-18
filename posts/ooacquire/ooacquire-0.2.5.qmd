@@ -2,6 +2,7 @@
 title: "ooacquire 0.2.4 and 0.2.5"
 author: "Pedro J. Aphalo"
 date: 2022-10-01
+date-modified: 2022-10-01
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---

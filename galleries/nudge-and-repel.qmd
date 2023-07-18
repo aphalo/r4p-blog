@@ -3,6 +3,7 @@ title: "Nudging + repulsion"
 subtitle: "Data labels using 'ggrepel' together with 'ggpp'"
 author: "Pedro J. Aphalo"
 date: "2023-02-28"
+date-modified: "2023-07-18"
 categories: [Plotting examples]
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
 format:
@@ -625,3 +626,21 @@ I warmly thank Kamil Slowikowski for agreeing to make changes in
 'ggrepel' that make the use of 'ggrepel' together with 'ggpp' possible
 and smooth. This document shows some use examples, but surely new ones
 will be found by users of R and 'ggplot2'.
+
+## References
+
+```{r}
+citation('ggplot2')
+```
+
+```{r}
+citation('ggpp')
+```
+
+```{r}
+citation('ggrepel')
+```
+
+```{r}
+citation('lubridate')
+```

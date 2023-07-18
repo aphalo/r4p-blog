@@ -3,9 +3,9 @@ title: "Pages"
 subtitle: "Documentation and other Resources about R"
 listing:
   contents: pages
-  sort: "title"
+  sort: "date-modified desc"
   type: table
-  fields: [date, title]
+  fields: [date-modified, date, title]
   categories: true
   sort-ui: true
   filter-ui: true

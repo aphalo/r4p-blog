@@ -2,6 +2,7 @@
 title: "R 4.2.0"
 author: "Pedro J. Aphalo"
 date: 2022-04-29
+date-modified: 2022-04-29
 categories: [R Update]
 keywords: [pipe operator]
 ---

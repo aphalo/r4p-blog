@@ -2,6 +2,7 @@
 title: "photobiologyInOut 0.4.24"
 author: "Pedro J. Aphalo"
 date: 2022-05-15
+date-modified: 2022-05-15
 categories: [R Package Update]
 keywords: [photobiologyInOut pkg]
 ---
