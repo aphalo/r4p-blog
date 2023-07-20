@@ -4,7 +4,8 @@ date: "2023-02-15"
 date-modified: "2023-02-15"
 image: ../pages/r4p-logo.png
 about:
-  template: jolla
+  template: trestles
+  image-width: "25%"
   links:
     - text: ORCID
       href: https://orcid.org/0000-0003-3385-972X
