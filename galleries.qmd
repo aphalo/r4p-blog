@@ -2,7 +2,6 @@
 title: "Galleries"
 subtitle: "Galleries of illustrations with R code"
 listing:
-  feed: true
   contents: galleries
   sort: "date-modified desc"
   type: table
@@ -13,6 +12,7 @@ listing:
   categories: true
   sort-ui: true
   filter-ui: true
+  feed: true
 page-layout: full
 toc: true
 title-block-banner: true

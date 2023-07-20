@@ -5,7 +5,7 @@ date-modified: "2023-02-19"
 image: pedro.jpg
 about:
   template: trestles
-  image-width: "30%"
+  image-width: "67%"
   links:
     - text: ORCID
       href: https://orcid.org/0000-0003-3385-972X
