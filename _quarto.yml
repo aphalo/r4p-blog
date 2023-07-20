@@ -104,6 +104,9 @@ website:
           - icon: github
             text: GitHub _this site_
             href: https://github.com/aphalo/r4p-blog/
+      - icon: rss
+        text: "Blog feed"
+        href: posts.xml
   page-footer:
     right:
       - text: "&copy; 2015-2023 Pedro J. Aphalo"

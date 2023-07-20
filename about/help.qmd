@@ -3,7 +3,7 @@ title: "Support"
 subtitle: "R Packages and Web Site"
 author: "Pedro J. Aphalo"
 date: "2023-02-18"
-date-modified: "2023-02-18"
+date-modified: "2023-07-20"
 categories: [Using R, R packages, documentation]
 ---
 
@@ -17,9 +17,9 @@ Bug reports and suggestions for future enhancements, should be reported by raisi
 
 ### Tables of Contents: Blog, Pages and Galleries
 
-The site has three tables of contents for [Blog](../posts.qmd), [Pages](../pages.qmd) and [Galleries](../galleries.qmd). These tables give the **Modified** Date, Creation **Date** and **Title** of all pages.
+The site has three tables of contents for [Blog](../posts.qmd), [Pages](../pages.qmd) and [Galleries](../galleries.qmd). These tables give the dates when first **Published** and for **Last edited** and **Title** of all posts and pages in the corresponing sections.
 
-The _Default_ sort order is by _Modified Date_ with most recent contents at the top of the tables. A drop down menu allows sorting by Creation _Date_ or _Title_. A _Filter_ text box provides a simple search of the titles.
+The _Default_ sort order is by _Last editied_  date with most recently modified contents at the top of the tables. A drop down menu allows sorting by _Published_ date or _Title_. A _Filter_ text box provides a simple search of the titles. To the right there is a list of subjects giving access to especialised tables of contents.
 
 ### Drop-down Menues: Packages and Books
 
