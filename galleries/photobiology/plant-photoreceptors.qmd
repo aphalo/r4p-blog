@@ -16,6 +16,12 @@ format:
     code-tools: true
 ---
 
+::: callout-note
+As of 2023-07-24 you may get some spureous warnings caused by a pending package
+update that I will release in a few weeks time. For rendering this page I have
+silenced warnings in some code chunks.
+:::
+
 ## Introduction
 
 The R for Photobiology suite of packages contains data and tools useful in
@@ -88,7 +94,7 @@ R:FR photon ratio we calculate Pfr:Ptot using both approaches for sunlight and
 seven different LEDs sold for plant cultivation. We start by plotting the
 spectra.
 
-```{r}
+```{r, warning=FALSE}
 #| fig-asp: 1.5
 some_leds.mspct <- leds.mspct[plant_grow_leds]
 some_leds.mspct[["sun"]] <- sun.spct
@@ -101,7 +107,7 @@ table. Kusuma and Bugbee (2021) proposed the use of FR/(R + FR) as an easier to
 understand quantity varying between 0 and 1. It can be computed as 
 1 / (1 + R:FR), so we also include this so called "FR fraction" in the table.
 
-```{r}
+```{r, warning=FALSE}
 summaries.tb <- R_FR(some_leds.mspct)
 summaries.tb[["FR:(R+FR)[q:q]"]] <- 1 / (1 + summaries.tb[["R:FR[q:q]"]])
 summaries.tb[["Pfr:Ptot (spectrum)"]] <-
@@ -217,14 +223,14 @@ reflect plant responses as shown by Kusuma and Bugbee (2021).
 ::: callout-note
 As red and far-red LEDs do not emit monochromatic ligth, we may want to check the photoequilibrium based on the spectrum.
 
-```{r}
+```{r, warning=FALSE}
 #| fig-asp: 1
 RFR_leds.mspct <- leds.mspct[unique(grep("^Quantum", c(red_leds, ir_leds), value = TRUE))]
 RFR_leds.mspct <- normalize(RFR_leds.mspct)
 autoplot(RFR_leds.mspct, idfactor = "LED", span = 101, facets = 2)
 ```
 
-```{r}
+```{r, warning=FALSE}
 summaries.tb <- R_FR(RFR_leds.mspct)
 summaries.tb[["spct.idx"]] <- gsub("_", " ", summaries.tb[["spct.idx"]])
 summaries.tb[["FR:(R+FR)[q:q]"]] <- 1 / (1 + summaries.tb[["R:FR[q:q]"]])

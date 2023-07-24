@@ -3,7 +3,7 @@ title: "Nudging + repulsion"
 subtitle: "Data labels using 'ggrepel' together with 'ggpp'"
 author: "Pedro J. Aphalo"
 date: "2023-02-28"
-date-modified: "2023-07-18"
+date-modified: "2023-07-25"
 categories: [Plotting examples]
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
 format:
@@ -268,7 +268,7 @@ ggplot(owid,
   geom_line() +
   geom_text_repel(aes(label = label),
                   size = 3,
-                  position = position_nudge_to(x = max(owid$date) + days(30)),
+                  position = position_nudge_to(x = as.numeric(max(owid$date) + days(50))),
                   segment.color = 'grey',
                   point.size = 0,
                   box.padding = 0.1,
