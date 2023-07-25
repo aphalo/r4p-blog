@@ -8,6 +8,7 @@ format:
     code-fold: true
     code-tools: true
 runtime: shiny
+draft: true
 ---
 
 ```{r setup, include=FALSE}
