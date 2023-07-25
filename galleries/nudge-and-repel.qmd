@@ -137,7 +137,7 @@ increases the size of the data, and consequently also the size of the ggplot
 objects. Because of this, the position functions from 'ggpp' allow the keeping 
 of the original positions to be disabled when needed.
 
-### Connecting segments and arrows
+## Connecting segments and arrows
 
 Function `position_nudge_keep()` is like `ggplot2::position_nudge()` but
 keeps (stores) the original *x* and *y* coordinates. It is similar to
@@ -199,7 +199,7 @@ ggplot(df1, aes(x=PC1, y = PC2, label = Species, colour = Species)) +
   theme(legend.position = "none")
 ```
 
-### Aligned data labels
+## Aligned data labels
 
 Function `position_nudge_to()` nudges to a given position instead of
 using the same shift for each observation. It can be used to align labels
@@ -284,7 +284,7 @@ ggplot(owid,
 ```
 
 In the call to `position_nudge_to()` we passed a vector of length one as
-argument for `y`, but both `x` and `y` also accept longer vectors. In other
+argument for `x`, but both `x` and `y` also accept longer vectors. In other
 words, this position function makes it possible manual positioning of text and
 labels.
 
@@ -307,7 +307,7 @@ ggplot(df, aes(x, y, label = round(x, 2))) +
   geom_rug(sides = "b", length = unit(0.02, "npc"))
 ```
 
-### Clouds of observations
+## Clouds of observations
 
 In many cases data are distributed as a cloud with decreasing density towards
 edges. In some other cases, even with evely distributed observations, a certain
@@ -533,7 +533,7 @@ ggplot(dset, aes(x=x, y=y, label = label)) +
   theme_bw()
 ```
 
-### Lines, curves and observations along them
+## Lines, curves and observations along them
 
 Function `position_nudge_line()` nudges away from a line, which can be a
 user supplied straight line as well as a smooth spline or a polynomial
@@ -565,6 +565,7 @@ ggplot(df, aes(x, yy)) +
   geom_point() +
   stat_smooth(method = "loess", formula = y ~ x) +
   geom_label_repel(aes(y = yy, label = paste("point", l)),
+                   size = 3,
                    position = position_nudge_line(x = 0.9, 
                                                   y = 8,
                                                   direction = "split"),
@@ -573,7 +574,7 @@ ggplot(df, aes(x, yy)) +
   expand_limits(x = c(-12, 12))
 ```
 
----
+::: callout-hint
 
 When fitting a polynomial, `"lm"` should be the argument passed to
 `method` and a model formula preferably based on `poly()`, setting
@@ -581,7 +582,7 @@ When fitting a polynomial, `"lm"` should be the argument passed to
 
 *Currently no other methods are implemented in* `position_nudge_line()`.
 
----
+:::
 
 In the case of data labels that are small, a single character in the next
 example, we also benefit from nudging if they are near a fitted line. 
