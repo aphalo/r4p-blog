@@ -27,12 +27,18 @@ enhanced functionality in packages 'ggpp' and 'ggpmisc' similar to that in packa
 
 Package 'ggpp' mainly defines geometries and scales that can be useful for the
 development of other packages. Package 'ggpmisc' implements mostly statistics
-and also imports and re-exports package 'ggpp'. Thus, I added
-`geom_text_pairwise()` and `geom_label_pairwise()` to 'ggpp'. This took only a
-couple of hours, using the existing code of `geom_text_s()` and `geom_label_s()`
-as a base. The user interface is, thus, consistent with that of other related
-layer functions in package 'ggpp'. These geometries are fully functional on 
-their own and by default make use of `ggplot2::stat_identity()`.
+and also imports and re-exports package 'ggpp'. 
+
+## Package 'ggpp' (>= 0.5.4)
+
+I added `geom_text_pairwise()` and `geom_label_pairwise()` to 'ggpp'. This took
+only a couple of hours, using the existing code of `geom_text_s()` and
+`geom_label_s()` as a base. The user interface is, thus, consistent with that of
+other related layer functions in package 'ggpp'. These geometries are fully
+functional on their own and by default make use of `ggplot2::stat_identity()`.
+
+These geometries are convenience layer functions, as the same plots can be
+created by adding separately the segments and 
 
 I will implement the actual statistical testing in package 'ggpmisc' in new
 statistics that will use these new geometries.
