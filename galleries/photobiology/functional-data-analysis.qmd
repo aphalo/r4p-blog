@@ -26,7 +26,7 @@ provide a unified entry point to many different methods for FDA.
 
 Package 'photobiologyInOut' (>= 0.4.27) exports functions `spct2fdata()`and
 `fdata2spct()` making  it easy to convert objects of classes `source_spct`,
-`response_spct`, `filter_spct` and `reflector_spct`` into objects of class
+`response_spct`, `filter_spct` and `reflector_spct` into objects of class
 `fdata` and back.
 
 In this page I am collecting examples of code that I have found useful. The
