@@ -2,6 +2,7 @@
 title: "ggspectra 0.3.8"
 author: "Pedro J. Aphalo"
 date: 2022-04-16
+date-modified: 2022-04-16
 categories: [R Package Update]
 keywords: [ggspectra pkg]
 ---

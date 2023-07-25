@@ -9,7 +9,7 @@ website:
   navbar:
     logo: r4p-logo.png
     right:
-      - icon: house-door
+      - icon: newspaper
         text: blog
         href: posts.qmd
       - icon: file-richtext
@@ -104,6 +104,18 @@ website:
           - icon: github
             text: GitHub _this site_
             href: https://github.com/aphalo/r4p-blog/
+      - icon: rss
+        text: "RSS feeds"
+        menu:
+          - icon: newspaper
+            text: Blog RSS feed
+            href: posts.xml
+          - icon: file-richtext
+            text: Pages RSS feed
+            href: pages.xml
+          - icon: images
+            text: Gallery RSS feed
+            href: galleries.xml
   page-footer:
     right:
       - text: "&copy; 2015-2023 Pedro J. Aphalo"

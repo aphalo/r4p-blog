@@ -2,6 +2,7 @@
 title: "photobiologyWavebands 0.5.0"
 author: "Pedro J. Aphalo"
 date: 2022-08-13
+date-modified: 2022-08-13
 categories: [R Package Update]
 keywords: [photobiologyWavebands pkg]
 ---

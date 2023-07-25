@@ -1,8 +1,9 @@
 ---
-title: "'photobiology' 0.10.1x"
+title: "photobiology 0.10.1x"
 subtitle: "Most significant recent changes"
 author: "Pedro J. Aphalo"
 date: 2023-05-28
+date-modified: 2023-06-11
 categories: [R Package Update]
 keywords: [photobiology pkg]
 format:

@@ -1,14 +1,18 @@
 ---
 title: Blog
-subtitle: "Package Updates and other News"
+subtitle: "Package Updates and Other News"
 listing:
   contents: posts
-  sort: "date desc"
+  sort: "date-modified desc"
   type: table
-  fields: [date, title]
+  fields: [date-modified, date, title]
+  field-display-names:
+    date: "Published"
+    date-modified: "Last edited"  
   categories: true
   sort-ui: true
   filter-ui: true
+  feed: true
 page-layout: full
 title-block-banner: true
 ---

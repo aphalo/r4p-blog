@@ -2,6 +2,7 @@
 title: "ggpmisc 0.4.7"
 author: "Pedro J. Aphalo"
 date: 2022-06-15
+date-modified: 2022-06-15
 categories: [R Package Update]
 keywords: [ggpmisc pkg]
 ---

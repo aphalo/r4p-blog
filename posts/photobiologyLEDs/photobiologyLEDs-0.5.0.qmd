@@ -2,6 +2,7 @@
 title: "photobiologyLEDs 0.5.0"
 author: "Pedro J. Aphalo"
 date: 2022-05-14
+date-modified: 2022-05-14
 categories: [R Package Update]
 keywords: [photobiologyLEDs pkg]
 ---

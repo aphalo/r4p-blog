@@ -106,9 +106,7 @@ df <- data.frame(x = c(1:100))
 df$y <- 2 + 3 * df$x + rnorm(100, sd = 40)
 ```
 
-Even though this example works without problems at the R console, I have
-not been able to get it to work within the Quarto file. So below the
-code I include a non-interactive PNG of the 'plotly' interactive plot.
+Even though this example works without problems at the R console, I was not able to get it to work under Quarto 1.3.x. Recently, I ungraded the building of the web site to the pre-release of Quarto 1.4.x and now 'plotly' works, as can be seen below!
 
 ```{r}
 #| fig-cap: Works with Quarto 1.4.x!

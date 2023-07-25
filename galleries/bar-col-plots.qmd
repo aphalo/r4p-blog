@@ -3,6 +3,7 @@ title: "Data labels in bar plots with 'ggpp'"
 subtitle: "Nudging labels in stacked and dodged bars or columns" 
 author: "Pedro J. Aphalo"
 date: "2023-02-25"
+date-modified: "2023-02-25"
 keywords: [ggplot2 pkg, ggpp pkg, ggrepel pkg, bar plot, column plot, data labels, plot annotations]
 categories: [Plotting examples]
 editor: 

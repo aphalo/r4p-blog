@@ -1,0 +1,50 @@
+---
+title: "photobiologyInOut 0.4.25/0.4.26/0.4.27"
+author: "Pedro J. Aphalo"
+date: 2022-10-15
+date-modified: 2023-07-25
+categories: [R Package Update]
+keywords: [photobiologyInOut pkg]
+---
+
+::: callout-note
+
+As part of moving the site to Quarto I intend to write a single post to give an
+overview of changes in minor versions of the packages. In this case, versions in
+the 0.4.x series, starting from version 0.4.25. I will update this same post in
+the case of minor version updates, and start a new post when the first version
+in the 0.5.x series is developed. I hope this will reduce the clutter and still
+provide a good overview of progress. Differences between versions are listed in
+detail in the [NEWS
+file](https://docs.r4photobiology.info/phoyobiologyInOut/news/).
+
+:::
+
+## Overview of changes
+
+_Version 0.4.25_ fixed a bug affecting data exchange with package 'colorSpec'.
+Attempts to convert collections containing spectra with inconsistent wavelength
+vectors would fail when using `mspct2colorSpec()` or
+`as.colorSpec.generic_mspct()` (many thanks to Glenn Davis for his help!).
+
+_Version 0.4.26_ fixed problems due to code-breaking changes in package 'readr'.
+This version also adds function  `read_spectrapen_csv()` for importing data from
+PSI's SpectraPen spectrometers.
+
+_Version 0.4.27_ gains functions `spct2fdata()`, `mspct2fdata()`, `fdata2spct()`
+and `fdata2mspct()` supporting export and import of `fdata` objects as defined
+in package 'fda.usc' facilitating the application of functional data analysis
+methods to spectral data stored in classes from package 'photobiology'. Please,
+see the package documentation and [a page of use
+examples](https://www.r4photobiology.info/galleries/photobiology/functional-data-analysis.html).
+
+::: callout-note
+
+[*Documentation web site*](http://docs.r4photobiology.info/photobiologyInOut/)
+includes all help pages, with output from all examples, vignettes in HTML format
+and a cheatsheet as a PDF file.
+Please raise issues concerning bugs or enhancements to this package through
+GitHub at <https://github.com/aphalo/photobiologyInOut/issues>. Pull requests
+are also welcome.
+
+:::

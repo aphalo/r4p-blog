@@ -2,6 +2,7 @@
 title: "HTML5 compliance of R packages"
 author: "Pedro J. Aphalo"
 date: 2022-08-13
+date-modified: 2022-08-13
 categories: [R Update]
 ---
 

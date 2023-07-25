@@ -3,6 +3,7 @@ title: "ggplot insets with package 'ggpp'"
 subtitle: "Plots, tables and graphical objects as ggplot insets"
 author: "Pedro J. Aphalo"
 date: "2023-02-23"
+date-modified: "2023-02-23"
 keywords: [ggplot2 pkg, ggpp pkg, data labels, plot annotations, plot insets]
 categories: [Plotting examples]
 editor: 

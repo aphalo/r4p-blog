@@ -1,25 +1,32 @@
 ---
-title: "Help"
+title: "Support"
+subtitle: "R Packages and Web Site"
 author: "Pedro J. Aphalo"
 date: "2023-02-18"
-date-modified: "2023-02-18"
+date-modified: "2023-07-20"
 categories: [Using R, R packages, documentation]
 ---
 
-<hr />
+## Support for the R Packages
 
-<strong>Updates:</strong> In the individual post for each package update I mark as "<span style="background-color: #ccffcc;">Compatibility fix:</span>" changes necessary to keep the packages in the <em>R for Photobiology Suite</em> and the <em>ggplot extensions</em> working without changes in spite of the updates to R or other packages when done on time. I mark as "<span style="background-color: #ffff99;">Bug fix:</span>" edits that corrected similar problems too late, resulting in some functions or features in the suite to stop working for some time in what was the current release at the time. I use "<span style="background-color: #ffcc99;">Bug fix:</span>"for bugs native to the <em>R for Photobiology Suite</em> that have been present in released versions and had remained unnoticed. I mark intentional code-breaking changes with "<span style="color: #ff0000;">Code breaking:</span>". I hate breaking exisitng code, but sometimes bad design decisions cannot be fixed in any other way.
+The best place to ask general questions about R and packages is [StackOverflow](https://stackoverflow.com/), the questions and answers site. When asking questions or searching for existing questions and answers about packages 'ggpp', 'ggpmisc' and 'gginnards' please use the tag [ggpmisc](https://stackoverflow.com/questions/tagged/ggpmisc) in addition to the tag [ggplot](https://stackoverflow.com/questions/tagged/ggplot2). When asking questions about the packages in the _R for Photobiology suite_, please, use the tag [r4photobiology](https://stackoverflow.com/questions/tagged/r4photobiology) plus any other relevant ones. I check questions with these tags almost daily, and other R users may be able to answer even sooner. In this paragraph, the linked tags open existing questions and answers in StackOverflow marked with each of them.
 
-<hr />
+Bug reports and suggestions for future enhancements, should be reported by raising issues at GitHub. I keep the source code of all packages at GitHub where all changes are tracked. This is the best place to report bugs, suggest improvements, contribute to the development, but also for asking questions that require familiarity with how the packages are implemented. In such cases, please raise an issue in the repository of the respective package at the repository given in the DESCRIPTION and README files of each package. Pull requests are also welcome.
 
-<strong>Documentation:</strong> All packages in the suite contain a <em>User Guide</em>. As in every R package, each function, operator or data object is documented in <em>R's help</em>. A nicely formated HTML version of the documentation is available on-line for each package, and accesible through links in the page accessible "<a href="https://www.r4photobiology.info/package-status/">PACKAGES</a>" menu entry of this web site.
+## The R for Photobiology Web Site
 
-<hr />
+### Tables of Contents: Blog, Pages and Galleries
 
-<strong>Support: </strong>The best place to ask general questions about R and packages is <a href="https://stackoverflow.com/" target="_blank" rel="noopener">StackOverflow</a>, the questions and answers site. When asking questions about packages 'ggpp', 'ggpmisc' and 'gginnards' please use the tag <a href="https://stackoverflow.com/questions/tagged/ggpmisc">[ggpmisc]</a> in addition to the<a href="https://stackoverflow.com/questions/tagged/ggplot2"> [ggplot]</a> tag. When asking questions about the packages in the suite, please, use the tag <a href="https://stackoverflow.com/questions/tagged/r4photobiology">[r4photobiology]</a> plus any other relevant ones. I check questions with these tags almost daily, and others may be able to answer even sooner. In this paragraph, the linked tags open existing questions and answers in StackOverflow marked with each of them.
+The site has three tables of contents for [Blog](../posts.qmd), [Pages](../pages.qmd) and [Galleries](../galleries.qmd). These tables give the dates when first **Published** and for **Last edited** and **Title** of all posts and pages in the corresponing sections.
 
-<hr />
+The _Default_ sort order is by _Last editied_  date with most recently modified contents at the top of the tables. A drop down menu allows sorting by _Published_ date or _Title_. A _Filter_ text box provides a simple search of the titles. To the right there is a list of subjects giving access to especialised tables of contents.
 
-<strong>Raising issues:</strong>I keep the code of all packages at GitHub where all changes are tracked. This is the best place to report bugs, suggest improvements, contribute to the development, but also for asking questions that require familiarity with how the packages are implemented. This is done by raising an issue in the repository of the package the question is about. Links are provided in the page accessed through the "<a href="https://www.r4photobiology.info/package-status/">PACKAGES</a>" menu entry of this web site.
+### Drop-down Menues: Packages and Books
 
-<hr />
+Each of my packages has a website with the full documentation in HTML format including the output from all examples in help pages. They reflect either the current CRAN version or a pre-release version (version with minor component 9000 to 9009). The _Packages_ drop down menu gives access to these documentation sites. Two packages and pre-release versions are available through the [R for Photobiology CRAN-like repository](https://r.r4photobiology.info). All other package releases are in CRAN.
+
+The _Books_ drop down menu gives access to the web sites or web pages for books I have authored or edited.
+
+### Problems and Suggestions about this Website
+
+The source code for this site is kept at a [git repository at GitHub](https://github.com/aphalo/r4p-blog). To report errors and make suggestions for improvements please [raise an issue](https://github.com/aphalo/r4p-blog/issues).

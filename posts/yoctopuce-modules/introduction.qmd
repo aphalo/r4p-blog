@@ -2,6 +2,7 @@
 title: "Yoctopuce modules: Introduction"
 author: "Pedro J. Aphalo"
 date: 2019-02-21
+date-modified: 2019-02-21
 categories: [data acquisition]
 keywords: [Yoctopuce, R, USB module]
 ---
