@@ -3,7 +3,7 @@ title: "'ggplot2' Basics"
 subtitle: "The Layered Grammar of Graphics"
 author: "Pedro J. Aphalo"
 date: 2023-05-03
-date-modified: 2023-05-13
+date-modified: 2023-07-27
 categories: [R, plotting]
 keywords: [ggplot2 pkg, data visualization, dataviz]
 format:
@@ -21,9 +21,31 @@ page title. The page is written using [Quarto](https://quarto.org/) which is an 
 Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code brealking' you should be aware that the examples in this page have been tested with version (==3.4.2).
 :::
 
-## Layered Grammar of Graphics
+## Grammar of Graphics
 
-It is best to think of 'ggplot2' and its extensions as a language used to specify how to build a plot. This language gives access to an abstraction about about the structure of data plots and how to assemble this structure. This is the most important aspect of learning to create ggplots. Once one grasps the general picture, what remains is just the choice among different "building blocks", as building blocks of the same "kind" can in most cases replace each other, differing drastically in the graphical output, but minimally in how they are added to a plot.
+The Grammar of Graphics (GoG) was deviced by Lee Wilkinson (1999) as a _mathematical_ theory applicable to the construction of any data visualization. It it most relevant to the design of software for data visualization, and does not concern visual and perceptual aspects of plotting data. It can be depicted as a sequence of steps connected by operations (@fig-GoG).
+
+```{mermaid}
+%%| label: fig-GoG
+%%| fig-cap: The Grammar of Graphics depicted as a simplified conceptual diagram.
+%%| fig-align: center
+flowchart TB
+  A(Data variables) --> B(algebra) --> C(Scales) --> D(Statistics) --> E(Geometry) --> F(Coordinates) --> G(Aesthetics) --> H(Rendered\ndata visualization)
+```
+
+Basing plot construction on a grammar gives users the freedom to create new types of data visualizations including those not imagined by the designers of software. This is similar to how a natural language like English allows writers and poets to express original ideas within a context that makes them understandable to others and amenable to be processed by existing software and hardware.
+
+[A recent article by J. Friedly (2022) in The Nightingale](https://nightingaledvs.com/colorless-green-graphs-sleep-furiously-a-conversation-with-leland-wilkinson/) summarises a debate between L. Wilkinson and M. Friendly about what the GoG actually is. 
+
+_The GoG is conceptual and identifies the key classes of objects starting from data and the classes of methods used to transform one to the next, giving a final graphic object that still needs to be rendered (J. Friedly 2022)._ To be used to actually construct data visualizations the GoG needs to be implemented as computer software. Use of the GoG as a paradigm affects how users of software will interact with a computer to construct plots, but designers of software user interfaces based on the GoG remain responsible for many decisions affecting how plots are in practice constructed.
+
+One very successful software implementation of the GoG is R package 'ggplot2' and its extensions. I have myself published four R packages extending the types of plots that can be constructed using the GoG as implemented in 'ggplot2'. These packages although respecting Wilkinson's original GoG extend the implementation of this GoG in R.
+
+## Package 'ggplot2'
+
+It is best to think of 'ggplot2' and its extensions as a language used to specify how to build a plot. This language gives access to the GoG abstraction about the structure of data plots and how to build this structure step by step.
+
+Understanding the GoG abstraction is the most important aspect of learning to create ggplots. Once one grasps the general picture, what remains is just the choice among different "building blocks", as building blocks of the same "kind" can in most cases replace each other, differing drastically in the graphical output, but minimally in how they are combined into to a plot-construction description.
 
 ::: callout-note
 I consider packages like 'ggrepel', 'ggpmisc', and 'ggbeeswarm' that provide extensions to the grammar, as extensions to package 'ggplot2'. Some packages like 'ggpubr' mostly define functions that build whole plots using 'ggplot2' and return `"gg"` objects, but are designed to be used on their own. Such functions do not extend the grammar of graphics, they define their own user interface. Package 'ggspectra' has double personality as it extends the grammar but also defines special `autoplot()` methods for spectra. It remains consistent with 'ggplot2' because the generic method `autoplot()` is defined in package 'ggplot2'.
@@ -31,7 +53,7 @@ I consider packages like 'ggrepel', 'ggpmisc', and 'ggbeeswarm' that provide ext
 
 ## The main steps
 
-Differently to many other data plotting approaches, ggplots are constructed as R objects. So plotting data consists in a constructing an object of class `"gg"` followed by its rendering. As any R object, `"gg"` objects can be stored in variables and can be printed to display them. When printed ggplots are rendered by default as a graphical representation, however they can also be displayed as text to reveal their structure. That both representations can be obtained at each step of their construction and that `"gg"` objects can be built by the succesive addition of components has two main advantages: 1) we can save parts of a `"gg"` object and reuse them, and 2) we can build a plot bit by bit and check the effect of each addition to the `"gg"` objects. It is possible, but infrequently needed, to edit an existing ggplot object: one can add, remove and replace components and also change the order of the layers. In most cases it is easier to edit the code used to create the plot, but if one does not have access to the original code or data, editing a ggplot can save the day. Editing is also an effective way of learning the _internals_ of ggplots if one is interested in them. My package 'gginnards' makes editing easier. I developed this pacakge to help me learn how 'ggplot2' works and to debug the code in my other packages with extensions to 'ggplot2'.
+Differently to many other data plotting approaches, ggplots are constructed as R objects. So plotting data consists in constructing an object of class `"gg"` followed by its rendering. As any R object, `"gg"` objects can be stored in variables and can be printed to display them. When printed ggplots are rendered by default as a graphical representation, however they can also be displayed as text to reveal their structure. That both representations can be obtained at each step of their construction and that `"gg"` objects can be built by the succesive addition of components has two main advantages: 1) we can save parts of a `"gg"` object and reuse them, and 2) we can build a plot bit by bit and check the effect of each addition to the `"gg"` objects. It is possible, but infrequently needed, to edit an existing ggplot object: one can add, remove and replace components and also change the order of the layers. In most cases it is easier to edit the code used to create the plot, but if one does not have access to the original code or data, editing a ggplot can save the day. Editing is also an effective way of learning the _internals_ of ggplots if one is interested in them. My package 'gginnards' makes editing easier. I developed this pacakge to help me learn how 'ggplot2' works and to debug the code in my other packages with extensions to 'ggplot2'.
 
 The steps needed to create a plot using the grammar of graphics are:
 
