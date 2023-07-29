@@ -3,7 +3,7 @@ title: "ggplot fitted-model equations with 'ggpmisc'"
 subtitle: "Polynomials, major axis, quantile and non-linear regression"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
-date-modified: "2023-06-30"
+date-modified: "2023-07-30"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
@@ -16,35 +16,27 @@ format:
     code-tools: true
 ---
 
-## Introduction
-
-Here you will find examples of ggplots with insets. The insets have been
-added to the plots with geometries defined in package 'ggpp' and
-statistics from package 'ggpmisc' both available at CRAN. The
-documentation of [package 'ggpp'](https://docs.r4photobiology.info/ggpp)
-and of [package 'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is
-available on-line.
-
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
-searching for examples. Above each plot you will find a small triangle
-followed by "Code". Clicking on the triangle "unfolds" the code chunk
-making visible the R code used to produce the plot. Except for the
-loading of packages shown in section **Preliminaries** code examples are
-in most cases self contained. When they are not, this is indicated by a
-comment.
-
-All "words" defined in base R or in extension packages are linked to the
-corresponding HTML-rendered help pages.
+searching for examples. Above each plot you will find one or more "folded" code
+chuncks signalled by a small triangle followed by "Code". Clicking on the
+triangle "unfolds" the code chunk making visible the R code used to produce the
+plot.
 
 The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
+
+The `</> Code` drop down menu to the right of the page title makes it possible to unfold all code chunks and to view the Quarto source of the whole web page.
+
+Names of functions and other R objects are linked to the corresponding on-line help pages. The names of R extension packages are linked to their documentation web sites when available.
 :::
 
-For simplicity, whenever possible I use base R functions instead of
-contributed R packages. For those packages used only in specific
-examples I use colon notation to indicate the 'package'.
+## Introduction
+
+Here you will find examples of ggplots with insets. The insets have been
+added to the plots with geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp/) and
+statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) both available at CRAN.
 
 ::: callout-important
 One needs to always check that annotations do not occlude anything
@@ -61,7 +53,7 @@ Data labels add textual information directly related to individual data
 points (shown as glyphs). Text position in this case is dependent on the
 scales used to represent data points. Text is usually displaced so that
 it does not occlude the glyph representing the data point and when the
-link to the data point is unclear, this link is signaled with a line
+link to the data point is unclear, this link is signalled with a line
 segment or arrow. Data labels are distinct from annotations in that they
 contribute directly to the representation of data on a plot or map.
 
@@ -114,10 +106,10 @@ added as annotations if one is familar with R's expressions as used for
 The code used is shown on-demand above each plot and can be copied. We
 first load the packages we will use.
 
-When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
-'ggplot2' are also attached. The only function from 'ggplot2' that is
-redefined by 'ggpp' is `annotate()`, which remains backwards compatible
-with 'ggplot2'.
+When package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) is loaded and attached, packages [ggpp](https://docs.r4photobiology.info/ggpp/) and
+[ggplot2](https://ggplot2.tidyverse.org/) are also attached. The only function from [ggplot2](https://ggplot2.tidyverse.org/) that is
+redefined by [ggpp](https://docs.r4photobiology.info/ggpp/) is `annotate()`, which remains backwards compatible
+with [ggplot2](https://ggplot2.tidyverse.org/).
 
 ```{r, include=FALSE}
 library(knitr)
@@ -151,8 +143,7 @@ df1 <- data.frame(x = rep(x, 2),
 ```
 
 The examples in this section make use of `stat_correlation()` from package
-'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_correlation.html)
-for details.
+[ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
 
 Pearson correlation.
 
@@ -258,8 +249,7 @@ common case is linear regression. They are very frequently used, and in the
 case of linear regression the role of parameters can be easily recognized.
 
 The examples in this section make use of `stat_poly_line()` and `stat_poly_eq()`
-from package 'ggpmisc'. Please, see the [help page for `stat_poly_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_line.html)
-and the [help page for `stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_poly_eq.html) for details.
+from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
 
 The model corresponding to lineal regression is a first degree polynomial.
 
@@ -411,7 +401,6 @@ degree polynomials, one may need to manually build the R expression representing
 the equation to simplify it.
 :::
 
-
 The examples shown above also work with groups.
 
 ```{r}
@@ -450,7 +439,7 @@ ggplot(df2, aes(x, y2)) +
   facet_wrap(facets = vars(group), scales = "free_y", ncol = 1)
 ```
 
-In the stats defined in 'ggpmsic' the fit method function can modify the
+In the stats defined in [ggpmsic](https://docs.r4photobiology.info/ggpmisc/) the fit method function can modify the
 model passed as argument because the one used to build the equation is
 retrieved from the fitted model object when possible. In this example, a
 linear regression is fitted if the slope is significant, but if not the
@@ -559,9 +548,9 @@ ggplot(df3, aes(x, y)) +
 
 ::: callout-tip
 Package 'ggpubr' provides a renamed copy of `stat_poly_eq()` taken from
-an old version of 'ggpmisc'. The version in 'ggpubr' is much more
+an old version of [ggpmisc](https://docs.r4photobiology.info/ggpmisc/). The version in 'ggpubr' is much more
 limited in its functionality and even contains bugs. The line drawing
-code in `stat_smooth()` from 'ggplot2' was used as a basis for
+code in `stat_smooth()` from [ggplot2](https://ggplot2.tidyverse.org/) was used as a basis for
 `stat_poly_line()`, the main difference is that by default it uses
 `lm()` as method irrespective of the data size while `stat_smooth()`
 switches to using splines for large numbers of observations.
@@ -574,11 +563,7 @@ the cause of the other, we should use major axis regression instead of
 linear regression.
 
 The examples in this section make use of `stat_ma_line()` and `stat_ma_eq()`
-from package 'ggpmisc'. Please, see the [help page for
-`stat_ma_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_line.html)
-and the [help page for
-`stat_poly_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_ma_eq.html)
-for details.
+from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
 
 ```{r}
 ggplot(df3, aes(x, y)) +
@@ -599,14 +584,7 @@ rather easily interpreted based on its similarity to the well known box
 plots.
 
 The examples in this section make use of `stat_quant_line()`,
-`stat_quant_band()` and `stat_quant_eq()` from package 'ggpmisc'. Please, see
-the [help page for
-`stat_quant_line()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_line.html),
-[help page for
-`stat_quant_band()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_band.html)
-and the [help page for
-`stat_quant_eq()`](https://docs.r4photobiology.info/ggpmisc/reference/stat_quant_eq.html)
-for details.
+`stat_quant_band()` and `stat_quant_eq()` from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
 
 ::: callout-caution
 Quantile regression fits are done by numerical approximation, and
@@ -712,7 +690,7 @@ ggplot(df2, aes(x, y, group = group, linetype = group,
 ### Alternatives
 
 ::: callout-tip
-Package 'ggplot2' defines `stat_quantile()` which can be used to plot as
+Package [ggplot2](https://ggplot2.tidyverse.org/) defines `stat_quantile()` which can be used to plot as
 a line some types of quantile regression fits, but is less flexible than
 `stat_quant_line()` and `stat_quant_band()`.
 :::
@@ -724,10 +702,9 @@ we show examples of how to generate labels for equations and other parameter
 estimates with an approach applicable to many different types of models.
 
 The examples in this section make use of `stat_fit_tidy()` from package
-'ggpmisc'. Please, see its [help page](https://docs.r4photobiology.info/ggpmisc/reference/stat_fit_tidy.html)
-for details.
+[ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
 
-We use as example a fit of the Michaelis-Menthen equation of reaction quinetics,
+We use as example a fit of the Michaelis-Menthen equation of reaction kinetics,
 a function that is non-linear in its parameters.
 
 ```{r}
@@ -783,7 +760,7 @@ In all cases it is possible to do the model fitting before creating the plot, as
 labels in one's own R code and passing them to `ggplot()` as data. The
 possibilities are nearly unlimited but implementing them, depending on one's
 own familiarity with R and 'ggplot2' can become very time consuming. I have
-in part written 'ggpp' and 'ggpmisc' to avoid as a user having to remind
+in part written [ggpp](https://docs.r4photobiology.info/ggpp/) and [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) to avoid as a user having to remind
 myself of how to write such code repeatedly. My hope is that others will also
 save time and effort by using the packages I have developed.
 :::

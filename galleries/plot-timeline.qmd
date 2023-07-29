@@ -1,0 +1,359 @@
+---
+title: "Timelines with 'ggplot2'"
+subtitle: "Timelines as data plots"
+author: "Pedro J. Aphalo"
+date: "2023-07-30"
+date-modified: "2023-07-30"
+categories: [Plotting examples]
+keywords: [timeline plots, ggplot2 pkg, photobiology pkg, ggrepel pkg]
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+---
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find one or more "folded" code
+chuncks signalled by a small triangle followed by "Code". Clicking on the
+triangle "unfolds" the code chunk making visible the R code used to produce the
+plot.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+
+The `</> Code` drop down menu to the right of the page title makes it possible to unfold all code chunks and to view the Quarto source of the whole web page.
+
+Names of functions and other R objects are linked to the corresponding on-line help pages. The names of R extension packages are linked to their documentation web sites when available.
+:::
+
+::: callout-note
+The content of this page was originally written for the Questions and Answers section of the [UV4Plants Bulletin](https://bulletin.uv4plants.org/) but was not published as the Bulletin ceased to be published.
+:::
+
+## Why timelines as data plots?
+
+The earliest examples of timeline plots date from the 1,700's \autocite{Koponen2019}. Initially used to depict historical events, timeline plots are useful to describe any sequence of events and periods along a time axis. To be useful the events should be positioned proportionally, i.e., the distance along the timeline at which events are marked, should be proportional to the time interval separating these events \autocite{Koponen2019}.
+
+Timelines provide a very clear, unambiguous and concise way of describing the course of experiments, the timing of steps in laboratory protocols and even the progress of people's careers in science, sports, politics, etc. I suspect they are used less frequently than they could because drafting them can seem like a lot of work. So, even if not specific to UV research, timelines are important and their use could be more frequent.
+
+The question for this second installment was asked from me orally by Yan Yan, so the question is reconstructed from memory. The background to the question was that I encouraged her to create a better timeline plot for a manuscript. She had used a drafting program, such as Inkscape or Illustrator and found it difficult to achieve spacing proportional to time, in particular across a group of parallel timelines.
+
+**Q1:** How can I draw an accurate and visually nice timeline plot without too much effort?
+
+**A1:** Let's think what a time-line really is: it is in essence a one-dimensional data plot, where a single axis represents time and events or periods are marked and usually labelled. So the answer on how to easily and accurately draw a timeline plot is to use data plotting software instead of "free-hand" drafting software. I will show examples using R package [ggplot2](https://ggplot2.tidyverse.org/) and some extensions to it. The beauty of this approach is that there is little manual fiddling, the time-line plot is created from data, and the code can be reused with few changes for other timelines by plotting different data. As this is the only question for this issue, I provide an extended answer with multiple examples.
+
+::: callout-caution
+To understand the examples enough to be able to substantially edit them you will need some familiarity with R and [ggplot2](https://ggplot2.tidyverse.org/) \autocite[see][]{Wickham2016,Aphalo2020a}. On the other hand these examples, specially the simpler ones, can be used as a template, by only editing the data. You only need to remember that all vectors of values in a data frame or tibble must have the same length. I have used mnemonic names so as to make the role of the variables and data obvious.
+:::
+
+## A simple timeline
+
+The first example is a timeline plot showing when each past issue of this Bulletin was published. We use two very popular packages, [ggplot2](https://ggplot2.tidyverse.org/) for the plotting, and [lubridate](https://lubridate.tidyverse.org/) to more easily deal with dates \autocite{Grolemund2011,Wickham2016}.
+
+```{r, message=FALSE}
+library(ggplot2)
+library(lubridate)
+```
+
+```{r}
+issues.tb <-
+  data.frame(what = c("2015:1", "2016:1", "2016:2", "2017:1", "2018:1",
+                      "2018:2", "2019:1", "2020:1", "2020:2"),
+             when = ymd(c("2015-12-01", "2016-06-20", "2017-03-04",
+                          "2017-10-13", "2018-04-15", "2018-12-31",
+                          "2020-01-13", "2020-09-13", "2021-02-28")),
+             event.type = "Bulletin")
+```
+
+A timeline with sparse events is easy to plot once we have the data. The plots are displayed in this article as narrow horizontal strips. The width and height of the plots is decided when they are printed or exported (code not visible here).
+
+```{r, fig.asp=0.2}
+ggplot(issues.tb, aes(x = when, y = event.type, label = what)) +
+  geom_line() +
+  geom_point() +
+  geom_text(hjust = -0.3, angle = 45) +
+  scale_x_date(name = "", date_breaks = "1 years") +
+  scale_y_discrete(name = "") +
+  theme_minimal()
+```
+
+In the plot above, using defaults, there is too much white space below the timeline and the rightmost text label is not shown in full. We expand the $x$ axis on the right and remove some white space from the $y$ axis by adjusting the scales' expansion (the default is `mult = 0.05`).
+
+```{r, fig.width=7, fig.height=1.2}
+ggplot(issues.tb, aes(x = when, y = event.type, label = what)) +
+  geom_line() +
+  geom_point() +
+  geom_text(hjust = -0.3, angle = 45) +
+  scale_x_date(name = "", date_breaks = "1 years",
+               expand = expansion(mult = c(0.05, 0.1))) +
+  scale_y_discrete(name = "",
+                   expand = expansion(mult = c(0.01, 0.04))) +
+  theme_minimal()
+```
+
+## Two parallel timelines
+
+Let's add a second parallel timeline with the UV4Plants Network Meetings and extend both ends of the lines. We use package [dplyr](https://dplyr.tidyverse.org/) to filter part of the data on the fly so that no points are plotted at the ends of the lines.
+
+```{r, message=FALSE}
+library(ggplot2)
+library(lubridate)
+library(dplyr)
+```
+
+```{r}
+uv4plants.tb <-
+  data.frame(what = c("", "2015:1", "2016:1", "2016:2", "2017:1", "2018:1",
+                      "2018:2", "2019:1", "2020:1", "2020:2", "",
+                      "", "Pécs  ", "Szeged", "Kiel  ", ""),
+             when = ymd(c("2015-01-01", "2015-12-01", "2016-06-20",
+                          "2017-03-04", "2017-10-13", "2018-04-15",
+                          "2018-12-31", "2020-01-13", "2020-09-13",
+                          "2020-12-30", "2021-01-30",
+                          "2015-01-01", "2016-04-01", "2018-04-01",
+                          "2020-10-01", "2021-02-28")),
+             event.type = c(rep("Bulletin", 11), rep("Meetings", 5)))
+```
+
+Compared to a single timeline the main change is in the data. The code remains very similar. We do need to adjust the expansion of the $y$-axis (by trial and error).
+
+```{r, fig.width=7, fig.height=2}
+ggplot(uv4plants.tb, aes(x = when, y = event.type, label = what)) +
+  geom_line() +
+  geom_point(data = . %>% filter(what != "")) +
+  geom_text(hjust = -0.3, angle = 45) +
+  scale_x_date(name = "", date_breaks = "1 years",
+               expand = expansion(mult = c(0.05, 0.1))) +
+  scale_y_discrete(name = "",
+                   expand = expansion(mult = c(0.2, 0.75))) +
+  theme_minimal()
+```
+
+We add colours by adding `aes(colour = event.type)` to the call to `geom_text()`. To override the default colours we use `scale_colour_manual()` and as we do not need a key to indicate the meaning of the colours, we add to the call `guide = "none"`. In this example the colour is only applied to the text labels, but we can similarly add colour to the lines and points.
+
+```{r, fig.width=7, fig.height=2}
+ggplot(uv4plants.tb, aes(x = when, y = event.type, label = what)) +
+  geom_line() +
+  geom_point(data = . %>% filter(what != "")) +
+  geom_text(aes(colour = event.type), hjust = -0.3, angle = 45) +
+  scale_x_date(name = "", date_breaks = "1 years",
+               expand = expansion(mult = c(0.05, 0.1))) +
+  scale_y_discrete(name = "",
+                   expand = expansion(mult = c(0.2, 0.75))) +
+  scale_colour_manual(values = c(Bulletin = "darkgreen", Meetings = "purple"),
+                      guide = "none") +
+  theme_minimal()
+```
+
+## Crowded timeline
+
+Let's assume an experiment with plants, and create some data. As the labels are rather long and we want to keep the text horizontal, we will use package [ggrepel](https://ggrepel.slowkow.com/) which provides geoms that implement repulsion of labels to automatically avoid overlaps \autocite{Slowikowski2021}.
+
+```{r, message=FALSE}
+library(ggplot2)
+library(lubridate)
+library(ggrepel)
+```
+
+```{r}
+plants.tb <-
+  data.frame(what = c("sowing", "first emergence", "last emergence", "Dualex",
+                      "treatment start", "Dualex", "harvest"),
+             when = ymd(c("2020-05-01", "2020-05-06", "2020-05-11", "2020-06-21",
+                       "2020-06-22", "2020-06-29", "2020-06-30")),
+             series = "Experiment 1")
+```
+
+Now the labels would overlap, so we let R find a place for them using `geom_text_repel()` instead of `geom_text()`.
+
+```{r}
+ggplot(plants.tb, aes(x = when, y = series, label = what)) +
+    geom_line() +
+    geom_point() +
+    geom_text_repel(direction = "y",
+                    point.padding = 0.5,
+                    hjust = 0,
+                    box.padding = 1,
+                    seed = 123) +
+    scale_x_date(name = "", date_breaks = "1 months", date_labels = "%d %B",
+                 expand = expansion(mult = c(0.12, 0.12))) +
+    scale_y_discrete(name = "") +
+    theme_minimal()
+```
+
+As germination and treatments are periods, we can highlight them more elegantly. For this we will create a second data frame with data for the periods.
+
+```{r}
+plants_periods.tb <-
+  data.frame(Periods = c("seedling\nemergence",
+                      "treatment\nperiod"),
+             start = ymd(c("2020-05-06", "2020-06-22")),
+             end = ymd(c("2020-05-11", "2020-06-30")),
+             series = "Experiment 1")
+```
+
+We highlight two periods using colours, and move the corresponding key to the top.
+
+```{r, fig.width=7, fig.height=3}
+ggplot(plants.tb, aes(x = when, y = series)) +
+  geom_line() +
+  geom_segment(data = plants_periods.tb,
+               mapping = aes(x = start, xend = end,
+                             y = series, yend = series,
+                             colour = Periods),
+               linewidth = 2) +
+  geom_point() +
+  geom_text_repel(aes(label = what),
+                  direction = "y",
+                  point.padding = 0.5,
+                  hjust = 0,
+                  box.padding = 1,
+                  seed = 123) +
+  scale_x_date(name = "", date_breaks = "1 months", date_labels = "%d %B",
+               expand = expansion(mult = c(0.12, 0.12))) +
+  scale_y_discrete(name = "") +
+  theme_minimal() +
+  theme(legend.position = "top")
+
+```
+
+## Timelines of graphic elements
+
+Finally an example where the "labels" are inset plots. The aim is to have a timeline of the course of the year with plots showing the course of solar elevation through specific days of the year. This is a more complex example where we customize the plot theme.
+
+We will use package [ggpp](https://docs.r4photobiology.info/ggpp/) that provides a geom for easily insetting plots into a larger plot and package [photobiology](https://docs.r4photobiology.info/photobiology/) to compute the solar elevation \autocite{Aphalo2016a,Aphalo2021}.
+
+```{r, message=FALSE}
+library(ggplot2)
+library(lubridate)
+library(ggpp)
+library(photobiology)
+library(dplyr)
+```
+
+As we will need to make several, very similar plots, we first define a function that returns a plot and takes as arguments a date and a geocode. The intention is to create plots that are almost like icons, extremely simple but still comparable and conveying useful information. To achieve these aims we need to make sure that irrespective of the actual range of solar elevations the limits of the $y$-axis are -90 and +90 degrees. We use a pale gray background instead of axes to show this range, but making sure that the default expansion of the axis limits is not applied.
+
+```{r}
+make_sun_elevation_plot <- function(date, geocode) {
+  # 97 points in time from midnight to midnight
+  t <- rep(date, 24 * 4 + 1) +
+         hours(c(rep(0:23, each = 4), 24)) +
+         minutes(c(rep(c(0, 15, 30, 45), times = 24), 0))
+  e <- sun_elevation(time = t, geocode = geocode)
+  ggplot(data.frame(t, e), aes(t, e)) +
+    geom_hline(yintercept = 0, linetype = "dotted") +
+    geom_line() +
+    expand_limits(y = c(-90, 90)) +
+    scale_x_datetime(date_labels = "%H:%m", expand = expansion()) +
+    scale_y_continuous(expand = expansion()) +
+    theme_void() +
+    theme(panel.background = element_rect(fill = "grey95",
+                                          color = NA),
+          panel.border = element_blank())
+}
+```
+
+
+```{r, fig.width=4, fig.height=4}
+make_sun_elevation_plot(date = ymd("2020-06-21"),
+                        geocode = tibble(lon = 0,
+                                         lat = 0,
+                                         address = "Equator"))
+```
+
+Now that we have a working function, assembling the data for the timeline is not much more complex than in earlier examples. We add two dates, one at each
+
+```{r}
+geocode <- tibble(lon = 0, lat = 51.5, address = "Greenwich")
+dates <- ymd(c("2020-02-20", "2020-03-21", "2020-6-21",
+               "2020-09-21", "2020-12-21", "2021-01-22"))
+date.ticks <- dates[2:5]
+date.ends <- dates[c(1, 6)]
+sun_elevation.tb <-
+  tibble(when = dates,
+         where = geocode$address,
+         plots = lapply(dates, make_sun_elevation_plot, geocode = geocode))
+```
+
+The code used to plot the timeline follows the same pattern as in the examples above, except that we replace `geom_text()` with `geom_plot()`. This also entails overriding the default size (`vp.height` and `vp.width`) and justification (`vjust` and `hjust`) of the insets .
+
+```{r, fig.width=7, fig.height=2}
+ggplot(sun_elevation.tb, aes(x = when, y = where, label = plots)) +
+    geom_line() +
+    geom_point(data = . %>% filter(day(when) == 21)) +
+    geom_plot(data = . %>% filter(day(when) == 21),
+              inherit.aes = TRUE,
+              vp.width = 0.15, vp.height = 0.6, vjust = -0.1, hjust = 0.5) +
+    scale_x_date(name = "", breaks = date.ticks, date_labels = "%d %b") +
+    scale_y_discrete(name = "",
+                   expand = expansion(mult = c(0.1, 0.35))) +
+    theme_minimal()
+```
+
+And to finalize, we plot three parallel timelines, each for a different latitude. For this we can reuse the function defined above, passing as argument geocodes for three different locations. We reuse the dates defined above, but use `rep()` to repeat this sequence for each location.
+
+```{r}
+geocodes <-
+  tibble(lon = c(0, 0, 0, 0, 0),
+         lat = c(66.5634, 23.4394, 0, -23.4394, -66.5634),
+         address = c("Northern\nPolar\nCircle", "Tropic of\nCancer", "Equator",
+                     "Tropic of\nCapricorn", "Southern\nPolar\nCircle"))
+sun_elevation.tb <-
+  tibble(when = rep(dates, nrow(geocodes)),
+         where = rep(geocodes$address, each = length(dates)),
+         plots = c(lapply(dates, make_sun_elevation_plot, geocode = geocodes[1, ]),
+                   lapply(dates, make_sun_elevation_plot, geocode = geocodes[2, ]),
+                   lapply(dates, make_sun_elevation_plot, geocode = geocodes[3, ]),
+                   lapply(dates, make_sun_elevation_plot, geocode = geocodes[4, ]),
+                   lapply(dates, make_sun_elevation_plot, geocode = geocodes[5, ])))
+sun_elevation.tb$where <-
+  factor(sun_elevation.tb$where, levels = rev(geocodes$address))
+```
+
+The only change from the code used above to plot a single timeline is related to the vertical size of the inset plots as it is expressed relative to the size of the whole plot. We also add a title, a subtitle and a caption, and tweak the theme of the main plot.
+
+```{r, fig.width=7, fig.height=5.5}
+ggplot(sun_elevation.tb, aes(x = when, y = where, label = plots)) +
+  geom_line() +
+  geom_point(data = . %>% filter(day(when) == 21)) +
+  geom_plot(data = . %>% filter(day(when) == 21),
+            inherit.aes = TRUE,
+            vp.width = 0.15, vp.height = 0.12, vjust = -0.1, hjust = 0.5) +
+  scale_x_date(name = "", breaks = date.ticks, date_labels = "%d %b") +
+  scale_y_discrete(name = "", expand = expansion(mult = c(0.05, 0.25))) +
+  labs(title = "Solar elevation through the day",
+       subtitle = "The dotted line indicates the horizon (e = 0)",
+       caption = "Inset plots are drawn using consistent x and y scale limits.") +
+  theme_minimal() +
+  theme(panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        axis.ticks.x.bottom = element_line())
+```
+
+The five parallel timelines become rather crowded so an option is to build a matrix of plots. We achieve this by editing the code for the previous plot.
+
+```{r, fig.width=6, fig.height=5}
+ggplot(sun_elevation.tb, aes(x = when, y = where, label = plots)) +
+  geom_plot(data = . %>% filter(day(when) == 21),
+            inherit.aes = TRUE,
+            vp.width = 0.18, vp.height = 0.15, vjust = 0.5, hjust = 0.5) +
+  scale_x_date(name = "", breaks = date.ticks,
+               limits = date.ends,
+               date_labels = "%d %b") +
+  scale_y_discrete(name = "") +
+  labs(title = "Solar elevation through the day",
+       subtitle = "The dotted line indicates the horizon (e = 0)",
+       caption = "Inset plots are drawn using consistent x and y scale limits.") +
+  theme_minimal() +
+  theme(panel.grid.minor = element_blank(),
+        panel.grid.major = element_blank())
+```
+
+## Related plots
+
+Package [ggpp](https://docs.r4photobiology.info/ggpp/) provides in addition to `geom_plot()`, `geom_table()` and `geom_grob()`. The first of them makes it possible to inset a data frame as a table, and the second any graphic object supported by package 'grid' (_grob_ for short), which is part of R itself. These graphic objects can be vector graphics or bitmaps (or raster images) converted into grobs. Examples of how to convert bitmaps and vector graphics read from files of various formats is described in the documentation of packages `grid', [magick](https://docs.ropensci.org/magick/) and more briefly in package [ggpp](https://docs.r4photobiology.info/ggpp/). See the book \citetitle{Murrell2011} \autocite{Murrell2011} for details.
+
+Using photographs converted to grobs one can, for example, create phenological time lines. Another variation could to be to use a similar approach to represent geographic or topographic transects. In this last case instead of only using the $x$-axis to map time, one could map distance to the $x$-axis and elevation to the $y$-axis. Furthermore, one can use package `patchwork' to assemble a multi-panel figure in which one panel is a time line plot and other panels display other types of plots or even tables.
