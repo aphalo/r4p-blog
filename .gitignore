@@ -5,3 +5,7 @@
 _site
 
 /.quarto/
+
+galleries/online-weather-data_cache/html/
+
+galleries/data/
