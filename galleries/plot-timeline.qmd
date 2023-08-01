@@ -31,7 +31,7 @@ Names of functions and other R objects are linked to the corresponding on-line h
 :::
 
 ::: callout-note
-The content of this page was originally written for the Questions and Answers section of the [UV4Plants Bulletin](https://bulletin.uv4plants.org/) but was not published as the Bulletin ceased to be published.
+The content of this page was originally written for the _Questions and Answers_ section of the [UV4Plants Bulletin](https://bulletin.uv4plants.org/) but was not published as the Bulletin ceased to be published.
 :::
 
 ## Why timelines as data plots?

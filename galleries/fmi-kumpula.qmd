@@ -1,9 +1,9 @@
 ---
-title: "Download weather data from FMI"
+title: "Weather data for Finland from FMI"
 subtitle: "**FMI** = _Finnish Meteorological Institute_, or _Ilmatieteen laitos_"
 author: "Pedro J. Aphalo"
 date: "2023-04-15"
-date-modified: "2023-06-27"
+date-modified: "2023-08-01"
 toc: true
 code-fold: false
 categories: [Using R]
@@ -107,7 +107,8 @@ if (!file.exists("fmi-weather-data-wide.Rda")) {
   starttime <-force_tz(max(wide_weather_data$time), tzone = "UTC") + minutes(59)
 }
 
-endtime <- trunc(now(), units = "mins")
+# endtime <- trunc(now(), units = "mins")
+endtime <- starttime # do not read new data
 ```
 
 ```{r}
@@ -120,8 +121,8 @@ endtime <- trunc(now(), units = "mins")
       sliceendtime <- endtime
     }
     stn_data <- obs_weather_hourly(starttime = as.character(starttime),
-                                       endtime = as.character(sliceendtime),
-                                       fmisid = stn_fmisid)
+                                   endtime = as.character(sliceendtime),
+                                   fmisid = stn_fmisid)
 
     slice_data <- stn_data %>%
       tidyr::spread(variable, value) %>%
@@ -169,7 +170,8 @@ if (!file.exists("fmi-sun-data-wide.Rda")) {
   starttime <- max(wide_sun_data$time) + minutes(1) + hours(2) # convert to UTC + 2h
 }
 
-endtime <- trunc(now(), units = "mins")
+# endtime <- trunc(now() - minutes(30), units = "mins")
+endtime <- starttime # do not read new data
 ```
 
 ```{r}
@@ -177,14 +179,13 @@ endtime <- trunc(now(), units = "mins")
 # (to avoid appending repeatedly to a long one)
 new_wide_data <- data.frame()
 while (starttime < endtime) {
-  sliceendtime <- starttime + days(7) # keep query size at max of 1 week
+  sliceendtime <- starttime + days(1) # keep query size at max of 1 week
   if (sliceendtime > endtime) {
     sliceendtime <- endtime
   }
   stn_data <- obs_radiation_minute(starttime = as.character(starttime),
                                        endtime = as.character(sliceendtime),
                                        fmisid = 101004)
-  
   slice_data <- stn_data %>%
     tidyr::spread(variable, value) %>%
     # convert the sf object into a regular tibble

@@ -1,6 +1,6 @@
 ---
-title: "ggplot fitted-model equations with 'ggpmisc'"
-subtitle: "Polynomials, major axis, quantile and non-linear regression"
+title: "Fitted-model labels with 'ggpmisc'"
+subtitle: "Polynomials, major axis, quantile and non-linear regression lines, bands and equations"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
 date-modified: "2023-07-30"
@@ -34,7 +34,8 @@ Names of functions and other R objects are linked to the corresponding on-line h
 
 ## Introduction
 
-Here you will find examples of ggplots with insets. The insets have been
+Here you will find examples of ggplots with labels for fitted model equations,
+various parameter estimates. The labels have been
 added to the plots with geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp/) and
 statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) both available at CRAN.
 
