@@ -3,7 +3,7 @@ title: "Timelines with 'ggplot2'"
 subtitle: "Timelines as data plots"
 author: "Pedro J. Aphalo"
 date: "2023-07-30"
-date-modified: "2023-07-30"
+date-modified: "2023-08-01"
 categories: [Plotting examples]
 keywords: [timeline plots, ggplot2 pkg, photobiology pkg, ggrepel pkg]
 code-fold: true
@@ -11,6 +11,7 @@ format:
   html: 
     code-link: true
     code-tools: true
+bibliography: r.bib
 ---
 
 ::: callout-tip
@@ -35,7 +36,7 @@ The content of this page was originally written for the Questions and Answers se
 
 ## Why timelines as data plots?
 
-The earliest examples of timeline plots date from the 1,700's \autocite{Koponen2019}. Initially used to depict historical events, timeline plots are useful to describe any sequence of events and periods along a time axis. To be useful the events should be positioned proportionally, i.e., the distance along the timeline at which events are marked, should be proportional to the time interval separating these events \autocite{Koponen2019}.
+The earliest examples of timeline plots date from the 1,700's [@Koponen2019]. Initially used to depict historical events, timeline plots are useful to describe any sequence of events and periods along a time axis. To be useful the events should be positioned proportionally, i.e., the distance along the timeline at which events are marked, should be proportional to the time interval separating these events [@Koponen2019].
 
 Timelines provide a very clear, unambiguous and concise way of describing the course of experiments, the timing of steps in laboratory protocols and even the progress of people's careers in science, sports, politics, etc. I suspect they are used less frequently than they could because drafting them can seem like a lot of work. So, even if not specific to UV research, timelines are important and their use could be more frequent.
 
@@ -354,6 +355,11 @@ ggplot(sun_elevation.tb, aes(x = when, y = where, label = plots)) +
 
 ## Related plots
 
-Package [ggpp](https://docs.r4photobiology.info/ggpp/) provides in addition to `geom_plot()`, `geom_table()` and `geom_grob()`. The first of them makes it possible to inset a data frame as a table, and the second any graphic object supported by package 'grid' (_grob_ for short), which is part of R itself. These graphic objects can be vector graphics or bitmaps (or raster images) converted into grobs. Examples of how to convert bitmaps and vector graphics read from files of various formats is described in the documentation of packages `grid', [magick](https://docs.ropensci.org/magick/) and more briefly in package [ggpp](https://docs.r4photobiology.info/ggpp/). See the book \citetitle{Murrell2011} \autocite{Murrell2011} for details.
+Package [ggpp](https://docs.r4photobiology.info/ggpp/) provides in addition to `geom_plot()`, `geom_table()` and `geom_grob()`. The first of them makes it possible to inset a data frame as a table, and the second any graphic object supported by package 'grid' (_grob_ for short), which is part of R itself. These graphic objects can be vector graphics or bitmaps (or raster images) converted into grobs. Examples of how to convert bitmaps and vector graphics read from files of various formats is described in the documentation of packages `grid', [magick](https://docs.ropensci.org/magick/) and more briefly in package [ggpp](https://docs.r4photobiology.info/ggpp/). See the book _R Graphics_ [@Murrell2011] for details.
 
 Using photographs converted to grobs one can, for example, create phenological time lines. Another variation could to be to use a similar approach to represent geographic or topographic transects. In this last case instead of only using the $x$-axis to map time, one could map distance to the $x$-axis and elevation to the $y$-axis. Furthermore, one can use package `patchwork' to assemble a multi-panel figure in which one panel is a time line plot and other panels display other types of plots or even tables.
+
+## References
+
+::: {#refs}
+:::

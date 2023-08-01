@@ -3,7 +3,7 @@ title: "Open Access Weather and Climate Data"
 subtitle: "Importing qne using them in R"
 author: "Pedro J. Aphalo"
 date: "2023-07-31"
-date-modified: "2023-07-31"
+date-modified: "2023-08-01"
 categories: [Using R]
 keywords: [R packages, weather data]
 code-fold: true
@@ -11,6 +11,7 @@ format:
   html: 
     code-link: true
     code-tools: true
+bibliography: hints.bib
 ---
 
 ::: callout-warning
@@ -342,7 +343,7 @@ it is more efficient to use selective downloads.
 
 ### E-OBS
 
-The [E-OBS](https://surfobs.climate.copernicus.eu)\autocite{Cornes2018}  covers Europe plus
+The [E-OBS](https://surfobs.climate.copernicus.eu) [@Cornes2018] covers Europe plus
 nearby regions including land bordering the Mediterranean sea to the South
 and East. Data is daily and based on measurements at thousands of weather
 stations and extends at the time of writing from 1920-01-01 to 2023-07-30.
@@ -610,9 +611,9 @@ research!
 
 ## Related reading
 
-A paper just published discusses satellite-retrieved UV-A data and its importance for biological research \autocite{Parisi2021}. Another paper, available only as a preprint, describes real-time UV-Index retrieval at high spatial and temporal resolution over the whole of Europe \autocite{Kosmopoulos2021}. An earlier paper is also of interest as it discusses some of the sources of bias in UV-irradiance retrieved from satellites \autocite{Arola2009}. Finally an agronomic paper of interest in relation to how biases in weather data retrieved from satellite observations can affect estimates of biological responses \autocite{Bai2010}.
+A paper just published discusses satellite-retrieved UV-A data and its importance for biological research [@Parisi2021]. Another paper, available only as a preprint, describes real-time UV-Index retrieval at high spatial and temporal resolution over the whole of Europe [@Kosmopoulos2021]. An earlier paper is also of interest as it discusses some of the sources of bias in UV-irradiance retrieved from satellites [@Arola2009]. Finally an agronomic paper of interest in relation to how biases in weather data retrieved from satellite observations can affect estimates of biological responses [@Bai2010].
 
-Chapter 8 in my book \citetitle{Aphalo2020a} \autocite{Aphalo2020a} provides code examples and explanations for importing data from files using additional formats to those I have discussed here.
+Chapter 8 in my book _Learn R: As a Language_[@Aphalo2020a] provides code examples and explanations for importing data from files using additional formats to those I have discussed here.
 
 ## Acknowledgements
 
@@ -630,3 +631,5 @@ Not bad at all, and so an experience worthwhile sharing with our readers.
 
 ## References
 
+::: {#refs}
+:::
