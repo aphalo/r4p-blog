@@ -1,9 +1,9 @@
 ---
-title: "Pairwise labels with 'ggpmisc'"
+title: "Pairwise labels with 'ggpp'"
 subtitle: "Contrasts, multiple comparisons and simple labels"
 author: "Pedro J. Aphalo"
 date: "2023-08-01"
-date-modified: "2023-08-01"
+date-modified: "2023-08-02"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, pairwise]
 categories: [Plotting examples]
 editor: 
@@ -48,10 +48,14 @@ web sites when available.
 
 ## Introduction
 
-Here you will find examples of ggplots with labeled segments as used to highlight
-pairwise comparisons among factor levels. The labelled segments have been
-added to the plots with geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp/) and
-statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) both available at CRAN.
+Here you will find examples of ggplots with labeled segments as used to
+highlight pairwise comparisons among factor levels. The labelled segments have
+been added to the plots with geometries defined in package
+[ggpp](https://docs.r4photobiology.info/ggpp/) available at CRAN.
+
+Package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) imports and 
+reexports all definitions from [ggpp](https://docs.r4photobiology.info/ggpp/)
+as well as from [ggplot2](https://ggplot2.tidyverse.org/).
 
 ::: callout-important
 One needs to always check that annotations do not occlude anything
@@ -88,7 +92,7 @@ case as they behave as data labels along the axis onto which an explanatory
 factor has been mapped, usually _x_, but as annotation along the axis onto
 which a continuous numeric variable has been mapped, usually _y_.
 
-## Significance of pairwise comparisons
+## Pairwise comparisons and labels
 
 Pairwise comparisons are used with grouped observations, i.e., when a factor
 is mapped to the _x_ (or _y_) aesthetic. Usually observations are summarized
@@ -122,7 +126,6 @@ Make a simple plot to label.
 ```{r}
 my.cars <- mtcars
 my.cars$cyl <- factor(my.cars$cyl)
-my.cars$name <- rownames(my.cars)
 
 p1 <- ggplot(my.cars, aes(cyl, mpg)) +
   geom_boxplot(width = 0.33)
@@ -138,6 +141,10 @@ are the numerical representation of the levels in the factor, i.e., as `integer`
 values starting from 1. Thus, the leftmost factor level on the _x_ axis
 coresponds to `1`, the second factor level to `2`, and so on, irrespective of
 the labels.
+
+**In this page labels are in all examples based on data assembled in user code. It
+is crucial to make sure that the values mapped to `xmin` and `xmax` and to
+`label` are correct and consistent.**
 :::
 
 We construct a data frame with the data for text labels.
@@ -163,10 +170,10 @@ labels.df <-
   expand_limits(y = 40)
 ```
 
-While I will use `geom_text_pairwise()` for most examples, I here use 
+While I will use `geom_text_pairwise()` for most examples, I here use
 `geom_label_pairwise()`. Their differences are similar to those between
-`geom_text()` and `geom_label()`. Other examples later in this page can
-be easily changed to use `geom_label_pairwise()` instead of 
+`ggplot2::geom_text()` and `ggplot2::geom_label()`. Other examples later in this
+page can be easily changed to use `geom_label_pairwise()` instead of
 `geom_text_pairwise()`.
 
 ```{r}
@@ -175,7 +182,9 @@ be easily changed to use `geom_label_pairwise()` instead of
                       aes(xmin = left.tip, 
                           xmax = right.tip,
                           y = y.bar,
-                          label = pair.label)) +
+                          label = pair.label),
+                      segment.linewidth = 0.5,
+                      linewidth = 0.5) +
   expand_limits(y = 40) +
   theme_bw()
 ```
@@ -246,6 +255,26 @@ t.test.df <- data.frame(
   expand_limits(y = 40)
 ```
 
+
+```{r}
+ p1 +
+   geom_text_pairwise(data = t.test.df,
+                      aes(xmin = left.tip, 
+                          xmax = right.tip,
+                          y = y.bar,
+                          colour = p.value < 0.002,
+                          label = ifelse(p.value < 1e-3,
+                                         "italic(P)~`<`~0.001",
+                                         sprintf("italic(P)~`=`~%.3f", p.value))),
+                       arrow = grid::arrow(angle = 90,
+                                          length = unit(1, "mm"),
+                                          ends = "both"),
+                      parse = TRUE,
+                      na.rm = TRUE) +
+  scale_colour_manual(values = c("black", "red"), na.value = NA, guide = "none") +
+  expand_limits(y = 40)
+```
+
 ```{r}
  p1 +
    geom_text_pairwise(data = t.test.df,
@@ -259,66 +288,223 @@ t.test.df <- data.frame(
                       arrow = grid::arrow(angle = 90,
                                           length = unit(1, "mm"),
                                           ends = "both"),
+                      colour.target = "text",
                       parse = TRUE,
                       na.rm = TRUE) +
   scale_colour_manual(values = c("black", "red"), na.value = NA, guide = "none") +
   expand_limits(y = 40)
 ```
+
+### Pairwise Wilcox test
+
+The object returned by `pairwise.wilcox.text()` has the same structure as that
+returned by `pairwise.t.test()` so we only need to change the names.
+
+```{r, warning=FALSE}
+#| code-fold: false
+# warnings about ties have been silenced
+my.w.test <- 
+  pairwise.wilcox.test(my.cars$mpg, my.cars$cyl, p.adjust.method = "holm")
+my.w.test
+
+wilcox.test.df <- data.frame(
+  p.value = as.vector(my.w.test$p.value),
+  right.tip = c(2, 3, NA, 3),
+  left.tip = c(1, 1, NA, 2),
+  y.bar = c(35.5, 38, NA, 33)
+)
+```
+I show only the plot for the first _t_-test example, using identical code
+except for the name of the data frame. All other examples will also work 
+without changes.
 
 ```{r}
  p1 +
-   geom_text_pairwise(data = t.test.df,
+   geom_text_pairwise(data = wilcox.test.df,
                       aes(xmin = left.tip, 
                           xmax = right.tip,
                           y = y.bar,
-                          colour = p.value < 0.002,
                           label = ifelse(p.value < 1e-3,
                                          "italic(P)~`<`~0.001",
                                          sprintf("italic(P)~`=`~%.3f", p.value))),
-                       colour.target = "all",
-                       arrow = grid::arrow(angle = 90,
-                                          length = unit(1, "mm"),
-                                          ends = "both"),
                       parse = TRUE,
                       na.rm = TRUE) +
-  scale_colour_manual(values = c("black", "red"), na.value = NA, guide = "none") +
   expand_limits(y = 40)
 ```
 
+### Fitted contrasts
+
+Package 'gmodels' provides methods for fitting arbitrary contrasts.
+
+```{r, message=FALSE}
+#| code-fold: false
+library(gmodels)
+```
+
+Fitting contrasts individually, we can decide which contrasts are of a priori
+interest and limit testing to these. As for _t_-test and Wicox-test, _P_-values
+need to be adjusted, but the adjustment in this case is applied separately from
+the fitting.
+
+To use function `fit.contrasts()` from package 'gmodels' we start by fitting
+a linear model to the same data as used for the examples above.
+
+```{r}
+#| code-fold: false
+mpg.cyl.lm <- lm(mpg ~ cyl, data = my.cars)
+anova(mpg.cyl.lm)
+```
+
+We next fit de contrasts and extract the _P_-values from the returned value.
+
+```{r}
+#| code-fold: false
+fit.contrast.df <-
+  data.frame(left.tip = 1:2,
+             right.tip = 2:3,
+             y.bar = c(36, 23),
+             p.value = p.adjust(
+               c(fit.contrast(mpg.cyl.lm, varname = "cyl", coeff = c(-1, 1, 0))[4],
+                 fit.contrast(mpg.cyl.lm, varname = "cyl", coeff = c(0, -1, 1))[4])
+             ))
+```
+
+Although I could have passed a `matrix` to parameter `coeff` to fit both
+contrasts simultaneously I fitted them one by one for clarity.
+
+I once again reuse unchanged except for the name of the data frame, the code
+used above for the _t_-test and Wilcox-tests examples.
+
+```{r}
+ p1 +
+   geom_text_pairwise(data = fit.contrast.df,
+                      aes(xmin = left.tip, 
+                          xmax = right.tip,
+                          y = y.bar,
+                          label = ifelse(p.value < 1e-3,
+                                         "italic(P)~`<`~0.001",
+                                         sprintf("italic(P)~`=`~%.3f", p.value))),
+                      parse = TRUE,
+                      na.rm = TRUE) +
+  expand_limits(y = 40)
+```
+
+Function `fit.contrast()` can be used to fit in addition to pairwise contrasts,
+more complex contrast involving more than two factor levels. Currently, no
+geometry can directly add them to a plot as a single layer. One needs
+to build them layer by layer (not shown).
+
+### Multiple comparisons
+
+Package 'multicomp' implements different multiple comparison methods, using
+a flexible and generally applicable approach.
+
+```{r, message=FALSE}
+#| code-fold: false
+library(multcomp)
+```
+
+As with package 'gmodels' we need to first fit a linear or other model to the
+data. Here I reuse the fitted model from the previous section. The next example
+demonstrates the use of function `glht()` (General Linear Hypotheses Tests) with
+Tukey's method for pairwise multiple comparisons.
+
+```{r}
+#| code-fold: false
+mpg.cyl.glht <- glht(model = mpg.cyl.lm, linfct = mcp(cyl = "Tukey"), rhs = 0)
+summary(mpg.cyl.glht)
+```
+
+We need as above to build a data frame with the data for the pairwise labels,
+in this case extracting the _P_-value estimates from the object returned by
+`summary()`.
+
+```{r}
+#| code-fold: false
+multcomp.df <- 
+  data.frame(
+    p.value = summary(mpg.cyl.glht)$test$pvalues,
+    left.tip = c(1, 1, 2),
+    right.tip = c(2, 3, 3),
+    y.bar = c(35.5, 38, 33)
+  )
+```
+
+I once again reuse unchanged the code used above for the _t_-test and 
+Wilcox-tests examples except for the name of the data frame passed as
+argument to `data`.
+
+```{r}
+ p1 +
+   geom_text_pairwise(data = multcomp.df,
+                      aes(xmin = left.tip, 
+                          xmax = right.tip,
+                          y = y.bar,
+                          label = ifelse(p.value < 1e-3,
+                                         "italic(P)~`<`~0.001",
+                                         sprintf("italic(P)~`=`~%.3f", p.value))),
+                      parse = TRUE,
+                      na.rm = TRUE) +
+  expand_limits(y = 40)
+```
+
+As is the case with function `fit.contrasts()` used in the previous section,
+function `glht()` can be used to fit many different contrasts, pairwise or
+otherwise, with suitable corrections for multiple comparisons.  Currently, no
+geometry can directly add labelled segments for contrasts that are not pairwise.
+One needs to build them layer by layer, labels and segments (not shown).
+
 ### Other uses
 
-Geometries `geom_text_pairwise()` and `geom_label_pairwise()` can be also used
-when the variables mapped onto aesthetics _x_ and _y_ are both continuous
-numeric variables. In this type of plot they can be used to highlight ranges.
+Although labelled segments are most commonly used to report the results
+of pairwise significance tests, several other uses are possible. An obvious
+one is to highlight a range of values for a continuous variable or a
+group of succesive factors levels.
 
-I construct a different base plot for labelling.
+Geometries `geom_text_pairwise()` and `geom_label_pairwise()`, used in the
+examples above with factors, can be also used
+when the variables mapped onto aesthetics _x_ and _y_ are both continuous. 
+
+In this section I show examples of their use to highlight ranges of values
+of a continuos variable from the same data set. I start by constructing a 
+suitable base plot to use for labelling examples.
 
 ```{r}
 p2 <-
   ggplot(my.cars, aes(disp, mpg)) +
-    geom_point()
+  geom_point()+
+  geom_hline(yintercept = 0, colour = "grey90", linewidth = 1.2) +
+  theme_bw()
 p2
 ```
 
-I also construct a new data frame with the data for labelling ranges. In this
-case as _x_ is numeric, and we set the _x_ values for the segment ends using
+I construct a data frame with the data for labelling ranges. In this
+case as _x_ is numeric, and we set the _x_ values for the segment tips using
 user-data units (i.e., the values as shown in _x_ axis' tick marks).
 
 ```{r}
 #| code-fold: false
 my.ranges <-
-  data.frame(A = c(50, 400),
-             B = c(200, 500),
+  data.frame(A = c(50, 200, 400),
+             B = c(200, 400, 500),
              bar.height = 0,
-             text = c("small", "large"))
+             text = c("small", "medium", "large"))
 ```
 
+The code is very similar to that used for the pairwise examples in previous
+sections. The main change is that I used different names for the columns of
+the data frame.
+
 ```{r}
-p2 +
-  geom_hline(yintercept = 0, colour = "grey") +
+p2  +
   geom_text_pairwise(data = my.ranges,
-                     aes(xmin = A, xmax = B,
-                     y = bar.height, label = text)) +
+                     aes(xmin = A, 
+                         xmax = B,
+                         y = bar.height, 
+                         label = text,
+                         colour = text),
+                     segment.linewidth = 1) +
+  scale_colour_discrete(guide = "none") +
   expand_limits(y = 0) +
   theme_bw()
 ```
@@ -326,10 +512,11 @@ p2 +
 
 ```{r}
 p2 +
-  geom_hline(yintercept = 0, colour = "grey", linewidth = 1) +
   geom_text_pairwise(data = my.ranges,
-                     aes(xmin = A, xmax = B,
-                     y = bar.height, label = text),
+                     aes(xmin = A, 
+                         xmax = B,
+                         y = bar.height, 
+                         label = text),
                      arrow = grid::arrow(ends = "both", length = unit(2, "mm"))) +
   expand_limits(y = 0) +
   theme_bw()
