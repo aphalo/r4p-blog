@@ -7,7 +7,7 @@ listing:
   type: table
   fields: [date-modified, date, title]
   field-display-names:
-    date: "Published"
+    date: "First published"
     date-modified: "Last edited"  
   categories: true
   sort-ui: true
