@@ -4,6 +4,7 @@ project:
 website:
   title: "Using R for Photobiology"
   site-url: https://www.r4photobiology.info/
+  description: "Web site R, data analysis and photobiology. It includes a blog, web pages and galleries of R code examples and other resources."
   favicon: r4p-favicon.png
   search: true
   navbar:
