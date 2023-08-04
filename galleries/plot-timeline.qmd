@@ -12,6 +12,8 @@ format:
     code-link: true
     code-tools: true
 bibliography: r.bib
+abstract: |
+  Example R code to create time-line plots, uising packages 'ggplot2', 'ggpp', 'ggrepel' and 'photobiology'. Although 2D plots using cartesian coordinates are the most comon data visualizations, time-line plots are also very useful. Being in most cases 1D plots, they can be efficiently described with the layered Grammar of Graphics. 
 ---
 
 ::: callout-tip

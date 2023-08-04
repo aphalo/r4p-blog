@@ -14,6 +14,8 @@ format:
   html: 
     code-link: true
     code-tools: true
+abstract: |
+  Example R code for plots with predictions from fitted models labelled with model fitted equations, parameter estimates, _R_<sup>2</sup>, _F_-value, _P_-value, etc. Polynomial regression, quantile regression, major-axis regression, robust linear model fits as well as non-linear regression are examplified. Labels make use of layer functions from package 'ggpmisc'.
 ---
 
 ::: callout-tip

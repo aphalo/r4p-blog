@@ -8,6 +8,8 @@ toc: true
 code-fold: false
 categories: [Using R]
 keywords: [R packages, weather data, FMI, Finnish Meteorological Institute]
+abstract: |
+  Examples of R code for retrieval near real-time and historical weather data for observation stations in Finland. The examples dowload the data from the open access database of the Finnish Meteorological Institute.
 editor: 
   markdown: 
     wrap: 72

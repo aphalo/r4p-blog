@@ -12,6 +12,8 @@ format:
     code-link: true
     code-tools: true
 bibliography: hints.bib
+abstract: |
+  Example R code to download, import and plot wheather and climate data for Europe and the whole Earth. The data bases used in the examples are E-Obs, TerraClimate and NASA Power.
 ---
 
 ::: callout-warning
