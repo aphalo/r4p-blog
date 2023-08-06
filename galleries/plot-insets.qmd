@@ -6,6 +6,8 @@ date: "2023-02-23"
 date-modified: "2023-02-23"
 keywords: [ggplot2 pkg, ggpp pkg, data labels, plot annotations, plot insets]
 categories: [Plotting examples]
+abstract: |
+  Example R code for plots based on package [ggplot2](https://ggplot2.tidyverse.org/) using geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp) to add insets. These geometries from package [ggpp](https://docs.r4photobiology.info/ggpp) implement addition of plot layers with plots, tables or other graphical objects as insets to a base plot, through extension of the Grammar of Graphics. 
 editor: 
   markdown: 
     wrap: 72
@@ -14,13 +16,6 @@ format:
     code-link: true
     code-tools: true
 ---
-
-## Introduction
-
-Here you will find examples of ggplots with insets. The insets have been
-added to the plots with geometries defined in package 'ggpp' available
-at CRAN. [The documentation of package 'ggpp' is available
-on-line.](https://docs.r4photobiology.info/ggpp).
 
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
@@ -31,6 +26,10 @@ loading of packages shown in section **Preliminaries** code examples are
 in most cases self contained. When they are not, this is indicated by a
 comment.
 
+For simplicity, when possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
 All "words" defined in base R or in extension packages are linked to the
 corresponding HTML-rendered help pages.
 
@@ -38,10 +37,6 @@ The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
-
-For simplicity, whenever possible I use base R functions instead of
-contributed R packages. For those packages used only in specific
-examples I use colon notation to indicate the 'package'.
 
 ::: callout-important
 One needs to always check that insets do not occlude anything

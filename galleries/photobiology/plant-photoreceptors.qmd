@@ -6,6 +6,8 @@ date: "2023-05-11"
 date-modified: "2023-05-13"
 keywords: [photobiology pkg, photobiologyPlants pkg]
 categories: [Photobiology examples]
+abstract: |
+  Explanations and example R code for computations related to the light receptor pigments present in plants and the quantification and manipulation of the amount and quality of light in ways relevant to research on plants and to the cultivation of plants under artificial or modified natural illumination. The R codes makes use of packages in the [R for Photobiology suite](https://www.r4photobiology.info/pages/r4p-introduction.html).
 editor: 
   markdown: 
     wrap: 72
@@ -17,7 +19,7 @@ format:
 ---
 
 ::: callout-note
-As of 2023-07-24 you may get some spureous warnings caused by a pending package
+As of 2023-07-24 you may get some spurious warnings caused by a pending package
 update that I will release in a few weeks time. For rendering this page I have
 silenced warnings in some code chunks.
 :::

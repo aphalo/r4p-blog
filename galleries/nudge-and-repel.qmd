@@ -1,11 +1,14 @@
 ---
-title: "Nudging + repulsion"
-subtitle: "Data labels using 'ggrepel' together with 'ggpp'"
+title: "Nudging + repulsion with 'ggrepel' and 'ggpp'"
+subtitle: "Directed/ordered data labels' positions avoiding overlaps"
 author: "Pedro J. Aphalo"
 date: "2023-02-28"
 date-modified: "2023-07-25"
-categories: [Plotting examples]
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
+categories: [Plotting examples]
+abstract: |
+  Example R code for plots with labels without overlaps but with controlled position displacements away from specific plots features such as curves and observations' density centroids.
+code-fold: false
 format:
   html: 
     code-link: true

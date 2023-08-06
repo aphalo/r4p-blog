@@ -6,6 +6,8 @@ date: "2023-06-25"
 date-modified: "2023-06-26"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, plotly pkg, plot annotations, model equations]
 categories: [Plotting examples]
+abstract: |
+  Example R code for _interactive_ plots based on package [ggplot2](https://ggplot2.tidyverse.org/) using geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp) and statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc) together with package [plotly](https://plotly.com/ggplot2/). This page is a draft and currently contains a single plot example.
 editor: 
   markdown: 
     wrap: 72
@@ -21,15 +23,6 @@ To get the output of 'plotly' included by Quarto in the HTML output, currently t
 It is possible to combine 'ggpmisc' and 'plotly' in the same plot but only by using the most basic formatting of the equation. I give for the time being a single example.
 :::
 
-## Introduction
-
-Here you will find examples of *animated* ggplots using geometries
-defined in package 'ggpp' and statistics from package 'ggpmisc' both
-available at CRAN. The documentation of [package
-'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
-'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available
-on-line.
-
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
 searching for examples. Above each plot you will find a small triangle
@@ -39,6 +32,10 @@ loading of packages shown in section **Preliminaries** code examples are
 in most cases self contained. When they are not, this is indicated by a
 comment.
 
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
 All "words" defined in base R or in extension packages are linked to the
 corresponding HTML-rendered help pages.
 
@@ -46,10 +43,6 @@ The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
-
-For simplicity, whenever possible I use base R functions instead of
-contributed R packages. For those packages used only in specific
-examples I use colon notation to indicate the 'package'.
 
 ::: callout-important
 One needs to always check that annotations do not occlude anything
@@ -62,8 +55,7 @@ plot first.
 
 ## Preliminaries
 
-The code used is shown on-demand above each plot and can be copied. We
-first load the packages we will use.
+We first load the packages we will use.
 
 When package 'ggpmisc' is loaded and attached, packages 'ggpp' and
 'ggplot2' are also attached. The only function from 'ggplot2' that is
@@ -92,14 +84,15 @@ theme_set(theme_bw())
 
 Plotly can convert a regular ggplot into an interactive plot that can be
 embedded in HTML output. The advantage is that one uses the usual layer
-functions, but control of output is rather limited. It is implemented as
-a parsing engine that recognizes only some 'ggplot2' layer functions. As
-can be seen in the example below this approach makes rendering math
-difficult as expressions or text labels marked to be parsed into
-expressions are displayed as unparsed text.
+functions, and the disadvantage is that possible control of output is rather
+limited. It is implemented as a parsing engine that recognizes only some
+'ggplot2' layer functions. As can be seen in the example below this approach
+makes rendering math as R expressions not possible and text labels marked to be
+parsed into expressions are displayed as unparsed text.
 
-Several of the statistics from 'ggpmisc' can still be used but the
-formating is not as nice as when using R graphic devices.
+Several of the statistics from 'ggpmisc' can still be used as they also
+support the generation of text labels as plain text but the
+resulting annotations are not as nice as when using R graphic devices.
 
 ```{r}
 df <- data.frame(x = c(1:100))

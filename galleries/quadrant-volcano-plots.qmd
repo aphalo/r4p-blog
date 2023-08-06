@@ -6,6 +6,8 @@ date: "2023-02-25"
 date-modified: "2023-07-16"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, ggrepel pkg, volcano plot, quadrant plot]
 categories: [Plotting examples]
+abstract: |
+  Example R code for volcano plots and quadrant plots built with packages [ggplot2](https://ggplot2.tidyverse.org/) (>= 3.4.2), [ggpp](https://docs.r4photobiology.info/ggpp) (>= 0.5.3), [ggpmisc](https://docs.r4photobiology.info/ggpmisc) (>= 0.5.3) and [ggrepel](https://ggrepel.slowkow.com/) (>= 0.9.1). The examples demonstrate the use different types of annotations and data labels. My packages [ggpp](https://docs.r4photobiology.info/ggpp) and [ggpmisc](https://docs.r4photobiology.info/ggpmisc) include new geometries, statistics and scale functions specific and/or useful when plotting of gene-expression data in volcano and quadrant plots.
 editor: 
   markdown: 
     wrap: 72
@@ -14,10 +16,6 @@ format:
     code-link: true
     code-tools: true
 ---
-
-## Introduction
-
-Here you will find examples of volcano plots and quadrant plots built with packages 'ggplot2' (>= 3.4.2), 'ggpp' (>= 0.5.3) and 'ggpmisc' (>= 0.5.3). Many, but not all examples work as is with earlier versions of the packages. All three packages are available at CRAN. Documentation for [package 'ggplot2'](https://ggplot2.tidyverse.org/), [package 'ggpp'](https://docs.r4photobiology.info/ggpp), and [package 'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available on-line.
 
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
@@ -28,6 +26,10 @@ loading of packages shown in section **Preliminaries** code examples are
 in most cases self contained. When they are not, this is indicated by a
 comment.
 
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
 All "words" defined in base R or in extension packages are linked to the
 corresponding HTML-rendered help pages.
 
@@ -35,10 +37,6 @@ The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
-
-For simplicity, whenever possible I use base R functions instead of
-contributed R packages. For those packages used only in specific
-examples I use colon notation to indicate the 'package'.
 
 ## Data labels and plot annotations
 

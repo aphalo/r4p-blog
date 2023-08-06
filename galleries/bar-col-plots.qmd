@@ -6,6 +6,8 @@ date: "2023-02-25"
 date-modified: "2023-02-25"
 keywords: [ggplot2 pkg, ggpp pkg, ggrepel pkg, bar plot, column plot, data labels, plot annotations]
 categories: [Plotting examples]
+abstract: |
+  Example R code for plots with labels using position functions from package [ggpp](https://docs.r4photobiology.info/ggpp) that combine the actions of two separate position functions available in package [ggplot2](https://ggplot2.tidyverse.org/), such as simultaneous use of stack and nudge and dodge and nudge. The examples show how to easily add labels to stacked and dodged bar plots retaining full control of the labels' positioning.
 editor: 
   markdown: 
     wrap: 72
@@ -14,14 +16,6 @@ format:
     code-link: true
     code-tools: true
 ---
-
-## Introduction
-
-Here you will find examples of bar plots and column plots built
-with packages 'ggplot2' and 'ggpp'. Both packages are
-available at CRAN. The documentation of [package
-'ggpp'](https://docs.r4photobiology.info/ggpp) is available
-on-line.
 
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
@@ -32,6 +26,10 @@ loading of packages shown in section **Preliminaries** code examples are
 in most cases self contained. When they are not, this is indicated by a
 comment.
 
+For simplicity, whenever possible I use base R functions instead of
+contributed R packages. For those packages used only in specific
+examples I use colon notation to indicate the 'package'.
+
 All "words" defined in base R or in extension packages are linked to the
 corresponding HTML-rendered help pages.
 
@@ -39,10 +37,6 @@ The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
-
-For simplicity, whenever possible I use base R functions instead of
-contributed R packages. For those packages used only in specific
-examples I use colon notation to indicate the 'package'.
 
 ## Data labels and plot annotations
 

@@ -6,6 +6,8 @@ date: "2023-06-24"
 date-modified: "2023-06-24"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, gganimate pkg, plot annotations, model equations]
 categories: [Plotting examples]
+abstract: |
+  Example R code for _animated_ plots based on package [ggplot2](https://ggplot2.tidyverse.org/) using geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp) and statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc) together with package [gganimate](https://gganimate.com/). Functions from package [gganimate](https://gganimate.com/) implement different types of animations based on extension of the Grammar of Graphics.
 editor: 
   markdown: 
     wrap: 72
@@ -27,14 +29,6 @@ information about scenes and transitions. A different approach to decoding the
 original groups' indices is now used when needed to ensure compatibility.
 :::
 
-## Introduction
-
-Here you will find examples of _animated_ ggplots using
-geometries defined in package 'ggpp' and statistics from package 'ggpmisc' both
-available at CRAN. The documentation of [package
-'ggpp'](https://docs.r4photobiology.info/ggpp) and of [package
-'ggpmisc'](https://docs.r4photobiology.info/ggpmisc) is available on-line.
-
 ::: callout-tip
 In this page code chunks are "folded" so as to decrease the clutter when
 searching for examples. Above each plot you will find a small triangle
@@ -51,10 +45,6 @@ The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
-
-For simplicity, whenever possible I use base R functions instead of
-contributed R packages. For those packages used only in specific
-examples I use colon notation to indicate the 'package'.
 
 ::: callout-important
 One needs to always check that annotations do not occlude anything

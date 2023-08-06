@@ -1,11 +1,13 @@
 ---
-title: "Functional analysis of spectra"
+title: "Functional analysis of spectra with 'photobiology' to 'fda.usc'"
 subtitle: "From 'photobiology' to 'fda.usc' and back."
 author: "Pedro J. Aphalo"
 date: "2023-06-02"
 date-modified: "2023-07-20"
 keywords: [photobiology pkg, photobiologyInOut pkg, fda.usc pkg, ggspectra pkg, functional data analysis]
 categories: [Photobiology examples]
+abstract: |
+  Explanations and example R code for applying functional data analysis to spectral data stored in the classes defined in package [photobiology](https://docs.r4photobiology.info/photobiology/) and plotting the obtained deepest curve with [ggplot2](https://ggplot2.tidyverse.org/) and [ggspectra](https://docs.r4photobiology.info/ggspectra/) and aplying ANOVA-like methods to compare groups of spectra. The excahnge of the spectral data between packages is done with functions from package [photobiologyInOut](https://docs.r4photobiology.info/photobiologyInOut/).
 editor: 
   markdown: 
     wrap: 72
@@ -15,6 +17,23 @@ format:
     code-link: true
     code-tools: true
 ---
+
+::: callout-tip
+In this page code chunks are "folded" so as to decrease the clutter when
+searching for examples. Above each plot you will find a small triangle
+followed by "Code". Clicking on the triangle "unfolds" the code chunk
+making visible the R code used to produce the text or graphic output.
+
+Except for the loading of packages shown in section **Preliminaries** code 
+examples continue through out each section.
+
+All "words" defined in base R or in extension packages are linked to the
+corresponding HTML-rendered help pages.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+:::
 
 ## Introduction
 
@@ -33,23 +52,9 @@ In this page I am collecting examples of code that I have found useful. The
 examples use `source_spct` objects, but the code can be adapted to other types
 of spectral data.
 
-In this first version of the page I use package 'fda.usc' for all examples. Newer approaches are available for FANOVA, such as those implemented in package 'fdANOVA'.
-
-::: callout-tip
-In this page code chunks are "folded" so as to decrease the clutter when
-searching for examples. Above each plot you will find a small triangle
-followed by "Code". Clicking on the triangle "unfolds" the code chunk
-making visible the R code used to produce the text or graphic output.
-
-Except for the loading of packages shown in section **Preliminaries** code examples continue through out each section.
-
-All "words" defined in base R or in extension packages are linked to the
-corresponding HTML-rendered help pages.
-
-The code in the chunks can be copied by clicking on the top right
-corner, where an icon appears when the mouse cursor hovers over the code
-listing.
-:::
+In this first version of the page I use package 'fda.usc' for all examples.
+Newer approaches are available for FANOVA, such as those implemented in package
+'fdANOVA'.
 
 ## Preliminaries
 
@@ -81,6 +86,7 @@ sun.cosine.spct <- clean(sun.cosine.spct)
 when_measured(sun.cosine.spct)[c(1, 45)]
 how_measured(sun.cosine.spct)
 ```
+
 As array spectrometers have a variable wavelength step between pixels, we re-express the spectra at 1 nm resolution. We also trim the shortest and longest wavelengths as these spectral irradiance values are noisy.
 
 ```{r}

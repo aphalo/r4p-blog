@@ -7,7 +7,7 @@ date-modified: "2023-03-04"
 categories: [solar spectrum, data]
 keywords: [photobiologyInOut pkg, TUV model]
 abstract: |
-  Running a simulation in the TUV web inferface, downloading the files and importing them into R, using packages 'photobiology' and 'photobiologyInOut'..
+  Instructions for running solar spectrum simulations in the Quick TUV web inferface, downloading the files and importing them into R, using packages 'photobiology' and 'photobiologyInOut'. Example R code and a screnn capture video are included.
 ---
 
 As our package 'photobiologyInOut' (versions \>= 0.4.15) supports the automatic import of the files returned by the Quick TUV Calculator, we show here how to produce such files, and link to an example showing how to import and plot them in R.
@@ -32,4 +32,4 @@ This interface is easy to use once one understands the different options and req
 
 ### Exploring sunlight with the Quick TUV model and R
 
-I published an article describing how to import and plot the data from Quick TUV using R ([Aphalo, 2018](https://doi.org/10.19232/uv4pb.2018.2.14)). A [supplementary file to the article](aphalo-tuv-supplement.nb.html) gives additional examples demonstrating how the solar spectrum is affected by variation in the atmospheric composition, solar elevation and observer elevation is available for reading and/or download. The R code used in embedded in this HTML file.
+I published an article describing how to import and plot the data from Quick TUV using R ([Aphalo, 2018](https://doi.org/10.19232/uv4pb.2018.2.14)). A [supplementary file to the article](aphalo-tuv-supplement.nb.html) gives additional examples demonstrating how the solar spectrum is affected by variation in the atmospheric composition, solar elevation and observer elevation is available for reading and/or download. The R code used in embedded in the supplementary HTML file.
