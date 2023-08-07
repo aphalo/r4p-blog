@@ -7,18 +7,24 @@ editor:
     wrap: 72
 ---
 
-## News and announcements
+::: callout-tip
+**The best way to remain up-to-date about the contents of this site it to
+use a RSS feed reader** such as NetNewsWire (iPhone) or a browser add-on
+like "FeedBro" (Firefox) and subscribe to the feeds you are intertested
+in. The RSS entry in the site's main menu contains links to three
+separate feeds, for the Blog, Pages and Galleries sections of the
+website.
 
-I publish announcements through Mastodon. I use [hashes to differentiate
-posts by subject](posts/Mastodon-updates/index.qmd) so that you can
-follow what you are interested in without cluttering your Mastodon Home.
-You can see my first post through Mastodon or [my first
+**I publish occasionally announcements through Mastodon.** I use [hashes to
+differentiate posts by subject](posts/Mastodon-updates/index.qmd) so
+that you can follow what you are interested in without cluttering your
+Mastodon Home. You can see my first post through Mastodon or [my first
 *toot*](https://mastodon.social/@aphalo/110389057352585332).
 
-[![Click to see the toot live](first-toot.png){fig-alt="Image of how the toot looks like"
-fig-align="center"}](https://mastodon.social/@aphalo/110389057352585332)
-
-Visit my Mastodon profile at [https://mastodon.social/@aphalo](https://mastodon.social/@aphalo).
+You can visit my Mastodon profile at
+[https://mastodon.social/\@aphalo](https://mastodon.social/@aphalo). I
+am no longer using Twitter/X or Facebook.
+:::
 
 ## R, data analysis and photobiology
 
@@ -44,22 +50,27 @@ the top of the screen.
 ### Blog
 
 The [blog](posts.qmd) contains short articles, mostly news that once
-published are not revised, except for mistakes.
+published are not revised, or revised during a few months, except for
+mistakes. In this section I published condensed news about package
+updates, and books and articles published elsewhere.
 
 ### Pages
 
 The [pages](pages.qmd) are informative articles and tutorials that once
-published are updated as needed to keep them useful and relevant.
+published are updated as needed to keep them useful and relevant. Many
+of the pages are based on material prepared for courses or talks and
+republished in a different format. In general, the focus is not on
+cookbook-style R code examples.
 
 ### R Gallery
 
-The [R gallery](galleries.qmd) are pages that demonstrate use cases of R
-and R packages, mostly my own packages. Each page contains multiple
+The [R gallery](galleries.qmd) contains pages that demonstrate use cases
+of R and R packages, mostly my own packages. Each page contains multiple
 R-code recipes for ploting and computations for specific tasks, cookbook
 style. The aim is to provide additional recipes complementing those in
 the well known [Cookbook for R](http://www.cookbook-r.com/) website.
-Once published they are updated as needed to keep them useful and
-relevant, and possibly to expand them.
+Once pages in this section are published they are updated as needed to
+keep them useful and relevant, and possibly to expand them.
 
 ### R packages
 
@@ -78,12 +89,12 @@ edited about R and/or photobiology.
 Pages with additional information about the site and its webmaster and
 author.
 
-## My websites
+## My other websites
 
 I have been using and teaching [R](https://www.r-project.org/), the free
 software environment for statistical computing and graphics, for more
 than 20 years. I am a researcher working in the field of sensory ecology
-of plants. I have been interested throughout my carreer in plants'
+of plants. I have been interested throughout my career in plants'
 responses to light.
 
 In my research group we have used R for general data analysis, as well
@@ -91,9 +102,11 @@ as for plotting and calculations related to photobiology. As a result of
 all these activities I developed several R packages and published them
 through CRAN. I have also written books both on R and on photobiology.
 
-I have a [separate website for my research group's activities]() and a
-[website with material related to photography and photography
-techniques](). My scientific publications are listed at my [ORCID
+I have a [separate website for my research group's
+activities](https://blogs.helsinki.fi/senpep-blog/) and a [website with
+material related to photography and photography
+techniques](https://www.photo-spectrum.info/). My scientific
+publications are listed at my [ORCID
 profile](https://orcid.org/0000-0003-3385-972X).
 
 I published my first website, *The Plant Photobiology Notes*, between

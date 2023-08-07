@@ -90,10 +90,10 @@ how_measured(sun.cosine.spct)
 As array spectrometers have a variable wavelength step between pixels, we re-express the spectra at 1 nm resolution. We also trim the shortest and longest wavelengths as these spectral irradiance values are noisy.
 
 ```{r}
-sun.cosine.mspct <- subset2mspct(sun.cosine.spct) %>%
+subset2mspct(sun.cosine.spct) %>%
   clean() %>%
   trim_wl(c(280, 1000)) %>%
-  interpolate_mspct(length.out = 721)
+  interpolate_mspct(length.out = 721) -> sun.cosine.mspct
 ```
 
 ### Highlight the "median" spectrum

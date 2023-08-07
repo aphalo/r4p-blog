@@ -6,6 +6,8 @@ date: "2023-08-04"
 date-modified: "2023-08-04"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, pairwise]
 categories: [Plotting examples]
+abstract: |
+  Examples of plots with pairwise labels and letter labels created with `stat_multcomp()` from R package 'ggpmisc'. Function `stat_multcomp()` computes and adds to ggplots the results from multiple comparison tests as labels. Multiple comparisons based on Tukey and Dunnet contrasts are demonstrated.
 editor: 
   markdown: 
     wrap: 72
@@ -14,8 +16,7 @@ format:
   html: 
     code-link: true
     code-tools: true
-abstract: |
-  Examples of plots with pairwise labels and letter labels created with `stat_multcomp()` from R package 'ggpmisc'. Function `stat_multcomp()` computes and adds to ggplots the results from multiple comparison tests as labels. Multiple comparisons based on Tukey and Dunnet contrasts are demonstrated.
+draft: true
 ---
 
 ::: callout-warning

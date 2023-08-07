@@ -5,18 +5,28 @@ date: "2023-02-20"
 date-modified: "2023-02-20"
 categories: [books]
 keywords: [Beyond the Visible, photobiology, methods]
+abstract: |
+  Links and list of chapters for a handbook of methods published in 2012 as a result of a COST Action supported by EU funding. The book can be downloaded and freely copied. Most of the contents are still up-to-date.
 ---
 
 [![Book cover](beyond-the-visible-cover.jpg){fig-alt="Book cover image"}](http://doi.org/10.31885/9789521083631){width=33%, fig-align="left"}
 
-Permanent URI to the open-access repository of the University of Helsinki through \[DOI:10.31885/9789521083631\](http://doi.org/10.31885/9789521083631)
+Permanent DOI to the open-access repository of the University of Helsinki through \[DOI:10.31885/9789521083631\](http://doi.org/10.31885/9789521083631)
 
-Preview and/or download the handbook in Google books where you can also search the whole contents.
+Preview and/or download the handbook at [Google books](https://www.google.fi/books/edition/Beyond_the_Visible/S8LdnstG5G4C?hl=en&gbpv=0) where you can also search the whole contents.
 
-The printed version of the handbook is available for purchase at (http://www.amazon.co.uk/) and other Amazon sites. CreateSpace no longer exists, and Amazon is charging a much higher price for the printed version than when originally published. So, it may be wiser to get the free PDF and print the pages you need. There plans for a 2nd edition to be published in a year or two.
+The printed version of the handbook is available for purchase at (http://www.amazon.co.uk/) and other Amazon sites. CreateSpace no longer exists, and Amazon is charging a much higher price for the printed version than when originally published. So, it may be wiser to get the free PDF and print the pages you need. There are preliminary plans for a 2nd edition to be published in 2024 or 2025.
+
+Contents:
+
+  1. Introduction
+  2. Manipulating UV Radiation
+  3. Quantifying UV Radiation
+  4. Plant Growing Conditions
+  5. Statistical Design of UV Experiments
 
 Suggested citation:
 
 Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A.; Robson, T. M.; Rosenqvist, E. (eds.) 2012. Beyond the visible: A handbook of best practice in plant UV photobiology. COST Action FA0906 UV4growth. Helsinki: University of Helsinki, Department of Biosciences, Division of Plant Biology. ISBN 978-952-10-8362-4 (Paperback), 978-952-10-8363-1 (PDF). DOI: 10.31885/9789521083631, xxx + 176 pp.
 
-Reference data for the handbook and chapters is available in BibTeX format, RIS format, and EndNote format.
+Reference data for the handbook and chapters is available in [BibTeX format](Beyond_the_Visible.bib), [RIS format](Beyond_the_Visible.ris), and [EndNote format](Beyond_the_Visible.txt).

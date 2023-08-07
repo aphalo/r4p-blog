@@ -2,7 +2,7 @@
 title: "Handbook on photobiological calculations with R"
 author: "Pedro J. Aphalo"
 date: "2023-02-20"
-date-modified: "2023-02-20"
+date-modified: "2023-08-07"
 categories: [books, R for Photobiology]
 keywords: [photobiology, R, R packages]
 ---
@@ -13,6 +13,6 @@ A handbook on how to do calculations used in photobiological research with R has
 
 Although we haven't had time to finish writing the book, I have been checking that the code examples work with current versions of R and packages. Rather recently I made small edits to a few code chunks that had stopped working and uploaded the new version of the PDF file to [LeanPub](https://leanpub.com/r4photobiology).
 
-Some minutes ago I tried to build all examples with R 4.2.o, a major update to R released some days ago. R 4.2.o contains a bug, that unluckily prevents a couple some examples in the book from running under MS-Windows. The already available patched version of R 4.2.0 solves this problem. Anyway, this bug affects only a very specific use related to data acquisition.
+Some time ago I tried to build all examples with R 4.2.0, a major update to R released some days ago. R 4.2.0 contains a bug, that unluckily prevents a couple of examples in the book from running under MS-Windows. Only version 4.2.0 is affected, earlier and later versions are not affected. In any case, this bug affects only a very specific use related to data acquisition.
 
 *The book is sold for the amount the buyer wishes to pay, including getting it for free.*

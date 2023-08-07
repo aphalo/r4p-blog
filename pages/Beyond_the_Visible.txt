@@ -1,0 +1,258 @@
+%0 
+%0 Book Section
+%A Aphalo, P. J.; Albert, A.; Björn, L. O.; Ylianttila, L.; Figueroa, F. L. & Huovinen, P.
+%D 2012
+%T Introduction
+%E Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A. R.; Robson, T. M. & Rosenqvist, E.
+%B Beyond the Visible: A handbook of best practice in plant UV photobiology
+%C Helsinki
+%I University of Helsinki, Department of Biosciences, Division of Plant Biology
+%V 
+%6
+%N
+%P 1-33
+%& 1
+%Y
+%S COST Action FA0906 "UV4growth"
+%7 1
+%8 
+%9 
+%?
+%! 
+%Z
+%@ ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback)
+%(
+%)
+%*
+%L
+%M
+
+%2 
+%3 inbook
+%4 
+%# 
+%$ 
+%F Aphalo2012
+%K 
+%X 
+%Z 
+%U http://hdl.handle.net/10138/37558
+
+%+
+%^
+
+%0 
+%0 Book Section
+%A Aphalo, P. J.; Albert, A.; McLeod, A. R.; Heikkilä, A.; Gómez, I.; López Figueroa, F.; Robson, T. M. & Strid, Å.
+%D 2012
+%T Manipulating UV radiation
+%E Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A. R.; Robson, T. M. & Rosenqvist, E.
+%B Beyond the Visible: A handbook of best practice in plant UV photobiology
+%C Helsinki
+%I University of Helsinki, Department of Biosciences, Division of Plant Biology
+%V 
+%6
+%N
+%P 35-70
+%& 2
+%Y
+%S COST Action FA0906 "UV4growth"
+%7 1
+%8 
+%9 
+%?
+%! 
+%Z
+%@ ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback)
+%(
+%)
+%*
+%L
+%M
+
+%2 
+%3 inbook
+%4 
+%# 
+%$ 
+%F Aphalo2012a
+%K 
+%X 
+%Z 
+%U http://hdl.handle.net/10138/37558
+
+%+
+%^
+
+%0 
+%0 Book Section
+%A Aphalo, P. J.; Robson, T. M. & Högmander, H.
+%D 2012
+%T Statistical design of UV experiments
+%E Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A. R.; Robson, T. M. & Rosenqvist, E.
+%B Beyond the Visible: A handbook of best practice in plant UV photobiology
+%C Helsinki
+%I University of Helsinki, Department of Biosciences, Division of Plant Biology
+%V 
+%6
+%N
+%P 139-150
+%& 5
+%Y
+%S COST Action FA0906 "UV4growth"
+%7 1
+%8 
+%9 
+%?
+%! 
+%Z
+%@ ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback)
+%(
+%)
+%*
+%L
+%M
+
+%2 
+%3 inbook
+%4 
+%# 
+%$ 
+%F Aphalo2012b
+%K 
+%X 
+%Z 
+%U http://hdl.handle.net/10138/37558
+
+%+
+%^
+
+%0 
+%0 Book Section
+%A Björn, L. O.; McLeod, A. R.; Aphalo, P. J.; Albert, A.; Lindfors, A. V.; Heikkilä, A.; Kolarz, P.; Ylianttila, L.; Zipoli, G.; Grifoni D.and Huovinen, P.; Gómez, I. & Figueroa, López
+%D 2012
+%T Quantifying UV radiation
+%E Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A. R.; Robson, T. M. & Rosenqvist, E.
+%B Beyond the Visible: A handbook of best practice in plant UV photobiology
+%C Helsinki
+%I University of Helsinki, Department of Biosciences, Division of Plant Biology
+%V 
+%6
+%N
+%P 71-117
+%& 3
+%Y
+%S COST Action FA0906 "UV4growth"
+%7 1
+%8 
+%9 
+%?
+%! 
+%Z
+%@ ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback)
+%(
+%)
+%*
+%L
+%M
+
+%2 
+%3 inbook
+%4 
+%# 
+%$ 
+%F Bjoern2012
+%K 
+%X 
+%Z 
+%U http://hdl.handle.net/10138/37558
+
+%+
+%^
+
+%0 
+%0 Book Section
+%A Rosenqvist, E.; López Figueroa, F.; Gómez, I. & Aphalo, P. J.
+%D 2012
+%T Plant growing conditions
+%E Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A. R.; Robson, T. M. & Rosenqvist, E.
+%B Beyond the Visible: A handbook of best practice in plant UV photobiology
+%C Helsinki
+%I University of Helsinki, Department of Biosciences, Division of Plant Biology
+%V 
+%6
+%N
+%P 119-138
+%& 4
+%Y
+%S COST Action FA0906 "UV4growth"
+%7 1
+%8 
+%9 
+%?
+%! 
+%Z
+%@ ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback)
+%(
+%)
+%*
+%L
+%M
+
+%2 
+%3 inbook
+%4 
+%# 
+%$ 
+%F Rosenqvist2012
+%K 
+%X 
+%Z 
+%U http://hdl.handle.net/10138/37558
+
+%+
+%^
+
+%0 
+%0 Book
+%A 
+%D 2012
+%T Beyond the Visible: A handbook of best practice in plant UV photobiology
+%E Aphalo, P. J.; Albert, A.; Björn, L. O.; McLeod, A. R.; Robson, T. M. & Rosenqvist, E.
+%B COST Action FA0906 "UV4growth"
+%C Helsinki
+%I University of Helsinki, Department of Biosciences, Division of Plant Biology
+%V 
+%6
+%N 
+%P xxx + 174
+%&
+%Y
+%S
+%7 1
+%8 
+%9
+%?
+%! 
+%Z
+%@ ISBN 978-952-10-8363-1 (PDF), 978-952-10-8362-4 (paperback)
+%(
+%)
+%*
+%L
+%M
+
+%2 
+%3 book
+%4 
+%# 
+%$ 
+%F Aphalo2012c
+%K 
+%X 
+%Z 
+%U http://hdl.handle.net/10138/37558
+
+%+
+%^
+

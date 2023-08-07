@@ -86,10 +86,10 @@ website:
             href: https://www.learnr-book.info/
           - icon: book
             text: Handbook _Beyond the Visible_
-            href: https://www.learnr-book.info/
+            href: pages/beyond-the-visible.qmd
           - icon: book-half
             text: Book _R for Photobiology_
-            href: https://www.learnr-book.info/
+            href: pages/r4p-book.qmd
       - icon: person
         text: About
         menu:
