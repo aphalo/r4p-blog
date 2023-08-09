@@ -21,12 +21,17 @@ website:
       - icon: box-seam
         text: R packages
         menu:
-          - icon: check-all
-            text: Checks and issues
-            href: pages/packages-status.qmd
+          - icon: list
+            text: Documentation Index
+            href: https://docs.r4photobiology.info/
+          - icon: cloud-download
+            text: CRAN-like repository
+            href: https://r.r4photobiology.info/
+          - text: "---"
           - icon: box-seam
             text: 'learnrbook'
             href: https://docs.r4photobiology.info/learnrbook/
+          - text: "---"
           - icon: stack
             text: Intro _'ggpmisc', 'ggpp' and 'gginnards'_
             href: pages/ggpmisc-intro.qmd
@@ -39,6 +44,7 @@ website:
           - icon: layers
             text: 'gginnards'
             href: https://docs.r4photobiology.info/gginnards/
+          - text: "---"
           - icon: sun
             text: Intro _R for Photobiology Suite_
             href: pages/r4p-introduction.qmd
@@ -78,6 +84,10 @@ website:
           - icon: archive
             text: 'photobiologySensors'
             href: https://docs.r4photobiology.info/photobiologySensors/
+          - text: "---"
+          - icon: check-all
+            text: Checks and issues
+            href: pages/packages-status.qmd
       - icon: book
         text: Books
         menu:
@@ -103,7 +113,7 @@ website:
             text: About _Pedro J. Aphalo_
             href: about/pedro.qmd
           - icon: github
-            text: GitHub _this site_
+            text: Source of _this site_ at GitHub
             href: https://github.com/aphalo/r4p-blog/
       - icon: rss
         text: "RSS feeds"

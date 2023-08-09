@@ -74,15 +74,14 @@ keep them useful and relevant, and possibly to expand them.
 
 ### R packages
 
-This menu entry gives access to the 
-documentation in HTML format for all
-the R packages that I actively maintain. It also lists a page that
-summarizes the results of the latest test runs at CRAN and GitHub and
-links for reporting bugs or requesting support.
+This menu entry gives access to the [documentation in HTML format for all the R
+packages that I actively maintain](https://docs.r4photobiology.info). It also
+lists a page that summarizes the results of the latest test runs at CRAN and
+GitHub and links for reporting bugs or requesting support.
 
 I also maintain a [CRAN-like repository](https://r.r4photobiology.info) with
 those packages that I maintain but which are not available through CRAN.
-Occasionally, I make available under development versions of the packages that
+Occasionally, I also make available under development versions of the packages that
 are available through CRAN through this repository.
 
 ### Books
