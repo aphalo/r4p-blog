@@ -8,9 +8,9 @@ editor:
 ---
 
 ::: callout-tip
-**The best way to remain up-to-date about the contents of this site it to
-use a RSS feed reader** such as NetNewsWire (iPhone) or a browser add-on
-like "FeedBro" (Firefox) and subscribe to the feeds you are intertested
+**The best way to remain up-to-date about the contents of this site is to
+use an RSS feed reader** such as NetNewsWire (iPhone) or a browser add-on
+like "FeedBro" (Firefox) and subscribe to the feeds you are interested
 in. The RSS entry in the site's main menu contains links to three
 separate feeds, for the _Blog_, _Pages_ and _R Gallery_ sections of the
 website.

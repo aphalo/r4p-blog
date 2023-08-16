@@ -1,9 +1,9 @@
 ---
-title: "ggpmisc 0.5.0/0.5.1/0.5.2/0.5.3"
+title: "ggpmisc 0.5.0/0.5.1/0.5.2/0.5.3/0.5.4"
 subtitle: "ggpmisc: Miscellaneous Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: 2022-08-05
-date-modified: 2023-06-23
+date-modified: 2023-08-14
 categories: [R Package Update]
 keywords: [ggpmisc pkg]
 ---
@@ -29,6 +29,8 @@ _Version 0.5.1_ brings additional enhancements to the annotations based on model
 _Version 0.5.2_ fixes bugs and ensures compatibility with updates to 'ggplot2' and 'lubridate'. 
 
 _Version 0.5.3_ fixes bugs, brings compatibility with package 'gganimate' and adds parameter `n.min` to all statistics that are based on model fitting or correlation testing functions. Arguments passed to `n.min` make it possible to increase the previously hard-coded limit that remains in most cases as the default.
+
+_Version 0.5.4_ brings `stat_multcomp()` for computing multiple comparisons within the framework of _general linear hypothesis_ as implemented in R package 'multcomp' and annotation of plots with the outcomes.
 
 ## Examples
 
@@ -69,8 +71,18 @@ ggplot(subset(mpg, cyl != 5), aes(cty, hwy)) +
   theme_bw()
 ```
 
+Multiple comparisons can be used, for example to test for differences among cars with engines with different numbers of
+cylinders.
+
+```{r, fig.height=5, fig.width=8}
+ggplot(subset(mpg, cyl != 5), aes(factor(cyl), hwy)) +
+  geom_violin() +
+  stat_multcomp() +
+  theme_bw()
+```
+
 ::: callout-warning
-The examples below depend on packages 'gganimate', 'png' and 'gifski' to create the animations. Please, make sure that these pacakges are installed before running the code chunks below.
+The examples below depend on packages 'gganimate', 'png' and 'gifski' to create the animations. Please, make sure that these packages are installed before running the code chunks below.
 
 Although getting the animations to work at the command prompt was easy, getting the same code to work within Quarto was more difficult. The need to explicitly pass arguments to parameters `dev`, `width` and `height` of function `animate()` only applies to Quarto (and possibly R Markdown) code chunks, as defaults work well at the command prompt or in R scripts but trigger errors when rendering Quarto documents.
 

@@ -164,7 +164,7 @@ ggplot(subset(df1, group == "A"),
   stat_correlation(small.r = TRUE)
 ```
 
-Spearman correlation.
+Spearman correlation. (The default is to not compute the confidence interval.)
 
 ```{r}
 ggplot(subset(df1, group == "A"), 
@@ -172,8 +172,7 @@ ggplot(subset(df1, group == "A"),
   geom_point() +
   stat_correlation(method = "spearman")
 ```
-
-Kendall correlation.
+Kendall correlation. (The default is to not compute the confidence interval.)
 
 ```{r}
 ggplot(subset(df1, group == "A"), 
@@ -199,14 +198,24 @@ ggplot(subset(df1, group == "A"), aes(x, y)) +
   stat_correlation(mapping = use_label(c("R", "t", "P", "n")))
 ```
 
-Confidence interval for R.
+Confidence interval for R (Pearson's correlation).
 
 ```{r}
 ggplot(subset(df1, group == "A"), aes(x, y)) +
   geom_point() +
-  stat_correlation(mapping = use_label(c("R", "R.confint")),
-                   r.conf.level = 0.99)
+  stat_correlation(mapping = use_label(c("R", "R.confint")))
 ```
+Confidence interval for Spearman's correlation.
+
+```{r}
+ggplot(subset(df1, group == "A"), 
+       aes(x, y)) +
+  geom_point() +
+  stat_correlation(mapping = use_label(c("R", "R.confint")),
+                   r.conf.level = 0.95,
+                   method = "spearman")
+```
+
 
 Grouping supported.
 
@@ -221,7 +230,7 @@ Facets supported.
 ```{r}
 ggplot(df1, aes(x, y)) +
   geom_point() +
-  stat_correlation(npcx = "right", npcy = "bottom") +
+  stat_correlation(label.x = "right", label.y = "bottom") +
   facet_wrap(~group)
 ```
 
@@ -241,7 +250,7 @@ ggplot(df1, aes(x, y)) +
 ### Alternatives
 
 ::: callout-tip
-Package 'ggpubr' provides alternative approaches to corelation testing
+Package 'ggpubr' provides alternative approaches to correlation testing
 and reporting.
 :::
 

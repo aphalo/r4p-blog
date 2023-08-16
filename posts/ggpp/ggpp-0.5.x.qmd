@@ -1,9 +1,9 @@
 ---
-title: "ggpp 0.5.0/0.5.1/0.5.2/0.5.3"
+title: "ggpp 0.5.0/0.5.1/0.5.2/0.5.3/0.5.4"
 subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: "2022-12-05"
-date-modified: "2023-07-16"
+date-modified: "2023-08-14"
 categories: [R Package Update]
 keywords: [ggpp pkg]
 ---
@@ -32,7 +32,9 @@ _Version 0.5.2_ brings additional enhancements to the density-based statistics. 
 
 _Version 0.5.3_ brings enhancements to `stat_quadrant_counts()` and `stat_group_counts()`. They are now both based on a _compute panel_ function, which makes it possible to compute the same counts as in earlier versions but also the count for the whole panel. This in turn facilitates the creation of labels based on percents and fractions of the total number of observations. The default behaviour remains the same as in earlier versions, with labels for counts.
 
-The new statistic `stat_functions()` implements ploting of multiple functions per layer and supports groups and facets, i.e., the grammar of graphics. Be aware that `stat_functions()` is under development and its interface may change in future versions.
+The new statistic `stat_functions()` implements plotting of multiple functions per layer and supports groups and facets, i.e., the grammar of graphics. Be aware that `stat_functions()` is under development and its interface may change in future versions.
+
+_Version 0.5.4_ brings two new geometries `geom_text_pairwise()` and `geom_label_pairwise()` useful for adding to plots the outcomes from pairwise tests, and for highlighting ranges along the _x_ axis.
 
 ::: callout-note
 
