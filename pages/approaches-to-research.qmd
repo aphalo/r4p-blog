@@ -2,7 +2,15 @@
 title: "_P_-values, _R_<sup>2</sup>, AIC, BIC"
 subtitle: "How do they fit into the research process?"
 author: "Pedro J. Aphalo"
-abstract: |
+date: 2023-08-19
+date-modified: 2023-08-19
+categories: [scientific method]
+keywords: [research process, design of experiments, data analysis]
+format:
+  html:
+    code-fold: false
+    code-tools: true
+abstract: 
   Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
 draft: true
 ---
@@ -15,6 +23,34 @@ Empirical approaches to prediction, are by definition judged by their predictive
 
 I will not discuss the differences in reliabilty between mechanistic and purely empiric approches to prediction, their robustness or their usefulness. 
 The discussion here centres on the role played observation in the acquisition of mechanistic understanding.
+
+## Two approaches
+
+```{mermaid}
+%%| label: fig-research-process-model-selection
+%%| fig-cap: A diagram showing the steps of scientific studies. The thick arrows describe the sequence of events/actions, connecting the design of an experiment to the communication of the results. Two paths, <font color=green>**1.** for hypothesis based research</font> and <font color=blue>**2.** for descriptive studies</font>, are highlighted (see main text). The dotted arrows with round heads indicate constraints imposed by design-related decisions. The double headed dotted arrow describes that the realization of a study can be influenced by data observed during its course, especially when data are collected repeatedly. Thin arrows indicate how one study can affect subsequent studies. _QC_= Quality Control or sanity checks of data. This abstraction can be applied to empirical research, but with small changes (not shown) also to simulation studies.
+%%{init: {"htmlLabels": true} }%%
+
+flowchart TD
+  
+  Z([background<br>information]) ==> Y(Hypothesis)
+  Y ==> A(Design) ==> Aa(Planning) ==> B(Realization) ==> H(Data collection) ==<font color=blue><strong>2.</strong>==> C
+  C[<font color=blue><i>full</i> <strong>EDA</strong>] ==> D(<font color=blue>Model\nSelection) =="<font color=blue><i>R</i><sup>2</sup>, <i>f(x<sub>i</sub>)</i>"==> E(Interpretation) ==> F([communication])
+  H ==<font color=green><strong>1.</strong>==> I[<font color=green><i>QC</i> <strong>EDA</strong>]
+  H ==deposit<br>data+metadata=====> X([data<br>repository])
+  I ==> G(<font color=green><strong>CDA</strong>\nTests of\nHypothesis) ==<font color=green><i>P</i>-value==> E
+  E --follow up<br>study--> Y
+  C --new/modified<br>hypothesis--> Y
+  C --improved design--> A 
+  I --improved design--> A
+  B <-.-> H
+  A -.-o D
+  A -.-o E
+  A -.-o G
+  F --scientific<br>literature--> Z
+  X --"open data"--> Z
+  Z ==> E
+```
 
 ## Which approach is better?
 
