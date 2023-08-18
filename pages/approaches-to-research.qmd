@@ -1,0 +1,35 @@
+---
+title: "_P_-values, _R_<sup>2</sup>, AIC, BIC"
+subtitle: "How do they fit into the research process?"
+author: "Pedro J. Aphalo"
+abstract: |
+  Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
+draft: true
+---
+
+## Scientific research
+
+The scope of this text is scientific research, which by defintion seeks understanding, which is equivalent to describing mechanisms, or how the world works.
+
+Empirical approaches to prediction, are by definition judged by their predictive capacity, and based solely on correlations. They do not seek mechanistic understanding and are not discussed here.
+
+I will not discuss the differences in reliabilty between mechanistic and purely empiric approches to prediction, their robustness or their usefulness. 
+The discussion here centres on the role played observation in the acquisition of mechanistic understanding.
+
+## Which approach is better?
+
+I will start with what seems self evident to me. Neither hypothesis-based experimental search nor observational or untargeted surveys is better than the other approach, both need to be combined for scientific knowlege/know-how to increase its explanatory and predictive power.
+
+  1. Even when we think we use only one of these approaches, even if informally, we are using both. Why? Because new hypotheses do not come out of thin air! Because, when describing something new we always need something already known as a reference! Of course one approach may be emphasized at the expense of the other, or only one of them may be formally used and explicitly described and the other may participate implicitly and remain undescribed.
+
+  2. Scientific research usually works by alternatively emphasizing each of the two approaches, although it is also possible to use them in parallel. **Darwin's hypotheses and approach**. This seems to be true for every branch of science, from Physics to Humanities.
+
+  3. Simplifying the process to its bare bones, observation suggests hypothesis (= trigger in our mind possible explanations for observed phenomena) and testing selects from these hypotheses those which appear most likely to be true in a specific context. Thus, we never test all possible explanations, only those we have been able to imagine from our exposure to previous observations or other experience.
+
+## Differences among disciplines
+
+The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that approaches uses and emphasis between observation and hypothesis testing depend on the discipline.
+
+
+
+
