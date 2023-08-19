@@ -10,6 +10,8 @@ format:
   html:
     code-fold: false
     code-tools: true
+    mermaid:
+      theme: neutral
 abstract: 
   Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
 draft: true
@@ -17,30 +19,48 @@ draft: true
 
 ## Scientific research
 
-The scope of this text is scientific research, which by defintion seeks understanding, which is equivalent to describing mechanisms, or how the world works.
+The scope of this text is scientific research, which by definition seeks understanding, which is equivalent to describing mechanisms, or how the world works. The use of the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) separates science from pseudo-science. However, there are different views among philosophers of science about how narrow and strict the definition of _scientiifc method_ should be. 
 
 Empirical approaches to prediction, are by definition judged by their predictive capacity, and based solely on correlations. They do not seek mechanistic understanding and are not discussed here.
 
 I will not discuss the differences in reliabilty between mechanistic and purely empiric approches to prediction, their robustness or their usefulness. 
 The discussion here centres on the role played observation in the acquisition of mechanistic understanding.
 
+The world is too complex to be grasped as is through our limited mental capacity, but more fundamentally because the entity that attempts to achieve understanding is a small part of this whole. Thus this complexity can never by represented in all its detailed properties.
+
+Scientific research works by simplification or abstraction, attempts to separate important from unimportant features of the world. What is important vs. unimportant depends on the context. Nothing is in every possible respect, at every possible temporal and spatial scale irrelevant. Importance of an event, observation or function can be decided only after we set a frame of reference. The frame of reference is determined by temporal and spatial scales and an aim: which phenomenon we want to explain or understand. To ensure relevance and practical usefulness, the scale at which the research is carried out and the scale of the phenomenon we want to explain need to at least partly overlap. If there is no overlap conclusions about the connection between the observations and the phenomenon remain subjective rather than supported by scientific evidence, i.e., any statement of usefulness or explanatory value would be based of faith instead of evidence and thus unscientific.
+
+Another consequence of knowledge based on abstraction or simplification is that it is tentative and subject to revision. Not only because observation of previously unobserved events adds new information, but also because we may need/want to revise the frame of reference for the problem under study. Controversies in science in many cases are not the result of disagreement on the validity of observations but instead caused by disagreement about what frame of reference to use or by the reliance on poorly defined frames of reference. For example, there are many different definitions of _stress_ in use, each leading to a different frame of reference for the study of responses to _stress_ and the mechanisms involved in these responses.
+
 ## Two approaches
 
+The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on a hypotheco-deductive (H-D) approach. Observational-Inductive (O-I) approaches are usually considered not to provide strong enough evidence. However, this does not mean that they do not play a role in scientific research. Many statisticians, starting with John Tukey, have argued that the O-I approach plays are more important role in data analysis and scientific advancement than H-D approaches. 
+
+A strict Popperian H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). But where would the hypotheses originate? There would be no progress of innovation without the O-I approach. It is also significant, that testing yields a probabilistic answer unless we are able to test all possible events of interest. However, we can never test all relevant events and at the same time extend the range of situations to which knowledge applies, such as using knowledge from current research to explain past and/or future events.
+
+Consequently, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world.
+
+John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis compared with an idealised view were the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the ennesimal digit of precision, just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed.
+
+::: callout-caution
+From an operational perspective, which approach we use determines how we can analyse the data. Most importantly the approach we use also informs what type of conclusions we can reach and what criteria we should use to reach these conclusions.
+:::
+
 ```{mermaid}
-%%| label: fig-research-process-model-selection
-%%| fig-cap: A diagram showing the steps of scientific studies. The thick arrows describe the sequence of events/actions, connecting the design of an experiment to the communication of the results. Two paths, <font color=green>**1.** for hypothesis based research</font> and <font color=blue>**2.** for descriptive studies</font>, are highlighted (see main text). The dotted arrows with round heads indicate constraints imposed by design-related decisions. The double headed dotted arrow describes that the realization of a study can be influenced by data observed during its course, especially when data are collected repeatedly. Thin arrows indicate how one study can affect subsequent studies. _QC_= Quality Control or sanity checks of data. This abstraction can be applied to empirical research, but with small changes (not shown) also to simulation studies.
+%%| label: fig-research-process-flowchart
+%%| fig-cap: A diagram showing the steps of scientific studies. The thick arrows describe the sequence of events/actions, connecting the design of an experiment to the communication of the results. Two paths, <font color=green>**1.** for hypothesis based research</font> and <font color=blue>**2.** for descriptive studies</font>, are highlighted (see main text). The dotted arrows with round heads indicate constraints imposed by design-related decisions. The double headed dotted arrow describes that the realization of a study can be influenced by data observed during its course, especially when data are collected repeatedly. Thin arrows indicate how one study can affect subsequent studies. _QC_= Quality Control or sanity checks of data. Even when no hypothesis testing is done, a hypothesis of what variables are of interest is involved in deciding what data are going to be used or collected. _Only if no formal hypothesis testing is involved, we can revise this weaker hypothesis during data analysis._ This abstraction can be applied to empirical research, but with small changes (not shown) also to simulation studies.
 %%{init: {"htmlLabels": true} }%%
 
 flowchart TD
   
   Z([background<br>information]) ==> Y(Hypothesis)
   Y ==> A(Design) ==> Aa(Planning) ==> B(Realization) ==> H(Data collection) ==<font color=blue><strong>2.</strong>==> C
-  C[<font color=blue><i>full</i> <strong>EDA</strong>] ==> D(<font color=blue>Model\nSelection) =="<font color=blue><i>R</i><sup>2</sup>, <i>f(x<sub>i</sub>)</i>"==> E(Interpretation) ==> F([communication])
+  C[<font color=blue><i>full</i> <strong>EDA</strong>] ==> D(<font color=blue>Model\nSelection) =="<font color=blue><i>R</i><sup>2</sup>, <i>f(x<sub>i</sub>)</i>, AIC, BIC"==> E(Interpretation) ==> F([communication])
   H ==<font color=green><strong>1.</strong>==> I[<font color=green><i>QC</i> <strong>EDA</strong>]
   H ==deposit<br>data+metadata=====> X([data<br>repository])
   I ==> G(<font color=green><strong>CDA</strong>\nTests of\nHypothesis) ==<font color=green><i>P</i>-value==> E
   E --follow up<br>study--> Y
-  C --new/modified<br>hypothesis--> Y
+  C <--<font color=blue>new/modified<br>hypothesis--> Y
   C --improved design--> A 
   I --improved design--> A
   B <-.-> H
@@ -50,21 +70,43 @@ flowchart TD
   F --scientific<br>literature--> Z
   X --"open data"--> Z
   Z ==> E
+  linkStyle 5,6,7,14,15 stroke: blue
+  linkStyle 9,11,12,16 stroke: green
 ```
 
 ## Which approach is better?
 
-I will start with what seems self evident to me. Neither hypothesis-based experimental search nor observational or untargeted surveys is better than the other approach, both need to be combined for scientific knowlege/know-how to increase its explanatory and predictive power.
+I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
 
   1. Even when we think we use only one of these approaches, even if informally, we are using both. Why? Because new hypotheses do not come out of thin air! Because, when describing something new we always need something already known as a reference! Of course one approach may be emphasized at the expense of the other, or only one of them may be formally used and explicitly described and the other may participate implicitly and remain undescribed.
 
-  2. Scientific research usually works by alternatively emphasizing each of the two approaches, although it is also possible to use them in parallel. **Darwin's hypotheses and approach**. This seems to be true for every branch of science, from Physics to Humanities.
+  2. Scientific research usually works by alternatively emphasizing each of the two approaches, although it is also possible to use them in parallel. This seems to be true for every branch of science, from Physics to Humanities.
 
-  3. Simplifying the process to its bare bones, observation suggests hypothesis (= trigger in our mind possible explanations for observed phenomena) and testing selects from these hypotheses those which appear most likely to be true in a specific context. Thus, we never test all possible explanations, only those we have been able to imagine from our exposure to previous observations or other experience.
+  3. Simplifying the process to its bare bones, observation suggests hypotheses (= triggers in our mind possible explanations for observed phenomena) and testing selects from these hypotheses those which appear most likely to be true within a specific context or frame of reference. Thus, we never test all possible explanations, only those we have been able to imagine from our exposure to previous observations or other experience.
+  
+::: callout-tip
+# Charles Darwin and evolution
 
-## Differences among disciplines
+The idea of evolution by natural selection preceded Darwin's publication of the Origin of Species. The developent of the hypothesis of evolution by Darwin is usually timed to Darwin's travel around the world on the Beagle. Frequently it is attributed to his observations as naturalist, emphasizing the species he encountered in the Galapagos. There is an alternative explanation: on board the ship there was a library with at least a book that presented some of the same ideas. He did indeed write the first notes about evolution on board the Beagle, but the role of his previous academic contacts while a student and before the trip on the Beagle are now thought to have made this synthesis possible. Related ideas had been considered by philosophers and naturalists over the previous centuries, and Darwin was aware of at least some of these. Even Erasmus Darwin, Charles Darwin's grandfather had written about them.
 
-The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that approaches uses and emphasis between observation and hypothesis testing depend on the discipline.
+Why does then Darwin get all the credit? He framed these ideas into a coherent and credible phenomenon. This was possible in part because he limited himself to a more restricted problem than his predecessors: he did not deal with the controversial question of the origin of life: for his theory, that populations or living organisms exists and grow was an axiom. In addition he spent most of his life looking for evidence to support evolution by natural selection in different groups of organisms. 
+
+Looking back into his time, it was quite a feat to make a convincing case for evolution in the absence of an understanding of genetics or molecular biology. There was no known mechanism of how traits could be inherited from parents to siblings. At a higher level of organization, of course, there was evidence for trait inheritance documented in relation to plant and animal breeding, a literature Darwin was also familiar with.
+
+See [Evolutionary Thought Before Darwin](https://plato.stanford.edu/entries/evolution-before-darwin/), [Darwin: From Origin of Species to Descent of Man](https://plato.stanford.edu/entries/origin-descent/), and [Darwinism](https://plato.stanford.edu/entries/darwinism/) for the details.
+:::
+
+## Differences among disciplines and problems
+
+The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that the approaches predominantly used and emphasis on either the O-I or H-D approach depends on the discipline and subject under study.
+
+Usually, the more constrained the frame of reference is, the easier it is to apply the H-D approach but also narrower the range of validity of our conclusions. When we study very large and complex systems, the H-D approach becomes difficult to apply, simply because it is difficult or impossible to manipulate the factors we want to study. Sometimes, we can use a weaker version of the H-D approach, that at its extreme is not much more than the O-I approach presented as if it were H-D.
+
+Some of the most urgent problems faced by humankind, like global climate change, can be mainly studied using the O-I approach. We cannot apply the H-D approach in full, because as researchers we cannot change the variables we hypothesise to be the drivers of global change. The use of the H-D approach is limited to small parts of the system, or to mathematical models that have been developed using at least in part the O-I approach.
+
+## Null hypotheses and their problems
+
+John Tukey argues that _lack of effect_ is a practical impossibility. Thus, accepting this as the result of a test is non-sensical. This raises two major questions: 1) does the null hypothesis need to be _no effect_, and 2) how should we interpret the results from statistical tests?
 
 
 
