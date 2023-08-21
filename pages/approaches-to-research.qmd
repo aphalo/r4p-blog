@@ -3,7 +3,7 @@ title: "_P_-values, _R_<sup>2</sup>, AIC, BIC"
 subtitle: "How do they fit into the research process?"
 author: "Pedro J. Aphalo"
 date: 2023-08-19
-date-modified: 2023-08-19
+date-modified: 2023-08-21
 categories: [scientific method]
 keywords: [research process, design of experiments, data analysis]
 format:
@@ -12,9 +12,10 @@ format:
     code-tools: true
     mermaid:
       theme: neutral
+bibliography: design-exp.bib
 abstract: 
   Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
-draft: true
+draft: false
 ---
 
 ## Scientific research
@@ -34,13 +35,13 @@ Another consequence of knowledge based on abstraction or simplification is that 
 
 ## Two approaches
 
-The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on a hypotheco-deductive (H-D) approach. Observational-Inductive (O-I) approaches are usually considered not to provide strong enough evidence. However, this does not mean that they do not play a role in scientific research. Many statisticians, starting with John Tukey, have argued that the O-I approach plays are more important role in data analysis and scientific advancement than H-D approaches. 
+The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on a hypotheco-deductive (H-D) approach. Observational-Inductive (O-I) approaches are usually considered not to provide strong enough evidence. However, this does not mean that they do not play a role in scientific research. Many statisticians, starting with John Tukey (@Friendly2022), have argued that the O-I approach plays a more important role in data analysis and scientific advancement than H-D approaches. 
 
 A strict Popperian H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). But where would the hypotheses originate? There would be no progress of innovation without the O-I approach. It is also significant, that testing yields a probabilistic answer unless we are able to test all possible events of interest. However, we can never test all relevant events and at the same time extend the range of situations to which knowledge applies, such as using knowledge from current research to explain past and/or future events.
 
 Consequently, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world.
 
-John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis compared with an idealised view were the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the ennesimal digit of precision, just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed.
+John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis (@Friendly2022) compared with an idealised view where the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the highest degree of precision, just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed.
 
 ::: callout-caution
 From an operational perspective, which approach we use determines how we can analyse the data. Most importantly the approach we use also informs what type of conclusions we can reach and what criteria we should use to reach these conclusions.
@@ -74,6 +75,16 @@ flowchart TD
   linkStyle 9,11,12,16 stroke: green
 ```
 
+If we follow the O-I approach, how we treat data changes compared to the H-D approach: we explore the data with an open mind, rather than only as a source of information to make a decision about aout an _a priori_ hypothesis.
+
+::: callout-tip
+# In the words of F. Mosteller and J. W. Tukey
+
+… data analysis, like calculations, can profit from repeated starts and fresh approaches; there is not just one analysis for a substantial problem. [@Mosteller1977]
+:::
+
+This quotation also highlights that frequently we choose among possible data analysis approaches in a rather subjective manner, mostly based on previous experience and expertise. These approaches may involve different assumptions, whose fulfilment in many cases cannot be tested from the data being analysed.
+
 ## Which approach is better?
 
 I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
@@ -84,7 +95,8 @@ I will start with what seems self evident to me. Neither H-D-based experimental 
 
   3. Simplifying the process to its bare bones, observation suggests hypotheses (= triggers in our mind possible explanations for observed phenomena) and testing selects from these hypotheses those which appear most likely to be true within a specific context or frame of reference. Thus, we never test all possible explanations, only those we have been able to imagine from our exposure to previous observations or other experience.
   
-::: callout-tip
+::: callout-note
+
 # Charles Darwin and evolution
 
 The idea of evolution by natural selection preceded Darwin's publication of the Origin of Species. The developent of the hypothesis of evolution by Darwin is usually timed to Darwin's travel around the world on the Beagle. Frequently it is attributed to his observations as naturalist, emphasizing the species he encountered in the Galapagos. There is an alternative explanation: on board the ship there was a library with at least a book that presented some of the same ideas. He did indeed write the first notes about evolution on board the Beagle, but the role of his previous academic contacts while a student and before the trip on the Beagle are now thought to have made this synthesis possible. Related ideas had been considered by philosophers and naturalists over the previous centuries, and Darwin was aware of at least some of these. Even Erasmus Darwin, Charles Darwin's grandfather had written about them.
@@ -104,10 +116,63 @@ Usually, the more constrained the frame of reference is, the easier it is to app
 
 Some of the most urgent problems faced by humankind, like global climate change, can be mainly studied using the O-I approach. We cannot apply the H-D approach in full, because as researchers we cannot change the variables we hypothesise to be the drivers of global change. The use of the H-D approach is limited to small parts of the system, or to mathematical models that have been developed using at least in part the O-I approach.
 
-## Null hypotheses and their problems
+## Null hypothesis and its problems
 
 John Tukey argues that _lack of effect_ is a practical impossibility. Thus, accepting this as the result of a test is non-sensical. This raises two major questions: 1) does the null hypothesis need to be _no effect_, and 2) how should we interpret the results from statistical tests?
 
+::: callout-tip
+# In the words of John W. Tukey
 
+_Statisticians classically asked the wrong question—and were willing to answer with a lie, one that was often a downright lie. They asked "Are the effects of A and B different?" and they were willing to answer "no."
+All we know about the world teaches us that the effects of A and B are always different—in some decimal place—for any A and B. Thus asking ``Are the effects different?'' is foolish.
+What we should be answering first is ''Can we tell the direction in which the effects of A differ from the effects of B?'' In other words, can we be confident about the direction from A to B? Is it "up," "down" or "uncertain"?
+The third answer to this first question is that we are "uncertain about the direction"—it is not, and never should be, that we "accept the null hypothesis."_
+[@Tukey1991]
+:::
 
+## Small-, mediun- and big-sized data
+
+  1. Big data are normally analysed with methods that do not consider statistical significance. The reason is that in this case statistical significance does not help at the time of making a decision. With thousands or even millions of degrees of replicates, random variation is always very well controlled (because $S^2_{\overline x} = S^2_x / n$), and very small effects are statistically significant. Bias is much more difficult to control and "measure", specially because in most cases the sampling behind big data is not a perfectly aleatory process.
+
+  2. Medium sized data, has enough replicates to meaningfully test significance assuming that experiments or surveys are well randomised in all relevant aspects. In this case, _P_-values inform us about the probability of observing the observed outcome assuming that the null hypotheis is true. The null hypothesis provides a reference condition to compute the _P_-value. In case of multiple comparisons, in most cases we aim at controlling the number of false positive outcomes per experiment. We achieve this by adjusting the _P_-values upwards based on assumptions specific to each method. 
+
+  3. From the perspective of data analysis, RNAseq data is extremely small: we study the response of thousands of genes, based on a handful of replicates. The data can be analysed only by assuming that the variation in expression among genes informs about variation in gene expression of an individual gene among replicates. In the case of multiple comparisons, we attempt to control the probability of false positive outcomes only in relative terms to the number of "positive outcomes". In this case, we use the false discovery rate, to adjust _P_-values.
+
+## What does a significant outcome tell us in each case? 
+
+  1. In the case of big data, nothing. We should ignore _P_-values and base our interpretation on how much of the variation is explained by different explanatory variables. For example using partial correlations, AIC or BIC, and the relative importance measured as the fraction of the variation explained.
+
+  2. In the case of medium-sized data and simple assumed responses, traditionally _P_-values for main effects and interactions plus adjusted _P_-values for multiple comparisons has been the preferred approach. When dose responses or time courses have complex shapes, setting a mathematical formulation for the shape of the response curve describing an _a priori_ hypothesis can be extremely chalenging and simultaneously uninformative for complex systems. In such cases model selection as described above in 1. are more useful.
+
+  3. In the case of small data, individual outcomes based on FDR must be taken with a grain of salt. Say with an FDR of 5%, if we get 1000 positive outcomes, 50 out of them can be expected to be false positive. This means, that in the case of gene expression, looking at the enrichment of metabolic pathways or processes, provides more reliable information than the outcomes for individual genes.
+  
+::: callout-note
+# _P_-values
+
+In recent years the use of _P_-values in research has been under debate. At the very least we need to assess if they are informative or not, data set by data set, taking into consideration the aims of each study. I think that one can safely say that _P_-values are currently overused in scientific reports and too frequently misinterpreted.
+
+The American Statistical Society released an official statement [@Wasserstein2016] against the predominance of significance tests and _p_-values as a core part of Statistics practice and teaching:  [The ASA statement](https://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108#.Xb_1B9VS9aQ). 
+
+See also the blog posts [After 150 Years, the ASA Says No to _P_-values](https://matloff.wordpress.com/2016/03/07/after-150-years-the-asa-says-no-to-p-values/) and  [Further comments on the ASA manifesto](https://matloff.wordpress.com/2016/03/09/further-comments-on-the-asa-manifesto/) by Norman Matloff.
+:::
+
+## Are negative test outcomes, or negative results of any use?
+
+Negative results can be useful and should be published, but only if they are informative. A high _P_-value by itself is not informative. As discussed above, it does not tell us the cause behind the lack of statistical significance: low replication, high error variability or small size of effect or difference.
+
+Statistical power analysis is the tool that help us out of this difficulty. Statistical power measures the sensitivity of a past or of a planned experiment towards detecting treatment or group differences. A post-mortem power analysis can be used to estimate the probability of effects of an arbitrary size being detected. So, even if as discussed above, it makes no-sense to accept the idea of no-effect or accepting the null hypothesis, we can get an idea how small a response would have had a high probability of having been detected by our study.
+
+The other side of the coin is that if we can estimate at the planning stage the error variance, and we have a target minimum size of response we want to detect we can compute how many replicates we need to achieve the desired level of sensitivity.
+
+One can understand why journal editors are reticent to publish reports of negative results from experiments. However, rarely editors or authors are aware that through application of post-mortem power analysis it is possible to assess if negative results were caused by poor experimental design or by the small size of responses. Power analysis is infrequently taught or even mentioned in introductory Statistics courses.
+
+A different approach is to stop using _P_-values and use, for example, confidence intervals (CI) for the estimated effects or parameter estimates. These have the advantage they show at a glance the value of an estimate and how much we can trust that this value is representative of that in the population sampled. _Many researchers use in plots standard error of the mean instead of CIs because shorter error bars make the plots look nicer, even if not as easy to read._
+
+If CIs are used in a figure to assess significance through implicit multiple comparisons, they should be based on adjusted _P_-values. These "adjusted" CIs are frequently called _simultaneous CIs_.
+
+## Further reading
+
+  - The Sunset Salvo [@Tukey1986] is a sobering medicine for those with blind faith in Statistics and the objectivity of data analysis.
+
+  - The books Planning of Experiments [@Cox1958] and Statistics and Scientific Method [@Diggle2011] can also be recommended as they focus mainly on the logic behind the different designs.
 
