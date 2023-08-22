@@ -25,6 +25,7 @@ about:
       text: e-mail
       href: mailto:pedro.aphalo@hrlsinki.fi
     - icon: mastodon
+      text: Mastodon
       href: https://mastodon.social/@aphalo
 ---
 

@@ -13,7 +13,7 @@ listing:
   sort-ui: true
   filter-ui: true
   feed: 
-    title: "Using R for Photobiology: Blog posts" 
+    title: "Blog from R for Photobiology" 
     items: 8
     type: "partial"
 page-layout: full
