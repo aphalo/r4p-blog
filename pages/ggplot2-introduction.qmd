@@ -10,6 +10,8 @@ format:
   html:
     code-fold: false
     code-tools: true
+abstract: |
+  Currently, 'ggplot2' and its extensions are the most popular approach to data visualization in R. Plot construction with these R packages is based on a _Layered Grammar of Graphics_ for building data visualizations. In this page I explain how 'ggplot2' plots are assembled and later rendered. The main focus is on the grammar used and how its features determine how we build plots.
 ---
 
 ::: callout-note

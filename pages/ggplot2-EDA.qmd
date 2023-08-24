@@ -11,6 +11,8 @@ format:
     code-fold: false
     code-tools: true
 bibliography: design-exp.bib
+abstract: |
+  EDA and 'ggplot2' have a common ancestry. EDA as originally proposed by John W. Tukey included data visualization as a key tool. In this page I show examples of some of the data visualizations that are used in EDA, together with the R code I used to create them. I also briefly describe EDA's position in the scientific research process and mention its origins.
 ---
 
 ::: callout-note
