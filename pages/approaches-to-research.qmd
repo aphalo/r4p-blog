@@ -18,20 +18,33 @@ abstract:
 draft: false
 ---
 
+## The aims of data analysis
+
+Data analysis can have three different aims: **prediction**, **estimation**, and **attribution**, as discussed by (@Efron2023).
+
+  - **Prediction.** The aim is to use observations to make conclusions about conditions in the future, in the past or at a different location. Observations are not a random sample from a population that includes the target of the prediction.
+  - **Estimation.** The aim is to use observations on a random sample of a population to conclude about the properties of the sampled population.
+  - **Attribution.** The aim is to conclude about cause and effect relationships. In a manipulative experiment this is rather straightforward. In observational surveys this is extremely difficult, although to some extent possible when multivariate time series data are available.
+
 ## Scientific research
 
-The scope of this text is scientific research, which by definition seeks understanding, which is equivalent to describing mechanisms, or how the world works. The use of the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) separates science from pseudo-science. However, there are different views among philosophers of science about how narrow and strict the definition of _scientiifc method_ should be. 
+The scope of this text is scientific research, which by definition seeks understanding, which is equivalent to describing mechanisms, or how the world works. Using the aims from the previous section, science ultimately seeks attribution.
 
-Empirical approaches to prediction, are by definition judged by their predictive capacity, and based solely on correlations. They do not seek mechanistic understanding and are not discussed here.
+The use of the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) separates science from pseudo-science. However, there are different views among philosophers of science about how narrow and strict the definition of _scientiifc method_ should be. 
 
-I will not discuss the differences in reliabilty between mechanistic and purely empiric approches to prediction, their robustness or their usefulness. 
-The discussion here centres on the role played observation in the acquisition of mechanistic understanding.
+Empirical approaches to prediction, are by definition judged by their predictive capacity, and based solely on correlations. They do not seek mechanistic understanding and are not discussed here in full detail. They can be used in research as tools, both for hypothesis development, and in the calibration of methods and measuring equipment.
 
-The world is too complex to be grasped as is through our limited mental capacity, but more fundamentally because the entity that attempts to achieve understanding is a small part of this whole. Thus this complexity can never by represented in all its detailed properties.
+I will not discuss the differences in reliability between mechanistic and purely empiric approaches to prediction, their robustness or their usefulness. The discussion here centres on the role played observation and manipulations in the acquisition of mechanistic understanding, including how we decide which manipulations are worthwhile studying.
 
-Scientific research works by simplification or abstraction, attempts to separate important from unimportant features of the world. What is important vs. unimportant depends on the context. Nothing is in every possible respect, at every possible temporal and spatial scale irrelevant. Importance of an event, observation or function can be decided only after we set a frame of reference. The frame of reference is determined by temporal and spatial scales and an aim: which phenomenon we want to explain or understand. To ensure relevance and practical usefulness, the scale at which the research is carried out and the scale of the phenomenon we want to explain need to at least partly overlap. If there is no overlap conclusions about the connection between the observations and the phenomenon remain subjective rather than supported by scientific evidence, i.e., any statement of usefulness or explanatory value would be based of faith instead of evidence and thus unscientific.
+The root of the problem is that the world is too complex to be grasped as is through our limited mental capacity, but more fundamentally because the entity that attempts to achieve understanding is a small part of this whole. Thus this complexity can never by represented in all its detailed properties (neither by man nor machine).
 
-Another consequence of knowledge based on abstraction or simplification is that it is tentative and subject to revision. Not only because observation of previously unobserved events adds new information, but also because we may need/want to revise the frame of reference for the problem under study. Controversies in science in many cases are not the result of disagreement on the validity of observations but instead caused by disagreement about what frame of reference to use or by the reliance on poorly defined frames of reference. For example, there are many different definitions of _stress_ in use, each leading to a different frame of reference for the study of responses to _stress_ and the mechanisms involved in these responses.
+Scientific research works by simplification or abstraction, attempts to separate important from unimportant features of the world. What is important vs. unimportant depends on the context. Nothing is in every possible respect, at every possible temporal and spatial scale irrelevant. Importance of an event, observation or function can be decided only after we set a frame of reference. The frame of reference is determined by temporal and spatial scales and an aim: which phenomenon we want to explain or understand. 
+
+To ensure relevance and practical usefulness, the scale at which the research is carried out and the scale of the phenomenon we want to explain need to at least partly overlap. If there is no overlap conclusions about the connection between the observations and the phenomenon remain subjective rather than supported by scientific evidence, i.e., any statement of usefulness or explanatory value would be based of faith instead of evidence and thus unscientific.
+
+Another consequence of knowledge based on abstraction or simplification is that it is tentative and subject to revision. Not only because observation of previously unobserved events adds new information, but also because we may need/want to revise the frame of reference for the problem under study. 
+
+Controversies in science in many cases are not the result of disagreement on the validity of observations but instead caused by disagreement about what frame of reference to use or by the reliance on poorly defined frames of reference. For example, there are many different definitions of _stress_ in use, each leading to a different frame of reference for the study of responses to _stress_ and the mechanisms involved in these responses.
 
 ## Two approaches
 
