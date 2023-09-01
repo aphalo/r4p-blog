@@ -95,27 +95,54 @@ The concept of _range of validity_ also applies in this case, making extrapolati
 
 ### How does it really work?
 
-A simplified linear view of the whole research process is shown in @fig-research-process-flowchart-linear. From it we can see how the two approaches work together.
+A simplified linear view of the whole research process is shown in @fig-research-process-flowchart-linear. From it we can see how the two approaches work together. 
 
 ```{mermaid}
 %%| label: fig-research-process-flowchart-linear
 %%| fig-cap: A diagram showing the steps of scientific studies. This includes using the O-I approach to develop the hypothesis to be tested and the H-D approach to test it.
 %%{init: {"htmlLabels": true} }%%
 flowchart TB
-    B([background<br>information]) ==> H(Hypothesis)
+    B([Background<br>information]) ==induction==> H(New<br>hypothesis)
     H ==> D[Study<br>design]
-    D ==> P[study<br>planning]
-    P ==> E[[study execution<br>data collection]]
+    D ==> P[Study planning]
+    P ==> E[[Experiment or survey<br>collect data]]
     E ==> A[data<br>analysis]
-    A ==> C(conclusion)
+    A ==deduction==> C(conclusion)
     C ==> c([communication])
 ```
 
-A strict H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). But where do hypotheses originate? There would be no innovation without the O-I approach and the imagination of new hypotheses. So, the question is not H-D vs. O-I, but how the two approaches work together. An additional question is how their application is constrained by factors researchers cannot control or manipulate.
+The process shown in @fig-research-process-flowchart-linear is the most usual, but we can add alternative parallel paths to scientific advances @fig-research-process-flowchart-directional.  Depositing the data collected as well as scripts used in data analysis is needed to achieve reproducibility as well as facilitating reanalysis and reuse.
 
-The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on the H-D approach. O-I approaches are usually considered not to provide strong enough evidence. However, this does not mean that O-I does not play a key role in scientific research. Many statisticians, starting with John Tukey (@Friendly2022), have argued that the O-I approach plays a more important role in data analysis and scientific advancement than H-D approaches. The truth is we need both in sicience, and that outside the scientific search for cause-effect relationships, O-I approaches can be very effectively used on their own to solve everyday problems.
+```{mermaid}
+%%| label: fig-research-process-flowchart-directional
+%%| fig-cap: A diagram showing the steps of scientific studies. This includes using the O-I approach to develop the hypothesis to be tested and the H-D approach to test it. Thicker arrows show the most frequent approach to original research and the dotted arrows show other common routes for the acquisition of new scientific knowledge. _Use of existing data to test new hypotheses must ensure independence of the data from the hypothesis being tested._
+%%{init: {"htmlLabels": true} }%%
+flowchart TB
+    B([Background<br>information]) ==induction==> H(New<br>hypothesis)
+    B -.-> HH([Published hypothesis or<br>outstanding controversy])
+    H ==> D[Study<br>design]
+    HH -.-> D[Study design]
+    D ==> P[Study planning]
+    P ==> E[[Experiment or survey<br>collect data]]
+    E ==> A[data<br>analysis]
+    E -.-> c
+    P -.-> F[[Find data sources<br>acquire data]]
+    B -.-> F
+    F -.-> A[data analysis]
+    A -.-> c
+    A ==deduction==> C(conclusion)
+    C ==> c([communication])
+```
 
-Thus, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world. John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis (@Friendly2022) compared with an idealised view where the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the highest degree of precision, just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed and need to be replaced by _undecided_ or _unknown direction of the difference_.
+We can add also include in the diagram the constraints imposed by decisions made during previous stages, as well as the possible need for corrective actions @fig-research-process-flowchart. Another big difference in this more complex diagram is that we include the possibility of not doing a tests of hypothesis. The reason is that some hypotheses are impossible to test experimentally. This diagram is also the first to incorporate explicitly the use of statistical parameters.
+
+A strict H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). As discussed above the most common source of new hypotheses in the O-I approach, either directly or as a result of an unexpected outcomes from tests of hypotheses. A less frequent source of new hypotheses is through theoretical analysis that reveals that current theory is internally inconsistent. An additional question is how the application of the two approaches is constrained by factors researchers cannot control or manipulate (to be discussed later).
+
+**The question is not H-D-based vs. O-I-based research, but how the two approaches work together.**
+
+The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on the H-D approach. O-I approaches are usually considered not to provide strong enough evidence. However, this does not mean that O-I does not play a key role in scientific research. Many statisticians, starting with John Tukey (@Friendly2022), have argued that the O-I approach plays a crucial, and possibly more important role in data analysis and scientific advancement than H-D approaches. The truth is that outside the scientific search for cause-effect relationships, O-I approaches can be very effectively used on their own to solve everyday problems (think AI and ML). In scientific research while O-I provides weaker evidence H-I, it is still widelly used and usefull as a tool.
+
+Thus, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world. John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis (@Friendly2022) compared with an idealised view where the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the highest degree of precision, is just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed and needs to be replaced by _undecided_ or _unknown direction of the difference oe effect_.
 
 ::: callout-caution
 From an operational perspective, which approach we use determines how we can analyse the data. Most importantly the approach we use also informs what type of conclusions we can reach and what criteria we should use to reach these conclusions.
@@ -149,7 +176,7 @@ flowchart TD
   linkStyle 9,11,12,16 stroke: green
 ```
 
-If we follow the O-I approach, how we treat data changes compared to the H-D approach: we explore the data with an open mind, rather than only as a source of information to make a decision about aout an _a priori_ hypothesis.
+If we follow the O-I approach, how we treat data changes compared to the H-D approach: we explore the data with an open mind, rather than only as a source of information to make a decision about a hypothesis set _a priori/independently_ of the observations.
 
 ::: callout-tip
 # In the words of F. Mosteller and J. W. Tukey
@@ -157,11 +184,11 @@ If we follow the O-I approach, how we treat data changes compared to the H-D app
 … data analysis, like calculations, can profit from repeated starts and fresh approaches; there is not just one analysis for a substantial problem. [@Mosteller1977]
 :::
 
-This quotation also highlights that frequently we choose among possible data analysis approaches in a rather subjective manner, mostly based on previous experience and expertise. These approaches may involve different assumptions, whose fulfilment in many cases cannot be tested from the data being analysed.
+This quotation also highlights that frequently we choose among possible data analysis approaches in a rather subjective manner, mostly based on previous experience and expertise. These approaches may involve different assumptions, whose fulfilment in many cases cannot be reliably tested from the data being analysed.
 
 ## Which approach is better?
 
-Summarizing the discussion above, I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
+Summarizing the discussion above, I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I-based research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
 
   1. Even when we think we use only one of these approaches, even if informally, we are using both. Why? Because new hypotheses do not come out of thin air! Because, when describing something new we always need something already known as a reference! Of course one approach may be emphasized at the expense of the other, or only one of them may be formally used and explicitly described and the other may participate implicitly and remain undescribed.
 
@@ -173,18 +200,18 @@ Summarizing the discussion above, I will start with what seems self evident to m
 
 # Charles Darwin and evolution
 
-The idea of evolution by natural selection preceded Darwin's publication of the Origin of Species. The developent of the hypothesis of evolution by Darwin is usually timed to Darwin's travel around the world on the Beagle. Frequently it is attributed to his observations as naturalist, emphasizing the species he encountered in the Galapagos. There is an alternative explanation: on board the ship there was a library with at least a book that presented some of the same ideas. He did indeed write the first notes about evolution on board the Beagle, but the role of his previous academic contacts while a student and before the trip on the Beagle are now thought to have made this synthesis possible. Related ideas had been considered by philosophers and naturalists over the previous centuries, and Darwin was aware of at least some of these. Even Erasmus Darwin, Charles Darwin's grandfather had written about them.
+The idea of evolution by natural selection preceded Darwin's publication of _The Origin of Species_. The development of the hypothesis of evolution by Darwin is usually timed to Darwin's travel around the world on the _Beagle_. Frequently it is attributed to his observations as naturalist, emphasizing the species he encountered in the Galapagos. There is an alternative explanation: on board the ship there was a library with at least one book that presented rudiments of some of the same ideas. Charles Darwin did indeed write the first notes about evolution on board the Beagle, but the role of his previous academic contacts while a student and before the trip on the Beagle are now thought to have made this synthesis possible. Ideas related to evolution had been considered by philosophers and naturalists over the previous centuries, and Darwin was aware of at least some of these. Even Erasmus Darwin, Charles Darwin's grandfather had written about them.
 
-Why does then Darwin get all the credit? He framed these ideas into a coherent and credible phenomenon. This was possible in part because he limited himself to a more restricted problem than his predecessors: he did not deal with the controversial question of the origin of life: for his theory, that populations or living organisms exists and grow was an axiom. In addition he spent most of his life looking for evidence to support evolution by natural selection in different groups of organisms. 
+Why does then Darwin get all the credit? He framed these ideas into a coherent and credible phenomenon. This was possible in part because he limited himself to a more restricted problem than his predecessors: _he did not deal with the controversial question of the origin of life_. In his theory, that populations or living organisms exists and individuals multiply was an axiom. In addition Darwin spent most of his life looking for evidence to support evolution by natural selection in different groups of organisms. 
 
-Looking back into his time, it was quite a feat to make a convincing case for evolution in the absence of an understanding of genetics or molecular biology. There was no known mechanism of how traits could be inherited from parents to siblings. At a higher level of organization, of course, there was evidence for trait inheritance documented in relation to plant and animal breeding, a literature Darwin was also familiar with.
+Looking back into his time, it was quite a feat to make a convincing case for evolution in the absence of an understanding of genetics or molecular biology. There was no known mechanism of how traits could be inherited from parents to offspring. At a higher level of organization, of course, there was evidence for trait inheritance documented in relation to plant and animal breeding, a literature Charles Darwin was also familiar with.
 
 See [Evolutionary Thought Before Darwin](https://plato.stanford.edu/entries/evolution-before-darwin/), [Darwin: From Origin of Species to Descent of Man](https://plato.stanford.edu/entries/origin-descent/), and [Darwinism](https://plato.stanford.edu/entries/darwinism/) for the details.
 :::
 
 ## Differences among disciplines and problems
 
-The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that the approaches predominantly used and emphasis on either the O-I or H-D approach depends on the discipline and subject under study.
+The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that the approaches predominantly used and emphasis on either the O-I or the H-D approach depends on the discipline and subject under study.
 
 Usually, the more constrained the frame of reference is, the easier it is to apply the H-D approach but also narrower the range of validity of our conclusions. When we study very large and complex systems, the H-D approach becomes difficult to apply, simply because it is difficult or impossible to manipulate the factors we want to study. Sometimes, we can use a weaker version of the H-D approach, that at its extreme is not much more than the O-I approach presented as if it were H-D.
 
