@@ -3,7 +3,7 @@ title: "_P_-values, _R_<sup>2</sup>, AIC, BIC"
 subtitle: "How do they fit into the research process?"
 author: "Pedro J. Aphalo"
 date: 2023-08-19
-date-modified: 2023-08-22
+date-modified: 2023-09-01
 categories: [scientific method]
 keywords: [research process, design of experiments, data analysis]
 format:
@@ -17,6 +17,14 @@ abstract:
   Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
 draft: false
 ---
+
+## Data analysis as a soft skill
+
+Statistics gives the formal support to data analysis, but data analysis and design of experiments are in many respects acquired skills. They both involve un-directed open-minded observation as well as imagination. They are creative activities and to an extent subjective in their execution but if done respecting common sense and the principles of statistics, they allow us to learn how the world works.
+
+The link between reality and scientific knowledge has been debated by philosophers for a long time. Most researchers disagree with the idea that scientific knowledge is a construct disconnected from the real world. On the other hand, it is difficult to support the idea that scientific knowledge reflects only real world untainted by how and why we study it. My own view is that even if scientific knowledge describes the real world, it is also influenced by researchers' views and decisions. I tend to think that even though scientific knowledge describes in an abstract way real events, objects and relationships that exist independently of the observer, how we describe them or imagine them is not unique. As abstractions are simplifications, they only represent a portion of the total reality. Thus, different abstractions may coexist and be valid within their own frames of reference. So testing is possible, within a frame of reference or context that is part of an hypothesis.
+
+To a smaller or larger extent, the world view of researchers affects the hypothesis they more readily imagine, but these biases tend sooner or later to be sorted out by deeper theoretical analysis and experimentation or observation. An obvious case has been the contrasting emphasis put on competition vs. facilitation among ecologists.
 
 ## The aims of data analysis
 
@@ -48,13 +56,66 @@ Controversies in science in many cases are not the result of disagreement on the
 
 ## Two approaches
 
-The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on a hypotheco-deductive (H-D) approach. Observational-Inductive (O-I) approaches are usually considered not to provide strong enough evidence. However, this does not mean that they do not play a key role in scientific research. Many statisticians, starting with John Tukey (@Friendly2022), have argued that the O-I approach plays a more important role in data analysis and scientific advancement than H-D approaches. 
+### Hypothetic-deductive approach
 
-A strict Popperian H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). But where would the hypotheses originate? There would be no progress of innovation without the O-I approach and the imagination of hypotheses. It is also significant, that testing yields a probabilistic answer unless we are able to test all possible events of interest. However, we can never test all relevant events and at the same time extend the range of situations to which knowledge applies, such as using knowledge from current research to explain past and/or future events.
+This approach, for which I will use **H-D** as abbreviation, emphasizes the role of hypothesis testing. It is deductive because we derive knowledge from a planned test, and assume this knowledge is applicable more broadly. The actual process can be described by a linear succession of steps @fig-hd-process-flowchart. In this case the origin or source of the hypothesis is not emphasized.
 
-Consequently, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world.
+```{mermaid}
+%%| label: fig-hd-process-flowchart
+%%| fig-cap: "A diagram showing the steps of studies based on the hypothetico-deductive approach (H-D)."
+flowchart LR
+    B([background\ninformation]) ==> H(Hypothesis)
+    H ==> E[[planned test]]
+    E ==deduction==> C(Knowledge)
+```
 
-John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis (@Friendly2022) compared with an idealised view where the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the highest degree of precision, just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed.
+_Unless we are able to test all possible cases of interest, and obtain the full answer from observation, we need to use statistics as a tool._ When testing hypothesis the role of statistics is _confirmatory_, and based on tests of significance. These tests yield a probabilistic answer about the direction of the difference between groups or treatments. 
+
+::: callout-caution
+The probabilities computed for a test apply to the population studied or sampled, which determines the _range of validity_ of our conclusions. If we try to extend the range of situations to which knowledge applies, such as using knowledge from current research to explain past and/or future events, the probabilities computed are no longer strictly valid. Extrapolation, thus, assumes that everything relevant and not studied will remain unchanged outside the _range of validity_ of the satudy.
+:::
+
+### Observational-inductive approach
+
+This approach, for which I will use **O-I** as abbreviation, emphasizes the role of observation and the extraction of information via generalization. It is inductive because we derive knowledge from many observations, and assume this knowledge describes what they have in common. The actual process can be described by a linear succession of steps @fig-oi-process-flowchart. In this case the origin or source of the hypothesis is not emphasized.
+
+```{mermaid}
+%%| label: fig-oi-process-flowchart
+%%| fig-cap: A diagram showing the steps of studies based on the Observational-inductive approach (H-D).
+flowchart LR
+    B(Observation) ==> S(Summary)
+    S ==induction==> C(Knowledge)
+```
+
+Once again we need to use statistical methods, but methods that help detect patterns in observations. These can be as simple as computing mean and its standard deviation or machine learning approaches based on thousands of explanatory variables. In this case we cannot base our decisions of probabilities, as unbiased estimates are not available. Most statistical methods used to distinguish between better and weaker descriptors of the observations are based on the proportion of the total variation that is explained by the summaries.
+
+::: callout-caution
+The concept of _range of validity_ also applies in this case, making extrapolation outside of the "observed universe" risky. 
+:::
+
+### How does it really work?
+
+A simplified linear view of the whole research process is shown in @fig-research-process-flowchart-linear. From it we can see how the two approaches work together.
+
+```{mermaid}
+%%| label: fig-research-process-flowchart-linear
+%%| fig-cap: A diagram showing the steps of scientific studies. This includes using the O-I approach to develop the hypothesis to be tested and the H-D approach to test it.
+%%{init: {"htmlLabels": true} }%%
+flowchart TB
+    B([background<br>information]) ==> H(Hypothesis)
+    H ==> D[Study<br>design]
+    D ==> P[study<br>planning]
+    P ==> E[[study execution<br>data collection]]
+    E ==> A[data<br>analysis]
+    A ==> C(conclusion)
+    C ==> c([communication])
+```
+
+A strict H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). But where do hypotheses originate? There would be no innovation without the O-I approach and the imagination of new hypotheses. So, the question is not H-D vs. O-I, but how the two approaches work together. An additional question is how their application is constrained by factors researchers cannot control or manipulate.
+
+The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on the H-D approach. O-I approaches are usually considered not to provide strong enough evidence. However, this does not mean that O-I does not play a key role in scientific research. Many statisticians, starting with John Tukey (@Friendly2022), have argued that the O-I approach plays a more important role in data analysis and scientific advancement than H-D approaches. The truth is we need both in sicience, and that outside the scientific search for cause-effect relationships, O-I approaches can be very effectively used on their own to solve everyday problems.
+
+Thus, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world. John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis (@Friendly2022) compared with an idealised view where the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the highest degree of precision, just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed and need to be replaced by _undecided_ or _unknown direction of the difference_.
 
 ::: callout-caution
 From an operational perspective, which approach we use determines how we can analyse the data. Most importantly the approach we use also informs what type of conclusions we can reach and what criteria we should use to reach these conclusions.
@@ -100,7 +161,7 @@ This quotation also highlights that frequently we choose among possible data ana
 
 ## Which approach is better?
 
-I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
+Summarizing the discussion above, I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
 
   1. Even when we think we use only one of these approaches, even if informally, we are using both. Why? Because new hypotheses do not come out of thin air! Because, when describing something new we always need something already known as a reference! Of course one approach may be emphasized at the expense of the other, or only one of them may be formally used and explicitly described and the other may participate implicitly and remain undescribed.
 
@@ -139,9 +200,13 @@ Frequently, the distinction between small, medium and big data is data relies on
 
   3. From the perspective of data analysis, RNAseq data is extremely small: we study the response of thousands of genes, based on a handful of replicates. The data can be analysed only by assuming that the variation in expression among genes within a single replicate informs about variation in gene expression of an individual gene among replicates. In the case of multiple comparisons, we attempt to control the probability of false positive outcomes only in relative terms to the number of "positive outcomes". In this case, we use the false discovery rate, to adjust _P_-values.
 
-## Null hypothesis and its problems
+## Research vs. statistical hypotheses
 
-John Tukey argues that _lack of effect_ is a practical impossibility. Thus, accepting this as the result of a test is nonsensical. So we may reject or not the null hypothesis, but non-rejection does not mean acceptance, it means not enough information is available to make a decision. 
+Research hypotheses must be falsifiable: based on data we should be able to conclude if they are compatible with observations or not. The validity of some research hypotheses can be decided directly without use of statistics. For example, if our hypothesis is that all swans have white plumage, observation of a single black swan in Australia or a black-necked sawn in South America is enough to decide that the hypothesis that all swans have white is wrong.
+
+Things get more complicated when hypotheses are about a quantitative response instead of a discrete condition as in the previous example. Say, we may have as research hypothesis that plants of genotype A are taller than plants of genotype B. As within each genotype, the height of plants varies, and it is obviously impossible to compare all individuals of each genotype, we need to use a statistical approach.
+
+John Tukey argues that _lack of effect_ is a practical impossibility, for our example that plants of the two genotypes would have exactly the same height. Thus, accepting _no effect_ or _no difference_ as the result of a test is nonsensical. So we may reject or not the null hypothesis, but non-rejection does not mean acceptance, it means not enough information is available to make a decision, for our example deciding plant of which geneotype are taller. 
 
 ::: callout-tip
 # In the words of John W. Tukey
@@ -153,13 +218,19 @@ The third answer to this first question is that we are "uncertain about the dire
 [@Tukey1991]
 :::
 
-This leads to two questions: 1) does the null hypothesis need to be _no effect_, and 2) how should we validly interpret the results from statistical tests?
+This leads to further questions: 1) does the null hypothesis need to be _no effect_, and 2) how should we validly interpret the results from statistical tests?
 
-When we set a null hypothesis, in principle we can set it to any value instead of zero. In other words test for significance against a size of response that is of interest. This is rarely done in practice, except for testing if a slope differs from one.
+When we set a null hypothesis, in principle we can set it to any value instead of zero. In other words test for significance against a size of response that is of interest. This is rarely done in practice, except for testing if a slope differs from one (1:1 relationship).
 
 Even in Bioinformatics this is not the usual approach, we tend to test for significance compared to zero change in expression and simultaneously require a minimum size of the response, usually a fold-change in expression. This is different to testing that the fold-change is significantly larger than an hypothesized value, which in most cases is a more stringent test.
 
 Practical considerations play a role in the choice of approaches. With small data and using FDR we will get false positives, and we hope that many false positives will be in the small effects that we discard preventively. With big data unless we require a minimum size for the responses of interest, we cannot distinguish what is important from what is not.
+
+::: callout-note
+Statistical hypotheses can be formulated for any estimated parameter, not just as usual for the mean, but for example the slope in a linear relationship between two variables. 
+
+In addition to parameters, we can also compare the functions used to describe data, e.g., is the relationship between two variables linear or exponential. Although the specifics of methods vary, they are mostly based on the same basic ideas.
+:::
 
 ## What does a small _P_-value tell us? 
 
@@ -194,14 +265,6 @@ One can understand why journal editors are reticent to publish reports of negati
 A different approach is to stop using _P_-values and use confidence intervals (CI) for the estimated effects or parameter estimates. These have the advantage they show at a glance the value of an estimate and how much we can trust that this value is representative of that in the population sampled. _Many researchers use in plots standard errors of the mean instead of CIs because shorter error bars make the plots look nicer, even if not as easy to interpret._
 
 If CIs are used in a figure to assess significance through implicit multiple comparisons, they should be based on adjusted _P_-values. These "adjusted" CIs are frequently called _simultaneous CIs_.
-
-## Data analysis as a soft skill
-
-Statistics gives the formal support to data analysis, but data analysis and design of experiments are in many respects acquired skills. They both involve un-directed open-minded observation as well as imagination. They are creative activities and to an extent subjective in their execution but if done respecting common sense and the principles of statistics, they allow us to learn how the world works.
-
-The link between reality and scientific knowledge has been debated by philosophers for a long time. Most researchers disagree with the idea that scientific knowledge is a construct disconnected from the real world. On the other hand, it is difficult to support the idea that scientific knowledge reflects only real world untainted by how and why we study it. My own view is that even if scientific knowledge describes the real world, it is also influenced by researchers' views and decisions. I tend to think that even though scientific knowledge describes in an abstract way real events, objects and relationships that exist independently of the observer, how we describe them or imagine them is not unique. As abstractions are simplifications, they only represent a portion of the total reality. Thus, different abstractions may coexist and be valid within their own frames of reference. So testing is possible, within a frame of reference or context that is part of an hypothesis.
-
-To a smaller or larger extent, the world view of researchers affects the hypothesis they more readily imagine, but these biases tend sooner or later to be sorted out by deeper theoretical analysis and experimentation or observation. An obvious case has been the contrasting emphasis put on competition vs. facilitation among ecologists.
 
 ## Further reading
 
