@@ -1,11 +1,12 @@
 ---
 title: "IPS-003 (2023)"
-subtitle: "Data Analysis and Design of Experiemnts"
+subtitle: "Data Analysis and Design of Experiments"
 listing:
   contents:
-    - "pages/approaches-to-research.qmd"
-    - "pages/ggplot2-EDA.qmd"
     - "pages/ggplot2-introduction.qmd"
+    - "pages/ggplot2-EDA.qmd"
+    - "pages/approaches-to-research.qmd"
+    - "pages/R-model-fitting-intro.qmd"
   sort: "title"
   type: grid
   fields: [title, subtitle, date, author, abstract]

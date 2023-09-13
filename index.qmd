@@ -5,6 +5,32 @@ fig-format: svg
 editor:
   markdown: 
     wrap: 72
+format:
+  html:
+    code-fold: false
+    code-tools: true
+listing:
+  - id: recent-posts
+    max-items: 3
+    contents: 
+      - posts
+    sort: "date-modified desc" 
+    type: grid
+    image-placeholder: r4p-logo.png
+  - id: recent-pages
+    max-items: 3
+    contents: 
+      - pages
+    sort: "date-modified desc" 
+    type: grid
+    image-placeholder: r4p-logo.png
+  - id: recent-galleries
+    max-items: 3
+    contents: 
+      - galleries
+    sort: "date-modified desc" 
+    type: grid
+    image-placeholder: r4p-logo.png
 ---
 
 ::: callout-tip
@@ -26,26 +52,10 @@ You can visit my Mastodon profile at
 am no longer using Twitter/X or Facebook.
 :::
 
-## R, data analysis and photobiology
-
-This website's focuses mostly on methodology, and R and R packages as
-tools. It complements R packages and books I have authored. The site
-emphasizes the use of the R packages I have developed and maintain,
-including extensions to 'ggplot2' and a suite of several R packages
-supporting computations, data acquisition and plotting related to
-photobiology. However, this website also includes some content broadly
-applicable to data analysis and data visualization.
-
-```{r, message=FALSE}
-library(ggspectra)
-photon_as_default()
-autoplot(sun.daily.spct, annotations = c("+", "title:where:when"))
-```
-
 ## Contents
 
 The following sections of the site can be accessed through the menu at
-the top of all pages in the website.
+the top of all pages in the website. The most recent content is also showcased below.
 
 ### Blog
 
@@ -54,6 +64,9 @@ published are not revised, or revised during a few months, except for
 mistakes. In this section I published condensed news about package
 updates, and books and articles published elsewhere.
 
+::: {#recent-posts}
+:::
+
 ### Pages
 
 The [pages](pages.qmd) are informative articles and tutorials that once
@@ -61,6 +74,10 @@ published are updated as needed to keep them useful and relevant. Many
 of the pages are based on material prepared for courses or talks and
 republished in a different format. In general, the focus is not on
 cookbook-style R code examples.
+
+
+::: {#recent-pages}
+:::
 
 ### R Gallery
 
@@ -71,6 +88,9 @@ style. The aim is to provide additional recipes complementing those in
 the well known [Cookbook for R](http://www.cookbook-r.com/) website.
 Once pages in this section are published they are updated as needed to
 keep them useful and relevant, and possibly to expand them.
+
+::: {#recent-galleries}
+:::
 
 ### R packages
 
@@ -93,6 +113,22 @@ edited about R and/or photobiology.
 
 Pages with additional information about the site and its webmaster and
 author.
+
+## R, data analysis and photobiology
+
+This website's focuses mostly on methodology, and R and R packages as
+tools. It complements R packages and books I have authored. The site
+emphasizes the use of the R packages I have developed and maintain,
+including extensions to 'ggplot2' and a suite of several R packages
+supporting computations, data acquisition and plotting related to
+photobiology. However, this website also includes some content broadly
+applicable to data analysis and data visualization.
+
+```{r, message=FALSE}
+library(ggspectra)
+photon_as_default()
+autoplot(sun.daily.spct, annotations = c("+", "title:where:when"))
+```
 
 ## My other websites
 

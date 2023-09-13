@@ -13,6 +13,7 @@ format:
     mermaid:
       theme: neutral
 bibliography: design-exp.bib
+image: research-process.png
 abstract: 
   Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
 draft: false
@@ -28,7 +29,7 @@ To a smaller or larger extent, the world view of researchers affects the hypothe
 
 ## The aims of data analysis
 
-Data analysis can have three different aims: **prediction**, **estimation**, and **attribution**, as discussed by (@Efron2023).
+Data analysis can have three different aims: **prediction**, **estimation**, and **attribution**, as discussed by (@Efron2020).
 
   - **Prediction.** The aim is to use observations to make conclusions about conditions in the future, in the past or at a different location. Observations are not a random sample from a population that includes the target of the prediction.
   - **Estimation.** The aim is to use observations on a random sample of a population to conclude about the properties of the sampled population.
