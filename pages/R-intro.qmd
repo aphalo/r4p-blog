@@ -1,0 +1,44 @@
+---
+title: "R at its simplest"
+subtitle: "R vs. calculator vs. Excel"
+author: "Pedro J. Aphalo"
+date: 2023-09-19
+date-modified: 2023-09-19
+code-fold: false
+---
+
+## R compared to a calculator
+
+For the simplest computations there is little difference between a calculator and R (e.g., if one uses the number pad of the computer keyboard). Nowadays, advanced calculators show the entered text in full, like R does. One uses enter in R, instead of the equals key in a calculator.
+
+```{r}
+36 / 12 + 1
+```
+
+Of course, in a computer there are no keys for square root and similar, we type the name of the function instead. 
+
+```{r}
+sqrt(36)
+```
+
+In a calculator we use "memories" (e.g., M1, M2, etc. ) to store values, with keys frequently labeled "MSTO" and "MRCL" used to store and recal them. In R we use names or _variables_, that we can chose, and use `<name> <-` to store a value and the `<name>` to recall the stored value. I use `<name>` to signify any valid name.
+
+```{r}
+my_number <- 36
+my_number
+```
+
+We have assigned `36` to `a_name` and we can now use `a_name` in computations.
+
+```{r}
+my_number / 12 + 1
+sqrt(my_number)
+```
+
+Why is this useful? Because, we can describe the operations using names, instead of specific numbers or values. This allows to define to operantion to be done, as an abstract rule that we can apply unchanged to different numbers, by assigning them to variables.
+
+```{r}
+my_number <- 24
+my_number / 12 + 1
+sqrt(my_number)
+```

@@ -1,0 +1,14 @@
+{
+  "hash": "81bce54bb3e5b40eea100e28b8461d8a",
+  "result": {
+    "markdown": "---\ntitle: \"R at its simplest\"\nsubtitle: \"R vs. calculator vs. Excel\"\nauthor: \"Pedro J. Aphalo\"\ndate: 2023-09-19\ndate-modified: 2023-09-19\ncode-fold: false\n---\n\n\n## R compared to a calculator\n\nFor the simplest computations there is little difference between a calculator and R (e.g., if one uses the number pad of the computer keyboard). Nowadays, advanced calculators show the entered text in full, like R does. One uses enter in R, instead of the equals key in a calculator.\n\n\n::: {.cell}\n\n```{.r .cell-code}\n36 / 12 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 4\n```\n\n\n:::\n:::\n\n\nOf course, in a computer there are no keys for square root and similar, we type the name of the function instead. \n\n\n::: {.cell}\n\n```{.r .cell-code}\nsqrt(36)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 6\n```\n\n\n:::\n:::\n\n\nIn a calculator we use \"memories\" (e.g., M1, M2, etc. ) to store values, with keys frequently labeled \"MSTO\" and \"MRCL\" used to store and recal them. In R we use names or _variables_, that we can chose, and use `<name> <-` to store a value and the `<name>` to recall the stored value. I use `<name>` to signify any valid name.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nmy_number <- 36\nmy_number\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 36\n```\n\n\n:::\n:::\n\n\nWe have assigned `36` to `a_name` and we can now use `a_name` in computations.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nmy_number / 12 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 4\n```\n\n\n:::\n\n```{.r .cell-code}\nsqrt(my_number)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 6\n```\n\n\n:::\n:::\n\n\nWhy is this useful? Because, we can describe the operations using names, instead of specific numbers or values. This allows to define to operantion to be done, as an abstract rule that we can apply unchanged to different numbers, by assigning them to variables.\n\n\n::: {.cell}\n\n```{.r .cell-code}\nmy_number <- 24\nmy_number / 12 + 1\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 3\n```\n\n\n:::\n\n```{.r .cell-code}\nsqrt(my_number)\n```\n\n::: {.cell-output .cell-output-stdout}\n\n```\n[1] 4.898979\n```\n\n\n:::\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
