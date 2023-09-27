@@ -4,7 +4,15 @@ subtitle: "R vs. calculator vs. Excel"
 author: "Pedro J. Aphalo"
 date: 2023-09-19
 date-modified: 2023-09-19
-code-fold: false
+categories: [R]
+keywords: [introduction]
+format:
+  html:
+    code-fold: false
+    code-tools: true
+abstract: 
+  A very basic introduction to R, based on a comparison to claculators and worksheets.
+draft: true
 ---
 
 ## R compared to a calculator
@@ -35,10 +43,25 @@ my_number / 12 + 1
 sqrt(my_number)
 ```
 
-Why is this useful? Because, we can describe the operations using names, instead of specific numbers or values. This allows to define to operantion to be done, as an abstract rule that we can apply unchanged to different numbers, by assigning them to variables.
+Why is this useful? Because, we can describe the operations using names, instead of specific numbers or values. This allows to describe the operation to be done, as an abstract rule that we can apply unchanged to different numbers, by assigning them to the names used in the code.
 
 ```{r}
 my_number <- 24
 my_number / 12 + 1
 sqrt(my_number)
 ```
+
+## Precedence rules
+
+The normal arithmetic precedence rules apply to R expressions, and the order can be altered with parentheses following the normal rules. While in mathematics it is common to use different brackets depending on the nesting depth $\{[( )]\}$ in R only parentheses `( )` are used to at all depths of nesting. _The other brackets are reserved for other uses._
+
+## Functions
+
+Functions are named _chuncks_ of code, defined using named placeholders or _parameters_ to which we can pass values as _arguments_.
+
+In an the examples above we _called_ function `sqrt()` with a _constant value_ `36` as argument and also with variable `my_number` as argument.
+
+## Time to play
+
+Now it is time for your to play with numbers.
+
