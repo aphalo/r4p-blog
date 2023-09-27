@@ -51,6 +51,38 @@ my_number / 12 + 1
 sqrt(my_number)
 ```
 
+## R compared to Excel
+
+In R one can store values in a `data.frame` that is a bit similar to a worksheet, in that each column is a variable and each row corresponds to an observation or measurement event.
+
+```{r}
+data.frame(ID = c(1, 2, 3, 4, 5), 
+           height = c(170, 155, 145, 180, 167), 
+           weight = c(70, 60, 55, 90, 85))
+```
+
+On the other hand, in R instructions for calculations and data are kept separate. The data frame can contain not only numbers, but also text and other values but not formulas. The calculations are entered separately, and a single "formula" can refer to whole vectors or columns.
+
+We start by giving a name to the data frame.
+
+```{r}
+my.df <- data.frame(ID = c(1, 2, 3, 4, 5), 
+                    height = c(1.70, 1.55, 1.45, 1.80, 1.67), # metres
+                    weight = c(56, 60, 55, 90, 85)) # kg
+print(my.df)
+```
+
+To compute the body mass index (BMI) and add it as a new column, we use "instructions" that make reference to the columns in the data frame.
+
+```{r}
+my.df$BMI <- my.df$weight / my.df$height^2 
+print(my.df)
+```
+
+If `my.df` had 1000's or even 1000000's of rows, we would have only one copy of what in Excel would have been one copy of the formula in each row.
+
+Data frames are always rectangular and subject to much more strict rules than worksheets.
+
 ## Precedence rules
 
 The normal arithmetic precedence rules apply to R expressions, and the order can be altered with parentheses following the normal rules. While in mathematics it is common to use different brackets depending on the nesting depth $\{[( )]\}$ in R only parentheses `( )` are used to at all depths of nesting. _The other brackets are reserved for other uses._
