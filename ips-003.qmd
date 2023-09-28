@@ -18,3 +18,5 @@ listing:
 page-layout: full
 title-block-banner: true
 ---
+
+[intro2R](https://alexd106.github.io/intro2R/index.html)
