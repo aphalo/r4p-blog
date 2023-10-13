@@ -3,7 +3,7 @@ title: "Fitted-model labels with 'ggpmisc'"
 subtitle: "Polynomials, major axis, quantile and non-linear regression lines, bands and equations"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
-date-modified: "2023-07-30"
+date-modified: "2023-10-14"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
@@ -256,7 +256,7 @@ and reporting.
 
 ## Polynomials
 
-Polynomials as linear models, but many other linear models exist. The most
+Polynomials are linear models, but many other linear models exist. The most
 common case is linear regression. They are very frequently used, and in the
 case of linear regression the role of parameters can be easily recognized.
 
@@ -522,7 +522,8 @@ set.seed(94321)
 a <- (1:100) / 10
 x <- a + rnorm(length(x), sd = 1)
 y <- a + rnorm(length(x), sd = 2)
-df3 <- data.frame(x = x, y = y)
+
+df3 <- data.frame(x = x, y = y, y5 = y + 5)
 ```
 
 Linear regression through the origin.
@@ -536,6 +537,52 @@ ggplot(df3, aes(x, y)) +
   stat_poly_eq(formula = formula,
                mapping = use_label("eq"))
 ```
+
+::: callout-caution
+These two examples show how to fit only one of the two parameters of a linear
+regression using the statistics from 'ggpmisc'. These are unusual use cases but
+serve as examples of how simple transformations included in the model formula
+using the identity function `I()` can be "undone" at the `after_stat()` stage.
+Both examples use function `stage()`, available only in 'ggplot2' (>= 3.4.0).
+
+Linear regression with a fixed (instead of fitted) _y_-intercept (_y_ = 5 at _x_
+= 0) and a fitted slope.
+
+```{r}
+ggplot(df3) +
+  stat_poly_line(mapping = aes(x = x, 
+                               y = stage(start = y5, after_stat = y + 5),
+                               ymax = after_stat(ymax + 5),
+                               ymin = after_stat(ymin + 5)),
+                 formula = I(y - 5) ~ x + 0) +
+  stat_poly_eq(mapping = aes(x, y5, 
+                             label = after_stat(paste(eq.label, "~+~5*\", \"*", rr.label))), 
+               orientation = "x", 
+               formula = I(y - 5) ~ x + 0) +
+  geom_point(mapping = aes(x, y5), size = 2.5) +
+  ylab("y")
+```
+
+Linear regression with a fixed slope of 1:1 (instead of fitted) and a fitted
+_y_-intercept.
+
+```{r}
+ggplot(df3) +
+  stat_poly_line(mapping = aes(x = x,
+                               y = stage(start = y5, after_stat = y + x - mean(x)),
+                               ymax = after_stat(ymax + x - mean(x)),
+                               ymin = after_stat(ymin + x - mean(x))),
+                 formula = y ~ 1) +
+  stat_poly_eq(mapping = aes(x, y5 - mean(x), 
+                             label = sprintf("y~`=`~%.3g~+~italic(x)", 
+                                             after_stat(b_0))), 
+               parse = TRUE,
+               output.type = "numeric",
+               formula = y ~ 1) +
+  geom_point(mapping = aes(x, y5), size = 2.5) +
+  ylab("y")
+```
+:::
 
 Regressions of *y* on *x* and *x* on *y* in the same plot. The lines are
 drawn for the range of the explanatory variable, which differs in this
