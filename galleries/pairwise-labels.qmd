@@ -19,13 +19,10 @@ abstract: |
 ---
 
 ::: callout-warning
-**This page is still a draft. The examples make use of future version 0.5.4 of package
-'ggpp' which is under development and thus not yet available through CRAN. It
-can be installed from the [git repository at
-GitHub](https://github.com/aphalo/ggpp).**
+**Version 0.5.4 of package 'ggpp' available through CRAN is required.**
 
-Code examples will be expanded and the text will be revised as the
-development of packages 'ggpp' and 'ggpmisc' advances in the next few weeks.
+Version 0.5.4 of package 'ggpp' is the first to include `geom_text_pairwise()`
+and `geom_label_pairwise()` whose use is exemplified by this page.
 :::
 
 ::: callout-tip
