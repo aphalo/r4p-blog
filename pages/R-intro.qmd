@@ -19,11 +19,15 @@ draft: false
 
 For the simplest computations there is little difference between a calculator and R (e.g., if one uses the number pad of the computer keyboard). Nowadays, advanced calculators show the entered text in full, like R does. One uses enter in R, instead of the equals key in a calculator.
 
+$36 / 12 + 1$
+
 ```{r}
 36 / 12 + 1
 ```
 
 Of course, in a computer there are no keys for square root and similar, we type the name of the function instead. 
+
+$\sqrt{36}$
 
 ```{r}
 sqrt(36)
@@ -51,9 +55,27 @@ my_number / 12 + 1
 sqrt(my_number)
 ```
 
+### Precedence rules
+
+The normal arithmetic precedence rules apply to R expressions, and the order can be altered with parentheses following the normal rules as in arithmetic. While in mathematics it is common to use different brackets depending on the nesting depth $\{[( )]\}$ in R only parentheses `( )` are used to any depth of nesting. _The other brackets are reserved for other uses._
+
+$36 / (12 + 1)$
+
+```{r}
+36 / (12 + 1)
+```
+
 ## R compared to Excel
 
-In R one can store values in a `data.frame` that is somehow similar to a worksheet, in that each column is a variable and each row corresponds to an observation or measurement event.
+In R one can store values in a `data.frame` that is somehow similar to a worksheet, in that each column is a variable and each row corresponds to an observation or measurement event. 
+
+We construct a vector by concatenating values with function `c()` (_concatenate_).
+
+```{r}
+c(1, 2, 3, 4, 5)
+```
+
+We use function `data.frame()` to construct a new data frame, that here gets displayed.
 
 ```{r}
 data.frame(ID = c(1, 2, 3, 4, 5), 
@@ -63,29 +85,27 @@ data.frame(ID = c(1, 2, 3, 4, 5),
 
 On the other hand, in R instructions for calculations and data are kept separate. The data frame can contain not only numbers, but also text and other values but not formulas. The calculations are entered separately, and a single "formula" can refer to whole vectors or columns.
 
-We start by giving a name to the data frame, i.e., storing it in a variable.
+We start by giving a name to the data frame, i.e., storing it in a variable, so that it remains available.
 
 ```{r}
-my.df <- data.frame(ID = c(1, 2, 3, 4, 5), 
-                    height = c(1.70, 1.55, 1.45, 1.80, 1.67), # meters
+my.df <- data.frame(height = c(1.70, 1.55, 1.45, 1.80, 1.67), # meters
                     weight = c(56, 60, 55, 90, 85)) # kg
 print(my.df)
 ```
 
-To compute the body mass index (BMI) and add it as a new column, we use "instructions" that make reference to the columns in the data frame.
+To compute the body mass index (BMI) and add it as a new column, we use "instructions" that make reference to whole columns in the data frame. To _extract_ a column, we use here operator `$`, so that `my.df$weight` is column `weight` from data frame `my.df`. The same computation is applied to each row.
+
+$$BMI = \frac{m}{h^2}$$
+where $m$ is the weight and $h$ the height of a person.
 
 ```{r}
 my.df$BMI <- my.df$weight / my.df$height^2 
 print(my.df)
 ```
 
-If `my.df` had 1000's or even 1000000's of rows, we would have only one copy, or a single _code statement_ instead of what in Excel would have been one copy of the formula in each row of the worksheet.
+If `my.df` had 1000's or even 1000000's of rows, we would have only one copy of the instructions for the operation, or a single _code statement_. In Excel one copy of the formula in each row of the worksheet would be needed.
 
 Data frames are always rectangular and subject to much more strict rules than worksheets (no empty spaces, no plots, etc.).
-
-## Precedence rules
-
-The normal arithmetic precedence rules apply to R expressions, and the order can be altered with parentheses following the normal rules as in arithmetic. While in mathematics it is common to use different brackets depending on the nesting depth $\{[( )]\}$ in R only parentheses `( )` are used to any depth of nesting. _The other brackets are reserved for other uses._
 
 ## Functions
 
@@ -95,9 +115,9 @@ In an the examples above we _called_ function `sqrt()` with a _constant value_ `
 
 There are many different predefined functions in R, and as we will see later, we can also create our own functions.
 
-## Help and documentation
+## Arithmetic operators and math functions
 
-Start by exploring.
+Start by exploring the help to find the arithmetic operators and functions.
 
 ```{r, eval=FALSE}
 help(Arithmetic)
@@ -111,13 +131,53 @@ help(sqrt)
 help(log)
 ```
 
+Have a look also at the triginometric functions. Trigonometric functions accept angles in radians, not in degrees!
+
 ```{r, eval=FALSE}
 help(Trig)
 ```
 
-## Time to play
+### Time to play
+
+Now it is time for your to play with numbers. Use R as you would use a (scientific) calculator using both numeric constants like `123` directly and after saving them to a variable.
+
+a.  $\sqrt{7 + 2}$
+a.  $\frac{\log_{10}(100)}{3 + 2}$
+a.  $e^4$
+a.  $sin(2 \times \pi)$
+a.  $cos(\pi / 4)$
+a.  try your own examples, i.e., **play!**
+
+## Simple statistics
+
+```{r, eval=FALSE}
+help(mean) # mean or average
+help(var) # variance
+help(sd) # standard deviation
+help(median) # median
+help(mad) # median absolute deviation
+help(mode) # mode
+```
+
+And a couple of summaries.
+
+```{r, eval=FALSE}
+help(sum)
+help(prod)
+```
+
+### Time to play
 
 Now it is time for your to play with numbers.
 
+$$x = 1, 3, 5, 10, 7, 8$$
+
+a.  $\bar{x}$ (mean)
+a.  $s^2(x)$ (variance)
+a.  $s(x)$ (standard deviation)
+a.  $\sum_{i=1}^{i=n} x_i$ (sum)
+a.  $\prod_{i=1}^{i=n} x_i$ (product)
+a.  $\bar{x} = \sum_{i=1}^{i=n} x_i / n$
+a.  try your own examples, i.e., **play!**
 
 
