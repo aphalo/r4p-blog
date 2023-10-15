@@ -1,0 +1,8 @@
+---
+title: "README-learnr"
+author: "Pedro J. Aphalo"
+resources: [logger_1.txt,my-data.xlsx,thiamin.sav]
+---
+
+The files in this folder are used for examples in the book "Learn R: As a Language", 1st (chapter 8) and 2nd (chapter 10) editions.
+
