@@ -1,0 +1,174 @@
+---
+title: "BTV 2ed Plan"
+subtitle: For discusion with Marcel
+date: 2023-10-24
+date-modified: "2023-08-01"
+toc: true
+code-fold: true
+code-tools: true
+categories: [Using R]
+keywords: [book plan]
+abstract: |
+  A preliminary plan for the 2nd edition of the Beyond the Visible handbook.
+editor: 
+  markdown: 
+    wrap: 72
+self-contained: false
+---
+
+## Practicalities
+
+-   Use [Quarto](https://quarto.org/docs/get-started/) in
+    [RStudio](https://posit.co/downloads/), so that we can create both a
+    book and a web site and release drafts and chapters as a web site as
+    we make progress.
+
+-   Quarto is easy to use for authors and the same manuscript can be
+    used to produce output in different formats, quite easily.
+
+-   This means we could publish drafts as we make progress to keep
+    authors and uv4plants members engaged.
+
+-   I have been using Quarto for several months. I transferred my two
+    websites and I have been very happy with how it works. [Using R for
+    Photobiology](https://www.r4photobiology.info/) and [Photo Rumblings
+    and Whispers](https://www.photo-spectrum.info/).
+
+## Title
+
+-   Methods in Plant Photobiology: From Principles to Practice (?)
+
+## Scope
+
+-   Wavelength scope: 280--900,nm (expand to include VIS and FR).
+-   Exclude methods used at the lab bench (as before).
+-   Should we include gas-exchange and chlorophyll fluorescence??? (in
+    my opinion, not gas-exchange; fluorescence possibly).
+
+## Editors
+
+-   Pedro A.
+-   Wolgang Bilger (?)
+-   Eva Rosenqvist (?)
+-   Marcel (???)
+
+## Publisher
+
+-   Self
+-   CRC/Taylor & Francis
+-   other?
+
+## Chapters for 2nd edition
+
+1.  Radiation and optics (Previously: *Introduction*)
+
+    -   Make text more accessible to those not-mathematically minded.
+        (Pedro + LOB + Andreas Albert (?) + Ylianttila (?))
+    -   Update colour definitions to follow ISO/CIE. (Pedro)
+    -   Discuss reflectance vs. angle of incidence. (Pedro + LOB)
+    -   Discuss the mechanisms behind fluorescence and luminiscence.
+        (Pedro + LOB)
+    -   Do we need a brief introduction to light sensing by plants?
+    -   *Move discussion of radiation in the environment to new chapter
+        2.*
+
+2.  The UV and VIS environment of plants (New chapter)
+
+    -   Emphasize more the climatology of UV and VIS. Including
+        up-to-date maps. (Daniele Griffoni + Anders Lindfords)
+    -   Latitudinal and diurnal variation in VIS spectrum, including
+        R:FR.
+    -   Discuss in depth waveband ratios in nature (Pedro + Matt?).
+    -   Discuss light distribution and sunflecks in canopies (Maxime
+        Durand)
+    -   Update and expand text on light in aquatic environments. (Pirjo
+        Huovinen + Ivan Gómez?)
+
+3.  Manipulating UV and VIS radiation (Previosuly: *Manipulating UV
+    radiation*)
+
+    -   Update safety considerations to address current regulations and
+        recomendations.
+    -   Expand material on LEDs, including approaches to dimming and
+        pulse generation. (Pedro)
+    -   Discuss diffuse vs. direct light from artificial sources.
+        (Pedro)
+    -   Is an update on films and filters needed?
+    -   Greenhouse screens (based on spectral data from Matthew Robson
+        and Titta Kotilainen)
+
+4.  Quantifying UV and VIS radiation (Previously: *Quantifying UV
+    radiation*)
+
+    -   Update information on input optics. (Pedro)
+    -   Update equipment examples to those currently available. (Pedro)
+    -   Simulation of the solar spectrum (Anders Lindfors)
+
+5.  Measurement of optical properties of leaves and materials\] New
+    chapter.
+
+    -   Epidermal transmittance, etc. (Wolfgang Bilger)
+    -   Reflectance and transmittance of whole leaves (?)
+    -   Filters, etc., (Pedro)
+    -   Fluorescence.
+    -   Optical measurement of chloroplast accumulation (Justyna (?) +
+        Pawel (?))
+
+6.  UV, VIS and IR photography, and spectral imaging (New chapter)
+
+    -   Cameras and lenses (Pedro)
+    -   UV induced VIS and NIR fluorescence and VIS induced NIR
+        fluorescence (Pedro + Ylianttila (?))
+    -   Image editing (Pedro + Eva Rosenqvist?)
+
+7.  Plant cultivation (Previously: Plant cultivation)
+
+    -   LED spectra for plant cultivation (Eva Rosenqvist + Pedro)
+    -   Cultivation of aquatic plants (Pirjo huovinen)
+    -   Cultivation of terrestrial plants (?)
+    -   DLI dialy light integral (Titta Kotilainen (?))
+    -   Mineral nutrition
+    -   Water supply
+
+8.  Design and planning of photobiological experiments (Previously:
+    *Design of photobiological experiments*)
+
+    -   Statistical design (Pedro, not much to do.)
+    -   Data analysis
+    -   Functional ANOVA of spectra and related methods (Pedro?, Titta?)
+    -   Sampling procedures for laboratory analyses (Pedro?, Neha?,
+        Luis?)
+    -   ??
+
+9.  Imaging in UV, VIS and IR\] Possible new chapter.
+
+## Material that could be edited and re-used
+
+From the Bulletin: [Reproducibility of UV-research with
+plants](https://doi.org/10.19232/uv4pb.2020.1.24), [Absorbance,
+absorptance and friends](https://doi.org/10.19232/uv4pb.2020.1.12),
+[Extraterrestrial and ground-level solar
+spectra](https://doi.org/10.19232/uv4pb.2020.1.25), [Measuring solar
+UV-B: why is it so
+difficult?](https://doi.org/10.19232/uv4pb.2016.1.14), [Neutral density
+filters: theory vs. reality](https://doi.org/10.19232/uv4pb.2019.1.15),
+[Practical hints and tips](https://doi.org/10.19232/uv4pb.2019.1.30),
+[Using LEDs: drivers and
+dimming](https://doi.org/10.19232/uv4pb.2018.1.12), [Exploring temporal
+and latitudinal variation in the solar spectrum at ground level with the
+TUV model](https://doi.org/10.19232/uv4pb.2018.2.14), [SIOX plugin in
+ImageJ: area measurement made
+easy](https://doi.org/10.19232/uv4pb.2016.2.11).
+
+From my web site on photography: [Pages on Equipment and
+Techniques](https://www.photo-spectrum.info/pages.html)
+
+From my research-group blog: [The Earth is not flat. Are plants and
+plant canopies
+flat?](https://blogs.helsinki.fi/senpep-blog/2022/12/the-earth-is-not-flat-are-plants-and-plant-canopies-flat/),
+[Brighter times for our growth
+chambers](https://blogs.helsinki.fi/senpep-blog/2021/10/bright-times-for-our-growth-chambers/),
+[Visible and UV-A radiation in
+greenhouses](https://blogs.helsinki.fi/senpep-blog/2018/05/visible-and-uv-a-radiation-in-greenhouses/),
+[Talk about LEDs in
+phytotrons](https://blogs.helsinki.fi/senpep-blog/2014/12/talk-leds/).

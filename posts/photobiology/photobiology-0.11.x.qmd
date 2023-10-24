@@ -1,0 +1,35 @@
+---
+title: "photobiology 0.11.x"
+subtitle: "Most significant recent changes"
+author: "Pedro J. Aphalo"
+date: 2023-10-21
+date-modified: 2023-10-21
+categories: [R Package Update]
+keywords: [photobiology pkg]
+format:
+  html: 
+    code-link: true
+    code-tools: true
+---
+
+::: callout-note
+
+As part of moving the site to Quarto I intend to write a single post to give an
+overview of changes in minor versions of the packages. In this case, all
+versions in the 0.11.x series. I will update this same post in the case of minor
+version updates, and start a new post when I release the first version in the
+0.12.x series. I hope this will reduce the clutter and still provide a good
+overview of progress. Differences between versions are listed in detail in the
+[NEWS file](https://docs.r4photobiology.info/photobiology/news/).
+
+:::
+
+## Overview of changes
+
+_Version 0.11.0_ makes operations on objects containing multiple spectra in long
+form in most cases equivalent to operations on collections of spectra. This
+allows the use of simpler code and improves consistency of handling among the
+different supported ways of storing spectral data.
+
+
+

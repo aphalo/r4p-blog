@@ -1,8 +1,8 @@
 ---
-title: "ggspectra 0.3.10"
+title: "ggspectra 0.3.10/0.3.11/0.3.12"
 author: "Pedro J. Aphalo"
 date: "2023-02-03"
-date-modified: "2023-02-03"
+date-modified: "2023-10-21"
 categories: [R Package Update]
 keywords: [ggspectra pkg]
 ---
@@ -13,24 +13,16 @@ This update to 'ggspectra' tracks changes in 'photobiology' 0.10.15, 'photobiolo
 
 New *x* scales and new functions for adding secondary *x* axes have been implemented.
 
-**The changes from version 0.3.9, the current CRAN release, are:**
-
+**Version 0.3.10:**
 -   Track bug fix in 'photobiologyWavebands', that updated the definition of `PAR()` (photosynthetically active radiation) as a BSWF (biological spectral weighting function). The previous definition of `PAR()` as a wavelength range returned a value that can be called "PAR" only when used to compute photon irradiance or photon exposure. This change does not affect the numerical values of energy irradiances or other spectral quantities when using `autoplot()` with the default `w.band` argument, but now the waveband is labelled **PhR** instead of **PAR** in such cases
-
--   Track changes in 'photobiology' 0.10.15.
-
 -   Add `sec_axis_energy_eV()` and `sec_axis_energy_J()` to express wavelength as energy per photon, and `sec_axis_wl()` to allow a secondary wavelength axis with wavelengths expressed using a different scale factor than in the main axis.
-
 -   Add scales `scale_x_wavenumber_continuous()`, `scale_x_frequency_continuous()`, `scale_x_energy_eV_continuous()` and `scale_x_energy_J_continuous()`.
 
-    </li>
+**Version 0.3.11:**
+-  Bug fixes to `autoplot()` methods.
 
--   This version requires R (\>= 4.1.0) and 'ggplot2' (\>= 3.4.0).
-
-**Package documentation web site at:** <https://docs.r4photobiology.info/ggspectra/>
-
-------------------------------------------------------------------------
-
-[**NOTE:**]{style="color: #0000ff;"} **Version 0.3.10 is on its way to [CRAN]{style="color: #0000ff;"}.**
+**Version 0.3.12:**
+-  Improve `autoplot()` methods. Formatting of numbers in labels and handling
+of `ylim` arguments that subset the data.
 
 Please raise issues concerning bugs or enhancements to this package through GitHub at <https://github.com/aphalo/ggspectra/issues>.

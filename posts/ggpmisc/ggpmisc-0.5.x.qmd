@@ -1,9 +1,9 @@
 ---
-title: "ggpmisc 0.5.0/0.5.1/0.5.2/0.5.3/0.5.4"
+title: "ggpmisc 0.5.0/0.5.1/0.5.2/0.5.3/0.5.4/0.5.5"
 subtitle: "ggpmisc: Miscellaneous Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: 2022-08-05
-date-modified: 2023-08-14
+date-modified: 2023-10-24
 categories: [R Package Update]
 keywords: [ggpmisc pkg]
 ---
@@ -32,11 +32,13 @@ _Version 0.5.3_ fixes bugs, brings compatibility with package 'gganimate' and ad
 
 _Version 0.5.4_ brings `stat_multcomp()` for computing multiple comparisons within the framework of _general linear hypothesis_ as implemented in R package 'multcomp' and annotation of plots with the outcomes.
 
+_Version 0.5.5_ fixes bug that prevented use of model formulas with a transformation in the _lhs_, such as use of `I()` or other functions instead of bare `y` or `x`.
+
 ## Examples
 
 In this section I demonstrate the use of some of the new features described above.
 
-In the first plot I add an estimate of the correlation coeficient _R_, and the corresponding _t_-value and _P_-value.
+In the first plot I add an estimate of the correlation coefficient _R_, and the corresponding _t_-value and _P_-value.
 
 ```{r, message=FALSE}
 library(ggpmisc)
