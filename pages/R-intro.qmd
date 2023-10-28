@@ -3,7 +3,7 @@ title: "R at its simplest"
 subtitle: "R vs. calculator vs. Excel"
 author: "Pedro J. Aphalo"
 date: 2023-09-19
-date-modified: 2023-10-14
+date-modified: 2023-10-28
 categories: [R]
 keywords: [introduction]
 format:
@@ -180,4 +180,49 @@ a.  $\prod_{i=1}^{i=n} x_i$ (product)
 a.  $\bar{x} = \sum_{i=1}^{i=n} x_i / n$
 a.  try your own examples, i.e., **play!**
 
+## Cronstructing a new function
 
+You have already used some functions in the exercises above... As mentioned above, a function is a "chunk" of code to which we give a name.
+
+When we compute the mean with function `mean()` from _base_ R as
+
+```{r}
+mean(c(1,2,6,10))
+```
+
+and we say that we call function `mean()` with `c(1,2,6,10)`as argument.
+
+We can define a very simple and nearly equivalent function using another two _base_ R functions, `sum()` and `length()` as
+
+```{r}
+my.mean <- function(x) {sum(x) / length(x)}
+```
+
+In this definition, we say that `x` is a _formal parameter_ of function `my.mean()`. In the code that forms the _body_ of the function, this formal parameter functions as a placeholder for the argument we pass calling the function.
+
+When we use our function as above,
+
+```{r}
+my.mean(c(1,2,6,10))
+```
+
+`c(1,2,6,10)` replaces `x` and the computation becomes equivalent to 
+
+```{r}
+sum(c(1,2,6,10)) / length(c(1,2,6,10))
+```
+
+::: callout-note
+Function `my.mean()` lacks error-handling code and for very large arguments it is likely to be slightly slower than `mean()`.
+:::
+
+We can use these functions repeatedly, calling them with different arguments.
+
+We could say that by defining `my.mean()` we have added a new _verb_ to the R language.
+
+### Time to play
+
+Define your own function to compute the variance and compare the results it returns to those returned by _base_ R function `var()`
+
+Variance can be computed as
+$S^2 = \frac{\sum (x_i - \bar{x})^2}{n - 1}$ 
