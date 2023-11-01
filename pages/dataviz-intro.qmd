@@ -1,0 +1,104 @@
+---
+title: "Introduction to Data Visualization"
+subtitle: "From exploration to communication"
+author: "Pedro J. Aphalo"
+date: 2023-10-30
+date-modified: 2023-10-30
+categories: [data visualization]
+keywords: [research process, design of experiments, data analysis]
+format:
+  html:
+    code-fold: true
+    code-tools: true
+    mermaid:
+      theme: neutral
+bibliography: design-exp.bib
+image: research-process.png
+abstract: 
+  Plots, diagrams and other illustrations play a crucial role both in 1) data analysis and 2) in communication. Illustrations can communicate research results but also ideas, such as hypotheses and scientific theories. Graphic design and cognitive psychology guide the choice of the type of illustrations used and in the choice of details of their design. Crucially, these choices are constrained by the type of information that needs to be communicated and by the expected audience and its background knowledge. Most importantly, is not to mislead the audience, and whether an illustration is misleading or not can depend on who is in the audience.
+draft: false
+---
+
+::: callout-note
+In Topic 2 the emphasis of the class was on the usual approaches used in scientific journals when reporting results from molecular biology studies. I will keep the focus in this class much broader, away from the nitty-gritty details and focusing on the different types of plots that can be created. Putting more emphasis on the properties of the data than in their origin, and also considering the aims that we may have when plotting data.
+:::
+
+::: callout-tip
+All the figures in this page have been created with R and packages 'ggplot2',
+'ggpmisc', 'ggrepel' and 'patchwork'. The code is "folded" or hidden behind a triangle followed by the word "code". Click on them to make the code visible. **The loading of packages from the library is below, and needs to be run before any other code examples.**
+:::
+
+## Uses of graphical displays of data
+
+We can distinguish two broad uses of data visualizations: 1) data exploration and analysis by a researcher or group of researchers, and 2) communication of results to the scientific community, stakeholders, decision makers or the geenral public. The difference among plots prepared for different purposes and audiences is mainly in the degree of complexity that can be expected to be understandable and in how aesthetically polished is the plot is.
+
+:::callout-attention
+When we prepare a text for publication we spend time in planing how to best communicate our message, then in writing a draft, and in revising this draft, usually several times, until it is ready for submission. The same approach is the best also when producing plots for publication.
+
+As with text, asking other people to study and comment on the figures we create is important. A well designed data visualization can make the difference in the impact (number of times cited) of a publication.
+:::
+
+## Continuous and discrete variables
+
+Some variables are inherently discontinuous, such as counts. For example, number of germinated seeds, number of plants of a given species present in plot, etc. Other variables are inherently continuous, like temperature. Even if temperature is continuous, if we grow a group of plants at 16 C and another group at 21 C, we force temperature to behave as discrete.
+
+## Number of observations
+
+Different types of plots are suitable depending on the number of observations. We can plot individual observations up to a point. In all cases we need to make sure that if we plot individual observations they are all visible.
+
+## Plotting data summaries
+
+Means, trimmed means, medians, standard errors, standard deviations, variances, linear regressions, non-linear regressions, quantile regression, smoothing splines, interpolating splines, empirical density functions in 1D or 2D.
+
+## Annotations and data labels
+
+Annotations and data labels can be text, icons, small plots, small tables, etc. The difference is that annotations refer to the whole plot and data labels to individual observations, or individualy plotted summaries.
+
+## Examples for _x_ or _y_ continuous
+
+### Histogram
+
+### Box and whiskers plot
+
+### Density plot
+
+### Violin plot
+
+### Bee swarm plot
+
+## Examples for _x_ and _y_ continuous
+
+### Scatter plot
+
+### 2D density
+
+### Rug plot
+
+### Bubble plot
+
+### Line plot
+
+### Smooth line
+
+### Regression line
+
+### 2D summaries and centroids
+
+## Examples for _x_ discrete and _y_ continous
+
+### Dot plot
+
+### Column plot
+
+### Side-by-side columns
+
+### Stacked columns
+
+### "Composition" columns
+
+
+
+
+
+
+
