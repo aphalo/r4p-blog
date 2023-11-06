@@ -1,0 +1,1013 @@
+---
+title: "Introduction to Data Visualization (draft)"
+subtitle: "Using R with package 'ggplot2' and extensions"
+author: "Pedro J. Aphalo"
+date: 2023-10-30
+date-modified: 2023-11-05
+categories: [data visualization]
+keywords: [research process, design of experiments, data analysis]
+format:
+  html:
+    code-fold: true
+    code-tools: true
+    mermaid:
+      theme: neutral
+abstract: 
+  An introduction to data visualization using R. The same data are plotted in different ways to demonstrate how different approaches to plotting emphasize different aspects of the data. Plots suitable for different audiences are also created. The source code for all examples is included in the page.
+draft: false
+---
+
+::: callout-note
+# IPS-003
+In Topic 2 the emphasis of the class was on the usual approaches used in scientific journals when reporting results from molecular biology studies. I will keep the focus in this class much broader, away from the nitty-gritty details and focusing on the different types of plots that can be created. Putting more emphasis on the properties of the data than in their origin, and also considering the aims that we may have when plotting data.
+
+The page is still an incomplete _draft_ with little text. We will discuss in class the use of different types of plots.
+:::
+
+::: callout-warning
+# DRAFT
+I will exapnd explanations but currently this page is mostly a collection of examples to demonstrate how the same data set can be plotted in different ways to emphasize different aspects of the data. Explanations are still short and terse.
+
+**Examples make use of an updated version of package 'ggpp' (future version 0.5.5), not yet published. I will submit it to CRAN later this week.**
+:::
+
+::: callout-tip
+All the figures in this page have been created with R and packages 'ggplot2',
+'ggpmisc', 'ggrepel' and 'patchwork'. The code is "folded" or hidden behind a triangle followed by the word "code". Click on them to make the code visible. **The loading of packages from the library is below, and needs to be run before any other code examples.**
+:::
+
+```{r, message=FALSE}
+library(ggplot2)
+library(scales)
+library(patchwork)
+library(ggpmisc)
+library(ggbeeswarm)
+library(ggdensity)
+library(lubridate)
+library(foreign)
+
+# theme_set(theme_classic(12))
+theme_set(theme_bw(12))
+```
+
+# Introduction
+
+## Uses of graphical displays of data
+
+We can distinguish two broad uses of data visualizations: 1) data exploration and analysis by a researcher or group of researchers, and 2) communication of results to the scientific community, stakeholders, decision makers or the geenral public. The difference among plots prepared for different purposes and audiences is mainly in the degree of complexity that can be expected to be understandable and in how aesthetically polished is the plot is.
+
+:::callout-attention
+When we prepare a text for publication we spend time in planing how to best communicate our message, then in writing a draft, and in revising this draft, usually several times, until it is ready for submission. The same approach is the best also when producing plots for publication.
+
+As with text, asking other people to study and comment on the figures we create is important. A well designed data visualization can make the difference in the impact (number of times cited) of a publication.
+:::
+
+## Continuous and discrete variables
+
+Some variables are inherently discontinuous, such as counts. For example, number of germinated seeds, number of plants of a given species present in plot, etc. Other variables are inherently continuous, like temperature. Even if temperature is continuous, if we grow a group of plants at 16 C and another group at 21 C, we force temperature to behave as discrete.
+
+## Plotting data summaries
+
+Means, trimmed means, medians, standard errors, standard deviations, variances, linear regressions, non-linear regressions, quantile regression, smoothing splines, interpolating splines, empirical density functions in 1D or 2D.
+
+## Annotations and data labels
+
+Annotations and data labels can be text, icons, small plots, small tables, etc. The difference is that annotations refer to the whole plot and data labels to individual observations, or individualy plotted summaries.
+
+## Number of observations
+
+Different types of plots are suitable depending on the number of observations. We can plot individual observations up to a point. In all cases we need to make sure that if we plot individual observations they are all visible. The number of observations and how clumped together they are can be decisive when chosing the type of plot or data visualization to use.
+
+::: callout-note
+With few observations a _dot plot_, or variations using _jitter_ to prevent overlaps, work usually very well. With more than 10-15 observations a _boxplot_ or _beeswarm plot_ can be used and is usually preferable. With 20 or more observations a _violin plot_ can be good. These are all "rules of thumb" that need to be adjusted using common sense based on how the values are grouped and how they may overlap.
+:::
+
+# Examples
+
+## Growth of orange trees
+
+Data set `Orange`, included in R, contains growth measurements on five orange trees. It contains a continuous response variable (trunk circumference) and one continuous explanatory variable (date). (See `help(Orange)` in R for additional details.)
+
+### Scatter plot
+
+In this case it is clear which of the variables should be mapped to _x_ and _y_.
+
+Here we plot observations for each tree individually. This emphasizes the differences among trees. These are repeated measurements on the same trees, but even with a different point _shape_ for each tree, it is rather difficult to assess growth, which is the most interesting feature of the data.
+
+```{r}
+data(Orange)
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference, 
+           shape = Tree, linetype = Tree)) +
+  geom_point() +
+  expand_limits(y = 0) +
+  labs(y = "Trunk circumference (mm)") 
+```
+
+### Line plot
+
+Here we connect observations with lines. This emphasizes the growth of individual trees and how it differs among trees.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference, 
+           shape = Tree, linetype = Tree)) +
+  geom_line() +
+  expand_limits(y = 0) +
+  labs(y = "Trunk circumference (mm)")
+```
+
+### Combined scatter and line plot
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference, 
+           shape = Tree, linetype = Tree)) +
+  geom_point() +
+  geom_line() +
+  expand_limits(y = 0) +
+  labs(y = "Trunk circumference (mm)")
+```
+
+Plot observations and summaries, joining the means with a line. Playing with the choice of colours, line width and size of points we can vary the relative emphasis given to individual observations and means.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_summary(geom = "line", fun = mean) +
+  stat_summary(geom = "pointrange", fun.data = mean_se) +
+  geom_point(aes(shape = Tree), colour = "gray70", size = 2, stroke = 1) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+```
+
+A few tweaks to the graphic design and the impression the figure gives changes.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_summary(geom = "line", fun = mean, color = "red") +
+  stat_summary(geom = "linerange", fun.data = mean_se, color = "red") +
+  geom_point(aes(shape = Tree)) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+  
+```
+
+Show only means and standard errors. A very frequently used approach. As Mikael told in Topic 2 this approach is not the best when the means are computed from a small number of observations. However, plotting only means and standard deviations makes plots simpler, and can be a good approach for a talk as opposed to a scientific journal. 
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_summary(geom = "line", fun = mean) +
+  stat_summary(geom = "pointrange", fun.data = mean_se) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+```
+
+### Plot of regression line
+
+Showing only the fitted regression line provides usually too little information.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_smooth(method = lm, formula = y ~ x) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+  
+```
+
+Showing observations together with a fitted smooth curve can be a good approach in some cases. Here it does not work very well.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_smooth(method = lm, formula = y ~ x) +
+  geom_point(aes(shape = Tree)) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+  
+```
+
+Using a logarithmic transformation emphasizes the relative growth rate, i.e., the growth rate relative to the curent size of the plant. We fit a second degree polynomial.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_smooth(method = lm, formula = y ~ x + I(x^2)) +
+  geom_point(aes(shape = Tree)) +
+  scale_y_log10() +
+  ylab("Trunk circumference (mm)")
+  
+```
+
+Instead of a polynomial we can fit a smoother or spline, which is more "flexible".
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_smooth(method = loess, formula = y ~ x) +
+  geom_point(aes(shape = Tree)) +
+  scale_y_log10() +
+  ylab("Trunk circumference (mm)")
+  
+```
+
+We can also combine means and standard errors with a linear regression.
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_poly_line() +
+  stat_poly_eq(use_label(c("eq", "R2", "P", "n"))) +
+  stat_summary(geom = "pointrange", fun.data = mean_se) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+```
+
+The figure above seems at first sight fine, but there is a repeating pattern in time. So we label the means with the month of the year to look for an explanation. 
+
+```{r}
+my.Orange <- Orange
+my.Orange$Tree <- factor(as.character(my.Orange$Tree)) # silence warning
+my.Orange$Date <- ymd("1968/12/31") + days(my.Orange$age)
+ggplot(my.Orange, 
+       aes(x = Date, y = circumference)) +
+  stat_poly_line() +
+  stat_poly_eq(use_label(c("eq", "R2", "P", "n"))) +
+  stat_summary(geom = "pointrange", fun.data = mean_se) +
+  stat_summary(aes(label = month.abb[month(Date)]), 
+               position = position_nudge_line(y = 30, x = 0, 
+                                              direction = "split"), 
+                   geom = "text", fun = mean) +
+  expand_limits(y = 0) +
+  ylab("Trunk circumference (mm)")
+```
+
+::: callout-tip
+The `Orange` data set included in R includes only `age` in days, but the help page gives the starting date. Reconstructing the dates in this case was important to understand the growth of the trees as it allowed us to distinguish measurements at different times of the year. This is crucial as with most perennial plants growth is fast only during the growing season.
+:::
+
+::: callout-note
+### Questions to think about
+
+1. Which of the plots above do you think is most informative?
+2. Which of the plots would you prefer to see in a talk?
+3. Which of the plots would be best for a scientific article?`
+4. Can you think of a better design, maybe combining features from the different plots? (First decide what feature of the data you will emphasize.)
+:::
+
+## Height of birch seedlings
+
+Time ago in an experiment we measured a large number of tree seedlings. This data set contrasts with the one used above. While above we had data for five trees, here we have data for 350 one-summer-old tree seedlings. Measurements are all at a single time point, but different groups of seedlings were grown under different conditions.
+
+The data set will be included in R package 'ggpp' (>= 0.5.5).
+
+```{r}
+# soon to be in package 'ggpp' (>= 0.5.5)
+# load("IPS-data/birch-seedlings-df.rda")
+```
+
+### Dot plot
+
+A simple dot plot cannot contain many observations before points start overlapping. The plot below, even when using transparency, is nearly impossible to read usefully.-
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = Density)) +
+  geom_point(na.rm = TRUE, alpha = 0.15) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Height (cm)")
+```
+
+Adding _jitter_ we randomly spread the points sideways, which helps prevent the majority of the overlaps. However, as we will see below, this works rather well, but there are other options that can make the information easier to read from the plot.
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = Density)) +
+  geom_point(na.rm = TRUE, alpha = 0.33, position = position_jitter(width = 0.3)) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Height (cm)")
+```
+
+### Plots of means and CL
+
+In publications plots like the one below are rather common. They are easy to read, but discard quite a lot of information. Confidence limits, computed in the usual way, are informative as long as the distribution is symmetrical and close to the Normal. In this case we use _P_ = 0.95, so we read these bars as indicating that there is a high probability that the true (whole-population) mean height falls within the boundaries of the bars.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container)) +
+  stat_summary(fun.data = mean_cl_normal, na.rm = TRUE) +
+  expand_limits(y = 60) +
+  stat_group_counts(npcx = c(1/4, 3/4), npcy = 0.05, na.rm = TRUE) +
+  labs(y = "Height (cm)")
+```
+
+In the plot above the height scale starts at 60 cm. Most members of the scientific community can be excepted, at least if given enough time, to read the plot correctly. In contrast, the general public in many countries is likely to misinterpret a plot like this getting the impression that there is a huge difference in height btween the two groups of seedlings. So, even if it leaves a lot empty white space, the version of the plot with the _y_ axis starting at zero can be preferable.
+
+The first impression is very different, even for someone experienced. The CLs that looked quite large now look tiny. Of course if we use the axis scale, we realize in both cases that the whole range of the CLs is about 3 cm.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container)) +
+  stat_summary(fun.data = mean_cl_boot, na.rm = TRUE) +
+  expand_limits(y = 0) +
+  stat_group_counts(npcx = c(1/4, 3/4), npcy = 0.05, na.rm = TRUE) +
+  labs(y = "Height (cm)")
+```
+
+::: callout-note
+Even more common than CLs for error bars (in black) is plotting of standard errors as error bars (in orange). With a large number of observations, CLs bars are about twice as long than SE bars. (Nobody I know would use a figure like this except as here to demonstrate the difference.)
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container)) +
+  stat_summary(fun.data = mean_cl_normal, na.rm = TRUE, linewidth=2, size = 1) +
+  stat_summary(fun.data = mean_se, na.rm = TRUE, color = "orange",
+               size = 0.5, linewidth=1) +
+  expand_limits(y = 60) +
+  stat_group_counts(npcx = c(1/4, 3/4), npcy = 0.05, na.rm = TRUE) +
+  labs(y = "Height (cm)")
+```
+:::
+
+We can have more than one grouping and more than two categories per grouping.
+
+```{r}
+ggplot(birch.df, 
+       aes(y = (dwstem + dwroot) * 1e-3, x = Container, shape = Density)) +
+  stat_summary(fun.data = mean_cl_normal, na.rm = TRUE) +
+  expand_limits(y = 0) +
+  labs(y = "Seedling dry mass (g)")
+```
+
+```{r}
+ggplot(birch.df, 
+       aes(y = (dwstem + dwroot) * 1e-3, x = Density)) +
+  stat_summary(fun.data = mean_cl_normal, na.rm = TRUE) +
+  labs(y = "Seedling dry mass (g)") +
+  expand_limits(y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both)
+```
+
+### Simple column plot
+
+Column plots are not very popular these days, but they provide and effective way for showing differences when zero is a meaningful minimum value, like with mass.
+They emphasize the overall size more than the differences in size. Depending on the quantity and aims of a study the effect relative to the whole size, maybe be more interesting than the absolute size of the effect.
+
+```{r}
+ggplot(birch.df, 
+       aes(y = (dwstem + dwroot) * 1e-3, x = Density)) +
+  stat_summary(geom = "col", fun = mean, na.rm = TRUE,
+               alpha = 0.7, width = 0.67) +
+  stat_summary(geom = "errorbar", fun.data = mean_cl_normal, na.rm = TRUE, width = 0.1) +
+  labs(y = "Seedling dry mass (g)") +
+  facet_wrap(facets = vars(Container), labeller = label_both)
+```
+
+Next we will create several visualizations that inform us about the properties of the data set. In general in recent years there has been an increase in the use of more informative data visualizations in scientific research, in part because of the more widespread recognition of the weaknesses of showing only means and error bars, but also because the plotting of data in more elaborate ways has become easier with increasingly powerful computers and free software like R. 
+
+We next look at histograms, which have been in use for a very long time, and have different limitations.
+
+::: callout-tip
+The `birch.df` data set included in R package 'ggpp' contains additional variables than those plotted above.
+:::
+
+::: callout-note
+### Questions to think about
+
+The plots above mainly describe the position of the center of the data, and a summary version of the variation.
+
+1. Which of the plots above do you think is most informative about the height and dry mass of the seedlings?
+2. Which of the plots would you prefer to see in a talk?
+3. Which of the plots would be best for a scientific article?`
+4. Can you think of a better design, maybe combining features from the different plots? (First decide what feature of the data you will emphasize.)
+:::
+
+### Histogram
+
+Although histograms are usually plotted as columns, they are very different to the column plots above. In an histogram the columns do not represent summaries of a measured variable individually, they describe the absolute number (or the relative number) of observations within different ranges of values of the measured variable.
+
+A histogram in this case provides a simple way of describing the number of seedlings within each size _bin_ or range of heights. From this figure we can read that the largest number of seedlings are about 75 cm tall. We can also see that the shape is asymmetrical with more very short seedlings than very tall ones.
+
+**A "meaningful" box blot can only be created from a fairly large number of replicate observations.**
+
+```{r}
+ggplot(birch.df, aes(x = height)) +
+  stat_bin(binwidth = 5, na.rm = TRUE, fill = "grey50") +
+  stat_group_counts(na.rm = TRUE) +
+  labs(x = "Height (cm)", y = "Number of seedlings")
+```
+
+By changing `color` and `fill` we can emphasize the _bins_ used for counting the observations.
+
+```{r}
+ggplot(birch.df, aes(x = height)) +
+  stat_bin(binwidth = 5, na.rm = TRUE, fill = "grey90", color = "black") +
+  stat_group_counts(na.rm = TRUE) +
+  labs(x = "Height (cm)", y = "Number of seedlings")
+```
+
+Two different kinds of histograms can be created. As above using _counts_ or _frequencies_, or using _density_ where density is obtained by dividing the count for each bin by the total count. In other words, so that the sum of the columns is equal to one. The shape remains unchanged.
+
+```{r}
+ggplot(birch.df, aes(x = height)) +
+  stat_bin(aes(y = after_stat(density)),
+           binwidth = 5, na.rm = TRUE, fill = "grey90", color = "black") +
+  stat_group_counts(na.rm = TRUE) +
+  labs(x = "Height (cm)", y = "Density")
+```
+
+The seedlings were grown in two types of tray, with large and small "cells" for the soil, or containers. We can _stack_ two histograms, one on top of the other. The upper edge is unchanged from above, but each column shows separately the counts for each container type. 
+
+```{r}
+ggplot(birch.df, aes(x = height, fill = Container, color = Container)) +
+  stat_bin(binwidth = 5, na.rm = TRUE, position = "stack") +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill")) +
+  labs(x = "Height (cm)", y = "Number of seedlings")
+```
+
+We can also make the bars semi-transparent and overlap the histograms. As one could expect, the seedlings grown in larger containers as taller. The whole distribution of sizes is shifted by some 15 cm. In this histogram bins are 5cm wide. This plot emphasizes the difference in height between the two groups.
+
+```{r}
+ggplot(birch.df, aes(x = height, fill = Container, color = Container)) +
+  stat_bin(binwidth = 5, na.rm = TRUE, alpha = 0.4, position = "identity") +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill")) +
+  labs(x = "Height (cm)", y = "Number of seedlings")
+```
+
+Plots with panels that share the same axis scales can be a very effective way of visualizing data, and as each panel contains a simpler plot they do not necessarily occupy more space in a page. This plot emphasizes the "apparent' different in shape of the two height distributuions.
+
+```{r}
+ggplot(birch.df, aes(x = height)) +
+  stat_bin(binwidth = 5, na.rm = TRUE, fill = "grey50") +
+  stat_group_counts(na.rm = TRUE, vstep = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(x = "Height (cm)", y = "Number of seedlings")
+```
+
+As we are plotting data for height, flipping the _x_ and _y_ axes can make reading the figure more intuitive,
+
+```{r}
+ggplot(birch.df, aes(y = height)) +
+  stat_bin(binwidth = 5, na.rm = TRUE, fill = "grey50") +
+  stat_group_counts(na.rm = TRUE, vstep = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Height (cm)", y = "Number of seedlings")
+```
+
+::: callout_warning
+How a histogram looks depends on the width and position of the bins used to count observations. Histograms are still used very frequently, but their biggest advantage, the easy of computation, has been removed by modern computers. So, I do no longer use them. It is important, however, to understand how they work.
+
+The same plot as above after increasing bin width from 5 cm to 10 cm.
+
+```{r}
+ggplot(birch.df, aes(y = height)) +
+  stat_bin(binwidth = 10, na.rm = TRUE, fill = "grey50") +
+  stat_group_counts(na.rm = TRUE, vstep = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Height (cm)", y = "Number of seedlings")
+```
+
+By sligtly shifting the center of the bins along _x_, the shape of the histogram changes so that the shape becomes more similar between the two containers.
+
+```{r}
+ggplot(birch.df, aes(y = height)) +
+  stat_bin(binwidth = 5, center = 72.5, na.rm = TRUE, fill = "grey50") +
+  stat_group_counts(na.rm = TRUE, vstep = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Height (cm)", y = "Number of seedlings")
+```
+
+**Take home message:** Extreme care is needed to avoid over-interpreting histograms!
+:::
+
+### Box and whiskers plot
+
+Box and whiskers plots, boxplots for short, are another easy-to-compute type of plots good for describing the spread and distribution of observations. The thick line in the middle is the median, and the ends of the box the quatiles. In other words in the plot below, half of the observation are above the median and half of them below. In addition half of the observations fall within the range of height delimited by the box. The whiskers, in the absence of _outliers_, give the range of the whole data set. There are different ways determining which observations are "unusual", one is making the whiskers at most 1.5 times the size of the box, and showing the outliers as points.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container)) +
+  stat_boxplot(na.rm = TRUE, width = 0.3, fill = "grey95") +
+  labs(y = "Height (cm)", y = "Number of seedlings")
+```
+
+In the plot above all outliers are small and the lower whisker is longer than the upper one. This indicates, as we saw with the histograms, that the distributions have a long left tail, i.e., more very short seedlings than could be expected for a symmetric distribution.
+
+Notches are sometimes added to boxplots, they are an _approximate_ way of testing for significant differences between the medians of groups. Here, that the ends of the notches for the two groups do not overlap suggests that the median height of plants grown in larger containers is larger. 
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container)) +
+  stat_boxplot(na.rm = TRUE, width = 0.3, notch = TRUE, fill = "grey95") +
+  labs(y = "Height (cm)", y = "Number of seedlings")
+```
+
+::: callout-warning
+Boxplots drawn with fewer than 10 or even 15 observations per boxplot should be avoided. They can be very difficult to interpret, as with few observations differences in the lengths of whiskers and outliers appear simply because of the sampling process and are thus not informative about the sampled population.
+
+As with histograms, the values used in boxplots are rather easy to calculate. This advantage has been made irrelevant by modern computers. However, they remain a useful approach when the number of observations is rather large.
+
+**Take home message:** Boxplots are in my opinion frequently misused when simple dot plots would be more informative.
+:::
+
+### Density plot
+
+We plotted above a histogram using density. With a procedure that computes a local density without using discrete bins, but instead a continuous smoother, we obtain a more consistent estimate of density. Still, the shape depends to some extent on the "flexibility" of the smoother user.
+
+In this section we draw density plots equivalent to the histograms above.
+
+```{r}
+ggplot(birch.df, aes(x = height)) +
+  stat_density(na.rm = TRUE, fill = "grey50") +
+  stat_group_counts(na.rm = TRUE) +
+  labs(x = "Height (cm)", y = "Density (area = 1)")
+```
+
+When plotting densities (empirical density function or EDF) separately for each container size, we get two very similar distributions shifted by about 12 cm. Thus
+the differences between the two equivalent histograms can be attributed to the procedure used to construct the histograms rather than to the data themselves.
+
+```{r}
+ggplot(birch.df, aes(x = height, fill = Container, color = Container)) +
+  stat_density(na.rm = TRUE, alpha = 0.5, position = "identity") +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill")) +
+  labs(x = "Height (cm)", y = "Density (area = 1)")
+```
+
+We here overlap the density curve on top of the histograms to compare them.
+
+```{r}
+ggplot(birch.df, aes(x = height)) +
+  stat_bin(aes(y = after_stat(density)), binwidth = 5, na.rm = TRUE, fill = "grey70") +
+  stat_density(na.rm = TRUE, color = "black", fill = NA, linewidth = 1,
+               outline.type = "upper") +
+  stat_group_counts(na.rm = TRUE, vstep = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(x = "Height (cm)", y = "Density (area = 1)")
+```
+
+::: callout-warning
+**Take hopme message:** In most situations smooth density plots are preferable to histograms, with the caveat, that fewer people are familiar with them.
+:::
+
+### Violin plot
+
+Whe can think of violin plots as density plots with a layout similar to box plots. There is a variant, not shown, where half violins are plotted and combined with a different "half plot". 
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_violin(na.rm = TRUE) +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+We can add lines for quantiles, and a fill.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_violin(na.rm = TRUE, draw_quantiles = c(1/4, 1/2, 3/4), fill = "grey98") +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+To demostrate this, we next plot together boxplots and violin plots.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_violin(na.rm = TRUE) +
+  geom_boxplot(na.rm = TRUE, width = 0.3, fill = "grey95") +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+As above, we can add notches to the box plots.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_violin(aes(fill = Container), alpha = 0.1, na.rm = TRUE) +
+  geom_boxplot(na.rm = TRUE, width = 0.3, notch = TRUE) +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill"), 
+                        guide = "none")
+```
+
+::: callout-warning
+**Take home message:** Violin plots are a handy way of plotting density distributions for different groups side by side for comparison. Specially when we have several groups they are very useful. As with density plots, several replicate observations (> 10 to 15 per violin) are needed for fit the densities in violin plots.
+:::
+
+### Bee swarm plot
+
+If we spread the actual observations so as to approximatelly fill a violin plot we get what could be called a _quasirandom_ bee swarm plot.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_quasirandom(na.rm = TRUE) +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill"),
+                        guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+This type of plot can be effectively combined with a violin plot.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_violin(aes(fill = Container), alpha = 0.1, na.rm = TRUE) +
+  geom_quasirandom(na.rm = TRUE) +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill"),
+                        guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+A more compact version of a _bee swarm_ plot is also possible.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_beeswarm() +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill"),
+                        guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+As well as a one-sided version, that we can combine with a boxplot.
+
+```{r}
+ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
+  geom_beeswarm(side = 1) +
+  geom_boxplot(na.rm = TRUE, width = 0.1, notch = TRUE,
+               position = position_nudge(x = -0.1)) +
+  stat_group_counts(na.rm = TRUE) +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill"),
+                        guide = "none") +
+  labs(y = "Height (cm)")
+```
+
+### Jittered dot plot and boxplot
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = Density, colour = Density)) +
+  geom_point(na.rm = TRUE, alpha = 0.33,
+             position = position_jitter(width = 0.3)) +
+  stat_boxplot(fill = NA, na.rm = TRUE) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seedling height (cm)", x = "Density") +
+  scale_color_viridis_d(end = 0.5, guide = "none")
+```
+
+### Beeswarm, violin and box plots combined
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = Density, colour = Density, group = Density)) +
+  geom_violin(fill = NA, alpha = 0.1, na.rm = TRUE) +
+  geom_quasirandom(na.rm = TRUE, alpha = 0.5) +
+  stat_boxplot(fill = NA, width = 0.4, na.rm = TRUE, notch = TRUE,
+               linewidth = 0.75, color = "black") +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seedling height (cm)") +
+  scale_color_viridis_d(end = 0.5, aesthetics = c("colour", "fill"), 
+                        guide = "none")
+```
+
+::: callout-tip
+The data originate from many seedlings, and several variables have been measured. This means that there are many different ways in which we can plot them emphasizing different features and relationships.
+:::
+
+::: callout-note
+### Question to think about
+
+Considering plots that describe the distribution and variation in the data, please answer the following questions.
+
+1. Which of the plots above do you think is most informative?
+2. Which of the plots would you prefer to see in a talk?
+3. Which of the plots would be best for a scientific article?`
+4. Can you think of a better design, maybe combining features from the different plots? (First decide what feature of the data you will emphasize.)
+:::
+
+## Dry mass of stems and roots of birch seedlings
+
+```{r}
+colnames(birch.df)
+stem.df <- birch.df[ , c("Container", "Density",   "block", "dwstem")]
+colnames(stem.df)[4] <- "dry.weight"
+stem.df$Part <- "stem"
+root.df <- birch.df[ , c("Container", "Density",   "block", "dwroot")]
+colnames(root.df)[4] <- "dry.weight"
+root.df$Part <- "root"
+birch_dw.df <- rbind(stem.df, root.df)
+birch_dw.df$Part <- factor(birch_dw.df$Part, levels = c("stem", "root"))
+rm(stem.df, root.df)
+colnames(birch_dw.df)
+```
+
+```{r}
+ggplot(birch_dw.df, 
+       aes(y = dry.weight * 1e-3, x = Density, fill = Part)) +
+  stat_summary(geom = "col", fun = mean, na.rm = TRUE,
+               position = "stack", alpha = 0.7, width = 0.67) +
+  stat_summary(geom = "linerange", fun.data = mean_cl_normal, na.rm = TRUE,
+               position = position_stack_minmax()) +
+  labs(y = "Seedling dry mass (g)") +
+  scale_fill_grey(start = 0.7, end = 0.3) +
+  facet_wrap(facets = vars(Container))
+```
+
+### "Composition" columns
+
+```{r}
+ggplot(birch_dw.df, 
+       aes(y = dry.weight * 1e-3, x = Density, fill = Part)) +
+  stat_summary(geom = "col", fun = mean, na.rm = TRUE,
+               position = "fill", alpha = 0.7, width = 0.67) +
+  labs(y = "Dry mass allocation (/1)") +
+  scale_fill_grey(start = 0.7, end = 0.3) +
+  facet_wrap(facets = vars(Container))
+```
+
+### Side-by-side columns
+
+```{r}
+ggplot(birch_dw.df, 
+       aes(y = dry.weight * 1e-3, x = Density, fill = Part)) +
+  stat_summary(geom = "col", fun = mean, na.rm = TRUE,
+               position = "dodge", alpha = 0.7, width = 0.67) +
+  stat_summary(geom = "linerange", fun.data = mean_se, na.rm = TRUE,
+               position = position_dodge(width = 0.67), alpha = 0.7) +
+  labs(y = "Seedling dry mass (g)") +
+  scale_fill_grey(start = 0.7, end = 0.3) +
+  facet_wrap(facets = vars(Container))
+```
+
+::: callout-note
+### Question to think about
+
+Considering plots that describe the dry mass of the seedlings, please answer the following questions.
+
+1. Which of the plots above do you think is most informative?
+2. Which of the plots would you prefer to see in a talk?
+3. Which of the plots would be best for a scientific article?`
+4. Can you think of a better design, maybe combining features from the different plots? (First decide what feature of the data you will emphasize.)
+:::
+
+## Allometric relationships of birch seedlings
+
+In the `birch.df` used above, we find multiple measured continuous variables. In this case, we will plot one continuous variable against another, and in many cases add a grouping with a categorical variable. In some cases, there is no clear criterion for the assigment of variables to _x_ and _y_ as both are response variables subject to biological variability and measurement errors. 
+
+### Scatter plot
+
+A plot with individual observations represented by points is called a scatter plot when both varaibles are continuous (points are scattered in the plotting area along both axes) and a dot plot when one of the variables is discrete and points are aligned by group.
+
+Transparency is a way of making the overlaps among points visible.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = diameter, y = (dwstem + dwroot) * 1e-3, color = Container)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  stat_group_counts(na.rm = TRUE, label.x = "left") +
+  expand_limits(x = 0, y = 0) +
+  scale_color_viridis_d(end = 0.5) +
+  labs(y = "Seeling dry mass (g)", x = "Root collar diameter (mm)")
+```
+
+Using "facets" or panels with consistent scales is an alternative approach. The plot above emphasizes that the relationship between the variables seems to be the same in both groups. The figure below better highlights the differences is size and de-emphasizes the averlap.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = diameter, y = (dwstem + dwroot) * 1e-3)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  stat_group_counts(na.rm = TRUE, label.x = "left", vstep = 0) +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = "Root collar diameter (mm)")
+```
+
+Based of first principles, we can assume that the cross section area of base of the stem would relate closely to the size of the whole seedling measured as dry mass. We plot the same plot after transforming diameter into cross-section area. The curvature of the cloud of points, seen above, vanishes.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  stat_group_counts(na.rm = TRUE, label.x = "left", vstep = 0) +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+### Rug plot
+
+Rug lines, like the threads at the edge of a rug, are plotted on the edges and follow on one of _x_ or _y_ at a time. By default, for each observation, one segment is drawn on the left edge and another one on the bottom edge.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  geom_rug(na.rm = TRUE, alpha = 0.33) +
+  stat_group_counts(na.rm = TRUE, label.x = "left", vstep = 0) +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+### 2D summaries and centroids
+
+We mark the point given by $\bar{x}$ and $\bar{y}$ with a **+**. We also add as an annotation the result from a correlation test.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  geom_point(na.rm = TRUE, alpha = 0.33, color = "grey50") +
+  stat_centroid(na.rm = TRUE, color = "black", shape = "+", size = 7) +
+  stat_centroid(geom = "rug", linewidth = 1, na.rm = TRUE, color = "black") +
+  stat_correlation(use_label(c("R", "P", "n")), na.rm = TRUE, label.x = "left") +
+  expand_limits(x = 0, y = c(0, 15)) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+### 2D density
+
+As we have two response variables, each subjected to variation, it is informative to estimate the empirical density function in two dimensions (a 2D EDF). In other words for each combination of _x_ and _y_ values we obtain a density estimate. We represent this density on a hypothetical _z_ axis, that we represent with isolines. The traditional approach makes these lines equidistant.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  stat_density_2d(na.rm = TRUE, adjust = 0.66, n = 200, color = "black") +
+  stat_group_counts(na.rm = TRUE, label.x = "left", vstep = 0) +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+An alternative, and more easily interpretable approach sets the isolines based on specific probabilities. Here the central dark area includes 50% of the density and is thus equivalent to the box in a box plot.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  stat_hdr(na.rm = TRUE) +
+  stat_group_counts(na.rm = TRUE, label.x = "left", vstep = 0) +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", 
+       x = expression("Root collar area "*(mm^{2})))
+```
+
+We mark the point given by the medians of $x$ and $y$ with a **+**.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  stat_hdr(na.rm = TRUE) +
+  stat_centroid(na.rm = TRUE, color = "white", shape = "+", size = 7, 
+                .fun = median) +
+  stat_group_counts(na.rm = TRUE, label.x = "left", vstep = 0) +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+The equivalent of a 2D histogram is based on counts in 2D bins. The bins can be square shaped or hexagonal.
+
+### Regression line
+
+As we will see later, fitting regression lines or other statistical models is a very powerful way of describing observations as well as for prediction. Here, as both variables, mapped to _x_ and _y_, are subject to error variation we need to use a special kind of regression, _major axis regression_.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  stat_ma_line(na.rm = TRUE) +
+  stat_ma_eq(use_label(c("eq")), vstep = 0, na.rm = TRUE) +
+  geom_point(na.rm = TRUE, alpha = 0.33, color = "grey50") +
+  expand_limits(x = 0, y = 0) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+A regresion jointly fitted to all data.
+
+```{r}
+ggplot(birch.df, 
+       aes(x = pi * diameter^2 / 4, y = (dwstem + dwroot) * 1e-3)) +
+  stat_ma_line(na.rm = TRUE) +
+  stat_ma_eq(use_label(c("eq", "R2", "P", "n")), vstep = 0, na.rm = TRUE) +
+  geom_point(aes(color = Container), na.rm = TRUE, alpha = 0.33) +
+  expand_limits(x = 0, y = 0) +
+  scale_color_viridis_d(end = 0.5) +
+  labs(y = "Seeling dry mass (g)", x = expression("Root collar area "*(mm^{2})))
+```
+
+
+Here, separate lines for each container size and each density.
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = (dwstem + dwroot) * 1e-3, color = Density)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  stat_ma_line(na.rm = TRUE) +
+  stat_ma_eq(use_label(c("eq", "n")), na.rm = TRUE, size = 3,
+             label.y = "bottom", label.x = "right") +
+  expand_limits(x = c(0, 15), y = c(0, 125)) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  scale_color_viridis_d(end = 0.75, aesthetics = c("colour", "fill")) +
+  labs(x = "Seeling dry mass (g)", y = "Seedling height (cm)")
+```
+
+::: callout-note
+### Question to think about
+
+Considering plots that describe the relationship between height and dry mass, please answer the following questions.
+
+1. Which of the plots above do you think is most informative?
+2. Which of the plots would you prefer to see in a talk?
+3. Which of the plots would be best for a scientific article?`
+4. Can you think of a better design, maybe combining features from the different plots? (First decide what feature of the data you will emphasize.)
+:::
+
+::: callout-warning
+# Why not linear regression?
+
+Here using linear regression would be wrong!
+
+The lines in this first plot are linear regressions of _y_ on _x_, assuming _x_ (dry mass) is measured without error.  
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = (dwstem + dwroot) * 1e-3, color = Density)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  stat_poly_line(na.rm = TRUE) +
+  stat_poly_eq(use_label(c("eq", "n")), na.rm = TRUE, size = 3,
+             label.y = "bottom", label.x = "right") +
+  expand_limits(x = c(0, 15), y = c(0, 125)) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  scale_color_viridis_d(end = 0.75, aesthetics = c("colour", "fill")) +
+  labs(x = "Seeling dry mass (g)", y = "Seedling height (cm)")
+```
+
+The lines in this first plot are linear regressions of _x_ on _y_, assuming _y_ (height) is measured without error.  
+
+
+```{r}
+ggplot(birch.df, 
+       aes(y = height, x = (dwstem + dwroot) * 1e-3, color = Density)) +
+  geom_point(na.rm = TRUE, alpha = 0.33) +
+  stat_poly_line(na.rm = TRUE, orientation = "y") +
+  stat_poly_eq(use_label(c("eq", "n")), na.rm = TRUE, size = 3,
+             label.y = "bottom", label.x = "right", orientation = "y") +
+  expand_limits(x = c(0, 15), y = c(0, 125)) +
+  facet_wrap(facets = vars(Container), labeller = label_both) +
+  scale_color_viridis_d(end = 0.75, aesthetics = c("colour", "fill")) +
+  labs(x = "Seeling dry mass (g)", y = "Seedling height (cm)")
+```
+
+The lines are drastically different!
+:::
+
+Other pages at this site describe additional types of plots.
+
+
+
+
+
+
+
+
+

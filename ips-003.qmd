@@ -11,8 +11,22 @@ listing:
     sort: false
     type: grid
     fields: [title, date-modified, abstract]
+  - id: R-advanced
+    contents:
+      - "galleries/bar-col-plots.qmd"
+      - "galleries/quadrant-volcano-plots.qmd"
+      - "galleries/plot-equations.qmd"
+      - "galleries/pairwise-labels.qmd"
+      - "galleries/multcomp.qmd"
+      - "galleries/nudge-and-repel.qmd"
+      - "galleries/plot-insets.qmd"
+      - "galleries/plot-interactive.qmd"
+    sort: false
+    type: table
+    fields: [title, date-modified]
   - id: IPS-003
     contents:
+      - "galleries/dataviz-intro.qmd"
       - "pages/ggplot2-EDA.qmd"
       - "pages/approaches-to-research.qmd"
       - "pages/R-model-fitting-intro.qmd"
@@ -40,6 +54,9 @@ initially use R online through Posit Cloud (formerly RStudio Cloud).
 
 Moderately advanced R learning material is available as a free on-line course at
 [intro2R](https://alexd106.github.io/intro2R/index.html).
+
+::: {#R-advanced}
+:::
 
 The second edition of my book _Learn R: As a Language_ is about to published and
 I will provide participants with a copy of the PDF.
