@@ -50,6 +50,10 @@ library(foreign)
 theme_set(theme_bw(12))
 ```
 
+[Other pages at this site describe additional types of plots.](../index.qmd)
+
+[Material at this site for cours IPS-003](../ips-003.qmd)
+
 # Introduction
 
 ## Uses of graphical displays of data
@@ -350,13 +354,18 @@ ggplot(birch.df, aes(y = height, x = Container)) +
 ```
 
 ::: callout-note
-Even more common than CLs for error bars (in black) is plotting of standard errors as error bars (in orange). With a large number of observations, CLs bars are about twice as long than SE bars. (Nobody I know would use a figure like this except as here to demonstrate the difference.)
+Even more common than CLs for error bars (in black) is plotting of standard errors as error bars (in blue). With a large number of observations, CLs bars are about twice as long than SE bars, otherwise, even longer. (Nobody I know would use a figure like this except as here to demonstrate the difference.)
 
 ```{r}
 ggplot(birch.df, aes(y = height, x = Container)) +
-  stat_summary(fun.data = mean_cl_normal, na.rm = TRUE, linewidth=2, size = 1) +
-  stat_summary(fun.data = mean_se, na.rm = TRUE, color = "orange",
-               size = 0.5, linewidth=1) +
+  stat_summary(geom = "point", size = 2,
+               fun = mean, na.rm = TRUE) +
+  stat_summary(geom = "linerange",
+               fun.data = mean_cl_normal, na.rm = TRUE,
+               position = position_nudge(x = 0.02)) +
+  stat_summary(geom = "linerange",
+               fun.data = mean_se, na.rm = TRUE, color = "blue",
+               position = position_nudge(x = -0.02)) +
   expand_limits(y = 60) +
   stat_group_counts(npcx = c(1/4, 3/4), npcy = 0.05, na.rm = TRUE) +
   labs(y = "Height (cm)")
@@ -1001,13 +1010,7 @@ ggplot(birch.df,
 The lines are drastically different!
 :::
 
-Other pages at this site describe additional types of plots.
+[Other pages at this site describe additional types of plots.](../index.qmd)
 
-
-
-
-
-
-
-
+[Material at this site for cours IPS-003](../ips-003.qmd)
 
