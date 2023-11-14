@@ -3,7 +3,7 @@ title: "Introduction to Data Visualization"
 subtitle: "Using R with package 'ggplot2' and extensions"
 author: "Pedro J. Aphalo"
 date: 2023-10-30
-date-modified: 2023-11-05
+date-modified: 2023-11-14
 categories: [data visualization]
 keywords: [research process, design of experiments, data analysis]
 format:
@@ -12,10 +12,6 @@ format:
     code-tools: true
     mermaid:
       theme: neutral
-filters:
-  - collapse-callout
-collapse-callout:
-  all: true
 abstract: 
   An introduction to data visualization using R. The same data are plotted in different ways to demonstrate how different approaches to plotting emphasize different aspects of the data. Plots suitable for different audiences are also created. The source code for all examples is included in the page.
 draft: false
@@ -24,11 +20,11 @@ draft: false
 :::{.callout-note}
 # IPS-003
 In Topic 2 the emphasis of the class was on the usual approaches used in scientific journals when reporting results from molecular biology studies. I will keep the focus in this class much broader, away from the nitty-gritty details and focusing on the different types of plots that can be created. Putting more emphasis on the properties of the data than in their origin, and also considering the aims that we may have when plotting data.
-
-The page is still an incomplete _draft_ with little text. We will discuss in class the use of different types of plots.
 :::
 
 :::{.callout-warning}
+## Package 'ggpp' version
+
 **Examples make use of an updated version of package 'ggpp' (future version 0.5.5), now available from CRAN.**
 ```{r}
 if (packageVersion("ggpp") < "0.5.5") {
@@ -38,7 +34,6 @@ if (packageVersion("ggpmisc") < "0.5.4") {
   cat("Please, update package 'ggpmisc' before running the code examples.")
 }
 ```
-
 :::
 
 :::{.callout-tip}
