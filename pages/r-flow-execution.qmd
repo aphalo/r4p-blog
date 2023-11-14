@@ -1,0 +1,70 @@
+---
+title: "Flow of code execution"
+subtitle: "Changing thesequence"
+author: "Pedro J. Aphalo"
+date: "2023-11-13"
+---
+
+# Unconditional sequence
+
+```{mermaid}
+flowchart TB
+  st1[statement 1] --> st2[statement 2] --> st3[statement 3] --> etc.  
+```
+
+```{r}
+a <- 123
+b <- a * 2
+print(a)
+print(b / b)
+```
+
+# Compound statement
+
+```{mermaid}
+
+```
+
+
+```{r}
+
+a <- 123
+b <- a * 2
+print(a)
+print(b / b)
+```
+
+# Conditional sequence
+
+```{mermaid}
+flowchart TB
+  st1[statement 1] --> st2{condition} --TRUE--> st3[statement 3]
+  st2 --FALSE--> st4[statement 4]
+  st3 --> st4
+```
+
+```{r}
+a <- 123
+if (a > 0) {
+  print("'a' is positive")
+}
+print(a * a)
+```
+
+```{mermaid}
+flowchart TB
+  st1[statement 1] --> st2{condition} --TRUE--> st3a[statement 3a]
+  st2 --FALSE--> st3b[statement 3b]
+  st3a --> st4[statement 4]
+  st3b --> st4
+```
+
+```{r}
+a <- 123
+if (a >= 0) {
+  print("'a' is positive")
+} else {
+  print("'a' is negative")
+}
+print(a * a)
+```
