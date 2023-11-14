@@ -1,5 +1,5 @@
 ---
-title: "Introduction to Data Visualization (draft)"
+title: "Introduction to Data Visualization"
 subtitle: "Using R with package 'ggplot2' and extensions"
 author: "Pedro J. Aphalo"
 date: 2023-10-30
@@ -12,39 +12,51 @@ format:
     code-tools: true
     mermaid:
       theme: neutral
+filters:
+  - collapse-callout
+collapse-callout:
+  all: true
 abstract: 
   An introduction to data visualization using R. The same data are plotted in different ways to demonstrate how different approaches to plotting emphasize different aspects of the data. Plots suitable for different audiences are also created. The source code for all examples is included in the page.
 draft: false
 ---
 
-::: callout-note
+:::{.callout-note}
 # IPS-003
 In Topic 2 the emphasis of the class was on the usual approaches used in scientific journals when reporting results from molecular biology studies. I will keep the focus in this class much broader, away from the nitty-gritty details and focusing on the different types of plots that can be created. Putting more emphasis on the properties of the data than in their origin, and also considering the aims that we may have when plotting data.
 
 The page is still an incomplete _draft_ with little text. We will discuss in class the use of different types of plots.
 :::
 
-::: callout-warning
-# DRAFT
-I will exapnd explanations but currently this page is mostly a collection of examples to demonstrate how the same data set can be plotted in different ways to emphasize different aspects of the data. Explanations are still short and terse.
+:::{.callout-warning}
+**Examples make use of an updated version of package 'ggpp' (future version 0.5.5), now available from CRAN.**
+```{r}
+if (packageVersion("ggpp") < "0.5.5") {
+  cat("Please, update package 'ggpp' before running the code examples.")
+}
+if (packageVersion("ggpmisc") < "0.5.4") {
+  cat("Please, update package 'ggpmisc' before running the code examples.")
+}
+```
 
-**Examples make use of an updated version of package 'ggpp' (future version 0.5.5), not yet published. I will submit it to CRAN later this week.**
 :::
 
-::: callout-tip
+:::{.callout-tip}
 All the figures in this page have been created with R and packages 'ggplot2',
-'ggpmisc', 'ggrepel' and 'patchwork'. The code is "folded" or hidden behind a triangle followed by the word "code". Click on them to make the code visible. **The loading of packages from the library is below, and needs to be run before any other code examples.**
+'ggpmisc', 'ggbeeswarm' and 'ggdensity'. Package 'lubridate' is used for conversion of times
+and dates from character strings. 
+
+The code used to create the plots is "folded" or hidden behind a triangle followed by the word "code". Click on them to make the code visible. 
+
+**The code for loading of packages from the library is below, and needs to be run before any other code examples.**
 :::
 
 ```{r, message=FALSE}
 library(ggplot2)
-library(scales)
-library(patchwork)
 library(ggpmisc)
 library(ggbeeswarm)
 library(ggdensity)
 library(lubridate)
-library(foreign)
 
 # theme_set(theme_classic(12))
 theme_set(theme_bw(12))
@@ -60,7 +72,7 @@ theme_set(theme_bw(12))
 
 We can distinguish two broad uses of data visualizations: 1) data exploration and analysis by a researcher or group of researchers, and 2) communication of results to the scientific community, stakeholders, decision makers or the geenral public. The difference among plots prepared for different purposes and audiences is mainly in the degree of complexity that can be expected to be understandable and in how aesthetically polished is the plot is.
 
-:::callout-attention
+:::{.callout-attention}
 When we prepare a text for publication we spend time in planing how to best communicate our message, then in writing a draft, and in revising this draft, usually several times, until it is ready for submission. The same approach is the best also when producing plots for publication.
 
 As with text, asking other people to study and comment on the figures we create is important. A well designed data visualization can make the difference in the impact (number of times cited) of a publication.
@@ -82,7 +94,7 @@ Annotations and data labels can be text, icons, small plots, small tables, etc. 
 
 Different types of plots are suitable depending on the number of observations. We can plot individual observations up to a point. In all cases we need to make sure that if we plot individual observations they are all visible. The number of observations and how clumped together they are can be decisive when chosing the type of plot or data visualization to use.
 
-::: callout-note
+:::{.callout-note}
 With few observations a _dot plot_, or variations using _jitter_ to prevent overlaps, work usually very well. With more than 10-15 observations a _boxplot_ or _beeswarm plot_ can be used and is usually preferable. With 20 or more observations a _violin plot_ can be good. These are all "rules of thumb" that need to be adjusted using common sense based on how the values are grouped and how they may overlap.
 :::
 
@@ -283,11 +295,11 @@ ggplot(my.Orange,
   ylab("Trunk circumference (mm)")
 ```
 
-::: callout-tip
+:::{.callout-tip}
 The `Orange` data set included in R includes only `age` in days, but the help page gives the starting date. Reconstructing the dates in this case was important to understand the growth of the trees as it allowed us to distinguish measurements at different times of the year. This is crucial as with most perennial plants growth is fast only during the growing season.
 :::
 
-::: callout-note
+:::{.callout-note}
 ### Questions to think about
 
 1. Which of the plots above do you think is most informative?
@@ -298,14 +310,7 @@ The `Orange` data set included in R includes only `age` in days, but the help pa
 
 ## Height of birch seedlings
 
-Time ago in an experiment we measured a large number of tree seedlings. This data set contrasts with the one used above. While above we had data for five trees, here we have data for 350 one-summer-old tree seedlings. Measurements are all at a single time point, but different groups of seedlings were grown under different conditions.
-
-The data set will be included in R package 'ggpp' (>= 0.5.5).
-
-```{r}
-# soon to be in package 'ggpp' (>= 0.5.5)
-# load("IPS-data/birch-seedlings-df.rda")
-```
+Time ago in an experiment we measured a large number of tree seedlings. This data set contrasts with the one used above. While above we had data for five trees, here we have data for 350 one-summer-old tree seedlings. Measurements are all at a single time point, but different groups of seedlings were grown under different conditions. The data set is included in R package 'ggpp' (>= 0.5.5).
 
 ### Dot plot
 
@@ -353,7 +358,7 @@ ggplot(birch.df, aes(y = height, x = Container)) +
   labs(y = "Height (cm)")
 ```
 
-::: callout-note
+:::{.callout-note}
 Even more common than CLs for error bars (in black) is plotting of standard errors as error bars (in blue). With a large number of observations, CLs bars are about twice as long than SE bars, otherwise, even longer. (Nobody I know would use a figure like this except as here to demonstrate the difference.)
 
 ```{r}
@@ -410,11 +415,11 @@ Next we will create several visualizations that inform us about the properties o
 
 We next look at histograms, which have been in use for a very long time, and have different limitations.
 
-::: callout-tip
+:::{.callout-tip}
 The `birch.df` data set included in R package 'ggpp' contains additional variables than those plotted above.
 :::
 
-::: callout-note
+:::{.callout-note}
 ### Questions to think about
 
 The plots above mainly describe the position of the center of the data, and a summary version of the variation.
@@ -499,7 +504,7 @@ ggplot(birch.df, aes(y = height)) +
   labs(y = "Height (cm)", y = "Number of seedlings")
 ```
 
-::: callout_warning
+:::{.callout_warning}
 How a histogram looks depends on the width and position of the bins used to count observations. Histograms are still used very frequently, but their biggest advantage, the easy of computation, has been removed by modern computers. So, I do no longer use them. It is important, however, to understand how they work.
 
 The same plot as above after increasing bin width from 5 cm to 10 cm.
@@ -589,7 +594,7 @@ ggplot(birch.df, aes(x = height)) +
   labs(x = "Height (cm)", y = "Density (area = 1)")
 ```
 
-::: callout-warning
+:::{.callout-warning}
 **Take hopme message:** In most situations smooth density plots are preferable to histograms, with the caveat, that fewer people are familiar with them.
 :::
 
@@ -637,7 +642,7 @@ ggplot(birch.df, aes(y = height, x = Container, color = Container)) +
                         guide = "none")
 ```
 
-::: callout-warning
+:::{.callout-warning}
 **Take home message:** Violin plots are a handy way of plotting density distributions for different groups side by side for comparison. Specially when we have several groups they are very useful. As with density plots, several replicate observations (> 10 to 15 per violin) are needed for fit the densities in violin plots.
 :::
 
@@ -718,11 +723,11 @@ ggplot(birch.df,
                         guide = "none")
 ```
 
-::: callout-tip
+:::{.callout-tip}
 The data originate from many seedlings, and several variables have been measured. This means that there are many different ways in which we can plot them emphasizing different features and relationships.
 :::
 
-::: callout-note
+:::{.callout-note}
 ### Question to think about
 
 Considering plots that describe the distribution and variation in the data, please answer the following questions.
@@ -787,7 +792,7 @@ ggplot(birch_dw.df,
   facet_wrap(facets = vars(Container))
 ```
 
-::: callout-note
+:::{.callout-note}
 ### Question to think about
 
 Considering plots that describe the dry mass of the seedlings, please answer the following questions.
@@ -960,7 +965,7 @@ ggplot(birch.df,
   labs(x = "Seeling dry mass (g)", y = "Seedling height (cm)")
 ```
 
-::: callout-note
+:::{.callout-note}
 ### Question to think about
 
 Considering plots that describe the relationship between height and dry mass, please answer the following questions.
@@ -971,7 +976,7 @@ Considering plots that describe the relationship between height and dry mass, pl
 4. Can you think of a better design, maybe combining features from the different plots? (First decide what feature of the data you will emphasize.)
 :::
 
-::: callout-warning
+:::{.callout-warning}
 # Why not linear regression?
 
 Here using linear regression would be wrong!
@@ -1010,7 +1015,15 @@ ggplot(birch.df,
 The lines are drastically different!
 :::
 
-[Other pages at this site describe additional types of plots.](../index.qmd)
+## Other plot examples
 
-[Material at this site for cours IPS-003](../ips-003.qmd)
+These links are here in case you would like to see some additional possibilities, or as a cookbook of code examples if you need for reports or the thesis.
+
+[Quadrant and volcano plots](quadrant-volcano-plots.qmd) are a special type of scatter plots.
+
+[Data labels in bar and column plots](bar-col-plots.qmd) a few examples using package 'ggpp'.
+
+[Other pages at this site with additional types of plots and other R-related content.](../index.qmd)
+
+[Material at this site for cours IPS-003 data-analysis classes](../ips-003.qmd)
 
