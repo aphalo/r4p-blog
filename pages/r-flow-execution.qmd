@@ -2,13 +2,23 @@
 title: "Flow of code execution"
 subtitle: "Changing thesequence"
 author: "Pedro J. Aphalo"
-date: "2023-11-14"
+date: "2023-11-17"
 format:
   html:
     mermaid:
       theme: neutral
 code-fold: show
+callout-icon: false
+engine: knitr
+filters:
+  - webr
 ---
+
+::: {.callout-tip}
+# Playgrounds or interactive R examples
+
+In this class we will run R examples in the web browser. You can edit these code examples and run them again as many times as you like, by clicking on the **Run Code** button above the WebR text panel.
+:::
 
 # Unconditional sequence
 
@@ -28,6 +38,16 @@ print(b)
 flowchart LR
   st1["a <- 123"] --> st2["b <- a * 2"] --> st3["print(b)"]
 ```
+
+::: callout-tip
+# Playground
+
+```{webr-r}
+a <- 123
+b <- a * 2
+print(b)
+```
+:::
 
 # Compound statement
 
@@ -58,6 +78,18 @@ flowchart LR
   st3 --> etc.  
 ```
 
+::: callout-tip
+# Playground
+
+```{webr-r}
+a <- 123
+{
+  b <- a * 2
+  print(b)
+}
+```
+:::
+
 # Conditional sequence
 ## `if` statement
 
@@ -83,6 +115,18 @@ flowchart LR
   st2 --TRUE--> st3["print(#quot; 'a' is positive#quot;)"]
   st3 --> st4
 ```
+
+::: callout-tip
+# Playground
+
+```{webr-r}
+a <- 123
+if (a > 0) {
+  print("'a' is positive")
+}
+print(a)
+```
+:::
 
 ## `if`... `else` statement
 
@@ -111,4 +155,18 @@ flowchart LR
   st3a --> st4["print(a)"]
   st3b --> st4
 ```
+
+::: callout-tip
+# Playground
+
+```{webr-r}
+a <- 123
+if (a >= 0) {
+  print("'a' is positive")
+} else {
+  print("'a' is negative")
+}
+print(a)
+```
+:::
 
