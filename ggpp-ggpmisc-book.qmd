@@ -1,0 +1,57 @@
+---
+title: "Advanced 'ggplot2' annotations and data labels"
+subtitle: "Extensions 'ggpp' and 'ggpmisc'"
+author: Pedro J. Aphalo
+author-meta: Pedro J. Aphalo
+listing:
+  - id: intro-pages
+    contents:
+      - "pages/ggplot2-introduction.qmd"
+      - "pages/ggpmisc-intro.qmd"
+      - "galleries/dataviz-intro.qmd"
+    sort: false
+    type: grid
+    fields: [title, date-modified, abstract]
+  - id: ggpp-pages
+    contents:
+      - "galleries/pairwise-labels.qmd"
+      - "galleries/nudge-and-repel.qmd"
+      - "galleries/plot-insets.qmd"
+      - "galleries/bar-col-plots.qmd"
+      - "galleries/plot-timeline.qmd"
+    sort: false
+    type: grid
+    fields: [title, date-modified, abstract]
+  - id: ggpmisc-pages
+    contents:
+      - "galleries/plot-equations.qmd"
+      - "galleries/multcomp.qmd"
+      - "galleries/quadrant-volcano-plots.qmd"
+    sort: false
+    type: grid
+    fields: [title, date-modified, abstract]
+page-layout: full
+title-block-banner: true
+---
+
+## Anotations and data labels
+
+[Package 'ggplot2' documentation](https://ggplot2.tidyverse.org/)
+
+::: {#intro-pages}
+:::
+
+## 'ggpp'
+
+[Package 'ggpp' documentation](https://docs.r4photobiology.info/ggpp/)
+
+::: {#ggpp-pages}
+:::
+
+## 'ggpmisc'
+
+[Package 'ggpmisc' documentation](https://docs.r4photobiology.info/ggpmisc/)
+
+::: {#ggpmisc-pages}
+:::
+

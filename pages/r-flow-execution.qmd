@@ -14,8 +14,8 @@ filters:
   - webr
 ---
 
-::: {.callout-tip}
-# Playgrounds or interactive R examples
+::: callout-tip
+# {{< bi keyboard-fill >}} Playgrounds or interactive R examples
 
 In this class we will run R examples in the web browser. You can edit these code examples and run them again as many times as you like, by clicking on the **Run Code** button above the WebR text panel.
 :::
@@ -40,7 +40,7 @@ flowchart LR
 ```
 
 ::: callout-tip
-# Playground
+# {{< bi keyboard-fill >}} Playground
 
 ```{webr-r}
 a <- 123
@@ -79,7 +79,7 @@ flowchart LR
 ```
 
 ::: callout-tip
-# Playground
+# {{< bi keyboard-fill >}} Playground
 
 ```{webr-r}
 a <- 123
@@ -117,7 +117,7 @@ flowchart LR
 ```
 
 ::: callout-tip
-# Playground
+# {{< bi keyboard-fill >}} Playground
 
 ```{webr-r}
 a <- 123
@@ -157,7 +157,7 @@ flowchart LR
 ```
 
 ::: callout-tip
-# Playground
+# {{< bi keyboard-fill >}} Playground
 
 ```{webr-r}
 a <- 123

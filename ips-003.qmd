@@ -8,6 +8,7 @@ listing:
     contents:
       - "pages/R-intro.qmd"
       - "pages/ggplot2-introduction.qmd"
+      - "pages/r-flow-execution.qmd"
     sort: false
     type: grid
     fields: [title, date-modified, abstract]
