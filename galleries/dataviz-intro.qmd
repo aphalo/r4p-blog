@@ -3,7 +3,7 @@ title: "Introduction to Data Visualization"
 subtitle: "Using R with package 'ggplot2' and extensions"
 author: "Pedro J. Aphalo"
 date: 2023-10-30
-date-modified: 2023-11-14
+date-modified: 2023-11-17
 categories: [data visualization]
 keywords: [research process, design of experiments, data analysis]
 format:
@@ -17,6 +17,10 @@ abstract:
 draft: false
 ---
 
+[Index to other pages at this web site](../index.qmd), including some describing additional types of plots.
+
+[Index of material at this site for course IPS-003](../ips-003.qmd)
+
 :::{.callout-note}
 # IPS-003
 In Topic 2 the emphasis of the class was on the usual approaches used in scientific journals when reporting results from molecular biology studies. I will keep the focus in this class much broader, away from the nitty-gritty details and focusing on the different types of plots that can be created. Putting more emphasis on the properties of the data than in their origin, and also considering the aims that we may have when plotting data.
@@ -25,7 +29,7 @@ In Topic 2 the emphasis of the class was on the usual approaches used in scienti
 :::{.callout-warning}
 ## Package 'ggpp' version
 
-**Examples make use of an updated version of package 'ggpp' (future version 0.5.5), now available from CRAN.**
+**Examples make use of an updated version of package 'ggpp' (version 0.5.5), now available from CRAN.**
 ```{r}
 if (packageVersion("ggpp") < "0.5.5") {
   cat("Please, update package 'ggpp' before running the code examples.")
@@ -36,11 +40,13 @@ if (packageVersion("ggpmisc") < "0.5.4") {
 ```
 :::
 
-:::{.callout-tip}
+Many extensions to package 'ggplot2' are available through CRAN repository, making possible the creation additional types of plots using the same approach. Many, but not all, of these packages are listed in a [web page](https://exts.ggplot2.tidyverse.org/gallery/) with links to documentation.
+
 All the figures in this page have been created with R and packages 'ggplot2',
 'ggpmisc', 'ggbeeswarm' and 'ggdensity'. Package 'lubridate' is used for conversion of times
-and dates from character strings. 
+and dates from character strings.
 
+:::{.callout-tip}
 The code used to create the plots is "folded" or hidden behind a triangle followed by the word "code". Click on them to make the code visible. 
 
 **The code for loading of packages from the library is below, and needs to be run before any other code examples.**
@@ -56,10 +62,6 @@ library(lubridate)
 # theme_set(theme_classic(12))
 theme_set(theme_bw(12))
 ```
-
-[Other pages at this site describe additional types of plots.](../index.qmd)
-
-[Material at this site for cours IPS-003](../ips-003.qmd)
 
 # Introduction
 
@@ -1018,7 +1020,6 @@ These links are here in case you would like to see some additional possibilities
 
 [Data labels in bar and column plots](bar-col-plots.qmd) a few examples using package 'ggpp'.
 
-[Other pages at this site with additional types of plots and other R-related content.](../index.qmd)
+[Index to other pages at this web site](../index.qmd), including some describing additional types of plots and other uses of R.
 
-[Material at this site for cours IPS-003 data-analysis classes](../ips-003.qmd)
-
+[Index of material at this site for course IPS-003](../ips-003.qmd)
