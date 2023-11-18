@@ -1,8 +1,9 @@
 ---
 title: "Flow of code execution"
-subtitle: "Changing thesequence"
+subtitle: "R langauge constructs for flow control"
 author: "Pedro J. Aphalo"
 date: "2023-11-18"
+date-modified: "2023-11-18"
 format:
   html:
     mermaid:

@@ -1,0 +1,15 @@
+{
+  "hash": "f2279d2a2a25ccdc1e49e84c9a9e0d64",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Flow of code execution\"\nsubtitle: \"Changing thesequence\"\nauthor: \"Pedro J. Aphalo\"\ndate: \"2023-11-18\"\ndate-modified: \"2023-11-18\"\nformat:\n  html:\n    mermaid:\n      theme: neutral\ncode-fold: show\ncallout-icon: false\nengine: knitr\nfilters:\n  - webr\neditor: \n  markdown: \n    wrap: 72\n---\n\n\n```{webr-r}\n#\n# This is a Shiny web application. You can run the application by clicking\n# the 'Run App' button above.\n#\n# Find out more about building applications with Shiny here:\n#\n#    http://shiny.rstudio.com/\n#\nwebr::install(\"shiny\")\nlibrary(shiny)\n\n# Define UI for application that draws a histogram\nui <- fluidPage(\n\n    # Application title\n    titlePanel(\"Old Faithful Geyser Data\"),\n\n    # Sidebar with a slider input for number of bins \n    sidebarLayout(\n        sidebarPanel(\n            sliderInput(\"bins\",\n                        \"Number of bins:\",\n                        min = 1,\n                        max = 50,\n                        value = 30)\n        ),\n\n        # Show a plot of the generated distribution\n        mainPanel(\n           plotOutput(\"distPlot\")\n        )\n    )\n)\n\n# Define server logic required to draw a histogram\nserver <- function(input, output) {\n\n    output$distPlot <- renderPlot({\n        # generate bins based on input$bins from ui.R\n        x    <- faithful[, 2]\n        bins <- seq(min(x), max(x), length.out = input$bins + 1)\n\n        # draw the histogram with the specified number of bins\n        hist(x, breaks = bins, col = 'darkgray', border = 'white')\n    })\n}\n\n# Run the application \nshinyApp(ui = ui, server = server)\n\n```\n\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
