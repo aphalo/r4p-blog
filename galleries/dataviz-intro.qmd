@@ -1012,6 +1012,14 @@ ggplot(birch.df,
 The lines are drastically different!
 :::
 
+::: callout-caution
+# Friends don't let friends make bad graphs
+
+A nice set of paired good and bad plots.
+
+[Friends don't let friends...](https://github.com/cxli233/FriendsDontLetFriends#friends-dont-let-friends-make-bad-graphs)
+:::
+
 ## Other plot examples
 
 These links are here in case you would like to see some additional possibilities, or as a cookbook of code examples if you need for reports or the thesis.
