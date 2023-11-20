@@ -1,6 +1,6 @@
 ---
 title: "Flow of code execution"
-subtitle: "R langauge constructs for flow control"
+subtitle: "R language constructs for flow control"
 author: "Pedro J. Aphalo"
 date: "2023-11-18"
 date-modified: "2023-11-18"
@@ -16,6 +16,8 @@ filters:
 editor: 
   markdown: 
     wrap: 72
+abstract: |
+  Interactive examples and flow chart diagrams for R language constructs for conditional evaluation and for repeated evaluation of code statements.
 ---
 
 # Introduction
