@@ -28,8 +28,10 @@ listing:
   - id: IPS-003
     contents:
       - "galleries/dataviz-intro.qmd"
-      - "pages/ggplot2-EDA.qmd"
       - "pages/approaches-to-research.qmd"
+      - "pages/design-exp-principles.qmd"
+      - "pages/theoretical-probability-distributions.qmd"
+      - "pages/ggplot2-EDA.qmd"
       - "pages/R-model-fitting-intro.qmd"
     sort: false
     type: grid

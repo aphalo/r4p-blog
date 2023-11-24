@@ -3,7 +3,7 @@ title: "Multiple comparisons with 'ggpmisc'"
 subtitle: "Letter labels and labelled bars"
 author: "Pedro J. Aphalo"
 date: "2023-08-14"
-date-modified: "2023-08-14"
+date-modified: "2023-11-24"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, pairwise]
 categories: [Plotting examples]
 abstract: |
@@ -20,16 +20,18 @@ draft: false
 ---
 
 ::: callout-warning
-The examples in this page make use of packages
-'ggpmisc' (>= 0.5.4) and 'ggpp' (>= 0.5.4) available through CRAN. Earlier
-versions lack the layer functions described in this page.
+The examples in this page make use of packages 'ggpmisc' (>= 0.5.5.9000) and
+'ggpp' (>= 0.5.5) not yet available through CRAN. In 'ggpmisc' 0.5.4 and 0.5.5
+`stat_multcomp()` was a preliminary implementation that will change in future
+version 0.5.6. Versions before 0.5.4 lack the layer functions described in this
+page.
 :::
 
 ::: callout-tip
 In this page most code chunks are "folded" so as to decrease the clutter when
 searching for examples. A few code chunks that are reused across several plots
 are by default unfolded to make them more visible. Above each plot you will find
-one or more "folded" code chuncks signalled by a small triangle followed by
+one or more "folded" code chunks signalled by a small triangle followed by
 "Code". Clicking on the triangle "unfolds" the code chunk making visible the R
 code used to produce the plot.
 
@@ -74,7 +76,7 @@ axis onto which a continuous numeric variable has been mapped, usually _y_.
 ## Multiple comparisons in ggplots
 
 ::: callout-caution
-Multiple comparisons are frequently applied as post-hoc tests, in many cases including all possible pairwise constrasts (Tukey contrasts) or every treatment individually against a control condition (Dunnet contrasts). As post-hoc tests, they are seen as a way of investigating the source of an overall significant difference, and multiple comparisons are applied only if the main effect of the factor is in itself significant and skipped otherwise. In other cases multiple comparisons can be the primary statistical test addressing the research hypotheses. Both approaches are valid as long as the hypotheses have been set independently of the data being used in the test. **What should be avoided is to cherry pick promising pairwise tests based on the data, and then correct the _P_-values taking into account only the cherry-picked pairs.**
+Multiple comparisons are frequently applied as post-hoc tests, in many cases including all possible pairwise contrasts (Tukey contrasts) or every treatment individually against a control condition (Dunnet contrasts). As post-hoc tests, they are seen as a way of investigating the source of an overall significant difference, and multiple comparisons are applied only if the main effect of the factor is in itself significant and skipped otherwise. In other cases multiple comparisons can be the primary statistical test addressing the research hypotheses. Both approaches are valid as long as the hypotheses have been set independently of the data being used in the test. **What should be avoided is to cherry pick promising pairwise tests based on the data, and then correct the _P_-values taking into account only the cherry-picked pairs.**
 
 When applying multiple comparisons, it is necessary to adjust the _P_-values taking into account the fact the the more numerous the tests, the more likely is that at least one or a few of them will yield false positive outcomes. There are different approaches, that can be grouped into methods that attempt control the experiment-wise probability of false positive outcomes to a given _P_-level, such as 0.05, and those that attempt to control the false discovery rate, that can be thought of as the proportion of the tests that yield false positive outcomes. There are variations in both approaches, varying in power and conservativeness.
 :::
@@ -136,20 +138,20 @@ _Some features of the user interface of `geom_text_pairwise()` and `geom_label_p
 
 I have added to package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) (>= 0.5.4) a new statistic, `stat_multcomp()`,
 that makes some of the features from function `glht()` from package [multcomp](http://multcomp.r-forge.r-project.org/)
-easy to use to add a plot layer highlighting the outcome of these tests.
+easy to use to add a plot layer highlighting the outcome of these tests. In 'ggpmisc' (>= 0.5.6) additional features are supported.
 
-Layer function `stat_multcomp()` first fits a model (a linear model by default) followed by a multiple comparisons test with a user-controlled adjustment to the _P_-values. By default `"Tukey"` contrasts are computed but `"Dunnet"` contrasts are also supported. The implementation makes use of function `glht()` from package [multcomp](http://multcomp.r-forge.r-project.org/) making available all the methods it supports for the adjustment of _P_-values for multiple comparisons. Currently, `stat_multcomp()` only implements pairwise contrasts, as in this case there are well established approaches to plot annotations. Contrasts other than `"Tukey"` and `"Dunnet"` are not yet supported.
+Layer function `stat_multcomp()` first fits a model (a linear model by default) followed by a multiple comparisons test with a user-controlled adjustment to the _P_-values. By default `"Tukey"` contrasts are computed but `"Dunnet"` contrasts are also supported. The implementation makes use of function `glht()` from package [multcomp](http://multcomp.r-forge.r-project.org/) making available all the methods it supports for the adjustment of _P_-values for multiple comparisons. Currently, `stat_multcomp()` only implements pairwise contrasts, as in this case there are well established approaches to plot annotations. By passing a numeric matrix as argument arbitrary sets of _pairwise_ contrasts can be specified. Contrasts that involve more than two levels of a factor are not yet supported.
 
 The returned data contains both numeric and ready formatted character strings. The returned value and default geometry depend on the type of label, that can be
 either bars (connecting segments) labelled with _P_-values or other parameters, or letters. With bars, plots get crowded easily, and are supported for factors with two to five levels if using "Tukey" contrasts. In contrast, encoding pairwise difference from "Tukey" contrasts as letters is possible with factors with two or more levels. _Letter encoding is not implemented for "Dunnet" contrasts as such encoding is unsuitable in this case._
 
-As other layer functions in R package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) , `stat_multcomp()` attempts to be flexible, both in the statistical methods used to test multiple comparisons and in the way the outcomes can be shown in plots. As this is a safe (= conservative) approach, the adjustment of _P_-values is enabled by default using the same default mathod as in function `glht()`.
+As other layer functions in R package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) , `stat_multcomp()` attempts to be flexible, both in the statistical methods used to test multiple comparisons and in the way the outcomes can be shown in plots. As this is a safe (= conservative) approach, the adjustment of _P_-values is enabled by default.
 
 Even if flexible, `stat_multcomp()` does not cater for all uses of multiple comparisons, and it is to be expected that in some cases multiple comparison tests will be applied before plotting, and the outcomes shown in plots using geometries rather than statistics. Examples of such use of geometries `geom_text_pairwise()` and `geom_label_pairwise()` are available in the page [Pairwise labels with 'ggpp'](pairwise-labels.qmd).
 
 ::: callout-caution
 Function `stat_multcomp()` is still under development and has some limitations. Currently, only "Tukey" and "Dunnet" contrasts 
-are supported and the order of letters in letter labels is fixed. This stat has been tested only with `method = "lm"`, `method = "aov"` and `method = "rlm"`although several other model fit functions can be expected also to work.
+are supported and the order of letters in letter labels is fixed. This statistic has been tested only with `method = "lm"`, `method = "aov"` and `method = "rlm"`although several other model fit functions can be expected also to work.
 
 _Some features of the user interface of `stat_multcomp()` may change in future versions of the package._
 :::
@@ -168,6 +170,8 @@ theme_set(theme_bw())
 
 ### Using default labels
 
+Tukey's method for all pairwise contrasts using _honestly significant differences_.
+
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
   stat_summary(fun.data = mean_cl_normal, colour = "red") +
@@ -177,15 +181,18 @@ ggplot(mpg, aes(factor(cyl), cty)) +
   expand_limits(y = 0)
 ```
 
+Using Holm's method to adjust _P_-values.
+
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
   stat_summary(fun.data = mean_cl_normal, colour = "red") +
-  stat_multcomp(adjusted.type = "holm",
+  stat_multcomp(p.adjust.method = "holm",
                 label.y = 12, 
                 size = 2.75, 
                 vstep = 0.05) +
   expand_limits(y = 0)
 ```
+Dunnet's method for comparison of each treatment against a control, assumed to be the first level of the factor.
 
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
@@ -193,8 +200,22 @@ ggplot(mpg, aes(factor(cyl), cty)) +
   stat_summary(fun.data = mean_cl_normal, colour = "red") +
   stat_multcomp(label.y = 25, 
                 size = 2.75,
-                contrast.type = "Dunnet")
+                contrasts = "Dunnet")
 ```
+
+A staircase of pairwise contrasts with _P_-values adjusted using Holm's method.
+
+```{r}
+ggplot(mpg, aes(factor(cyl), cty)) +
+  stat_summary(fun = mean, geom = "col", width = 0.5) +
+  stat_summary(fun.data = mean_cl_normal, colour = "red") +
+  stat_multcomp(label.y = c(18, 23, 24),
+                size = 2.75,
+                contrasts = rbind(c(0, 0, -1, 1),
+                                  c(0, -1, 1, 0),
+                                  c(-1, 1, 0, 0)))
+```
+Tukey's pairwise contrasts using defaults except for the position of the lowermost bar.
 
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
@@ -203,6 +224,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
   stat_multcomp(size = 2.5, label.y = 25)
 ```
 
+Tukey's pairwise contrasts using defaults and shown with letters.
 
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
@@ -211,12 +233,14 @@ ggplot(mpg, aes(factor(cyl), cty)) +
   stat_multcomp(label.y = -1, 
                 label.type = "letters")
 ```
+
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
   stat_summary(fun = mean, geom = "col", width = 0.5) +
   stat_summary(fun.data = mean_cl_normal, colour = "red") +
   stat_multcomp(colour = "white", 
-                label.type = "letters")
+                label.type = "letters",
+                adj.method.tag = 0)
 ```
 
 ```{r}
@@ -232,7 +256,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 geom = "text_pairwise",
                 vstep = 0.07,
                 p.digits = 2,
-                contrast.type = "Dunnet") +
+                contrasts = "Dunnet") +
   stat_boxplot(width = 1/3) +
   expand_limits(y = 0)
 ```
@@ -240,10 +264,12 @@ ggplot(mpg, aes(factor(cyl), cty)) +
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
   stat_multcomp(label.type = "letters",
-                geom = "label") +
+                geom = "label",
+                size = 2.75) +
   stat_boxplot(width = 1/3)
 ```
 
+Numeric _P_-values shown for Dunnet contrasts.
 
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +
@@ -255,7 +281,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 label.y = -1, 
                 vstep = 0,
                 size = 3,
-                contrast.type = "Dunnet")
+                contrasts = "Dunnet")
 ```
 
 ### Using pre-built labels other than default
@@ -268,7 +294,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 label.y = 11,
                 vstep = 0.08,
                 p.digits = 2,
-                contrast.type = "Dunnet") +
+                contrasts = "Dunnet") +
   stat_boxplot(width = 1/3) +
   expand_limits(y = 0)
 ```
@@ -279,7 +305,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                           size = 2.75,
                 label.y = 11,
                 vstep = 0.08,
-                contrast.type = "Dunnet") +
+                contrasts = "Dunnet") +
   stat_boxplot(width = 1/3) +
   expand_limits(y = 0)
 ```
@@ -293,7 +319,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 geom = "text",
                 label.y = -1, 
                 vstep = 0,
-                contrast.type = "Dunnet")
+                contrasts = "Dunnet")
 ```
 
 ### Using other aesthetics than the default
@@ -305,7 +331,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 label.y = 11,
                 vstep = 0.08,
                 p.digits = 2,
-                contrast.type = "Dunnet") +
+                contrasts = "Dunnet") +
   stat_boxplot(width = 1/3) +
   scale_colour_manual(values = c("grey50", "blue")) +
   expand_limits(y = 0)
@@ -318,7 +344,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 label.y = 11,
                 vstep = 0.08,
                 p.digits = 2,
-                contrast.type = "Dunnet") +
+                contrasts = "Dunnet") +
   stat_boxplot(width = 1/3) +
   scale_fill_manual(values = c("grey90", "lightblue")) +
   expand_limits(y = 0)
@@ -328,7 +354,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
 ggplot(mpg, aes(factor(cyl), cty)) +
   stat_multcomp(aes(colour = factor(after_stat(letters.label))),
                 label.type = "letters",
-                size = 5) +
+                size = 4) +
   stat_boxplot(width = 1/3) +
   expand_limits(y = 0)
 ```
@@ -339,7 +365,8 @@ ggplot(mpg, aes(factor(cyl), cty)) +
   stat_multcomp(aes(colour = factor(after_stat(letters.label))),
                 label.type = "letters",
                 geom = "point",
-                size = 3) +
+                size = 3,
+                adj.method.tag = 0) +
   stat_boxplot(width = 1/3) +
   expand_limits(y = 0)
 ```

@@ -1,0 +1,28 @@
+---
+title: "Theoretical probability distributions"
+subtitle: "Interactive applications using R package Shiny"
+author: "Pedro J. Aphalo"
+date: 2023-11-21
+date-modified: 2023-11-21
+categories: [statistics]
+keywords: [IPS003, design of experiments]
+format: html
+image: t-dist.png
+abstract: 
+  Shiny Apps or dashboards for interactive explorartion on the dependence of the t and F distributions on the degrees of freedom.
+draft: false
+---
+
+Three Apps or dashboards created with R package [Shiny](https://shiny.posit.co/). It takes a few moments to activate the Apps in the server as they are stopped after 10 min without user interaction. 
+
+_At the moment I have a free account of the hosting service. If the free quota is used up and the Apps stop working, please contact me, and I will buy additional computing time._
+
+# _t_-distribution compared to the Normal distribution
+
+[_t_-distribution App](https://aphalo.shinyapps.io/t-distribution/)
+
+# _F_-distribution
+
+[_F_-distribution App](https://aphalo.shinyapps.io/F-distribution/)
+
+[_F_-distribution _P_-value look-up App](https://aphalo.shinyapps.io/F-distribution-lookup/)

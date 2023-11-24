@@ -1,0 +1,175 @@
+---
+title: "Design of Experiments"
+subtitle: "Principles and practice"
+author: "Pedro J. Aphalo"
+date: 2023-10-21
+date-modified: 2023-10-21
+categories: [scientific method]
+keywords: [IPS003, design of experiments]
+format:
+  html:
+    code-tools: true
+bibliography: design-exp.bib
+image: research-process.png
+abstract: 
+  An introduction to design and planning of experiemnts. The roles replication, randomization, and range of validity.
+draft: false
+---
+
+# Design of rexperiments
+
+When defining the research hypothesis we need to decide on the range of validity or the "population of interest". Usually there is compromise to be found between the cost or sensitivity of an experiment and its range of validity.
+
+A key problem when measuring any environmental variable or biological response is "noise".
+
+The variation we are interested in measuring or characterizing is mixed with variation of other uninteresting or unknown origins.
+
+The uninteresting variation may be independent of the interesting one, or a "random error", or it can be "biased and confounded" with the variation of interest.
+
+Uninteresting random variation is easier to deal with mathematically, it can be assessed and its effect taken into account in decision making. Of course, controlling it, makes the experiment better at detecting smaller effects, but tests of significance remain interpretable in the presence of random noise.
+
+Confounded bias can only be avoided by good design and planning of experiments. It cannot be quantified statistically or taken into account in decision making after the fact. Confounding means that the effect of what we are studying is "merged or mixed" with some other difference in a way that we cannot separate them.
+
+Variation of known origin, that we can measure, even when uninteresting is not confounded, because we can take it into account by quantifying it separately.
+
+So the main aims of design of experiments are:
+
+  1. **Strive to avoid bias, or to measure it precisely, at all costs. There is no compromise possible.**
+  2. **With random variation, find the most economical or efficient way of dealing with it.**
+
+## Avoiding bias
+
+-  Bias can be avoided by (true) randomization, because it evens out the probabilities of different subjects or experimental units being assigned to a treatment or control.
+-  First of all, we should randomize the assignment of treatments.
+-  But every procedure that could potentially introduce bias should be randomised to guarantee that no treatment is "favoured" or "punished".
+-  In some cases, it is also good to move or rotate the positions, for example, of plants on the bench in a greenhouse.
+
+## "Controlling" random variation
+
+- If we can identify an "uninteresting" source of variation we can remove its effect on the estimate of error term (experimental error variance) by:
+    * physically controlling it, e.g., removing the source of variation through design, and/or
+    * measuring a variable that quantifies the "uninteresting" variation (e.g. ANCOVA), and/or
+    * using restricted replication protocols that _balance_ the effect of the uncontrolled variation on the different treatments as well as making it measurable (e.g., design with blocks).
+
+- Increasing replication/sample size makes the variation of estimates of parameters like the mean smaller for the same variation in the sampled population or "universe":
+ $$S^2_{\overline x} = S^2_x / n$$
+
+## Range of validity
+
+- Using a wide range of conditions increases random variability (e.g., seedlings from seeds from an out-crossing population vs. seeds from a homozygous line vs. a clone from tissue culture)
+- …but it also increases range of validity.
+- Solutions:
+    1. include many replicates,
+    1. use well defined conditions within the range of variation in a factorial design (e.g. several clones, several sites, several planting dates) so that their effect can be identified and measured,
+    1. measure subjects under study both before and after applying the treatments.
+
+The range of validity is also dependent on the treatments applied and the growing conditions used. In general, drastic treatments are likely to trigger clear responses, but conclusions are rarely relevant to plant production or ecology.
+
+## Matching experiment and aims
+
+- Organisms perceive and respond to many cues and signals in addition to responding to resource availability.
+- The context in which research is carried out affects the respones observed.
+- Thus, the context in which research is carried out affects usefulness of conclusions for applications.
+- Mechanisms are important, but also their regulation under the target situation (e.g. agricultural field, greenhouse, forest or natural ecosystem) needs to be understood.
+- When considering context, evolution is important. Past natural or breeding selection determines the conditions under which plants of a species or a cultivar thrive or can tolerate.
+
+## Maximizing return from effort
+
+- Different steps and procedures have different costs.
+- Pooling of samples can very drastically reduce costs in some cases.
+    * If the true replicate is a field plot, unless we are specially interested in quantifying within-plot variation, there is little advantage in not pooling all the samples collected in a given plot before analysis.
+    * Of course, there is a risk involved, for example if we include in the pooled sample a contaminated sub-sample, the whole pooled sample needs to be discarded.
+    * Usually growing more plants is cheap, and a very effective way of controlling biological variation. "Averaging" can in many cases be done by physically pooling sampled plant material. 
+
+- Assuming that analysis in the lab is costly, and limits the number of samples we can analyse.
+    * An experiment with three true replicates can seem at first sight like unwise to use.
+    * However, if correctly designed, an experiment with three replicates (e.g. blocks), but with each experimental unit composed of 100 or more seedlings, pooled before analysis in the lab, can be extremely powerful at detecting small differences/effects which are consistently present.
+    * This approach also allows using plants with genotypic variation in cases when we want the range of validity to extend to a whole population rather than a single genotype.
+    * With some limitations, we can even back-calculate the variation in the population from the observad variation observed among the pooled samples, i.e., using the formula for the standard error of the mean "in reverse".
+    
+$$S^2_x = S^2_{\overline x} * n$$
+    
+::: callout-note
+# Disccusion: Experiments with different aims
+
+  a. Determine if a gene is important for drought tolerance of faba beans.
+  b. Determine if a new faba bean cultivar submitted for registration is more drought tolerant than those currently in use and can be recommended to farmers.
+
+Think in each case what is the hypothesis to be actually tested and what variable(s) you would measure. Then think what would be a suitable range of validity in each case (space, time, genotypes, etc.). Finally think what factors need to be considered when designing an actual experiment, and what compromises may be needed if money and other resources are limited.
+:::
+
+## How many replicates are needed?
+
+- If we can estimate the variance,
+- and know the size of the smallest effect/difference of interest,
+- it is possible to calculate the number of replicates needed.
+    * Usually one can make a guess of the values needed for the computations and add a margin for extra safety,
+    * in many cases a rule-of-thumb is based on earlier research,
+this is usually o.k., but one should be careful to check if the expected effects are of similar size as in previous studies.
+    * one can also apply such calculations to objectively maximize efficiency of use of money or other resources, even in designs with sub-sampling and pooled measurements.
+
+## Link between data colletion and analysis
+
+- By the time the experiment is started we should already know which statistical methods and tests will be suitable for the data to be collected.
+- The design of an experiment or survey is very tightly linked to how the data can be later analysed.
+- Only good design combined with suitable analysis and good experiment management can provide valid results efficiently.
+- Consistently applied experimental protocols allow comparisons in time, space, and among treatments within a single experiment and among replicate experiments.
+
+# Planning of experiments
+
+## Data collection
+
+- In the same way as bias errors can be caused by the non-random assignment of treatments, measurement protocols can be important sources of bias unless randomised.
+- consider:
+    * time-of-day,
+    * operator,
+    * warming-up of instruments,
+    * calibration drift of instruments,
+    * shelf-life of reagents,
+    * operator tiredness.
+   
+## Planning and good practice
+
+- Includes also all practical aspects, many of which affect the validity and efficiency of an experiment.
+- Experiment protocol:
+    * e.g. good mixing of the growing substrate.
+    * e.g. uniform watering conditions.
+- Preventing disturbances:
+    * e.g. disturbances as simple as an accidental night break in a controlled environment can make an experiment unrepeatable.
+    * e.g. are naturally occurring pathogens part of what we want to study or not?
+    * e.g. do fungicides used have a hormone-like effect on plant metabolism, growth and development? (Some commonly used ones do have such an effect!)
+   
+:::collout-tip
+# How to be objective (Kahneman's video)
+
+* The human brain is not "programmed" to be objective.
+* It is extremely difficult to use volition to achieve objectivity when emotions are strong.
+* The trick is to feel/understand that every result is equally good:
+    * feel equally happy if results support your hypothesis,
+    * or if they indicate that it should be changed or replaced,
+    * or even if you only learn how to repeat the experiment in a better way.
+* This is in fact true, because we always learn something.
+* If it is emotionally painful to reject your "pet hypothesis" your brain will not reach an objective conclusion no matter how hard you try!
+* _Try to be agnostic about hypotheses you test._ Find joy or sorrow, on whether your plants grow well or not, whether you succeed in taking measurements, your thesis or manuscript is accepted, etc., but try to avoid these feelings in relation to the direction of results you observe, or their implications.
+:::
+
+::: callout-note
+# Playing with artificial data
+
+Artificial data can be simulated by sampling values from a theoretical probability distribution like the Normal distribution. _The Normal distribution **approximates** the properties of data obtained from some real "populations"._
+
+This approach makes it possible to simulate random samples of different sizes taken from populations with different properties, e.g., differing in the population mean and/or the population standard deviation. Each "draw" gives us a new random sample out of the same population, making it possible to simulate many possible instances of the same simulated experiment.
+
+I have written, using R, four interactive Apps. In these Apps you will play with the parameters of the Normal distribution and draw samples of different sizes. The Apps automatically plot the samples and/or show parameter estimates or tests of significance.
+
+The aim of this practice is that you get a direct "feel" of how the parameters and sample size affect the outcomes of tests or the reliability of estimates. Next week we will see some of the statistical procedures in more detail. Today the aim is also for you practice with some of the plot types I showed earlier.
+
+The exercises are at [a different server](https://ips-003.shinyapps.io/design-experiments/) that makes the running of the Apps possible.
+
+:::
+
+## Further reading
+
+- The Sunset Salvo [@Tukey1986] is a sobering medicine for those with blind faith in Statistics and the objectivity of data analysis.
+
+- The books Planning of Experiments [@Cox1958] and Statistics and Scientifc Method [@Diggle2011] can be recommended as they focus mainly on the logic behind the different designs at an introductory level.
