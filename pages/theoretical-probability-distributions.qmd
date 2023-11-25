@@ -19,10 +19,18 @@ _At the moment I have a free account of the hosting service. If the free quota i
 
 # _t_-distribution compared to the Normal distribution
 
+As the number of degrees of freedom increases the _t_ distribution approaches the Normal distribution.
+
+The observed _t_-value is calculated as ${\bar x} / s_{\bar x}$, or more generaly the estimate of the value of a parameter divided by its standard deviation.
+
 [_t_-distribution App](https://aphalo.shinyapps.io/t-distribution/)
 
 # _F_-distribution
 
+The observed _F_-value is the ratio between two estimates of variance $s^2_1 / s^2_2$. If the variance as numerator is larger than the denominator $F > 1$. The degrees of freedom of the two variances determine the shape of the distribution.
+
 [_F_-distribution App](https://aphalo.shinyapps.io/F-distribution/)
+
+If we know the observed _F_-value, and degrees of freedom we can look up the _P_-value from the theoretical distribution.
 
 [_F_-distribution _P_-value look-up App](https://aphalo.shinyapps.io/F-distribution-lookup/)
