@@ -1,0 +1,360 @@
+---
+title: "Randomization and independent replicates"
+subtitle: "Restricted randomization in design of experiments"
+author: "Pedro J. Aphalo"
+date: 2023-05-30
+date-modified: 2023-11-27
+categories: [R, model fitting]
+keywords: [predicted values, residual values, parameter estimates, model formulas]
+format:
+  html:
+    code-fold: true
+    code-tools: true
+abstract: 
+  In this page I give a brief presentation on how randomization can be constrained to match the properties of the systems under study without compromising the validity of conclusions. This gives origin to different formal designs for experiments, and corresponding data analysis approaches. I also mention pseudoreplication as a problem that needs to be avoided whenever possible, and otherwise the additional implicit assumptions shown to be true or at least highly plausible.
+---
+
+## Design of experiments (Koesuunnittelun)
+
+In an experiment we study how _the manipulations done_ by the
+researcher(s) (_treatments_; _käsittelyt_) affect the
+observed _response_ (_vaste- eli tulosmuuttuja_).
+_Factors_ (_faktorit_) are groups of different
+manipulations of a single variable. Each of the distinct
+manipulations within a factor is called a level (e.g.
+five genotypes such as wild type (WT) and four mutants).
+
+### Questions to ask oneself during design:
+
+* What is the purpose of the experiment? To which objective
+questions do we want to find answers?
+
+* What is the response to be observed? What is the nature of
+the observations?
+
+* What is the treatment to be applied? At what levels? Do we
+include an untreated control?
+
+* Are there other variables which could affect the response?
+
+* How many experimental units will be used? (plants, plots, etc.)
+
+* How do we organise the experiment? What, where, when, how,
+who...?
+
+* How will the data obtained be analysed?
+
+* How big a difference in response is practically important?
+
+* How big a difference in response should be detectable?
+
+_In addition, keep notes in a logbook/lab book of the experimental plan, and
+everything done during the experiment. This later allows us to
+check if the design was sound and if it was followed, and which
+changes were done. It helps in the interpretation of the results.
+If necessary, it also allows the repetition of the whole
+experiment._
+
+### Example
+
+* __Purpose:__ study leaching of fertiliser N from a barley field.
+
+* __Response observed:__ N budget. Nature of observations: N
+concentrations and isotope abundance in plants, soil and waters
+over a crop cycle, used to calculate contents. Crop dry mass.
+Surface and soil water flows. Ammonia emission.
+
+* __Treatment:__ fertilisation with urea, labelled with a stable
+isotope of N. Levels: 0, 50 and 100 kg N per ha.
+
+* __Other variables which could affect the response:__ slope, soil
+type, temperature, rainfall, time of application, cultivar.
+
+* __Number of experimental units:__ e.g. 15. (Estimated, formally or informally, based on size of response to be detected.)
+
+* __How do we organise the experiment?__ What cultivar(s), what field, sowing
+date, fertilisation date, plot size, sowing method, soil
+preparation, how frequently to sample, who does all these things.
+
+* __Data analysis:__ compute N balance for crop cycle, and test
+for differences between treatments in leaching with one-way ANOVA.
+
+* __Difference in response that is practically important:__ e.g. 1 kg
+N per crop cycle and per ha. Detectable difference: e.g.\ 1 kg per
+ha. \label{Example:item:sizeof response}
+
+## Requirements for a good experiment
+
+* __Precision.__ Random errors of estimation should be suitably small, and
+this should be achieved with as few experimental units as
+possible. (a sort of cost/benefit analysis)
+
+* __Absence of systematic error.__ Experimental units receiving different treatments should differ in no systematic way from one another (to avoid bias confounded with effects of interest).
+
+* __Range of validity.__ The conclusions should have as wide a range of validity as needed for the problem under study.
+
+* __Simplicity.__ The experiment should be as simple as possible in design and analysis.
+
+* __The calculation of uncertainty.__ A proper statistical analysis of the results should be possible _without making artificial assumptions_. (The fewer and more plausible the assumptions are, the more credible results and conclusions will be.)
+
+## The principles of experimental design
+
+1. Replication $\rightarrow$ control of random variation $\rightarrow$ precision.
+
+1. Randomisation $\rightarrow$ elimination of systematic error.
+
+1. Use of blocks or covariates $\rightarrow$ reduction of error variation caused by
+experimental unit heterogeneity.
+
+### Replication (Toistaminen)
+
+The experiment is done several times. Each time or repetition is a
+_replicate_ (_toisto_).
+
+* Allows the estimation of the random variation
+(satunnaisvaihtelu, virhevaihtelu) accompanying the
+results. This random variation is called _experimental error_ (_koevirhe_).
+
+* Increases the precision of the estimate of the treatment
+effect, because each repetition of the experiment adds additional
+information about it.
+
+$$
+    \sigma^2_{\overline{x}} = \frac{\sigma^2}{n}
+$$
+
+where $\overline{x}$ is the mean, $n$ the number of replicates,
+and $\sigma^2$ is the _error variance_ (_virhevarianssi_)(of
+individual measurements) and $\sigma^2_{\overline{x}}$ is the
+_variance of the mean_.
+
+### Experimental units and subsamples
+
+* An experimental unit is the unit or `thing' to which the
+treatment is assigned (at random).
+
+* An experimental unit is not necessarily the unit that is
+measured, which can be smaller.
+
+* A measured object which is smaller than an experimental unit
+is called a _subunit_ (and the measurements obtained from it a _subsample_).
+
+**Examples**
+
+1. In an experiment we grow three plants per pot. We have nine
+pots.
+
+The treatments are three different watering regimes, which are
+assigned to the pots.
+
+We measure photosynthesis on individual plants. We get three
+numbers per pot.
+
+The pots are the experimental units. The photosynthesis
+measurements from each plant are subsamples.
+
+The subsamples are not independent observations, they are exposed to the conditions in their own pot.
+
+The randomisation was not done on the plants, so the plants are
+not experimental units.
+
+$n = 3, N = 9$
+
+1. In an experiment we grow three plants per pot. We have nine
+pots.
+
+The treatments are three different foliar fertilisers, which are
+assigned (at random) to the plants within each pot.
+
+We measure photosynthesis on individual plants. We get three
+numbers per pot.
+
+The plants are the experimental units. The photosynthesis
+measurements from the plants are replicates.
+
+The replicates are not independent observations, the pots are
+blocks.
+
+$n = 9, N = 27$
+
+1. In an experiment we grow one plant per pot. We have nine
+pots.
+
+The treatments are three different watering regimes, which are
+assigned (at random) to the pots.
+
+We measure photosynthesis on individual plants. We get one number
+per pot.
+
+The pots (and plants) are the experimental units. The measurement
+on each plant/pot is a replicate.
+
+The replicates are independent observations.
+
+$n = 3, N = 9$
+
+### Pseudoreplication
+
+Pseudoreplication is not uncommon in the scientific literature.
+
+__Pseudoreplication__ happens when subsamples are
+treated as replicates in the statistical analysis that is used to draw conclusions.
+
+It should be avoided whenever it is possible, and if unavoidable,
+the additional assumptions involved in the interpretation should
+be clearly indicated in the reports or publications.
+
+
+**Examples**
+
+1. We want to study the effect of temperature on the growth of
+plants.
+
+We have two rooms, one at 20 C and one at 30 C.
+
+We assign at random 20 plants to each room.
+
+We measure the height of the plants after one week.
+
+This experiment has 20 subsamples per treatment, but only one
+replicate. (The temperatures were assigned at random to the rooms,
+not to the plants).
+
+If we treat the subsamples as replicates and we try to conclude
+about the effect of temperature, we have pseudoreplication.
+
+In this case pseudoreplication adds the implicit
+__assumption__ that the only difference between the rooms was
+the temperature.
+
+Our statistical test really answers the question: did the plants
+grow differently in the two rooms?
+
+1. We want to study the differences between broadleaf and
+conifer forests.
+
+We choose one typical broadleaf forest (Br) and one typical
+conifer forest (Cn).
+
+We establish 5 plots in each forest, located at random. In each
+plot we take 10 soil samples at random, and analyse mineral
+nutrients.
+
+If we try to answer the question `are soil mineral nutrient
+concentrations in conifer forests different from those in
+broadleaf forests?' using the plots as replicates, we have
+pseudoreplication.
+
+For this question we have, one replicate (one forest of each
+type), 5 subsamples (the plots) within each forest, and 10
+subsubsamples within each subsample.
+
+The experiment can only answer the question: ``are the mineral
+nutrient concentrations in forest `Cn' different to those in
+forest `Br'?''
+
+If we want to conclude about two populations of forests, we should
+sample at random those populations. For example compare five
+conifer forests with five broadleaf forests.
+
+::: callout-caution
+# Why is pseudoreplication dangerous?
+
+_We will see how to interpret ANOVA tables in the next class. Today, I only want to highlight how pseudo-replication can lead to wrong decisions._
+
+An example based on real data, analysed using subsamples as replicates and 
+using experimental units as replicates. Two ANOVA tables are shown below computed from the same anatomical data. 
+The response measured was stomatal density (number of stomata per unit leaf area) compared
+between differently treated plants (under different light conditions obtained using optical filters).
+
+_"Exciting" results with pseudo-replication!_ (fields of view under the microscope, one or more per leaf sample, considered as replicates in the statistical analysis.)
+
+|Effect |	Df  |	Sum Sq	 | Mean Sq| F value |	Pr(>F)|
+|:------|----:|---------:|--------:|--------:|-----:|
+filter	| 5 |	28900	| 5773 | 3.14 |	_0.0090_ |
+block	| 2	| 24600	| 12292	| 6.69	| 0.0015 |
+error	| *208*	| 381914 | 1836	| |
+
+_"Boring" results with valid analysis!_ (plots as replicates)
+
+| Effect | Df | Sum Sq | Mean Sq | F value | Pr(>F) |
+|:------|----:|---------:|--------:|--------:|-----:|
+| filter | 5 | 1560 | 312 | 0.395 | _0.84_ |
+| block | 2 | 3340 | 1668 | 2.106 | 0.17 |
+| error | *10* | 7920 | 792	 |  |
+
+How is this possible? There are two problems: a) a bad estimate of the variances and _F_, and b) inflated degrees of freedom for the error. The problem is that there is more variation among plants than within plants. The density of stomata is not independent of plants, leaves within the same plant are more similar. In this extreme case, in addition different counts under the microscope from the same leaf are also much less variable than among leaves. So, we end grossly underestimating the random or error variation that affects the measure that we are interested in, the possible differences among genotypes. 
+
+- Do you expect that there are differences among the genotypes in stomatal density?
+- Can we conclude which treatment induced higher density based on these data?
+- Where does the difference in degrees of freedom come from?
+
+Is the second ANOVA table boring? Not really, it is very informative about the data we have at hand.
+:::
+
+## Randomisation (Satunnaistaminen)
+
+Which treatment is applied to each experimental unit
+(_koeyksilö_) is decided at random (if appropriate after
+forming blocks). This is to ensure objectivity.
+
+* Prevents systematic errors from known and unknown sources of
+variation. They affect all treatments _with equal probability_, so the
+treatment effect and variance estimators obtained remain unbiased
+(_estimaattorit saadaan harhattomiksi_).
+
+* By unbiased estimators we mean, estimators with no tendency to drift away from the population value for the estimated parameter, i.e., individual realizations (replicates within an experiment or replicated experiments) will differ from the "true" value, but on average tend towards the value for the whole population.
+
+### Blocks (Lohkominen)
+
+When we are aware that experimental units differ in some qualitative or quantitative feature, and the experimental units can be classified based on this property, instead of randomization we can use this knowledge to ensure even distribution among treatments. A typical case with animals are males and females. We make sure that equal numbers of males and females are assigned to each treatment, and randomize which treatment is applied within males and females separately, instead of across the population of males and females together.
+
+We arrange the experimental units into homogeneous groups
+(according to some important characteristics). Each of these
+groups is called a _block_. Treatments are randomised
+within the blocks, normally with all treatments present in each
+block.
+
+If blocking is successful it decreases the error variance
+because the systematic variation between the blocks can be
+accounted separately in the analysis.
+
+Note: Balanced designs (blocks of the same size, equal number of
+replicates for all treatments) make analysis simpler, and should
+be preferred when possible.
+
+### Other designs related to controlling variation
+
+Similar to blocks, but with multiple classification criteria: Latin square, etc.
+
+When units differ in properties described by continuous variables, these can be measured, before applying the treatments.
+
+### Designs can also differ in the structure of the treatments
+
+Treatments can be based on multiple _factors_ and their combinations. How the randomization of their assignment is done, generates different designs. These designs can be very useful as they allow us to among other things assess the combined effects of manipulations, which in practice can be very informative as long as we keep the number of factors and their levels within reason.
+
+Factorial experiments, split-plot experiments and other hierarchical designs are frequently used in some fields.
+
+### Additional considerations
+
+In case of limited numbers of experimental units, replication in time can be a useful approach. In same cases, when effects are not long-lasting, switch over designs can be used, where each experimental unit receives all treatments sequentially in random order.
+
+### Summary diagram
+
+![Experimental units' properties and suitable experiment designs](experimental_units_flow_chart.png)
+
+# Conclusion
+
+Ideally when we do an experiment:
+
+1. We use blocks to control all sources of error (or
+background variation) which are known and that could be confounded
+with the treatments.
+
+1. Within the blocks we use randomisation and expect that it
+neutralises, or evens-out, the effects of other error sources (known and unknown).
+
+1. We include enough replicates.
+
+1. We avoid pseudo-replication.
+

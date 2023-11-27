@@ -9,6 +9,7 @@ listing:
       - "pages/R-intro.qmd"
       - "pages/ggplot2-introduction.qmd"
       - "pages/r-flow-execution.qmd"
+      - "pages/R-model-fitting-intro.qmd"
     sort: false
     type: grid
     fields: [title, date-modified, abstract]
@@ -30,9 +31,10 @@ listing:
       - "galleries/dataviz-intro.qmd"
       - "pages/approaches-to-research.qmd"
       - "pages/design-exp-principles.qmd"
+      - "pages/design-exp-intro.qmd"
       - "pages/theoretical-probability-distributions.qmd"
+      - "pages/linear-models-intro.qmd"
       - "pages/ggplot2-EDA.qmd"
-      - "pages/R-model-fitting-intro.qmd"
     sort: false
     type: grid
     fields: [title, date-modified, abstract]

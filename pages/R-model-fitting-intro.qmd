@@ -1,9 +1,9 @@
 ---
 title: "Model fitting in R"
-subtitle: "An introduction using `lm()`"
+subtitle: "An introduction to `lm()`, `glm()` and `nls()`"
 author: "Pedro J. Aphalo"
 date: 2023-05-30
-date-modified: 2023-09-13
+date-modified: 2023-11-27
 categories: [R, model fitting]
 keywords: [predicted values, residual values, parameter estimates, model formulas]
 format:
@@ -16,21 +16,27 @@ abstract:
 
 ## Introduction
 
-Fitting a model to data consists in finding the parameter values that best
+_Fitting a model_ to data consists in finding the parameter values that best
 explain the data or observations. These parameter values are estimates of
 those in a larger population of possible observations from which we have
-drawn a sample or subset.
+drawn a sample or subset. For deciding what is best, we need a criterion, and
+the most frequently used one is minimizing the "residual variance" by the
+method of ordinary least squares (OLS).
 
-::: callout-tip
-You may want to play with the my 
-[linear regression Shiny App](https://aphalo.shinyapps.io/class01-practical/#21) 
-to get a better sense of how the size of the response and error variation 
-affect the linear model fit to succesive sample draws from a normally
-distributed population of artificial observations.
-:::
+_Model selection_ involves comparing models that differ in their structure, i.e., 
+in the formula that relates parameters and data. Here we also need a criterion
+to "measure" how well a model describes the data, for example, AIC or BIC,
+which are information criteria. Alternatively, we can just choose "the simplest
+model that does a good enough job".
 
-Model selection involves comparing models that differ in their structure, i.e., 
-in the formula that relates parameters and data.
+Different approaches to model fitting make different assumptions about the 
+observations. What assumptions are reasonable for our data determines what 
+methods are applicable. Out of these, we can choose the one that best suits
+the nature of our scientific or practical question or hypothesis.
+
+Modern statistical algorithms, and their implementation in R, strive to be
+widely applicable. I will emphasize this as well as what is common to different
+methods.
 
 In general, there are many different aspects of a model fit that we may be
 interested in. The most computationally intensive step is the fitting itself.
@@ -47,10 +53,6 @@ The code in the chunks can be copied by clicking on the top right corner, where
 an icon appears when the mouse cursor hovers over the code listing.
 :::
 
-## Linear models (LM)
-
-### Fitting
-
 Attach packages used for plotting.
 
 ```{r, message = FALSE}
@@ -58,6 +60,12 @@ library(ggpmisc)
 library(broom)
 theme_set(theme_bw(16))
 ```
+
+## Linear models (LM)
+
+### Fitting
+
+I use here polynomial regressions as an example.
 
 Generate some artificial data.
 
