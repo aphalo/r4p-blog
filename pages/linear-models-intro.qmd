@@ -1,15 +1,21 @@
 ---
-title: "Linear Models (DRAFT)"
+title: "Linear Models"
 subtitle: "An introduction using `lm()`"
 author: "Pedro J. Aphalo"
 date: 2023-11-27
-date-modified: 2023-11-27
+date-modified: 2023-11-30
 categories: [R, model fitting]
 keywords: [predicted values, residual values, parameter estimates, model formulas]
 format:
   html:
-    code-fold: true
-    code-tools: true
+    mermaid:
+      theme: neutral
+code-fold: true
+code-tools: true
+callout-icon: false
+engine: knitr
+filters:
+  - webr
 abstract: 
   In this page I give a brief presentation on the mechanics of fitting statistical models to observed data using R. I use a lineal model (LM), polynomial regression, as example. I describe the most important values contained in the model fit object returned by function `lm()` and how to extract them. I rely heavily on diagrams and data plots.
 ---
@@ -93,13 +99,60 @@ ggplot(my.anscombe, aes(x,y)) +
 These concocted data examples demonstrates that when fitting any model to data, extreme caution is always needed. **We need to check graphically the observations and how well model estimates fit them.** $R^2$, $P$ values, and other parameter's estimates _must always be considered in the light of the data, rather than in isolation_.
 :::
 
-## Linear models (LM)
+## Model-fitting core ideas
+
+```{mermaid}
+flowchart TB
+s[Total variation] --> f(Model fitting)-->|origin explained| m[Model parameters]
+f -->|origin not explained| e[Experimental error]
+```
+
+What is left as experimental error is the "residual" variation, what the model we fitted could not explain (= describe). _The error estimate is the result of the interaction between data and model._
+
+The next idea is that the variance that is explained by a model can be "partitioned" so that different "sources" of variation can be compared and their importance assessed.
+
+```{mermaid}
+flowchart TB
+s[Total variation] --> f(Model fitting)-->|origin explained| m[Model parameters]
+f --->|origin not explained| e[Experimental error]
+m --> s1[y variation due to x1]
+m --> s2[y variation due to x2]
+m --> s3[y variation due to x3]
+```
+
+::: callout-tip
+# Differences among fitted models
+
+- In many cases we can choose among different models to fit.
+
+- Sometimes, models differ only in how we partition the same explained variation, facilitating different interpretations of the data. 
+
+- In many other cases different models differ in how much of the total variation they can explain and how much remains unexplained.
+:::
+
+::: callout-tip
+# Model formulas
+
+In statistics models are described by equations, and in R using _model formulas_, which are similar to these equations.
+
+_A _model formula_ defines the nature/$\approx$shape of the relationship between dependent ($y$) and independent or explanatory variables ($x_i$)._
+
+When a model is fitted numeric values to insert into the model formula are searched for. The selected values are those that explain as much of the variation among observations as possible, within the constraint of the given model formula.
+
+How the estimates are computed depends on the type of model being fitted to data and the algorithm used. However, the objective of the computations is always the same, minimizing the residual variation. (It is not necessary to always to measure the variability as variance or to use ordinary least squares, OLS, methods. OLS is, however, most effective _as long as errors are normally distributed_.)
+:::
+
+# Linear models (LM)
 
 I will start with some "unusual examples" (crazy approaches?) to try to convince you that there is much in common between model fitting and the simple statistics you already know. Grasping this is important as general concepts allows us to understand the bigger picture, and thus we can learn new methods as variations of, or extensions to, what we already know.
 
-### The mean (= average) as a fitted linear model
+## The mean (= average) as a fitted linear model
 
-A vector of 20 random numbers to play with.
+We compute the mean of sample as ${\bar x} = \frac{\sum_{i=1}^n x_i}{n}$ as an estimator of $\mu$, the mean of the population from which the sample was drawn.
+
+An example with R follows.
+
+We create a vector of 20 random numbers from the Normal distribution to play with.
 
 ```{r}
 #| code-fold: false
@@ -111,18 +164,39 @@ my.vector <- rnorm(20)
 mean(my.vector)
 var(my.vector)
 ```
-We fit a linear model, with only an intercept.
+**We may ask:** _Can we also obtain these estimators by fitting a lineal model?_
+
+The answer is, "Yes! we can."
+
+We assume that the observations $y_{ij}$ follow the linear model
+$$
+y_{ij} = \mu + \epsilon_{ij},
+$$
+and fit model to the data to obtain an estimate of $\mu$.
+
+This model in R, given that we have given the name `my.vector` to the observation, is represented by the formula `my.vector ~ 1`. This is a linear model, with only an intercept as only parameter. 
 
 ```{r}
 #| code-fold: false
 fm1 <- lm(my.vector ~ 1)
+```
+Calling `summary()` on the result from fitting the model we get an estimate for the intercept, which is the same $\bar x$ estimate we computed above.
+
+```{r}
 summary(fm1)
+```
+
+The ANOVA (analysis of variance) table, unsurprisingly, shows variance under the name of _mean square_ (MS). The residual mean square, or error variance, or residual variance gives the same value we calculated above using function `var()`.
+
+```{r}
 anova(fm1)
 ```
 
-To fit the mean as a linear model, the "Mean Sq", or MS, which is just the same variance computed above was minimized.
+To fit the mean as a linear model, the total "Sum Sq", or SS, was minimized.
 
 So fitting a model is in fact similar to computing the mean of a single variable. However, while the mean is a single parameter, we can fit models with several parameters which are adjusted simultaneously to fit a point, curve, surface or hyper-surface, depending on the case.
+
+When fitting a model we normally also estimate the standard deviation for each fitted parameter, allowing tests of significance.
 
 ### The _t_-test as a fitted model linear model
 
@@ -134,56 +208,89 @@ vec1 <- 0 + rnorm(20)
 vec2 <- 1 + rnorm(20)
 ```
 
-We can assemble a `data.frame` with them.
+We can assemble a `data.frame` with them, adding a factor with two levels representing groups.
 
 ```{r}
 #| code-fold: false
-df1 <- data.frame(obs = c(vec1, vec2), group = rep(c("g1", "g2"), each = 20))
+df1 <- data.frame(obs = c(vec1, vec2), 
+                  group = factor(rep(c("g1", "g2"), each = 20)))
+head(df1)
+summary(df1)
 ```
+We can plot the data adding means and standard errors.
 
 ```{r}
 ggplot(df1, aes(group, obs)) +
-  stat_summary(fun.data = mean_se, color = "blue") +
+  stat_summary(fun.data = mean_se, color = "red") +
   geom_beeswarm()
 ```
+
 
 ```{r}
 #| code-fold: false
 mean(vec1)
 mean(vec2)
-sd(vec1)
-sd(vec2)
+var(vec1)
+var(vec2)
 ```
+One way of calling `t.test()` is by passing the data separately for each group. 
+
 ```{r}
 #| code-fold: false
 t.test(vec1, vec2, var.equal = TRUE)
 ```
+
+We can do the same test calling `t.test()` using _model formula_ syntax. The model formula `obs ~ group`, used here, corresponds to the model formulated as $y_{ij} = \mu + \tau_i + \epsilon_{ij}$.
+
 ```{r}
 #| code-fold: false
 t.test(obs ~ group, data = df1, var.equal = TRUE)
 ```
+
+**We may ask:** _Can we test significance like with the t-test by fitting a lineal model?_
+
+The answer is, "Yes! we can."
+
+::: callout-caution
+# Intercept in R model formulas
+
+Model formulas `obs ~ 1 + group` and `obs ~ group` are equivalent as the intercept is included by default. The second form is the most commonly used. Here, to make the comparison to the model equations easier, I include the `1 +` term explicitly.
+:::
+
+The main difference in the call to `lm()` is the missing `var.equal = TRUE`, as equal variances are always assumed by `lm()`.
+
 ```{r}
 #| code-fold: false
-fm2 <- lm(obs ~ group, data = df1)
+fm2 <- lm(obs ~ 1 + group, data = df1)
 summary(fm2)
 anova(fm2)
 ```
 
-So, these two examples above show that model fitting provides estimates of population parameters, identically to computing a mean, as well as serving as the basis for tests of significance identical to the _t_-test. In addition, as we will see below, linear models set up more complex tests of significance, as well as fit models that require the simultaneous estimation of multiple parameters.
+With the three approaches, the _P_-value obtained is the same. The estimate of the difference the means of `g1` and `g2` is given in the summary for the model fit with `lm()` while `t.test` shows the two means. The square of the estimated _t_-value matches the _F_-value in the ANOVA table.
+
+So, these examples show that model fitting provides estimates of population parameters, identically to computing a mean, as well as serving as the basis for tests of significance identical to the _t_-test. In addition, as we will see below, linear models include additional models and  tests of significance to those possible with _t_-test.
+
+::: callout-note
+The _implementation_ in R of _t_-tests by default does not assume equal variances in the two groups that are compared. Linear models, as implemented in `lm()` do.
+
+Other R model-fitting functions cater for various additional cases.
+:::
 
 ### ANOVA, regression and linear models
 
-Linear models include what is called Analysis of Variance (ANOVA), linear regression, multiple regression, Analysis of Covariance, and a few other variations all wrapped together. So, one procedure that caters for a wide range of situations and designs of experiments.
+Linear models include what is called Analysis of Variance (ANOVA), linear regression, multiple regression, Analysis of Covariance, and a few other variations all wrapped together. So, one procedure caters for a wide range of situations and designs of experiments. While the _t_-test can be used to test differences between means of two groups, or between a mean and a fixed value, ANOVA can be used with two or more groups.
 
-Linear models can be computed very efficiently but make several assumptions about the data. Normally distributed and homogeneous variation of residuals.
+Linear models can be computed very efficiently but make several assumptions about the data. Other types of models, avoid some of the assumptions of LMs, but tend to be computationally more demanding.
 
 ## ANOVA vs. Regression
 
-In one-way ANOVA for a completely randomized design we have the
-following model: every population mean contains $\mu$, whereas the
-$i$th treatment contains $\tau_i$ but no other $\tau$.
+In _one-way ANOVA_ for a completely randomized design (with no blocks) we have the
+following model: every observation receives a contribution from the population
+mean contains $\mu$, observations for the $i$th treatment receive a contribution
+from $\tau_i$ but no other $\tau$. Each observation in addition is affected by
+its own bit of "random" variation.
 
-The observations $y_{ij}$ follow the linear model
+Thus, the observations $y_{ij}$ follow the linear model
 $$
 y_{ij} = \mu + \tau_i + \epsilon_{ij},
 $$
@@ -205,11 +312,11 @@ and the $x$ variable is called _independent variable_.
 
 The observations $y_{ij}$ follow the linear model
 $$
-y_{ij} = \alpha + \beta x_i + \epsilon_{ij},
+y_{ij} = \beta_0 + \beta_1 x_i + \epsilon_{ij},
 $$
 
-where $\alpha$ is the population mean when $x=0$, $x_i$ are the
-observed values for the independent variable, $\beta$ is the
+where $\beta_0$ is the population mean when $x=0$, $x_i$ are the
+observed values for the independent variable, $\beta_1$ is the
 coefficient describing the slope, and $\epsilon_{ij}$ the random
 variation associated with observation $y_{ij}$.
 
@@ -218,17 +325,49 @@ $\epsilon_{ij}$ are independent and equally distributed ---
 $\epsilon_{ij} \sim N(0,\sigma^2)$, where variance $\sigma^2$ is
 unknown and independent of $x$.
 
-It is assumed that the $x$ is measured without error.
+In regression estimates of all $\beta_i$ are usually of interest. In contrast, in ANOVA, the estimate of $\mu$ across all treatments is considered not interesting, and the focus of the analysis is on the estimate of $\tau$.
 
-Regression provides a means of predicting $y$ from $x$, but not the reverse.
+::: callout-tip
+# Assumption of Normality
+
+_What are the reasons why we so frequently assume that error variation follows a Normal distribution?_
+
+1. **Experience** The variation in the real world _rather frequently_ follows distributions that are rather similar to the Normal. _Many exceptions exist, too._
+
+1. **Convenience** Assuming a Normal distribution makes computations a lot easier than assuming other distributions. _Crucial in the absence of computers._ 
+
+1. **Theory** The distribution of parameter estimates such as the mean tend to be distributed "more normally" than the observations from which they are computed. May explain, at least in part, the first point above.
+:::
+
+::: callout-tip
+# Why "linear" in the name
+
+Linear models receive the name "linear" because of how the parameters that are estimated enter the _model formula_. They include models that when plotted can be represented by straight lines, but also by curves and even curved surfaces.
+
+Here $\beta$ enters the model equation as a multiplier of the $x_{i}.
+
+$$
+y_{ij} = \beta_0 + \beta_1\,x_i + \epsilon_{ij},
+$$
+An example of a model non-linear in its parameters is
+
+$$
+y_{ij} = \beta_0 + \mathrm{e}^{\beta_1\,x_i} + \epsilon_{ij},
+$$
+because $\beta$ enters the model equation as a part of an exponent.
+
+Whether a model to be fitted is linear in its parameters or non-linear is crucial from the perspective of the computations needed to estimate the values of the parameters. From the interpretation perspective, and use, differences are rather small.
+:::
+
+::: callout-note
+In linear models _dummy_ variables, consisting of zeros and ones, can be used to code
+treatments levels. Thus, even though we rely on factors to describe treatments, these factors are converted into an encoding consistent with that used for regression, and the same computational procedure is used internally for regression and ANOVA.
+:::
 
 ## Linear models in R
 
 Both **ANOVA** and **regression** are described by **linear models** and have
 much more in common than what it looks at first sight.
-
-In regression analysis _dummy_ variables can be used to code
-treatments.
 
 In R little distinction is made between ANOVA and regression.
 
@@ -240,9 +379,9 @@ The function `aov()` uses `lm()` internally but differs in
 that summary gives an ANOVA table, and in that it can also deal
 directly with hierarchical models (e.g. split-plot designs).
 
-## Examples in R
+## Regression examples
 
-
+I show here plots, but not not how one would do the data analysis in R.
 
 ### Interpretation of the intercept
 
@@ -251,600 +390,120 @@ We generate some artificial data (it will be different each time you run the cod
 Why will it be different? Try it?
 
 ```{r}
-x <- 100:120
-y <- x * 0.02 + rnorm(21, sd = 0.05)
+x <- -20:80
+y <- x + 50 + rnorm(101, sd = 20)
 my.data <- data.frame(x, y)
-
+summary(my.data)
 ```
 
-The we fit a model, based on the tests in the code chunk below, will in be an ANOVA or a regression? 
+We fit a linear regression (R's model formula `y ~ x` or its verbose equivalent `y ~ 1 + x`).
+
+$$
+y_{ij} = \beta_0 + \beta_1 x_i + \epsilon_{ij},
+$$
 
 ```{r}
-is.factor(x)
-is.numeric(x)
-is.factor(y)
-is.numeric(y)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(se = FALSE) +
+  stat_poly_eq(use_label(c("eq")))
 ```
 
-```{r}
-mf1 <- lm(y ~ x, data = my.data)
-anova(mf1)
-summary(mf1)
-plot(y ~ x, data = my.data)
-abline(mf1)
-```
+### Residuals or deviations
+
+All deviations from the fitted curve are assigned to variation in $y$, as an assumption of LM fitting.
 
 ```{r}
-mf2 <- lm(y ~ I(x - 100), data = my.data)
-anova(mf2)
-summary(mf2)
-plot(y ~ I(x - 100), data = my.data)
-abline(mf2)
-```
-
-### Residuals
-
-```{r}
-plot(mf1, which = 1)
-plot(mf1, which = 2)
-```
-
-In _regression_ the assumption is that the explanatory variable is **measured** without error.
-
-What does this mean? Does it mean that the population of _x_ has no variation? or something else?
-
-### Regression of _x_ on _y_
-
-If we switch _X_ and _y_ we now assume that _y_s are **measured** without error.
-
-### Regression and change points
-
-We will use a modified dataset, based on the pH data for rivers of
-the South Island of New Zealand.
-
-First means for each month were calculated from the five
-observations in each random sample.
-
-Then a new variable was created by adding:
-`c(rep(0, 60), (1:60) / 40)` to the vector
-holding the mean pH values.
-
-This is a linear trend starting at the beginning of the third year
-of observations and having an increase in pH of 0.05 units per
-month.
-
-### Data used in examples
-
-```{r}
-library(lubridate)
-load("data-files/SI.long.rda")
-SI.data <- data.frame(date = ymd("1980-01-01", tz = "UTC") + months(1:120),
-                      month = 1:120,
-                      pH = south.island.long$pH)
-SI.data$pH.tr <- SI.data$pH + c(rep(0, 60), (1:60) / 40)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line(se = FALSE) +
+  stat_fit_deviations(colour = "red")
 ```
 
 ```{r}
-plot(pH.tr ~ month, data = SI.data, col = "red")
-points(pH ~ month, data = SI.data)
+ggplot(my.data, aes(x, y)) +
+  geom_hline(yintercept = 0) +
+  stat_fit_residuals(colour = "red")
 ```
 
-## Linear regression
+::: callout-caution
+# Assumption about $x$
 
-### Original data
+_It is assumed that the $x_i$ are measured without error._
+
+Regression provides a means of predicting $y$ from $x$, but not the reverse.
+
+For example, this does not mean that there is no biological variation, but instead that the values of the independent variable are known. As with other assumptions, small deviations are rarely important.
+
+This stems from the idea of dependent vs. independent variables, and cause and effect. We assume that all the variation that is observed in the $y_{ij}$ is caused by variation in the response to the known $x_{ij}$ or to the known $\tau_i$.
+
+_This is a very frequent assumption, but methods do exist that do not involve this assumption._
+:::
+
+### Variability of the estimates
+
+A confidence band for the fitted model encloses the predicted relationship, in this case a straight line. It informs about the uncertainty about our estimate of the relationship for the whole population.
+
+While we use $\beta_i$ for the values of the parameters in the population, we use $b_i$ for the estimates obtained by fitting the model to a sample.
 
 ```{r}
-SI.lm <- lm(pH ~ month, data = SI.data)
-anova(SI.lm )
-summary(SI.lm)
+ggplot(my.data, aes(x, y)) +
+  geom_point() +
+  stat_poly_line() +
+  stat_fit_tb(label.x = "left",
+              tb.params = c("b[0]" = 1, "b[1]" = 2),
+              tb.vars = c("Param." = 1, "Estimate" = 2,
+                          "italic(s)[b[i]]" = 3, "italic(t)" = 4,
+                          "italic(P)" = 5),
+              parse = TRUE)
 ```
 
-### Data with added slope
+## Some code examples
 
-We first try a linear regression, and do plots for diagnosis:
+The code chunks below show the steps for analysis of variance (ANOVA) applied to weights of three groups of plants. The example data are included in R. You can run the code directly in this web page (in the browser, no R installation needed). The same code, of course, runs in RStudio and R itself.
+
+```{webr-r}
+help(PlantGrowth)
+```
+
+```{webr-r}
+summary(PlantGrowth)
+```
+A quick plot of the data.
+
+```{webr-r}
+boxplot(weight ~ group, data = PlantGrowth)
+```
+
+A bit more sophisticated plot.
 
 ```{r}
-SI.tr.lm <- lm(pH.tr ~ month, data=SI.data)
-anova(SI.tr.lm )
-summary(SI.tr.lm)
-```
-
-```{r}
-plot(SI.tr.lm, which=1, pch=16)
-plot(pH.tr ~ month, data=SI.data, pch=16)
-lines(fitted(SI.tr.lm) ~ month,
- data=SI.data, type="l", lwd=2, lty=2)
-
-```
-
-The coefficient for month is very significant, but we should check
-the residuals to see if the fit is good or not.
-
-## Second degree polynomial
-
-We now try a second degree polynomial.
-
-```{r}
-SI.tr2.lm <- lm(pH.tr ~ month + I(month^2), data=SI.data)
-plot(SI.tr2.lm, which = 1, pch = 16)
-plot(pH.tr ~ month, data = SI.data, pch = 16)
-lines(fitted(SI.tr2.lm) ~ month,
- data=SI.data, type = "l", lwd = 2, lty = 2)
-summary(SI.tr2.lm)
-
-```
-
-Both the linear and quadratic terms are significant.
-
-We can also
-compare the fits to the two models using `anova`:
-
-```{r}
-anova(SI.tr.lm, SI.tr2.lm)
-```
-
-## Two separate linear regressions
-
-Because we creted the data artifically we know that there is a "change point"
-half way into the time series. We can fit two separate linear models, one to
-eacch half of the data, and compare them to that fitted to all data, shown above.
-
-```{r}
-SI.tr.lm <- lm(pH.tr ~ month, data=SI.data)
-SI.tr.A.lm <- lm(pH.tr ~ month, data=SI.data,
- subset=month<=60)
-SI.tr.B.lm <- lm(pH.tr ~ month, data=SI.data,
- subset=month>60)
-```
-
-```{r}
-plot(pH.tr ~ month, data=SI.data, pch=16)
-abline(SI.tr.lm, col="black", lty=2, lwd=2)
-abline(SI.tr.A.lm, col="red", lty=3, lwd=2)
-abline(SI.tr.B.lm, col="blue", lty=4, lwd=2)
-legend(2,9,
- legend=c("All", "month <= 24", "month > 24"),
- col=c("black","red","blue"), lty=c(2,3,4), lwd=2)
-title("Linear regressions")
-
-```
-
-### The three fitted regression models
-
-```{r}
-anova(SI.tr.lm)
-```
-
-```{r}
-anova(SI.tr.A.lm)
-```
-
-```{r}
-anova(SI.tr.B.lm)
-```
-
-```{r}
-summary(SI.tr.B.lm)
-```
-
-In the separate fits, the estimate of the coefficient for month (slope) is now
-close to that used to generate the data.
-
-# Chow's _F_ test
-
-With real data, we would not know the position or even whether there is
-significanr a change point in the data. We can use Chow's _F_ test to test if
-fitting two separate regressions according to a known change point, as just
-shown, is significantly better than fitting a single regression.
-
-The models are fitted by ordinary least squares (OLS).
-An $F$-value is calculated based on the residuals. The numerator
-measures how much the fit improves (how much the residuals
-decrease) by fitting two separate lines. The denominator measures
-the error based on the residuals for the `bigger' model (two
-separate regressions).
-
-The test proposed by Chow for a known change point can be extended
-to the case of an unknown change point.
-
-These tests are used to find a single change point in the series.
-They do not test for whether there is a trend or not, they test
-for a change in the 'structure' of the series.
-
-As implemented they can be used for testing an unreplicated
-series, so we use the mean of the five observations from each
-month's sample.
-
-As we just saw the procedure is to divide the data into two parts,
-before and after the possible change point and to do two separate
-fits, one for each part of the data, and then compare these fits
-to fitting a single curve to all data.
-
-The difference is that now we test all possible change points in a
-given interval.
-
-Consequently, the _F_-statistic is calculated for all possible
-change points in an interval.
-
-These _F_-statistic values can be plotted or used to calculate the
-probability for the existence of a change point.
-
-First we look for a change in slope or intercept, in the original
-data set.
-
-```{r}
-library(strucchange)
-SI.fs <- Fstats(pH ~ month, from = 0.25,
- data=SI.data)
-sctest(SI.fs)
-
-```
-
-Then we look for a change in slope or intercept, in the data set
-with a trend.
-
-```{r}
-SI.tr.fs <- Fstats(pH.tr ~ month, from = 0.25,
- data=SI.data)
-
- sctest(SI.tr.fs)
-
-```
-
-# Generalized fluctuation tests
-
-These are based either on estimates of regression coefficients or on residuals.
-Estimates from fits to all data are compared to those from subsamples of the
-data. One way of choosing the subsamples is using a moving window. If there are
-no structural changes the estimates from all data and from subsamples should be
-similar.
-
-If there are structural changes, the true coefficients will change over time,
-and the estimates from some subsamples of the data will differ... or the
-residuals will differ.
-
-We again first test the original data.
-
-```{r}
-SI.efp <- efp(pH ~ month, type="OLS-MOSUM",
- data=SI.data)
-plot(SI.efp)
-sctest(SI.efp)
-
-```
-
-And then we test the data with a trend added.
-
-```{r}
-SI.tr.efp <- efp(pH.tr ~ month, type="OLS-MOSUM",
- data=SI.data)
-plot(SI.tr.efp)
-sctest(SI.tr.efp)
-
-```
-
-The empirical fluctuation process, in the this case the sum over a
-moving window of the residuals, crosses the $\alpha = 0.05$
-boundary line at about the place were the change in slope starts.
-
-# Fitting a model with a hinge
-
-Linear models allow a lot of flexibility. It is important to understand that
-models representing the same fitted lines or curves can be fitted using
-different model formulas, which result in different tests of significance. We
-will go in this section through multiple examples. In all cases, one should
-plot the predictions from the fitted model together with the data, as this is
-a very effective way of judging the suitability of the model. This was
-demonstrated by Anscombe's artificial data, but applies to any data set and
-model.
-
-## Using a factor
-
-When there is a knwon change point in the data (as we detected with the
-tests above), we need to fit a model that corresponds to a function that
-can have a knot or hinge. The simplest such model is two straight lines joined
-at a knot. This is the simplest possible case of what is called a _linear spline_.
-
-The first stept is to create a factor that informs whether observations apear
-before or after the change point.
-
-```{r}
-SI.data$half <- factor(ifelse(SI.data$month < 60, "first", "second"))
-```
-
-In the model fitted below `month` is a numeric variable and `half` a factor
-with two levels.
-
-```{r}
-mflspl1 <- lm(pH.tr ~ month * half, data = SI.data)
-summary(mflspl1)
-```
-
-## Using dummy variables
-
-Instead of using a factor we can use dummy variables, numeric variables that take either
-0 or 1 as value. With start with the equivalent of the contrasts that R used by default
-in the example immediately above. 
-
-```{r}
-SI.data$dummy.early <- ifelse(SI.data$month < 60, 1, 0)
-SI.data$dummy.late <- ifelse(SI.data$month < 60, 0, 1)
-```
-
-```{r}
-mflspl2 <- lm(pH.tr ~  1 + month + I(1 * dummy.late) + I(month * dummy.late), data = SI.data)
-summary(mflspl2)
-```
-
-We now will set up the model differently. You will need to work out what is
-the difference with respect to the estimates and their significance. Note
-that in this case "- 1" is needed to remove the overall intercept from the model.
-
-```{r}
-mflspl3 <- lm(pH.tr ~  I(1 * dummy.early) + I(month * dummy.early) +
-                I(1 * dummy.late) + I(month * dummy.late) - 1, data = SI.data)
-summary(mflspl3)
-```
-### Plotting the fitted values
-
-```{r}
-SI.data$pH.tr.fitted1 <- fitted(mflspl1)
-SI.data$pH.tr.fitted2 <- fitted(mflspl2)
-SI.data$pH.tr.fitted3 <- fitted(mflspl3)
-```
-
-```{r}
-plot(pH.tr ~ month, data = SI.data)
-lines(pH.tr.fitted1 ~ month, data = SI.data)
-lines(pH.tr.fitted2 ~ month, data = SI.data, col = "red")
-lines(pH.tr.fitted3 ~ month, data = SI.data, col = "Blue")
-```
-### Plotting the predicted values
-
-As R users nowadays use package 'ggplot2' instead of R's own functions for 
-plotting. In the rest of this archive I use R's `plot()` but in the next
-two examples I use `ggplot()` as in this case is simpler to use.
-
-```{r}
-new.data <- data.frame(month = 1:120)
-new.data$half <- factor(ifelse(new.data$month < 60, "first", "second"))
-```
-
-```{r}
-library(ggplot2)
-predict.data <- cbind(new.data, 
-                      predict(mflspl1, new.data, interval = "confidence")) 
-ggplot(data = predict.data) +
-  geom_point(data = SI.data, 
-             mapping = aes(x = month, y = pH.tr)) +
-  geom_ribbon(alpha = 0.25, color = NA, 
-              mapping = aes(x = month, y = fit, ymax = upr, ymin = lwr)) +
-  geom_line(color = "red", mapping = aes(x = month, y = fit))
-```
-
-For a predition with the third model we need new data containing the dummy
-variables, instead of the factor.
-
-```{r}
-new.data <- data.frame(month = 1:120)
-new.data$dummy.early <- ifelse(new.data$month < 60, 1, 0)
-new.data$dummy.late <- ifelse(new.data$month < 60, 0, 1)
-```
-
-```{r}
-library(ggplot2)
-predict.data <- cbind(new.data, predict(mflspl3, new.data, interval = "confidence")) 
-ggplot(data = predict.data) +
-  geom_point(data = SI.data, mapping = aes(x = month, y = pH.tr)) +
-  geom_ribbon(alpha = 0.25, color = NA, mapping = aes(x = month, y = fit, ymax = upr, ymin = lwr)) +
-  geom_line(color = "red", mapping = aes(x = month, y = fit))
-```
-
-We can see that even though the parametrization is different the fit and its
-confidence band remain the same.
-
-### Questions
-
-**A)** What is the difference between the two approaches?
-**B)** What do the parameter estimates represent in each case?
-**C)** Although you get different estimates from the two models, can you calculate the same value for the slope in both cases?
-
-# Robust and resistant statistics
-
-If changing a small part of the body of data, perhaps drastically,
-can change the value of the summary substantially, the summary is
-not resistant. Example: the **mean**.
-
-Conversely, if a change of a small part of the data, no matter
-what part or how substantially, fails to change the summary
-substantially, the summary is said to be _resistant_.
-Example: the **median**.
-
-_Robustness:_ lack of susceptibility to the effects of
-non-normality.
-
-_Robustness of validity._ example: confidence interval for
-the population median based on the sign test.
-
-_Robustness of efficiency:_ how much information is
-extracted from the data under different situations.
-
-A robust statistic performs well under different circumstances.
-
-# Robust and resistant regression
-
-Robust regression methods are at least partially resistant to
-outliers, those called resistant methods are even more resistant.
-
-There are several methods that can be used for robust regression.
-
-There are also several methods for resistant regression.
-
-In most cases they yield only approximate solutions calculated by
-iteration.
-
-We will not discuss the complexities of how they work, but give an
-example of the use of weighted likelihood, a recently developed
-method.
-
-As an oversimplification it can be said that this method assigns a
-weight to each observation based on the relationship between a
-chosen model distribution and the empirical cumulative
-distribution.
-
-## Data with outliers
-
-We first add six outliers to the pH data from rivers of the South
-Island of New Zealand. That is to the original data rather than those data with
-the added change point we fitted models to in the examples immediatley above.
-
-```{r}
-attach(SI.data)
-SI.data$pH.out <- SI.data$pH
-SI.data$pH.out[110:115] <- SI.data$pH[110:115] + 2.0
-detach()
+ggplot(PlantGrowth, aes(group, weight)) +
+  geom_beeswarm() +
+  geom_boxplot(colour = "red", width = 0.33, fill = NA)
 ```
 
 
-## Linear regression by OLS
-
-**OLS** = ordinary least squares, the most usual method for model fitting.
-
-```{r}
-SI.out.lm <- lm(pH.out ~ month, data=SI.data)
-summary(SI.out.lm)
+```{webr-r}
+fmPG <- lm(weight ~ group, data = PlantGrowth)
+fmPG
 ```
 
-Because of the six outliers, the slope for month is significantly
-different from zero.
 
-### Plotting the prediction
-
-```{r}
-new.data <- data.frame(month = 1:120)
+```{webr-r}
+plot(fmPG, which = 1)
+plot(fmPG, which = 2)
+# plot(fmPG, which = 3)
+# plot(fmPG, which = 4)
+plot(fmPG, which = 5)
+# plot(fmPG, which = 6)
 ```
 
-```{r}
-library(ggplot2)
-predict.out.data <- cbind(new.data, 
-                      predict(SI.out.lm, new.data, interval = "confidence")) 
-ggplot(data = predict.out.data) +
-  geom_point(data = SI.data, 
-             mapping = aes(x = month, y = pH.out)) +
-  geom_ribbon(alpha = 0.25, color = NA, 
-              mapping = aes(x = month, y = fit, ymax = upr, ymin = lwr)) +
-  geom_line(color = "red", mapping = aes(x = month, y = fit))
-```
 
-## Robust regression with wle (weighted likelihood)
-
-WLE works by assuming a given distribution for the residuals, the Normal. Then
-uses the likelihood of the residuals and downweights those in the empirical
-distribution that are exceptional compared to the Normal.
-
-```{r}
-library(MASS)
-SI.out.rlm <- rlm(pH.out ~ month, data=SI.data)
-summary(SI.out.rlm)
-plot(SI.out.rlm, ask = FALSE)
-```
-
-Now the outliers are ignored, and  the coefficient for
-month does not differ significantly from zero.
-
-## Plotting the lines
-
-```{r}
-plot(pH.out ~ month, data=SI.data, pch=16)
-lines(fitted(SI.out.rlm) ~ month, data=SI.data)
-lines(fitted(SI.out.lm) ~ month, data=SI.data, lty=2)
-legend(x = 0, y = 9.5, legend=c("lm", "rlm"), lty=c(2,1))
+```{webr-r}
+anova(fmPG)
 
 ```
 
-# $x$ measured without error
 
-Let's see what happens if we assume that `pH.out` is measured without error, by
-symply swapping the places of `month` and `pH.out` in the model formula.
-
-```{r}
-SI.out.xy.lm <- lm(month ~ pH.out, data=SI.data)
-summary(SI.out.xy.lm)
-```
-### Question
-
-  1. How different do you expect the lines to be?
-
-### Plotting the prediction
-
-```{r}
-new.data <- data.frame(pH.out = seq(from = 7, to = 10, length.out = 120))
-predict.xy.data <- cbind(new.data, 
-                         predict(SI.out.xy.lm, new.data, interval = "confidence")) 
-```
-
-We first plot according to the formulation of the model we have fitted.
-
-```{r}
-ggplot(data = predict.xy.data) +
-  geom_point(data = SI.data, 
-             mapping = aes(y = month, x = pH.out)) +
-  geom_ribbon(alpha = 0.25, color = NA, 
-              mapping = aes(y = fit, x = pH.out, ymax = upr, ymin = lwr)) +
-  geom_line(color = "red", mapping = aes(y = fit, x = pH.out))
-```
-
-The line in the plot above looks as expected. Even though we have fitted a 
-linear regression of `month` on `pH.out` we will
-still flip the _x_- and _y_-axes so that it is easier to compare to 
-earlier figures.
-
-```{r}
-ggplot(data = predict.xy.data) +
-  geom_point(data = SI.data, 
-             mapping = aes(y = month, x = pH.out)) +
-  geom_ribbon(alpha = 0.25, color = NA, 
-              mapping = aes(y = fit, x = pH.out, ymax = upr, ymin = lwr)) +
-  geom_line(color = "red", mapping = aes(y = fit, x = pH.out)) +
-  coord_flip()
-```
-
-## Major axis regression
-
-The example above only demonstrates how different the fitted lines can be, but
-in practice, given the extreme outliers, it does not make sense to assume that
-they are not exceptional. This does not necesarily mean that we can ignore or
-remove these observations, as they may contain important information, but
-possibly they will need to be studied as separate cases.
-
-We will use package 'lmodel2' and a different example data set that is a real
-use case. If you have data from _surveys_ where you want to study relationships
-between measured variables that are subject to random variation then OLS linear
-regression is likely to bias the slope estimates. For details read the _vignette_
-that accompanies 'lmodel2'.
-
-```{r}
-library(lmodel2)
-```
-
-An example taken from the documentation.
-
-```{r}
-## Example 1 (surgical unit data)
-data(mod2ex1)
-Ex1.res <- lmodel2(Predicted_by_model ~ Survival, data=mod2ex1, nperm=99)
-Ex1.res
-plot(Ex1.res) 
-```
-
-```{r}
-## Example 2 (eagle rays and Macomona)
-data(mod2ex2)
-Ex2.res <- lmodel2(Prey ~ Predators, data=mod2ex2, "relative", "relative", 99)
-Ex2.res
-op <- par(mfrow = c(1,2))
-plot(Ex2.res, "OLS")
-plot(Ex2.res, "RMA")
-par(op)
-```
-
+**By editing the code in the chunks above, analyse the data set `chickwts`, also included in R.**

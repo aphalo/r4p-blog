@@ -1,0 +1,102 @@
+---
+title: "Alternative approaches"
+subtitle: "Robust, quantile and major axis regression"
+author: "Pedro J. Aphalo"
+date: 2023-11-30
+date-modified: 2023-11-30
+categories: [R, model fitting]
+keywords: [predicted values, residual values, parameter estimates, model formulas]
+format:
+  html:
+    mermaid:
+      theme: neutral
+code-fold: true
+code-tools: true
+callout-icon: false
+engine: knitr
+filters:
+  - webr
+draft: true
+abstract: 
+  In this page I give a brief presentation on alterative approaches to OLS fitting of linear models using R. I use robust linear models, quantile regression and major axis regression as examples. I rely heavily on diagrams and data plots.
+---
+
+## Introduction
+
+::: callout-tip
+In this page some code chunks are "folded" so as to decrease the clutter. Above the R
+output, text or plots, you will find a small triangle followed by "Code".
+Clicking on the triangle "unfolds" the code chunk making visible the R code used
+to produce the output shown.
+The code in the chunks can be copied by clicking on the top right corner, where
+an icon appears when the mouse cursor hovers over the code listing.
+:::
+
+Attach packages used for plotting.
+
+```{r, message = FALSE}
+library(ggpmisc)
+library(broom)
+theme_set(theme_bw(16))
+```
+
+# Robust and resistant statistics
+
+If changing a small part of the body of data, perhaps drastically,
+can change the value of the summary substantially, the summary is
+not resistant. Example: the **mean**.
+
+Conversely, if a change of a small part of the data, no matter
+what part or how much, fails to change the summary
+substantially, the summary is said to be _resistant_.
+Example: the **median**.
+
+_Robustness:_ lack of susceptibility to the effects of
+non-normality.
+
+_Robustness of validity._ example: confidence interval for
+the population median based on the sign test.
+
+_Robustness of efficiency:_ how much information is
+extracted from the data under different situations.
+
+A robust statistic performs well under different circumstances.
+
+# Quantile regression
+
+Last week we saw that there is a parallel between fitting a lineal model, and
+the estimation of the mean.
+
+
+# Robust and resistant regression
+
+Robust regression methods are at least partially resistant to
+outliers, those called resistant methods are even more resistant.
+
+There are several methods that can be used for robust regression.
+
+There are also several methods for resistant regression.
+
+In most cases solutions are calculated by approximation using iterative 
+algorithms.
+
+As an oversimplification it can be said that these methods assign a
+weight to each observation based on the relationship between an
+assumed distribution of residuals (e.g., Normal) and the empirical observed
+distribution of residuals.
+
+# Major axis regression
+
+The example above only demonstrates how different the fitted lines can be, but
+in practice, given the extreme outliers, it does not make sense to assume that
+they are not exceptional. This does not necessarily mean that we can ignore or
+remove these observations, as they may contain important information, but
+possibly they will need to be studied as separate cases.
+
+We will use package 'lmodel2' and a different example data set that is a real
+use case. If you have data from _surveys_ where you want to study relationships
+between measured variables that are subject to random variation then OLS linear
+regression is likely to bias the slope estimates. For details read the _vignette_
+that accompanies 'lmodel2'.
+
+
