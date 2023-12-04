@@ -151,14 +151,14 @@ The observations (artificial data in this case). Same plot as above, will be the
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point()
+  geom_point()
 ```
 
 The _fitted values_, as blue points, added. Fitted values are the "model predictions" for the observed values of _x_.
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_fit_fitted(formula = y ~ poly(x, 3), 
                   colour = "blue")
 ```
@@ -167,7 +167,7 @@ The residuals plotted as deviations from the fitted values. These residuals (in 
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_fit_deviations(formula = y ~ poly(x, 3), 
                       colour = "red", 
                       arrow = arrow(length = unit(0.33, "lines"), ends = "both")) +
@@ -188,7 +188,7 @@ The form of the _equation of the fitted curve_ is given by the model formula pas
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_fit_deviations(formula = y ~ poly(x, 3), 
                       colour = "red", 
                       arrow = arrow(length = unit(0.33, "lines"), ends = "both")) +
@@ -201,7 +201,7 @@ The _equation_ describes a curve. The prediction line passes through the fitted 
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_poly_line(formula = y ~ poly(x, 3), se = FALSE) +
   stat_poly_eq(formula = y ~ poly(x, 3),
                mapping = use_label("eq"))
@@ -211,7 +211,7 @@ The prediction line and $R^2$, $n$, $F\textrm{-value}$ and $P\textrm{-value}$. W
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_poly_line(formula = y ~ poly(x, 3), se = FALSE) +
   stat_poly_eq(formula = y ~ poly(x, 3),
                mapping = use_label("eq")) +
@@ -224,7 +224,7 @@ When additional details for each parameter estimate are of interest, a table is 
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_poly_line(formula = y ~ poly(x, 3), se = FALSE) +
   stat_fit_tb(method.args = list(formula = y ~ poly(x, 3)),
               tb.vars = c(Term = 1, 
@@ -253,7 +253,7 @@ What we have plotted is a confidence band for the curve itself, not a density es
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   stat_poly_line(formula = y ~ poly(x, 3), se = TRUE) +
   stat_fit_deviations(formula = y ~ poly(x, 3), colour = "red", 
                       arrow = arrow(length = unit(0.33, "lines"), ends = "both"))
@@ -263,7 +263,7 @@ The prediction line plus its 95% confidence band with extrapolation. When we ext
 
 ```{r}
 ggplot(my.data, aes(x = x, y = y)) +
-         geom_point() +
+  geom_point() +
   geom_vline(xintercept = range(my.data$x), linewidth = 0.33) +
   stat_poly_line(formula = y ~ poly(x, 3), se = TRUE, fullrange = TRUE) +
   expand_limits(x = c(-10, 40)) # an arbitrary range
