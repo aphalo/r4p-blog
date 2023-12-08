@@ -3,7 +3,7 @@ title: "ooacquire 0.4.x"
 subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-06-10
-date-modified: 2023-06-10
+date-modified: 2023-12-04
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
@@ -16,11 +16,17 @@ versions in the 0.4.x series. I will update this same post in the case of minor
 version updates, and start a new post when the first version in the 0.5.x series
 is developed. I hope this will reduce the clutter and still provide a good
 overview of progress. Differences between versions are listed in detail in the
-[NEWS file](https://docs.r4photobiology.info/ooacquire/news/).
+[NEWS file](https://docs.r4photobiology.info/ooacquire/news/). Installation 
+instructions are given in the 
+[README file](https://docs.r4photobiology.info/ooacquire/).
 
 :::
 
 ## Overview of changes
+
+_Version 0.4.2_ Tracks a change in 'photobiology' (>= 0.11.0), and depends on
+these newer versions. The vignette is also updated to work correctly with 
+'ggspectra' (>= 0.3.12).
 
 _Versions 0.4.0 and 0.4.1_ have full support for acquisition of time series
 of spectra. Version 0.4.1 adds checks for two conditions that are frequent when acquiring time series of spectra: 1) increased dark counts in only a part of the detector array, and 2) changes in irradiance between successive exposures when using integration time bracketing for HDR (high dynamic range) measurements. In the case of 1) all that is possible is to issue a warning, set an attribute to mark the spectrum as failing the quality control and expect the operator to solve the overheating problem. In the case of 2) merging of spectra taken with different integration times is skipped if they are not consistent and a message is emitted. This ensures that spectra with distorted shape can be avoided at the cost of a decrease in dynamic range in those cases that HDR cannot be validly applied.
