@@ -3,7 +3,7 @@ title: "Nudging + repulsion with 'ggrepel' and 'ggpp'"
 subtitle: "Directed/ordered data labels' positions avoiding overlaps"
 author: "Pedro J. Aphalo"
 date: "2023-02-28"
-date-modified: "2023-07-25"
+date-modified: "2023-12-12"
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
 categories: [Plotting examples]
 abstract: |
@@ -622,6 +622,34 @@ ggplot(df, aes(x, yy)) +
                                            x = 0.5, 
                                            y = 5,
                                            direction = "split"))
+```
+
+## Combined dodge and nudge
+
+In many cases combining nudging along one plot axis and repulsion along the other axis makes it possible to constrain the randomness of the labelling in the resulting plot. Applying this approach to labelling dodged points is not possible using the position functions defined in package 'ggplot2'. Package 'ggpp' defines a combined position function that "keeps" the dodged position making it possible for `geom_text_repel()` to draw segments connecting the text to the dodged points.
+
+```{r, eval=eval_ggrepel}
+mtcars <- mtcars
+mtcars$cyl <- factor(mtcars$cyl)
+mtcars$am <- factor(mtcars$am)
+
+ggplot(mtcars, aes(x = am, y = mpg, label = format(mpg, 3))) +
+  geom_text_repel(
+    mapping = aes(group = cyl),
+    position = position_dodgenudge(width = 0.9, 
+                                   y = 0, x = c(-0.1, 0.1)),
+    box.padding = 0.15,
+    size = 3,
+    alpha = 0.9,
+    min.segment.length = 0,
+    direction = "y"
+  ) +
+  geom_point(
+    mapping = aes(color = cyl),
+    position = position_dodge(width = 0.9),
+    size = 3,
+    alpha = 0.5
+  )
 ```
 
 ## Acknowledgements
