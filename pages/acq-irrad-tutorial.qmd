@@ -3,10 +3,12 @@ title: "Spectral Irradiance with 'ooacquire'"
 subtitle: "Tutorial and Description of the UI of acq_irrad_interactive()"
 author: "Pedro J. Aphalo"
 date: 2023-04-27
-date-modified: 2023-12-28
+date-modified: 2023-12-31
 categories: [R for Photobiology, data acquisition]
 keywords: [ooacquire pkg, acq_irrad_interactive, spectral irradiance, spectral fluence]
 code-fold: false
+abstract: |
+  The use of function acq_irrad_interactive() from package 'ooacquire' >= 0.4.3 is described in detail. It can be used to acquire irradiance and fluence spectra, and time series of spectra with OceanOptics spectrometers.
 ---
 
 ::: callout-note
@@ -14,22 +16,28 @@ Package 'ooacquire' is part of the [R for Photobiology suite of R packages](r4p-
 :::
 
 ::: callout-warning
-The description and diagrams shown in this page are valid for 'ooacquire' versions $\geq$ 0.4.3. Versions $\leq$ 0.4.2 differ from version 0.4.3 in the user interface implemented in function `acq_irrad_interactive()` described in this page. Acquisition of fluence spectra with function `acq_irrad_interactive()` is possible only in versions $\geq$ 0.3.4 of 'ooacquire'. The user interface and functionality of repeated measurements was modified in version 0.4.3. In addition, version 0.4.3, introduces asynchronous file saving as a still experimental feature. This version also introduces the possibility of interactively disabling the display of plots in the R session independently of saving of plots to PDF files on disk.
+The description and diagrams shown in this page are valid for 'ooacquire' versions $\geq$ 0.4.3. Versions $\leq$ 0.4.2 differ from version 0.4.3 in the user interface implemented in function `acq_irrad_interactive()` described in this page. Acquisition of fluence spectra with function `acq_irrad_interactive()` is possible only in versions $\geq$ 0.3.4 of 'ooacquire'. The user interface and functionality of repeated measurements was modified in version 0.4.3. The text of menus and prompts was slightly adjusted in versions 0.4.3-1 and 0.4.3-2. In addition, version 0.4.3, introduced asynchronous file saving as a still experimental feature. This version also introduces the possibility of interactively disabling the display of plots in the R session independently of saving of plots to PDF files on disk.
 :::
 
 ## Introduction
 
 R package ['ooacquire'](https://docs.r4photobiology.info/ooacquire/) is a component of the [R for Photobiology](https://www.r4photobiology.info/pages/r4p-introduction.html) suite of packages and supports the near-real-time acquisition of spectral data using Ocean Optics spectrometers from [Ocean Insight](https://www.oceaninsight.com/). Package 'ooacquire' imports and uses classes, methods and functions defined in other packages of the suite.
 
-Spectral energy irradiance is expressed in $W\,m^{-2}\,nm^{-1}$ and spectral fluence in $J\,m^{-2}\,nm^{-1}$. The corresponding photon-based units are $mol\,s^{-1}\,m^{-2}\,nm^{-1}$ and $mol\,m^{-2}\,nm^{-1}$. Irradiance is a flux rate expressed per unit time and fluence is an exposure expressed per event. When illumination is constant during a short measurement event, it is customary to describe its intensity using irradiance. When illumination is a discrete pulse shorter than the duration of the measurement event, fluence is used to describe the amount of energy or number of photons per pulse. Fluence can be easily computed from irradiance if we known the duration of the exposure. Computing actual irradiance from fluence is nearly impossible unless the pulse are from a square wave and we know their duration. Of course, if pulse are regularly spaced in time, have the same duration and amplitude and the measurement last for long enough, we can obtain an average irradiance across a train of pulses, as emitted by some light sources, e.g., because of AC mains power. PWM dimming or other non-DC power lamp drivers.
+Spectral energy irradiance is expressed in $W\,m^{-2}\,nm^{-1}$ and spectral fluence in $J\,m^{-2}\,nm^{-1}$. The corresponding photon-based units are $mol\,s^{-1}\,m^{-2}\,nm^{-1}$ and $mol\,m^{-2}\,nm^{-1}$. Irradiance is a flux rate expressed per unit time and fluence is an exposure expressed per event. When illumination is constant during a short measurement event, it is customary to describe its intensity using irradiance. When illumination is a discrete pulse shorter than the duration of the measurement event, fluence is used to describe the amount of energy or number of photons per pulse. In general, which approach is preferred depends on how the output of the light source varies in time and whether a description of the temporal variation is of interest or not.
 
-Function `acq_irrad_interactive()` implements the interactive acquisition of spectral irradiance and spectral fluence data using Ocean Optics array spectrometers. It returns the acquired data as a *side effect* by saving them to files on disk. The raw-counts data are acquired and converted into spectral irradiance values (conversion can be disabled and later done off-line).
+::: callout-note
+Fluence can be easily computed from irradiance if we known the duration of the exposure, and for long exposures to constant irradiance, this is the preferred approach. Computing actual irradiance during a short pulse from fluence is nearly impossible unless the pulse or pulses are shaped like a square wave and we know their duration. Of course, if pulses are regularly spaced in time, have the same duration and amplitude and the measurement lasts for long enough, we can obtain an average irradiance across a train of pulses, as emitted by some light sources, e.g., because of AC mains power. PWM dimming or other non-DC power lamp drivers can be described as a wave pattern, in which case it is important for a measurement to be timed so that it includes a small number of whole cycles or many cycles. It is also possible to compute based on the frequency of repeated pulses an average irradiance from a measurement of fluence per pulse.
+:::
 
-The acquisition of an irradiance spectrum involves in most cases the acquisition of multiple raw-counts spectra from a spectroradiometer, usually a dark reference spectrum and the spectrum corresponding to the light source being measured. When using sophisticated measurement and correction protocols, the number of raw-counts spectra needed to compute one irradiance spectrum can be six or more. Each of these raw-count spectra, can itself be computed in the spectroradiometer hardware as the average of multiple successive acquisitions of raw-counts data.
+Function `acq_irrad_interactive()` implements the interactive acquisition of spectral irradiance and spectral fluence data using Ocean Optics array spectrometers. It returns the acquired data as a *side effect* by saving them to files on disk. The raw-counts data are acquired and converted into spectral irradiance values (if desired conversion can be disabled and later done off-line).
+
+The acquisition of an irradiance spectrum involves in most cases the acquisition of multiple raw-counts spectra from a spectroradiometer, usually a dark reference spectrum and the spectrum corresponding to the light source being measured. When using sophisticated measurement and correction protocols, the number of raw-counts spectra needed to compute one irradiance spectrum can be six or more. Each of these raw-count spectra, can itself be computed in the spectroradiometer hardware as the average of multiple successive acquisitions of raw-counts data. The different measurement protocols supported match specific algorithms for the computation of physical quantities, corrected for dark signal and stray light and exploiting§ the full dynamic range of the array detector. The algorithms implemented are described in the vignette titled [Algorithms](https://docs.r4photobiology.info/ooacquire/articles/userguide-algorithms.html).
 
 The spectrometers supported by the OmniDriver driver manage the acquisition and simple computations autonomously. Commands are used to set the acquisition parameters and request specific data processing for the acquisition of the raw-counts spectra. At this point the spectrometer starts acquiring spectra continuously. However, as they are rapidly discarded, only the most recently acquired raw-counts spectrum is available for retrieval (waiting is needed after a change in settings). Thus the raw-counts spectra are retrieved one-by-one from the spectrometer to the computer and stored in RAM. From this point onwards all the computations are done in the computer to which the spectrometer is tethered.
 
-The sooner the data are saved to disk the smaller the risk of their loss is. However, computation and writing to disk are time consuming,introducing a delay. In addition, when conditions, specially temperature of the spectrometer, are stable the same reference spectra, such as the dark raw-counts spectrum, can be reused. Delayed computations and writing of data to files makes it possible to avoid saving many copies of the same reference spectra.
+The sooner the data are saved to disk the smaller the risk of their loss is. However, computation and writing to disk are time consuming, introducing a delay. In addition, when conditions, specially temperature of the spectrometer, are stable the same reference spectra, such as the dark raw-counts spectrum, can be reused. Delayed computations and writing of data to files makes it possible to avoid saving many copies of the same reference spectra.
+
+Originally, 'ooacquire' only implemented the acquisition of individual spectra. In version 0.3.0 acquisition of time series of spectra was implemented and in subsequent versions gradually enhanced. As of version 0.4.3, the automatic acquisition of time series of spectra at frequencies ranging from the fastest allowed by the spectrometer hardware to the slowest and longest that the temporal stability of spectrometer readings allow are well supported. 
 
 ::: callout-note
 # Glossary of terms used in this page
@@ -552,7 +560,9 @@ We describe the data acquisition parameters affecting the acquisition of spectra
 
 A dark measurement is also very frequently use to subtract sensor noise. Stray light is most effectively corrected by measuring it separately from the target of the measurements by means of a filter measurement. Although different protocols include different measurements,  which protocol is in use does not change how the acquisition parameters are set as the same settings are used for these measurements.
 
-The prompt varies depending on the `interface.mode` in use. The full prompt is: `fixed/RETUNE/tune/saturation/range/HDR mult./undo/help/measure (f/t-/T/s/r/h/u/?/m): `.
+Above the prompt the current value of each setting is shown. The prompt varies, as depending on the `interface.mode` in use some options are hidden. Depending on whether the integration time is valid or not and on the `interface.mode`, the default selected by typing `<enter>` varies. The full prompt is:
+
+`fixed/RETUNE/tune/saturation/range/HDR mult./undo/help/measure (f/t-/T/s/r/h/u/?/m): `
 
 For the *integration time* used for the acquisition of data a distinction is made between the duration of a single integration event and the total added-up integration time resulting from successive integrations averaged by the spectrometer or driver. The duration of individual integrations needs to be adjusted or tuned so that full use is made of the dynamic range and signal to noise headroom of the instrument. The total measured time, can obviously be only as long or longer than a single integration. When spectral irradiance is constant in time, the longer the total time over which scans are averaged the better "random" noise is controlled (if the light source emission is constant and bright, a total time longer than 1 s is unlikely to reduce noise, however, if the light is dim or varying, longer times of 30 s or more may help decrease noise.) `f` is used to enter a fixed value for the integration time, while `t` and `T` are used to trigger the automatic tuning of the integration time. `t` and `T` only differ in the starting value used for the tuning (`t` starts from the most recently used value, while `T` starts from a small arbitrary value).
 
@@ -568,15 +578,182 @@ For additional information, please, see the [help page for `acq_irrad_interactiv
 
 ## Series parameters
 
-Four parameters control the timing for the acquisition of a time series of spectra: `wait` indicating a delay in starting the series of measurements, `boundary` indicated by a time unit that must be zero when starting, `step` giving the time step between spectra in the series, and `reps` the total number of spectra in the time series.
+Menu displayed only with interface mode `"series"`. Four parameters control the timing for the acquisition of a time series of spectra: `wait` indicating a delay in starting the series of measurements, `boundary` indicated by a time unit that must be zero when starting, `step` giving the time step between spectra in the series, and `reps` the total number of spectra in the time series.
 
 Above the prompt an estimate of the time required to acquire one spectrum is displayed. Attempts to set the time interval at values shorter than this will be overriden, either by this value or a value of zero. When no bracketing or HDR is used, acquisitions run continuously in the spectrometer, and the `step` can only be a multiple of the integration time plus a very small overhead dependent on the spectrometer model. In this case, the entered value for `step` is adjusted to fulfil this requirement. A value of zero for `step` is interpreted as as short as possible, resulting in spectra acquired as frequently as the spectrometer acquires them. 
 
-All parameters have defaults that can be changed at the prompt `"Series: wait = <numeric/character> s, boundary = <numeric/character>, step = <numeric/character> s, reps = <integer>, undo, MEASURE (w/b/s/r/u/m-): "`. The prompt displays the most recently used or default values for each parameter where the placeholders `<    >` are shown here. The character string used to set the boundary must be `none`, or one interpretable as a period by function `lubridate::period()` such as `5 sec` or `minute`. When only numbers are entered they are interpreted as seconds, as in versions of 'ooacquire' < 0.4.3.
+Above the prompt the current value of each setting is shown. All these settings have defaults that can be changed at the prompt, 
+
+`wait/boundary/step-len/step-reps/undo/help/GO (w/b/s/r/u/?/m-): `
+
+The character string used to set time values must be one interpretable as a period by function `lubridate::period()`. When only numbers are entered they are interpreted as seconds, as in versions of 'ooacquire' < 0.4.3, while `30`, `30S`, `30 sec`, `30 seconds`, `0.5M`, `0.5 min` and `0.5 minutes` are all accepted and equivalent in 'ooacquire' $\geq$ 0.4.3. In the case of boundary, `none` is accepted in addition to time periods. The number of step repeats must be an integer number between 1 and 10000.
 
 ## Plot inspection and tweaks
 
-The promt displayed after a _measurement event_ or a series of _measurement repeats_ is `fig/photons/energy/w.bands/discard+go/SAVE+GO (f/p/e/w/d/s-): ` when the computed quantity is spectral `irradiance` or `fluence`, and `fig/w.bands/discard+go/SAVE+GO (f/w/d/s-): ` when the computed quantity is `cps` (counts per second). `f` toggles between displaying plots or not, `p` and `e` switch between photon and energy units in the plot, `w` opens a menu that makes it possible to change the wave bands shown in the plot, `d` discards the most recently acquired spectrum or time series of spectra (skips saving of files), `s` saves the data and plot to disk. After both `d` and `s` the prompt making it possible to repeat the last measurement, start a new one or to end the session is displayed (see callout **Repeats** above). In contrast, after `f`, `p`, `e` and `w` the plot is redrawn and the same prompt remains available, making it possible to make additional tweaks to the plot before saving and continuing. The plot saved to disk is the one current when `s` is entered.
+The promt displayed after a _measurement event_ or a series of _measurement repeats_ ends is,
+
+`fig/photons/energy/w.bands/discard+go/SAVE+GO (f/p/e/w/d/s-): `
+
+when the computed quantity is spectral `irradiance` or `fluence`, and 
+
+`fig/w.bands/discard+go/SAVE+GO (f/w/d/s-): ` 
+
+when the computed quantity is `cps` (counts per second). `f` toggles between displaying plots or not, `p` and `e` switch between photon and energy units in the plot, `w` opens a menu that makes it possible to change the wave bands shown in the plot, `d` discards the most recently acquired spectrum or time series of spectra (skips saving of files), `s` saves the data and plot to disk. After both `d` and `s` the prompt displayed offers the as choices: to repeat the last measurement, start a new one or to end the session (see callout **Repeats** above). In contrast, after `f`, `p`, `e` and `w` the plot is redrawn and the same prompt redisplayed, making it possible to make additional tweaks to the plot before saving, discarding or continuing. The plot saved to disk is the one current when `s` is entered.
+
+## Measuring approaches
+
+### Acquisition of individual spectra
+
+::: callout-tip
+# Use cases
+
+Each spectrum is acquired from a different light source or the output of the
+source varies between spectra or one changes the position or location of the
+entrance optics between acquired spectra. More generally any situation when the
+integration time needs to be readjusted or new dark and/or filter reference
+spectra need to be acquired for each light measurement.
+:::
+
+_The data for each spectrum are stored a separate R objects and saved to
+files individually._
+
+In this case, if measuring spectral irradiance, the interface modes `"simple"`
+or `"auto"` are the most convenient. If measuring spectral fluence, the
+interface mode `"manual"` has to be used.
+
+If we wishe to take a few repeats of a given spectrum, for example to make sure
+that the acquired spectra are not being distorted by rapid fluctuations in the
+light source, selecting **repeat** instead of **new-measurement** saves some
+time and effort, as long as we trust that reference spectra are reliable. Most
+likely, we will select repeats with pauses and display of figures to have time
+to inspect the individual spectra.
+
+### Acquisition of short and/or slow time series
+
+::: callout-tip
+# Use cases
+
+Each spectrum is acquired from the same light source and the output of the
+source varies moderately between spectra. More generally any situation where the
+integration time does not need to be readjusted and no new dark and/or filter
+reference spectra need to be acquired for each light measurement. We could be
+using bracketing or interested in acquiring between 10's to a few 100's of
+spectra at a rather slow pace, such as not more than 2 spectra per minute.
+:::
+
+_The data for each spectrum will be stored in separate R objects and saved to
+separate files as soon as acquired, identically to when acquired individually._
+
+In this case, if measuring spectral irradiance, the interface mode `"series"`
+is the most suitable.
+
+When measuring a series of repeats, the approach is to start by acquiring one
+light spectrum and the necessary reference spectra (dark and/or filter) and
+checking that the acquired spectrum is fine. To take repeats of a given 
+spectrum, we selecting **repeat** followed by entering the number of repeats.
+Next, we will normally select without figures or with figures (both non-stop).
+If there is idle time between repeats, it is good to display figures to be
+able to check progress. If there is little idle time, say less than 6 s per
+spectrum on a fast computer, it is better to disable the display of figures.
+
+It is possible to use repeats in modes other than `"series"`, but using this
+mode makes it possible to precisely time when each repeat is acquired. The trick
+is to set the number of steps of the time series to one, and a _boundary_ that
+determines when each acquisition starts. Say with a boundary of `"2 min"` one
+spectrum will be acquired every 2 min and the data saved to disk.
+
+### Acquisition of long and/or fast time series
+
+::: callout-tip
+# Use cases
+
+Each spectrum is acquired from the same light source and the output of the
+source varies moderately between spectra. More generally any situation when the
+integration time does not need to be readjusted and no new dark and/or filter
+reference spectra need to be acquired for each light measurement. We could be
+using bracketing or not, interested in acquiring spectra as fast as possible or
+maybe a moderately fast sequence of a few 1000s of spectra. In the case of very
+fast acquisition the computations and saving of data to disk have to be done
+after the whole series has been acquired, to reduce the overhead. In the case of
+long time series creating a separate R object and file for each spectrum can
+become wasteful and inconvenient.
+:::
+
+_The data for the whole time series of spectra is stored in a single R object
+and saved to the same files, one for the data and one for the plot if enabled._
+The number of spectra per plot is limited by default to a maximum of 50, and
+random sampling is used if the series contains more spectra.
+
+In this case,the interface mode `"series"` is used. As described above, it is
+best to start by acquiring a very short time series and then selecting
+**repeat** and increasing the number of steps before triggering the start of the
+repeat.
+
+Spectrometers and OmniDriver have different modes. The high speed mode is used
+automatically when no bracketing is used and the time per step is short or zero.
+In this mode the spectrometer acquires spectra non-stop in parallel with the
+transfer to the computer. There is minimal overhead with the Maya 2000 Pro of
+less than 1 ms per spectrum. This means than with an integration time of 10 ms
+nearly 100 spectra can be acquired per second, or 6000 spectra in 1 min. When
+not downloading spectra from the spectrometer this frequently, still the step
+between acquired spectra needs to be a multiple of the integration time so that
+the real time step matches the setting. This is enforced by adjusting the value
+entered by the user. _If a different value would be accepted the spectra would
+be acquired at the same rate as with the adjusted value but from time to time 
+an acquared spectrum would not the transferred to the computer._
+
+When using bracketing the overhead is much more as the spectrometer settings
+need to be changed twice for each spectrum, adding an overhead that depends on
+the integration time. An estimate of the time needed to acquire one spectrum is
+displayed and step times shorter than this are not accepted as settings. In the
+case of high speed acquisition the time of measurement is retrieved from the
+actual spectrometer and is according to specifications within a $\mu s$ of the
+true real time. When bracketing is used, different parts of the same spectrum 
+are acquired at different times, using longer time steps and the time reported
+(and the only one available) is the time when the `"light"` spectrum is 
+retrieved from the spectrometer (that can be at most later than the real time
+of measuremet as much as the integration time.) When using HDR, the time of
+retrieval of the spectrum with the shortest integration time, always measured
+first, is reported together with physical quantities.
+
+::: callout-tip
+When acquiring long time series of spectra, if gaps are tolerable, it is a good
+idea to combine time series with repeats, so that the data are saved to file in
+smaller batches, decreasing the risk of data loss.
+
+Another use case when repeated time-series of spectra can be useful is when fast
+variation is of interest but continuous acquisition over a long time would
+generate excessive data. For example one may want measure a very fast time
+series once every few minutes or once per hour.
+:::
+
+::: callout-warning
+One limitation to the acquisition of spectra over a long time is the drift
+of the spectrometer dark signal dependent on temperature and the variation in
+stray light as a consequence changes in the light source.
+
+For the dark signal the best solution is to control the temperature of the
+spectrometer so that it remains constant. Stray light is trickier to
+control or compensate for. It depends on the combination of light source
+spectrum and spectrometer how problematic stray light is. The UV region
+is the most difficult in sunlight. When measuring LEDs emitting white light
+with a spectrometer than can measure in the UV region, a protocol without
+dark or filter spectra used as reference can be satisfactory, because the
+algorithm uses the reading in the UV-C as an internal "dark" reference, that
+works better than the very few true dark pixels built into the detector array.
+
+To get reliable measurements over hours of unattended acquisitions tests are
+needed as well as most likely also a thermostatic system.
+:::
+
+::: callout-note
+The new features I have added in the last year make possible many different
+approaches to the acquisition of spectra. I am sure some of the new features
+will be found more useful than others. In any case, I am finding some of the
+features convenient for uses I had not thought of before implementing them.
+
+I would like to hear from users how they are using 'ooacquire'.
+:::
 
 ## Resources
 
