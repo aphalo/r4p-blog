@@ -9,7 +9,6 @@ keywords: [ooacquire pkg, acq_irrad_interactive, spectral irradiance, spectral f
 code-fold: false
 abstract: |
   In this page I describe the different steps used in the conversion of detector raw counts into physical quantities. The protocols and algorithms implemented in package 'ooacquire' >= 0.4.3 for the conversion of raw detector counts into physical quantities _spectral irradiance_, _spectral fluence_, _spectral transmittance_ and _spectral reflectance_ are explained. The most advanced of the protocols and correction algorithms enhance the signal to noise ratio by one order of magnitude, allowing measurements of UV-B radiation in sunlight and measurements of spectral transmitance down to OD 4.
-draft: true
 ---
 
 ```{r, echo=FALSE, message=FALSE}
@@ -97,7 +96,7 @@ When a signal to noise ratio of $1\,000$ is enough or in the case of spectromete
 ::: callout-warning
 # To keep in mind...
 
--   Pixel resolution of arrey spectrometers is usually higher, sometimes a lot higher, than the true optical resolution of the monochromator grid. _Use the optical wavelength resolution as criterion when applying smoothing and when indentidying peaks and valleys._
+-   Pixel resolution of array spectrometers is usually higher, sometimes a lot higher, than the true optical resolution of the monochromator grid. _Use the optical wavelength resolution as criterion when applying smoothing and when identifying peaks and valleys._
 -   The wavelength step between pixels varies along the array, and by how much depends on the optical configuration. _Valid integration over wavelengths is not a simple addition._
 -   Array detectors do not respond linearly to the number of photons, so a linearisation correction is always needed. _If acquisition is done with function `acq_irrad_interactive()` this correction is automatically applied._
 -   The digitised data for each pixel is a "count", i.e., an integer number. The maximum count (related to the number of bits) varies, but it is usually not more that 65000. _The real dynamic range of array spectrometers is always a lot less than this._
@@ -129,21 +128,21 @@ Spikes, or solitary hot pixels, are normally removed based on the calibration da
 flowchart TB
 
 lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
---dark pixels corr.\ndivide by\nintegration time--> lc[<b>light</b>\ncps HDR] 
+-->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
 --splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
 
 dr([<b>dark</b>\nraw-counts HDR]) --replace bad pixels\ndark QC\nlinearize--> dl[<b>dark</b>\nlinearised raw HDR]
---dark pixels corr.\ndivide by\nintegration time --> dc[<b>dark</b>\ncps HDR] 
+-->|occluded pixels corr.\ndivide by\nintegration time| dc[<b>dark</b>\ncps HDR] 
 --<i>splice</i>\nslit fun. corr.\n<i>despike</i>--> d[<b>dark</b>\ncps <i>spliced</i>]
 
 fr([<b>filter</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\ndark QC\nlinearize
 --> fl[<b>filter</b>\nlinearised raw HDR]
---dark pixels corr.\ndivide by\nintegration time --> fc[<b>filter</b>\ncps HDR] 
+-->|occluded pixels corr.\ndivide by\nintegration time| fc[<b>filter</b>\ncps HDR] 
 --splice\nslit fun. corr.\n<i>despike</i>--> f[<b>filter</b>\ncps spliced]
 
-l --> lm(("subtract")) --> ldc[<b>light</b> cps\ndark-corrected]
+l --> lm(("subtract\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
 d --> lm
-f --> fm(("subtract")) --> fdc[<b>filter</b> cps\ndark-corrected]
+f --> fm(("subtract\ndark")) --> fdc[<b>filter</b> cps\ndark-corrected]
 d --> fm
 
 ldc --> slc(("stray light\ncorrection")) --> cc[<b>light</b> cps\nfilter-corrected]
@@ -190,21 +189,102 @@ With the Maya 2000 Pro there is one situation where correction for stray light w
 
 ## Other methods implemented
 
-I have implemented a variation on Ylianttila's method to correct for stray light named `full` that differs in the way the ratio used for rescaling the _filter_ measurement is computed (the computation is essentially the same as for `original` but removing outliers and limiting the range of values for the ratio). This method should be used only for sunlight or shade light at the Earth surface. This method uses the same characterization and calibration as Ylianttila's method. For situations where the _light_ spectra have been acquired under irradiance differing by more than 10% from that during the _filter_ measurement, method `original` performs better.
+I have implemented another variation on Ylianttila's method to correct for stray light named `sun` that differs in that uses trimmed means `trim = 0.05` instead of `trim = 0`. All the steps are as in @fig-data-flow-generic.
 
-I have implemented another variation on Ylianttila's method to correct for stray light named `sun` that differs in that it forces to zero spectral irradiance wavelengths shorter than 290 nm. This method should be used only for sunlight or shadelight at the Earth surface. This method uses the same characterization and calibration as Ylianttila's method.
+Method `simple` uses a simple ad-hoc method to correct for stray light based on a constant value for the PC filter transmittance. It is based on _light_, _filter_ and _dark_ measurements but with no computed rescaling of the _filter_ measurement except for multiplication by a constant. It is used when the signal of the `"light"` is too low in the wavelength region used in Ylianttila's method for the rescaling. This can be case with lamps and LEDs. All the steps are as in @fig-data-flow-generic, but the computation of the stray light corrections uses a simpler and more error-prone algorithm. 
 
-Method `simple` uses a simple ad-hoc method to correct for stray light based on a constant value for the PC filter transmittance. It is based on _light_, _filter_ and _dark_ measurements but with no computed rescaling of the _filter_ measurement except for multiplication by a constant. This method can be combined with bracketing of integration time and used even when the calibration has been provided by Ocean Optics or acquired with Ocean Optics' software.
+Method `none` does not apply any correction for stray light, is based on _light_ and _dark_ measurements only. The steps are shown in @fig-data-flow-none. It is suitable for LEDs and some types of lamps. I can be used even when the calibration has been provided by Ocean Optics or acquired with Ocean Optics' software. It still applies slit function correction if available. If not combined with bracketing of integration time and no slit correction is applied, it is similar (identical?) to spectral irradiance computed by Ocean Optics software.
 
-Method `none` does not apply any correction for stray light, is based on a _light_ and _dark_ measurement. This method can be combined with bracketing of integration time and used even when the calibration has been provided by Ocean Optics or acquired with Ocean Optics' software. It still applies slit function correction if available. If not combined with bracketing of integration time and no slit correction is applied, it is similar (identical?) to spectral irradiance computed by Ocean Optics software.
+```{mermaid}
+%%| label: fig-data-flow-none
+%%| fig-cap: Data flow for conversion of raw-counts into spectral irradiance when using the protocols `"ld"` or `"dl"`. The **dark** spectrum is never spliced as the longest integration time is the best across all wavelengths and used as is. QC stands for Quality Control and is applied to wavelengths expected to be subject only to dark noise.
+%%| fig-align: center
+%%| 
+flowchart TB
+
+lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
+-->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
+--splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+
+dr([<b>dark</b>\nraw-counts HDR]) --replace bad pixels\ndark QC\nlinearize--> dl[<b>dark</b>\nlinearised raw HDR]
+-->|occluded pixels corr.\ndivide by\nintegration time| dc[<b>dark</b>\ncps HDR] 
+--<i>splice</i>\nslit fun. corr.\n<i>despike</i>--> d[<b>dark</b>\ncps <i>spliced</i>]
+
+l --> lm(("subtract\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
+d --> lm
+
+ldc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
+irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+
+```
+
+If only a `"light"` measurement is available, method `none` is used but the dark noise is corrected less effectively by using only pixels assumed to be `"dark"` in the `"light"` spectrum. The steps are shown in @fig-data-flow-none-internal. When using pixels in the UV-C region as dark reference, a very rough stray-light correction is applied. The spectra can, rather easily, end up being either over-corrected or under-corrected for stray light. For this approach to work correctly, the stray light and/or dark noise must not affect preferentially some regions of the array detector but instead evenly the whole array. In practice, with LEDs, this approach works surprisingly well with the Maya 2000Pro spectrometer.
+
+```{mermaid}
+%%| label: fig-data-flow-none-internal
+%%| fig-cap: Data flow for conversion of raw-counts into spectral irradiance when using the protocol `"l"`. The **dark** spectrum is never spliced as the longest integration time is the best across all wavelengths and used as is. QC stands for Quality Control and is applied to wavelengths expected to be subject only to dark noise.
+%%| fig-align: center
+%%| 
+flowchart TB
+
+lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
+-->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
+--splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+
+l --> lm(("subtract\ninternal\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
+
+ldc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
+irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+
+```
+
+The methods form a continuum, with Ylianttila's method as the most effective and complex. When the data do not permit its use, the functions automatically attempt to use the next simpler one. 
+
+_All the available methods can be combined with bracketing of integration time as shown in the diagrams._ If no HDR is used, no splicing is done, but otherwise the same steps are followed.
+
+::: callout-note
+# Missing `"dark"` measurement
+
+The following approach is attempted when `"light"` and `"filter"` are available and a `"dark"` measurement is missing. This approach is unlikely to be good enough to be worthwhile using on purpose, but can save the day if the `"dark"` measurement has been accidentaly lost.
+
+```{mermaid}
+%%| label: fig-data-flow-no-dark
+%%| fig-cap: Data flow for conversion of raw-counts into spectral irradiance when using the protocols `"lf"` or `"fl"`. The **dark** spectrum is never spliced as the longest integration time is the best across all wavelengths and used as is. QC stands for Quality Control and is applied to wavelengths expected to be subject only to dark noise.
+%%| fig-align: center
+%%| 
+flowchart TB
+
+lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
+-->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
+--splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+
+fr([<b>filter</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\ndark QC\nlinearize
+--> fl[<b>filter</b>\nlinearised raw HDR]
+-->|occluded pixels corr.\ndivide by\nintegration time| fc[<b>filter</b>\ncps HDR] 
+--splice\nslit fun. corr.\n<i>despike</i>--> f[<b>filter</b>\ncps spliced]
+
+l --> lm(("subtract\ninternal\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
+f --> fm(("subtract\ninternal\ndark")) --> fdc[<b>filter</b> cps\ndark-corrected]
+
+ldc --> slc(("stray light\ncorrection")) --> cc[<b>light</b> cps\nfilter-corrected]
+fdc --> slc
+
+cc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
+irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+
+```
+
+:::
 
 ::: callout-warning
 ## Available methods depend on the spectrometer
 
-What method can be applied depends on how the spectrometer has been characterized and calibrated. The deatils of each of the methods need to be adjusted to each instrument, and the calibration done using the same corrections or a superset of the corrections used for actual measurements. For a calibration already expressed as multipliers only method `none` is applicable. If the raw counts for the calibration measurements are available for _light_, _filter_ and _dark_ conditions, calibrations for any of the methods can be constructed. The methods as described include a "tail correction" for the slit function, based on the characterization of the slit function at different wavelengths using a laser. This corrections is most important for sources with narrow peaks such as discharge lamps, and can be skipped if these data are unavailable.
+What method can be applied depends on how the spectrometer has been characterized and calibrated. The details of each of the methods need to be adjusted to each instrument, and the calibration done using the same corrections or a superset of the corrections used for actual measurements. For a calibration already expressed as multipliers, as supplied by Ocean Insight, only method `none` is applicable. If the calibration lamp data and the raw counts for the calibration measurements are available for _light_, _filter_ and _dark_ conditions, calibrations for any of the methods can be computed, even retrospectively. The methods as described include a "tail correction" for the slit function, based on the characterization of the slit function at different wavelengths using a tunable UV laser. This corrections is most important for sources with narrow peaks such as discharge lamps, and can be skipped if these data are unavailable.
 :::
 
-# Examples
+# Examples (out-of-date)
+
+The examples in this section follow the protocols only approximately. Some groups of computations are carried out together within a single function and here mimicked using simplified code for step by step computations. The examples also skip the consistency checks (e.g., spectrometer serial number and match of column names). In addition, the examples below were written some years back and need to be updated. _For these reasons, the computed spectral irradiances may differ slightly from those returned by in real use._ **An update is planned, using better example data.** 
 
 ## Preliminaries
 
