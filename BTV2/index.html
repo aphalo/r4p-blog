@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.544">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="dcterms.date" content="2023-10-24">
+<meta name="keywords" content="book plan">
+
+<title>Using R for Photobiology - BTV 2ed Plan</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../r4p-favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../r4p-logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Using R for Photobiology</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../posts.html"> <i class="bi bi-newspaper" role="img">
+</i> 
+<span class="menu-text">blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages.html"> <i class="bi bi-file-richtext" role="img">
+</i> 
+<span class="menu-text">Pages</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../galleries.html"> <i class="bi bi-images" role="img">
+</i> 
+<span class="menu-text">R gallery</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-packages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="menu-text">R packages</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-r-packages">    
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/"><i class="bi bi-list" role="img">
+</i> 
+ <span class="dropdown-text">Documentation Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://r.r4photobiology.info/"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">CRAN-like repository</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/learnrbook/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">learnrbook</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../pages/ggpmisc-intro.html"><i class="bi bi-stack" role="img">
+</i> 
+ <span class="dropdown-text">Intro <em>‘ggpmisc’, ‘ggpp’ and ‘gginnards’</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ggpmisc/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">ggpmisc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ggpp/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">ggpp</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/gginnards/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">gginnards</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../pages/r4p-introduction.html"><i class="bi bi-sun" role="img">
+</i> 
+ <span class="dropdown-text">Intro <em>R for Photobiology Suite</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiology/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiology</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ggspectra/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">ggspectra</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyWavebands/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyWavebands</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyInOut/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyInOut</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ooacquire/"><i class="bi bi-rulers" role="img">
+</i> 
+ <span class="dropdown-text">ooacquire</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/rOmniDriver/"><i class="bi bi-rulers" role="img">
+</i> 
+ <span class="dropdown-text">rOmniDriver</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyPlants/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyPlants</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyLamps/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyLamps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyLEDs/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyLEDs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologySun/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologySun</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyFilters/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyFilters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologySensors/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologySensors</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../pages/packages-status.html"><i class="bi bi-check-all" role="img">
+</i> 
+ <span class="dropdown-text">Checks and issues</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-books" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-book" role="img">
+</i> 
+ <span class="menu-text">Books</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-books">    
+        <li>
+    <a class="dropdown-item" href="https://www.learnr-book.info/"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">Book <em>Learn R - As a Language</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/beyond-the-visible.html"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">Handbook <em>Beyond the Visible</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/r4p-book.html"><i class="bi bi-book-half" role="img">
+</i> 
+ <span class="dropdown-text">Book <em>R for Photobiology</em></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person" role="img">
+</i> 
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../about/help.html"><i class="bi bi-question-square" role="img">
+</i> 
+ <span class="dropdown-text">Site Help</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about/about.html"><i class="bi bi-pc-display" role="img">
+</i> 
+ <span class="dropdown-text">About <em>this site</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about/pedro.html"><i class="bi bi-person" role="img">
+</i> 
+ <span class="dropdown-text">About <em>Pedro J. Aphalo</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/aphalo/r4p-blog/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">Source of <em>this site</em> at GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rss-feeds" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text">RSS feeds</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-rss-feeds">    
+        <li>
+    <a class="dropdown-item" href="../posts.xml"><i class="bi bi-newspaper" role="img">
+</i> 
+ <span class="dropdown-text">Blog RSS feed</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages.xml"><i class="bi bi-file-richtext" role="img">
+</i> 
+ <span class="dropdown-text">Pages RSS feed</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../galleries.xml"><i class="bi bi-images" role="img">
+</i> 
+ <span class="dropdown-text">Gallery RSS feed</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#practicalities" id="toc-practicalities" class="nav-link active" data-scroll-target="#practicalities">Practicalities</a></li>
+  <li><a href="#title" id="toc-title" class="nav-link" data-scroll-target="#title">Title</a></li>
+  <li><a href="#scope" id="toc-scope" class="nav-link" data-scroll-target="#scope">Scope</a></li>
+  <li><a href="#editors" id="toc-editors" class="nav-link" data-scroll-target="#editors">Editors</a></li>
+  <li><a href="#publisher" id="toc-publisher" class="nav-link" data-scroll-target="#publisher">Publisher</a></li>
+  <li><a href="#chapters-for-2nd-edition" id="toc-chapters-for-2nd-edition" class="nav-link" data-scroll-target="#chapters-for-2nd-edition">Chapters for 2nd edition</a></li>
+  <li><a href="#material-that-could-be-edited-and-re-used" id="toc-material-that-could-be-edited-and-re-used" class="nav-link" data-scroll-target="#material-that-could-be-edited-and-re-used">Material that could be edited and re-used</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<div class="quarto-title-block"><div><h1 class="title">BTV 2ed Plan</h1><button type="button" class="btn code-tools-button" id="quarto-code-tools-source"><i class="bi"></i> Code</button></div></div>
+<p class="subtitle lead">For discusion with Marcel</p>
+  <div class="quarto-categories">
+    <div class="quarto-category">Using R</div>
+  </div>
+  </div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">2023-10-24</p>
+    </div>
+  </div>
+  
+    <div>
+    <div class="quarto-title-meta-heading">Modified</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date-modified">2023-08-01</p>
+    </div>
+  </div>
+    
+  </div>
+  
+<div>
+  <div class="abstract">
+    <div class="block-title">Abstract</div>
+    <p>A preliminary plan for the 2nd edition of the Beyond the Visible handbook.</p>
+  </div>
+</div>
+
+<div>
+  <div class="keywords">
+    <div class="block-title">Keywords</div>
+    <p>book plan</p>
+  </div>
+</div>
+
+</header>
+
+
+<section id="practicalities" class="level2">
+<h2 class="anchored" data-anchor-id="practicalities">Practicalities</h2>
+<ul>
+<li><p>Use <a href="https://quarto.org/docs/get-started/">Quarto</a> in <a href="https://posit.co/downloads/">RStudio</a>, so that we can create both a book and a web site and release drafts and chapters as a web site as we make progress.</p></li>
+<li><p>Quarto is easy to use for authors and the same manuscript can be used to produce output in different formats, quite easily.</p></li>
+<li><p>This means we could publish drafts as we make progress to keep authors and uv4plants members engaged.</p></li>
+<li><p>I have been using Quarto for several months. I transferred my two websites and I have been very happy with how it works. <a href="https://www.r4photobiology.info/">Using R for Photobiology</a> and <a href="https://www.photo-spectrum.info/">Photo Rumblings and Whispers</a>.</p></li>
+</ul>
+</section>
+<section id="title" class="level2">
+<h2 class="anchored" data-anchor-id="title">Title</h2>
+<ul>
+<li>Methods in Plant Photobiology: From Principles to Practice (?)</li>
+</ul>
+</section>
+<section id="scope" class="level2">
+<h2 class="anchored" data-anchor-id="scope">Scope</h2>
+<ul>
+<li>Wavelength scope: 280–900,nm (expand to include VIS and FR).</li>
+<li>Exclude methods used at the lab bench (as before).</li>
+<li>Should we include gas-exchange and chlorophyll fluorescence??? (in my opinion, not gas-exchange; fluorescence possibly).</li>
+</ul>
+</section>
+<section id="editors" class="level2">
+<h2 class="anchored" data-anchor-id="editors">Editors</h2>
+<ul>
+<li>Pedro A.</li>
+<li>Wolgang Bilger (?)</li>
+<li>Eva Rosenqvist (?)</li>
+<li>Marcel (???)</li>
+</ul>
+</section>
+<section id="publisher" class="level2">
+<h2 class="anchored" data-anchor-id="publisher">Publisher</h2>
+<ul>
+<li>Self</li>
+<li>CRC/Taylor &amp; Francis</li>
+<li>other?</li>
+</ul>
+</section>
+<section id="chapters-for-2nd-edition" class="level2">
+<h2 class="anchored" data-anchor-id="chapters-for-2nd-edition">Chapters for 2nd edition</h2>
+<ol type="1">
+<li><p>Radiation and optics (Previously: <em>Introduction</em>)</p>
+<ul>
+<li>Make text more accessible to those not-mathematically minded. (Pedro + LOB + Andreas Albert (?) + Ylianttila (?))</li>
+<li>Update colour definitions to follow ISO/CIE. (Pedro)</li>
+<li>Discuss reflectance vs.&nbsp;angle of incidence. (Pedro + LOB)</li>
+<li>Discuss the mechanisms behind fluorescence and luminiscence. (Pedro + LOB)</li>
+<li>Do we need a brief introduction to light sensing by plants?</li>
+<li><em>Move discussion of radiation in the environment to new chapter 2.</em></li>
+</ul></li>
+<li><p>The UV and VIS environment of plants (New chapter)</p>
+<ul>
+<li>Emphasize more the climatology of UV and VIS. Including up-to-date maps. (Daniele Griffoni + Anders Lindfords)</li>
+<li>Latitudinal and diurnal variation in VIS spectrum, including R:FR.</li>
+<li>Discuss in depth waveband ratios in nature (Pedro + Matt?).</li>
+<li>Discuss light distribution and sunflecks in canopies (Maxime Durand)</li>
+<li>Update and expand text on light in aquatic environments. (Pirjo Huovinen + Ivan Gómez?)</li>
+</ul></li>
+<li><p>Manipulating UV and VIS radiation (Previosuly: <em>Manipulating UV radiation</em>)</p>
+<ul>
+<li>Update safety considerations to address current regulations and recomendations.</li>
+<li>Expand material on LEDs, including approaches to dimming and pulse generation. (Pedro)</li>
+<li>Discuss diffuse vs.&nbsp;direct light from artificial sources. (Pedro)</li>
+<li>Is an update on films and filters needed?</li>
+<li>Greenhouse screens (based on spectral data from Matthew Robson and Titta Kotilainen)</li>
+</ul></li>
+<li><p>Quantifying UV and VIS radiation (Previously: <em>Quantifying UV radiation</em>)</p>
+<ul>
+<li>Update information on input optics. (Pedro)</li>
+<li>Update equipment examples to those currently available. (Pedro)</li>
+<li>Simulation of the solar spectrum (Anders Lindfors)</li>
+</ul></li>
+<li><p>Measurement of optical properties of leaves and materials] New chapter.</p>
+<ul>
+<li>Epidermal transmittance, etc. (Wolfgang Bilger)</li>
+<li>Reflectance and transmittance of whole leaves (?)</li>
+<li>Filters, etc., (Pedro)</li>
+<li>Fluorescence.</li>
+<li>Optical measurement of chloroplast accumulation (Justyna (?) + Pawel (?))</li>
+</ul></li>
+<li><p>UV, VIS and IR photography, and spectral imaging (New chapter)</p>
+<ul>
+<li>Cameras and lenses (Pedro)</li>
+<li>UV induced VIS and NIR fluorescence and VIS induced NIR fluorescence (Pedro + Ylianttila (?))</li>
+<li>Image editing (Pedro + Eva Rosenqvist?)</li>
+</ul></li>
+<li><p>Plant cultivation (Previously: Plant cultivation)</p>
+<ul>
+<li>LED spectra for plant cultivation (Eva Rosenqvist + Pedro)</li>
+<li>Cultivation of aquatic plants (Pirjo huovinen)</li>
+<li>Cultivation of terrestrial plants (?)</li>
+<li>DLI dialy light integral (Titta Kotilainen (?))</li>
+<li>Mineral nutrition</li>
+<li>Water supply</li>
+</ul></li>
+<li><p>Design and planning of photobiological experiments (Previously: <em>Design of photobiological experiments</em>)</p>
+<ul>
+<li>Statistical design (Pedro, not much to do.)</li>
+<li>Data analysis</li>
+<li>Functional ANOVA of spectra and related methods (Pedro?, Titta?)</li>
+<li>Sampling procedures for laboratory analyses (Pedro?, Neha?, Luis?)</li>
+<li>??</li>
+</ul></li>
+<li><p>Imaging in UV, VIS and IR] Possible new chapter.</p></li>
+</ol>
+</section>
+<section id="material-that-could-be-edited-and-re-used" class="level2">
+<h2 class="anchored" data-anchor-id="material-that-could-be-edited-and-re-used">Material that could be edited and re-used</h2>
+<p>From the Bulletin: <a href="https://doi.org/10.19232/uv4pb.2020.1.24">Reproducibility of UV-research with plants</a>, <a href="https://doi.org/10.19232/uv4pb.2020.1.12">Absorbance, absorptance and friends</a>, <a href="https://doi.org/10.19232/uv4pb.2020.1.25">Extraterrestrial and ground-level solar spectra</a>, <a href="https://doi.org/10.19232/uv4pb.2016.1.14">Measuring solar UV-B: why is it so difficult?</a>, <a href="https://doi.org/10.19232/uv4pb.2019.1.15">Neutral density filters: theory vs.&nbsp;reality</a>, <a href="https://doi.org/10.19232/uv4pb.2019.1.30">Practical hints and tips</a>, <a href="https://doi.org/10.19232/uv4pb.2018.1.12">Using LEDs: drivers and dimming</a>, <a href="https://doi.org/10.19232/uv4pb.2018.2.14">Exploring temporal and latitudinal variation in the solar spectrum at ground level with the TUV model</a>, <a href="https://doi.org/10.19232/uv4pb.2016.2.11">SIOX plugin in ImageJ: area measurement made easy</a>.</p>
+<p>From my web site on photography: <a href="https://www.photo-spectrum.info/pages.html">Pages on Equipment and Techniques</a></p>
+<p>From my research-group blog: <a href="https://blogs.helsinki.fi/senpep-blog/2022/12/the-earth-is-not-flat-are-plants-and-plant-canopies-flat/">The Earth is not flat. Are plants and plant canopies flat?</a>, <a href="https://blogs.helsinki.fi/senpep-blog/2021/10/bright-times-for-our-growth-chambers/">Brighter times for our growth chambers</a>, <a href="https://blogs.helsinki.fi/senpep-blog/2018/05/visible-and-uv-a-radiation-in-greenhouses/">Visible and UV-A radiation in greenhouses</a>, <a href="https://blogs.helsinki.fi/senpep-blog/2014/12/talk-leds/">Talk about LEDs in phytotrons</a>.</p>
+
+
+<!-- -->
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  const viewSource = window.document.getElementById('quarto-view-source') ||
+                     window.document.getElementById('quarto-code-tools-source');
+  if (viewSource) {
+    const sourceUrl = viewSource.getAttribute("data-quarto-source-url");
+    viewSource.addEventListener("click", function(e) {
+      if (sourceUrl) {
+        // rstudio viewer pane
+        if (/\bcapabilities=\b/.test(window.location)) {
+          window.open(sourceUrl);
+        } else {
+          window.location.href = sourceUrl;
+        }
+      } else {
+        const modal = new bootstrap.Modal(document.getElementById('quarto-embedded-source-code-modal'));
+        modal.show();
+      }
+      return false;
+    });
+  }
+  function toggleCodeHandler(show) {
+    return function(e) {
+      const detailsSrc = window.document.querySelectorAll(".cell > details > .sourceCode");
+      for (let i=0; i<detailsSrc.length; i++) {
+        const details = detailsSrc[i].parentElement;
+        if (show) {
+          details.open = true;
+        } else {
+          details.removeAttribute("open");
+        }
+      }
+      const cellCodeDivs = window.document.querySelectorAll(".cell > .sourceCode");
+      const fromCls = show ? "hidden" : "unhidden";
+      const toCls = show ? "unhidden" : "hidden";
+      for (let i=0; i<cellCodeDivs.length; i++) {
+        const codeDiv = cellCodeDivs[i];
+        if (codeDiv.classList.contains(fromCls)) {
+          codeDiv.classList.remove(fromCls);
+          codeDiv.classList.add(toCls);
+        } 
+      }
+      return false;
+    }
+  }
+  const hideAllCode = window.document.getElementById("quarto-hide-all-code");
+  if (hideAllCode) {
+    hideAllCode.addEventListener("click", toggleCodeHandler(false));
+  }
+  const showAllCode = window.document.getElementById("quarto-show-all-code");
+  if (showAllCode) {
+    showAllCode.addEventListener("click", toggleCodeHandler(true));
+  }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class="">
+<div class="sourceCode" id="cb1" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> "BTV 2ed Plan"</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="an">subtitle:</span><span class="co"> For discusion with Marcel</span></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="an">date:</span><span class="co"> 2023-10-24</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="an">date-modified:</span><span class="co"> "2023-08-01"</span></span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="an">toc:</span><span class="co"> true</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a><span class="an">code-fold:</span><span class="co"> true</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="an">code-tools:</span><span class="co"> true</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="an">categories:</span><span class="co"> [Using R]</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="an">keywords:</span><span class="co"> [book plan]</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="an">abstract:</span><span class="co"> |</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">  A preliminary plan for the 2nd edition of the Beyond the Visible handbook.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> </span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">  markdown: </span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">    wrap: 72</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="an">self-contained:</span><span class="co"> false</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a><span class="fu">## Practicalities</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Use <span class="co">[</span><span class="ot">Quarto</span><span class="co">](https://quarto.org/docs/get-started/)</span> in</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    <span class="co">[</span><span class="ot">RStudio</span><span class="co">](https://posit.co/downloads/)</span>, so that we can create both a</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    book and a web site and release drafts and chapters as a web site as</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    we make progress.</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Quarto is easy to use for authors and the same manuscript can be</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    used to produce output in different formats, quite easily.</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>This means we could publish drafts as we make progress to keep</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    authors and uv4plants members engaged.</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>I have been using Quarto for several months. I transferred my two</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    websites and I have been very happy with how it works. [Using R for</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    Photobiology](https://www.r4photobiology.info/) and [Photo Rumblings</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    and Whispers](https://www.photo-spectrum.info/).</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a><span class="fu">## Title</span></span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Methods in Plant Photobiology: From Principles to Practice (?)</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a><span class="fu">## Scope</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Wavelength scope: 280--900,nm (expand to include VIS and FR).</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Exclude methods used at the lab bench (as before).</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Should we include gas-exchange and chlorophyll fluorescence??? (in</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    my opinion, not gas-exchange; fluorescence possibly).</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a><span class="fu">## Editors</span></span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Pedro A.</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Wolgang Bilger (?)</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Eva Rosenqvist (?)</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Marcel (???)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a><span class="fu">## Publisher</span></span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>Self</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>CRC/Taylor &amp; Francis</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a><span class="ss">-   </span>other?</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a><span class="fu">## Chapters for 2nd edition</span></span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a><span class="ss">1.  </span>Radiation and optics (Previously: *Introduction*)</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-65"><a href="#cb1-65" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Make text more accessible to those not-mathematically minded.</span>
+<span id="cb1-66"><a href="#cb1-66" aria-hidden="true" tabindex="-1"></a>        (Pedro + LOB + Andreas Albert (?) + Ylianttila (?))</span>
+<span id="cb1-67"><a href="#cb1-67" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Update colour definitions to follow ISO/CIE. (Pedro)</span>
+<span id="cb1-68"><a href="#cb1-68" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discuss reflectance vs. angle of incidence. (Pedro + LOB)</span>
+<span id="cb1-69"><a href="#cb1-69" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discuss the mechanisms behind fluorescence and luminiscence.</span>
+<span id="cb1-70"><a href="#cb1-70" aria-hidden="true" tabindex="-1"></a>        (Pedro + LOB)</span>
+<span id="cb1-71"><a href="#cb1-71" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Do we need a brief introduction to light sensing by plants?</span>
+<span id="cb1-72"><a href="#cb1-72" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>*Move discussion of radiation in the environment to new chapter</span>
+<span id="cb1-73"><a href="#cb1-73" aria-hidden="true" tabindex="-1"></a>        2.*</span>
+<span id="cb1-74"><a href="#cb1-74" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-75"><a href="#cb1-75" aria-hidden="true" tabindex="-1"></a><span class="ss">2.  </span>The UV and VIS environment of plants (New chapter)</span>
+<span id="cb1-76"><a href="#cb1-76" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-77"><a href="#cb1-77" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Emphasize more the climatology of UV and VIS. Including</span>
+<span id="cb1-78"><a href="#cb1-78" aria-hidden="true" tabindex="-1"></a>        up-to-date maps. (Daniele Griffoni + Anders Lindfords)</span>
+<span id="cb1-79"><a href="#cb1-79" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Latitudinal and diurnal variation in VIS spectrum, including</span>
+<span id="cb1-80"><a href="#cb1-80" aria-hidden="true" tabindex="-1"></a>        R:FR.</span>
+<span id="cb1-81"><a href="#cb1-81" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discuss in depth waveband ratios in nature (Pedro + Matt?).</span>
+<span id="cb1-82"><a href="#cb1-82" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discuss light distribution and sunflecks in canopies (Maxime</span>
+<span id="cb1-83"><a href="#cb1-83" aria-hidden="true" tabindex="-1"></a>        Durand)</span>
+<span id="cb1-84"><a href="#cb1-84" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Update and expand text on light in aquatic environments. (Pirjo</span>
+<span id="cb1-85"><a href="#cb1-85" aria-hidden="true" tabindex="-1"></a>        Huovinen + Ivan Gómez?)</span>
+<span id="cb1-86"><a href="#cb1-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-87"><a href="#cb1-87" aria-hidden="true" tabindex="-1"></a><span class="ss">3.  </span>Manipulating UV and VIS radiation (Previosuly: *Manipulating UV</span>
+<span id="cb1-88"><a href="#cb1-88" aria-hidden="true" tabindex="-1"></a>    radiation*)</span>
+<span id="cb1-89"><a href="#cb1-89" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-90"><a href="#cb1-90" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Update safety considerations to address current regulations and</span>
+<span id="cb1-91"><a href="#cb1-91" aria-hidden="true" tabindex="-1"></a>        recomendations.</span>
+<span id="cb1-92"><a href="#cb1-92" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Expand material on LEDs, including approaches to dimming and</span>
+<span id="cb1-93"><a href="#cb1-93" aria-hidden="true" tabindex="-1"></a>        pulse generation. (Pedro)</span>
+<span id="cb1-94"><a href="#cb1-94" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Discuss diffuse vs. direct light from artificial sources.</span>
+<span id="cb1-95"><a href="#cb1-95" aria-hidden="true" tabindex="-1"></a>        (Pedro)</span>
+<span id="cb1-96"><a href="#cb1-96" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Is an update on films and filters needed?</span>
+<span id="cb1-97"><a href="#cb1-97" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Greenhouse screens (based on spectral data from Matthew Robson</span>
+<span id="cb1-98"><a href="#cb1-98" aria-hidden="true" tabindex="-1"></a>        and Titta Kotilainen)</span>
+<span id="cb1-99"><a href="#cb1-99" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-100"><a href="#cb1-100" aria-hidden="true" tabindex="-1"></a><span class="ss">4.  </span>Quantifying UV and VIS radiation (Previously: *Quantifying UV</span>
+<span id="cb1-101"><a href="#cb1-101" aria-hidden="true" tabindex="-1"></a>    radiation*)</span>
+<span id="cb1-102"><a href="#cb1-102" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-103"><a href="#cb1-103" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Update information on input optics. (Pedro)</span>
+<span id="cb1-104"><a href="#cb1-104" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Update equipment examples to those currently available. (Pedro)</span>
+<span id="cb1-105"><a href="#cb1-105" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Simulation of the solar spectrum (Anders Lindfors)</span>
+<span id="cb1-106"><a href="#cb1-106" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-107"><a href="#cb1-107" aria-hidden="true" tabindex="-1"></a><span class="ss">5.  </span>Measurement of optical properties of leaves and materials<span class="sc">\]</span> New</span>
+<span id="cb1-108"><a href="#cb1-108" aria-hidden="true" tabindex="-1"></a>    chapter.</span>
+<span id="cb1-109"><a href="#cb1-109" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-110"><a href="#cb1-110" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Epidermal transmittance, etc. (Wolfgang Bilger)</span>
+<span id="cb1-111"><a href="#cb1-111" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Reflectance and transmittance of whole leaves (?)</span>
+<span id="cb1-112"><a href="#cb1-112" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Filters, etc., (Pedro)</span>
+<span id="cb1-113"><a href="#cb1-113" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Fluorescence.</span>
+<span id="cb1-114"><a href="#cb1-114" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Optical measurement of chloroplast accumulation (Justyna (?) +</span>
+<span id="cb1-115"><a href="#cb1-115" aria-hidden="true" tabindex="-1"></a>        Pawel (?))</span>
+<span id="cb1-116"><a href="#cb1-116" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-117"><a href="#cb1-117" aria-hidden="true" tabindex="-1"></a><span class="ss">6.  </span>UV, VIS and IR photography, and spectral imaging (New chapter)</span>
+<span id="cb1-118"><a href="#cb1-118" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-119"><a href="#cb1-119" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Cameras and lenses (Pedro)</span>
+<span id="cb1-120"><a href="#cb1-120" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>UV induced VIS and NIR fluorescence and VIS induced NIR</span>
+<span id="cb1-121"><a href="#cb1-121" aria-hidden="true" tabindex="-1"></a>        fluorescence (Pedro + Ylianttila (?))</span>
+<span id="cb1-122"><a href="#cb1-122" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Image editing (Pedro + Eva Rosenqvist?)</span>
+<span id="cb1-123"><a href="#cb1-123" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-124"><a href="#cb1-124" aria-hidden="true" tabindex="-1"></a><span class="ss">7.  </span>Plant cultivation (Previously: Plant cultivation)</span>
+<span id="cb1-125"><a href="#cb1-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-126"><a href="#cb1-126" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>LED spectra for plant cultivation (Eva Rosenqvist + Pedro)</span>
+<span id="cb1-127"><a href="#cb1-127" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Cultivation of aquatic plants (Pirjo huovinen)</span>
+<span id="cb1-128"><a href="#cb1-128" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Cultivation of terrestrial plants (?)</span>
+<span id="cb1-129"><a href="#cb1-129" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>DLI dialy light integral (Titta Kotilainen (?))</span>
+<span id="cb1-130"><a href="#cb1-130" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Mineral nutrition</span>
+<span id="cb1-131"><a href="#cb1-131" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Water supply</span>
+<span id="cb1-132"><a href="#cb1-132" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-133"><a href="#cb1-133" aria-hidden="true" tabindex="-1"></a><span class="ss">8.  </span>Design and planning of photobiological experiments (Previously:</span>
+<span id="cb1-134"><a href="#cb1-134" aria-hidden="true" tabindex="-1"></a>    *Design of photobiological experiments*)</span>
+<span id="cb1-135"><a href="#cb1-135" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-136"><a href="#cb1-136" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Statistical design (Pedro, not much to do.)</span>
+<span id="cb1-137"><a href="#cb1-137" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Data analysis</span>
+<span id="cb1-138"><a href="#cb1-138" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Functional ANOVA of spectra and related methods (Pedro?, Titta?)</span>
+<span id="cb1-139"><a href="#cb1-139" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>Sampling procedures for laboratory analyses (Pedro?, Neha?,</span>
+<span id="cb1-140"><a href="#cb1-140" aria-hidden="true" tabindex="-1"></a>        Luis?)</span>
+<span id="cb1-141"><a href="#cb1-141" aria-hidden="true" tabindex="-1"></a><span class="ss">    -   </span>??</span>
+<span id="cb1-142"><a href="#cb1-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-143"><a href="#cb1-143" aria-hidden="true" tabindex="-1"></a><span class="ss">9.  </span>Imaging in UV, VIS and IR<span class="sc">\]</span> Possible new chapter.</span>
+<span id="cb1-144"><a href="#cb1-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-145"><a href="#cb1-145" aria-hidden="true" tabindex="-1"></a><span class="fu">## Material that could be edited and re-used</span></span>
+<span id="cb1-146"><a href="#cb1-146" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-147"><a href="#cb1-147" aria-hidden="true" tabindex="-1"></a>From the Bulletin: [Reproducibility of UV-research with</span>
+<span id="cb1-148"><a href="#cb1-148" aria-hidden="true" tabindex="-1"></a>plants](https://doi.org/10.19232/uv4pb.2020.1.24), [Absorbance,</span>
+<span id="cb1-149"><a href="#cb1-149" aria-hidden="true" tabindex="-1"></a>absorptance and friends](https://doi.org/10.19232/uv4pb.2020.1.12),</span>
+<span id="cb1-150"><a href="#cb1-150" aria-hidden="true" tabindex="-1"></a>[Extraterrestrial and ground-level solar</span>
+<span id="cb1-151"><a href="#cb1-151" aria-hidden="true" tabindex="-1"></a>spectra](https://doi.org/10.19232/uv4pb.2020.1.25), [Measuring solar</span>
+<span id="cb1-152"><a href="#cb1-152" aria-hidden="true" tabindex="-1"></a>UV-B: why is it so</span>
+<span id="cb1-153"><a href="#cb1-153" aria-hidden="true" tabindex="-1"></a>difficult?](https://doi.org/10.19232/uv4pb.2016.1.14), [Neutral density</span>
+<span id="cb1-154"><a href="#cb1-154" aria-hidden="true" tabindex="-1"></a>filters: theory vs. reality](https://doi.org/10.19232/uv4pb.2019.1.15),</span>
+<span id="cb1-155"><a href="#cb1-155" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Practical hints and tips</span><span class="co">](https://doi.org/10.19232/uv4pb.2019.1.30)</span>,</span>
+<span id="cb1-156"><a href="#cb1-156" aria-hidden="true" tabindex="-1"></a>[Using LEDs: drivers and</span>
+<span id="cb1-157"><a href="#cb1-157" aria-hidden="true" tabindex="-1"></a>dimming](https://doi.org/10.19232/uv4pb.2018.1.12), [Exploring temporal</span>
+<span id="cb1-158"><a href="#cb1-158" aria-hidden="true" tabindex="-1"></a>and latitudinal variation in the solar spectrum at ground level with the</span>
+<span id="cb1-159"><a href="#cb1-159" aria-hidden="true" tabindex="-1"></a>TUV model](https://doi.org/10.19232/uv4pb.2018.2.14), [SIOX plugin in</span>
+<span id="cb1-160"><a href="#cb1-160" aria-hidden="true" tabindex="-1"></a>ImageJ: area measurement made</span>
+<span id="cb1-161"><a href="#cb1-161" aria-hidden="true" tabindex="-1"></a>easy](https://doi.org/10.19232/uv4pb.2016.2.11).</span>
+<span id="cb1-162"><a href="#cb1-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-163"><a href="#cb1-163" aria-hidden="true" tabindex="-1"></a>From my web site on photography: [Pages on Equipment and</span>
+<span id="cb1-164"><a href="#cb1-164" aria-hidden="true" tabindex="-1"></a>Techniques](https://www.photo-spectrum.info/pages.html)</span>
+<span id="cb1-165"><a href="#cb1-165" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-166"><a href="#cb1-166" aria-hidden="true" tabindex="-1"></a>From my research-group blog: [The Earth is not flat. Are plants and</span>
+<span id="cb1-167"><a href="#cb1-167" aria-hidden="true" tabindex="-1"></a>plant canopies</span>
+<span id="cb1-168"><a href="#cb1-168" aria-hidden="true" tabindex="-1"></a>flat?](https://blogs.helsinki.fi/senpep-blog/2022/12/the-earth-is-not-flat-are-plants-and-plant-canopies-flat/),</span>
+<span id="cb1-169"><a href="#cb1-169" aria-hidden="true" tabindex="-1"></a>[Brighter times for our growth</span>
+<span id="cb1-170"><a href="#cb1-170" aria-hidden="true" tabindex="-1"></a>chambers](https://blogs.helsinki.fi/senpep-blog/2021/10/bright-times-for-our-growth-chambers/),</span>
+<span id="cb1-171"><a href="#cb1-171" aria-hidden="true" tabindex="-1"></a>[Visible and UV-A radiation in</span>
+<span id="cb1-172"><a href="#cb1-172" aria-hidden="true" tabindex="-1"></a>greenhouses](https://blogs.helsinki.fi/senpep-blog/2018/05/visible-and-uv-a-radiation-in-greenhouses/),</span>
+<span id="cb1-173"><a href="#cb1-173" aria-hidden="true" tabindex="-1"></a>[Talk about LEDs in</span>
+<span id="cb1-174"><a href="#cb1-174" aria-hidden="true" tabindex="-1"></a>phytotrons](https://blogs.helsinki.fi/senpep-blog/2014/12/talk-leds/).</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div></div></div></div></div>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://orcid.org/0000-0003-3385-972X">
+<p>P. J. Aphalo @ ORCID</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ ISSN 2343-3248 (Helsinki, Finland)
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about/about.html">
+<p>© 2015-2023 Pedro J. Aphalo</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>

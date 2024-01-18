@@ -1,0 +1,1141 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.4.544">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Pedro J. Aphalo">
+<meta name="dcterms.date" content="2023-04-15">
+<meta name="keywords" content="R packages, weather data, FMI, Finnish Meteorological Institute">
+
+<title>Using R for Photobiology - Weather data for Finland from FMI</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<link href="../r4p-favicon.png" rel="icon" type="image/png">
+<script src="../site_libs/quarto-html/quarto.js"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a href="../index.html" class="navbar-brand navbar-brand-logo">
+    <img src="../r4p-logo.png" alt="" class="navbar-logo">
+    </a>
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Using R for Photobiology</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../posts.html"> <i class="bi bi-newspaper" role="img">
+</i> 
+<span class="menu-text">blog</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../pages.html"> <i class="bi bi-file-richtext" role="img">
+</i> 
+<span class="menu-text">Pages</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../galleries.html"> <i class="bi bi-images" role="img">
+</i> 
+<span class="menu-text">R gallery</span></a>
+  </li>  
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-r-packages" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="menu-text">R packages</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-r-packages">    
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/"><i class="bi bi-list" role="img">
+</i> 
+ <span class="dropdown-text">Documentation Index</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://r.r4photobiology.info/"><i class="bi bi-cloud-download" role="img">
+</i> 
+ <span class="dropdown-text">CRAN-like repository</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/learnrbook/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">learnrbook</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../pages/ggpmisc-intro.html"><i class="bi bi-stack" role="img">
+</i> 
+ <span class="dropdown-text">Intro <em>‘ggpmisc’, ‘ggpp’ and ‘gginnards’</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ggpmisc/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">ggpmisc</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ggpp/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">ggpp</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/gginnards/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">gginnards</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../pages/r4p-introduction.html"><i class="bi bi-sun" role="img">
+</i> 
+ <span class="dropdown-text">Intro <em>R for Photobiology Suite</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiology/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiology</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ggspectra/"><i class="bi bi-layers" role="img">
+</i> 
+ <span class="dropdown-text">ggspectra</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyWavebands/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyWavebands</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyInOut/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyInOut</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/ooacquire/"><i class="bi bi-rulers" role="img">
+</i> 
+ <span class="dropdown-text">ooacquire</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/rOmniDriver/"><i class="bi bi-rulers" role="img">
+</i> 
+ <span class="dropdown-text">rOmniDriver</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyPlants/"><i class="bi bi-box-seam" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyPlants</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyLamps/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyLamps</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyLEDs/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyLEDs</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologySun/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologySun</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologyFilters/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologyFilters</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://docs.r4photobiology.info/photobiologySensors/"><i class="bi bi-archive" role="img">
+</i> 
+ <span class="dropdown-text">photobiologySensors</span></a>
+  </li>  
+        <li><hr class="dropdown-divider"></li>
+        <li>
+    <a class="dropdown-item" href="../pages/packages-status.html"><i class="bi bi-check-all" role="img">
+</i> 
+ <span class="dropdown-text">Checks and issues</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-books" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-book" role="img">
+</i> 
+ <span class="menu-text">Books</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-books">    
+        <li>
+    <a class="dropdown-item" href="https://www.learnr-book.info/"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">Book <em>Learn R - As a Language</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/beyond-the-visible.html"><i class="bi bi-book" role="img">
+</i> 
+ <span class="dropdown-text">Handbook <em>Beyond the Visible</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages/r4p-book.html"><i class="bi bi-book-half" role="img">
+</i> 
+ <span class="dropdown-text">Book <em>R for Photobiology</em></span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-about" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-person" role="img">
+</i> 
+ <span class="menu-text">About</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-about">    
+        <li>
+    <a class="dropdown-item" href="../about/help.html"><i class="bi bi-question-square" role="img">
+</i> 
+ <span class="dropdown-text">Site Help</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about/about.html"><i class="bi bi-pc-display" role="img">
+</i> 
+ <span class="dropdown-text">About <em>this site</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../about/pedro.html"><i class="bi bi-person" role="img">
+</i> 
+ <span class="dropdown-text">About <em>Pedro J. Aphalo</em></span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="https://github.com/aphalo/r4p-blog/"><i class="bi bi-github" role="img">
+</i> 
+ <span class="dropdown-text">Source of <em>this site</em> at GitHub</span></a>
+  </li>  
+    </ul>
+  </li>
+  <li class="nav-item dropdown ">
+    <a class="nav-link dropdown-toggle" href="#" id="nav-menu-rss-feeds" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+      <i class="bi bi-rss" role="img">
+</i> 
+ <span class="menu-text">RSS feeds</span>
+    </a>
+    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="nav-menu-rss-feeds">    
+        <li>
+    <a class="dropdown-item" href="../posts.xml"><i class="bi bi-newspaper" role="img">
+</i> 
+ <span class="dropdown-text">Blog RSS feed</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../pages.xml"><i class="bi bi-file-richtext" role="img">
+</i> 
+ <span class="dropdown-text">Pages RSS feed</span></a>
+  </li>  
+        <li>
+    <a class="dropdown-item" href="../galleries.xml"><i class="bi bi-images" role="img">
+</i> 
+ <span class="dropdown-text">Gallery RSS feed</span></a>
+  </li>  
+    </ul>
+  </li>
+</ul>
+          </div> <!-- /navcollapse -->
+          <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Weather data for Finland from FMI</h1>
+            <p class="subtitle lead"><strong>FMI</strong> = <em>Finnish Meteorological Institute</em>, or <em>Ilmatieteen laitos</em></p>
+                                <div class="quarto-categories">
+                <div class="quarto-category">Using R</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>Pedro J. Aphalo </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">2023-04-15</p>
+      </div>
+    </div>
+    
+      <div>
+      <div class="quarto-title-meta-heading">Modified</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date-modified">2023-08-01</p>
+      </div>
+    </div>
+      
+    </div>
+    
+  <div>
+    <div class="abstract">
+      <div class="block-title">Abstract</div>
+      <p>Examples of R code for retrieval near real-time and historical weather data for observation stations in Finland. The examples dowload the data from the open access database of the Finnish Meteorological Institute.</p>
+    </div>
+  </div>
+
+  <div>
+    <div class="keywords">
+      <div class="block-title">Keywords</div>
+      <p>R packages, weather data, FMI, Finnish Meteorological Institute</p>
+    </div>
+  </div>
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#installing-r-package-fmi2" id="toc-installing-r-package-fmi2" class="nav-link" data-scroll-target="#installing-r-package-fmi2">Installing R package ‘fmi2’</a></li>
+  <li><a href="#set-up" id="toc-set-up" class="nav-link" data-scroll-target="#set-up">Set up</a></li>
+  <li><a href="#downloading-hourly-data-values" id="toc-downloading-hourly-data-values" class="nav-link" data-scroll-target="#downloading-hourly-data-values">Downloading hourly data values</a></li>
+  <li><a href="#downloading-radiation-data-at-1-min" id="toc-downloading-radiation-data-at-1-min" class="nav-link" data-scroll-target="#downloading-radiation-data-at-1-min">Downloading radiation data at 1 min</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>The <a href="https://en.ilmatieteenlaitos.fi/">Finnish Meteorological Institute</a> shares a large amount of data openly. One way of accessing observations from meteorological stations is through its <a href="https://en.ilmatieteenlaitos.fi/download-observations">open data web site</a>. Data can be obtained both by manually downloading them or automatically using a computer program or script through calls to an API interface. Package ‘fmi2’ implements calls to some of the <a href="https://en.ilmatieteenlaitos.fi/open-data-manual">WPS API</a> functions, allowing downloads directly from R.</p>
+<p>The FMI also makes available <a href="https://www.climateguide.fi/articles/from-point-observations-to-regionally-comprehensive-climate-grids/">climate data from 1961 to the present</a> spatially interpolated to a 10 km x 10 km grid. However, I haven’t found an API to access the gridded data.</p>
+<p><a href="https://www.ilmatieteenlaitos.fi/ilmastollinen-vertailukausi">Monthly climatology for individual weather stations</a> is also available. There are separate pages for each variable.</p>
+<p>I find it convenient to use an R scrip to download weather data from FMI, but data can also be downloaded through FMI’s web pages. The scrip below caches a local copy of the data, and when run again appends the new data.</p>
+<p>The FMI WPS API has limits to the amount of data that can be downloaded per query. In addition if we need to frequently retrieve fresh data from the same station or group of stations we can retrieve the missing data and append it to those previously downloaded instead of fetching again and again the same data. Of course if data changes retrospectively in the FMI service we will want to retrieve a fresh copy also of the older data.</p>
+</section>
+<section id="installing-r-package-fmi2" class="level2">
+<h2 class="anchored" data-anchor-id="installing-r-package-fmi2">Installing R package ‘fmi2’</h2>
+<p>The original version is available at (https://github.com/rOpenGov/fmi2).</p>
+<p>An edited version that adds a function to retrieve solar radiation and a version of this file as a second vignette is available at (https://github.com/aphalo/fmi2). The package can be installed directly from GitHub with:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>remotes<span class="sc">::</span><span class="fu">install_github</span>(<span class="st">"https://github.com/aphalo/fmi2"</span>, </span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>                        <span class="at">ref =</span> <span class="st">"HY2-develop"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Its dependencies may need to be installed manually from CRAN.</p>
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Note
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<p>The <a href="https://docs.r4photobiology.info/fmi2-fork/">documentation for the modified ‘fmi2’ package</a> is available on-line and can be read without need to locally install the package.</p>
+</div>
+</div>
+</section>
+<section id="set-up" class="level2">
+<h2 class="anchored" data-anchor-id="set-up">Set up</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(fmi2)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(dplyr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'dplyr'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:stats':
+
+    filter, lag</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    intersect, setdiff, setequal, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(sf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Linking to GEOS 3.11.2, GDAL 3.6.2, PROJ 9.2.0; sf_use_s2() is TRUE</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(lubridate)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'lubridate'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following objects are masked from 'package:base':
+
+    date, intersect, setdiff, union</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggpmisc)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Loading required package: ggpp</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 methods overwritten by 'ggpp':
+  method                  from   
+  heightDetails.titleGrob ggplot2
+  widthDetails.titleGrob  ggplot2</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>
+Attaching package: 'ggpp'</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The following object is masked from 'package:ggplot2':
+
+    annotate</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Registered S3 method overwritten by 'ggpmisc':
+  method                  from   
+  as.character.polynomial polynom</code></pre>
+</div>
+</div>
+<p>We can query by FMI station ID, for simplicity we set it here.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># ID code of the station from where we fetch data</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>stn_fmisid <span class="ot">&lt;-</span> <span class="dv">101004</span> <span class="co"># Kumpula, change as needed, both weather and radiation</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="co"># stn_fmisid &lt;- 101154 # Lammi, change as needed, only weather</span></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>starttime.char <span class="ot">&lt;-</span> <span class="st">"2022-12-31 22:00"</span> <span class="co"># UTC midnight in Finland</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>We can query information about the station.</p>
+</section>
+<section id="downloading-hourly-data-values" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-hourly-data-values">Downloading hourly data values</h2>
+<p>We store data locally in a file and if the file exists load and append to it the missing data between its end and “now”. We need to be careful with time zones!! It is simplest to use UTC for the data and only change the time zone for plotting.</p>
+<p>::: To force the data to be retrieved again, we only need to delete the file we use to store it locally (or “cache”). :::</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(<span class="st">"fmi-weather-data-wide.Rda"</span>)) {</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Used only once or when replacing all data</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span> <span class="fu">ymd_hm</span>(starttime.char, <span class="at">tz =</span> <span class="st">"UTC"</span>)</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>  wide_weather_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"fmi-weather-data-wide.Rda"</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we start 59 min after end of previously downloaded data</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span><span class="fu">force_tz</span>(<span class="fu">max</span>(wide_weather_data<span class="sc">$</span>time), <span class="at">tzone =</span> <span class="st">"UTC"</span>) <span class="sc">+</span> <span class="fu">minutes</span>(<span class="dv">59</span>)</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="co"># endtime &lt;- trunc(now(), units = "mins")</span></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a>endtime <span class="ot">&lt;-</span> starttime <span class="co"># do not read new data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we read the new data to a new dataframe</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># (to avoid appending repeatedly to a long one)</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>  new_wide_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="cf">while</span> (starttime <span class="sc">&lt;</span> endtime) {</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    sliceendtime <span class="ot">&lt;-</span> starttime <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">28</span>) <span class="co"># keep query size at max of 4 weeks</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> (sliceendtime <span class="sc">&gt;</span> endtime) {</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>      sliceendtime <span class="ot">&lt;-</span> endtime</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a>    }</span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    stn_data <span class="ot">&lt;-</span> <span class="fu">obs_weather_hourly</span>(<span class="at">starttime =</span> <span class="fu">as.character</span>(starttime),</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">endtime =</span> <span class="fu">as.character</span>(sliceendtime),</span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>                                   <span class="at">fmisid =</span> stn_fmisid)</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a>    slice_data <span class="ot">&lt;-</span> stn_data <span class="sc">%&gt;%</span></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>      tidyr<span class="sc">::</span><span class="fu">spread</span>(variable, value) <span class="sc">%&gt;%</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>      <span class="co"># convert the sf object into a regular tibble</span></span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>      sf<span class="sc">::</span><span class="fu">st_set_geometry</span>(<span class="cn">NULL</span>)</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a>    new_wide_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(new_wide_data, slice_data)</span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    starttime <span class="ot">&lt;-</span> sliceendtime <span class="sc">+</span> <span class="fu">minutes</span>(<span class="dv">1</span>)</span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">cat</span>(<span class="st">"."</span>)</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range</span>(new_wide_data<span class="sc">$</span>time) <span class="co"># freshly read</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning
+Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning
+-Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  Inf -Inf</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb23"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a>  wide_weather_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(wide_weather_data, new_wide_data)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">range</span>(wide_weather_data<span class="sc">$</span>time) <span class="co"># all data to be saved</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2022-12-31 22:00:00 UTC" "2023-08-01 12:00:00 UTC"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb25"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">colnames</span>(wide_weather_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "time"           "PA_PT1H_AVG"    "PRA_PT1H_ACC"   "PRI_PT1H_MAX"  
+ [5] "RH_PT1H_AVG"    "TA_PT1H_AVG"    "TA_PT1H_MAX"    "TA_PT1H_MIN"   
+ [9] "WAWA_PT1H_RANK" "WD_PT1H_AVG"    "WS_PT1H_AVG"    "WS_PT1H_MAX"   
+[13] "WS_PT1H_MIN"   </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb27"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">save</span>(wide_weather_data, <span class="at">file =</span> <span class="st">"fmi-weather-data-wide.Rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>The description of the variables can be obtained from the server.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb28"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>fmi2<span class="sc">::</span><span class="fu">describe_variables</span>(<span class="fu">colnames</span>(wide_weather_data)[<span class="sc">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 12 × 6
+   variable       label           base_phenomenon unit  stat_function agg_period
+   &lt;chr&gt;          &lt;chr&gt;           &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;     
+ 1 PA_PT1H_AVG    Air pressure    Air pressure    hPa   avg           PT1H      
+ 2 PRA_PT1H_ACC   Precipitation … Amount of prec… mm    acc           PT1H      
+ 3 PRI_PT1H_MAX   Maximum precip… Amount of prec… mm/h  max           PT1H      
+ 4 RH_PT1H_AVG    Relative humid… Humidity        %     avg           PT1H      
+ 5 TA_PT1H_AVG    Air temperature Temperature     degC  avg           PT1H      
+ 6 TA_PT1H_MAX    Highest temper… Temperature     degC  max           PT1H      
+ 7 TA_PT1H_MIN    Lowest tempera… Temperature     degC  min           PT1H      
+ 8 WAWA_PT1H_RANK Present weathe… Weather         &lt;NA&gt;  rank          PT1H      
+ 9 WD_PT1H_AVG    Wind direction  Wind            deg   avg           PT1H      
+10 WS_PT1H_AVG    Wind speed      Wind            m/s   avg           PT1H      
+11 WS_PT1H_MAX    Maximum wind s… Wind            m/s   max           PT1H      
+12 WS_PT1H_MIN    Minimum wind s… Wind            m/s   min           PT1H      </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb30"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wide_weather_data, <span class="fu">aes</span>(<span class="fu">with_tz</span>(time, <span class="at">tzone =</span> <span class="st">"EET"</span>), TA_PT1H_AVG)) <span class="sc">+</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="fmi-kumpula_files/figure-html/unnamed-chunk-7-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="downloading-radiation-data-at-1-min" class="level2">
+<h2 class="anchored" data-anchor-id="downloading-radiation-data-at-1-min">Downloading radiation data at 1 min</h2>
+<p>The station ID was set above, and we use it again. However, FEW WEATHER STATIONS measure radiation! e.g., Kumpula does, but Lammi does not.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb31"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">file.exists</span>(<span class="st">"fmi-sun-data-wide.Rda"</span>)) {</span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a>  <span class="co"># Used only once or when replacing all data</span></span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a>  starttime.char <span class="ot">&lt;-</span> <span class="st">"2023-01-15 22:00"</span>  <span class="co"># UTC at midnight in Finland</span></span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span> <span class="fu">ymd_hm</span>(starttime.char)</span>
+<span id="cb31-5"><a href="#cb31-5" aria-hidden="true" tabindex="-1"></a>  wide_sun_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb31-6"><a href="#cb31-6" aria-hidden="true" tabindex="-1"></a>} <span class="cf">else</span> {</span>
+<span id="cb31-7"><a href="#cb31-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">load</span>(<span class="st">"fmi-sun-data-wide.Rda"</span>)</span>
+<span id="cb31-8"><a href="#cb31-8" aria-hidden="true" tabindex="-1"></a>  <span class="co"># we start 1 h after end of previously downloaded data</span></span>
+<span id="cb31-9"><a href="#cb31-9" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span> <span class="fu">max</span>(wide_sun_data<span class="sc">$</span>time) <span class="sc">+</span> <span class="fu">minutes</span>(<span class="dv">1</span>) <span class="sc">+</span> <span class="fu">hours</span>(<span class="dv">2</span>) <span class="co"># convert to UTC + 2h</span></span>
+<span id="cb31-10"><a href="#cb31-10" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb31-11"><a href="#cb31-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb31-12"><a href="#cb31-12" aria-hidden="true" tabindex="-1"></a><span class="co"># endtime &lt;- trunc(now() - minutes(30), units = "mins")</span></span>
+<span id="cb31-13"><a href="#cb31-13" aria-hidden="true" tabindex="-1"></a>endtime <span class="ot">&lt;-</span> starttime <span class="co"># do not read new data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb32"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># we read the new data to a new dataframe</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="co"># (to avoid appending repeatedly to a long one)</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a>new_wide_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>()</span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">while</span> (starttime <span class="sc">&lt;</span> endtime) {</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>  sliceendtime <span class="ot">&lt;-</span> starttime <span class="sc">+</span> <span class="fu">days</span>(<span class="dv">1</span>) <span class="co"># keep query size at max of 1 week</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>  <span class="cf">if</span> (sliceendtime <span class="sc">&gt;</span> endtime) {</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    sliceendtime <span class="ot">&lt;-</span> endtime</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>  stn_data <span class="ot">&lt;-</span> <span class="fu">obs_radiation_minute</span>(<span class="at">starttime =</span> <span class="fu">as.character</span>(starttime),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">endtime =</span> <span class="fu">as.character</span>(sliceendtime),</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>                                       <span class="at">fmisid =</span> <span class="dv">101004</span>)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>  slice_data <span class="ot">&lt;-</span> stn_data <span class="sc">%&gt;%</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>    tidyr<span class="sc">::</span><span class="fu">spread</span>(variable, value) <span class="sc">%&gt;%</span></span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># convert the sf object into a regular tibble</span></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a>    sf<span class="sc">::</span><span class="fu">st_set_geometry</span>(<span class="cn">NULL</span>)</span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a>  new_wide_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(new_wide_data, slice_data)</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a>  starttime <span class="ot">&lt;-</span> sliceendtime <span class="sc">+</span> <span class="fu">minutes</span>(<span class="dv">1</span>)</span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cat</span>(<span class="st">"."</span>)</span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-22"><a href="#cb32-22" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(new_wide_data<span class="sc">$</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in min(x, na.rm = na.rm): no non-missing arguments to min; returning
+Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning in max(x, na.rm = na.rm): no non-missing arguments to max; returning
+-Inf</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1]  Inf -Inf</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb36"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a>wide_sun_data <span class="ot">&lt;-</span> <span class="fu">rbind</span>(wide_sun_data, new_wide_data)</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a><span class="fu">range</span>(wide_sun_data<span class="sc">$</span>time)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[1] "2023-01-15 22:00:00 UTC" "2023-06-29 20:57:00 UTC"</code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb38"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="fu">colnames</span>(wide_sun_data)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> [1] "time"       "DIFF_1MIN"  "DIR_1MIN"   "GLOB_1MIN"  "LWIN_1MIN" 
+ [6] "LWOUT_1MIN" "NET_1MIN"   "REFL_1MIN"  "SUND_1MIN"  "UVB_U"     </code></pre>
+</div>
+<div class="sourceCode cell-code" id="cb40"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="fu">save</span>(wide_sun_data, <span class="at">file =</span> <span class="st">"fmi-sun-data-wide.Rda"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb41"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>fmi2<span class="sc">::</span><span class="fu">describe_variables</span>(<span class="fu">colnames</span>(wide_sun_data)[<span class="sc">-</span><span class="dv">1</span>])</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 9 × 6
+  variable   label                base_phenomenon unit  stat_function agg_period
+  &lt;chr&gt;      &lt;chr&gt;                &lt;chr&gt;           &lt;chr&gt; &lt;chr&gt;         &lt;chr&gt;     
+1 DIFF_1MIN  "Diffuse radiation"  Solar radiation W/m2  avg           PT1M      
+2 DIR_1MIN   "Direct solar radia… Solar radiation W/m2  avg           PT1M      
+3 GLOB_1MIN  "Global radiation"   Solar radiation W/m2  avg           PT1M      
+4 LWIN_1MIN  "Long wave solar ra… UV radiation    W/m2  avg           PT1M      
+5 LWOUT_1MIN "Long wave outgoing… UV radiation    W/m2  avg           PT1M      
+6 NET_1MIN   "Radiation balance"  Solar radiation W/m2  avg           PT1M      
+7 REFL_1MIN  "Reflected radiatio… Solar radiation W/m2  avg           PT1M      
+8 SUND_1MIN  "Sunshine duration"  Sunshine durat… s     acc           PT1M      
+9 UVB_U      "Ultraviolet irradi… UV radiation    index avg           PT1M      </code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb43"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(wide_sun_data, <span class="fu">aes</span>(<span class="fu">with_tz</span>(time, <span class="at">tzone =</span> <span class="st">"EET"</span>), GLOB_1MIN)) <span class="sc">+</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_line</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="fmi-kumpula_files/figure-html/unnamed-chunk-11-1.svg" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+
+
+</section>
+
+<div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" id="quarto-reuse"><h2 class="anchored quarto-appendix-heading">Reuse</h2><div class="quarto-appendix-contents"><div><a rel="license" href="https://creativecommons.org/licenses/by-sa/4.0/">CC BY-SA 4.0</a></div></div></section></div></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="https://orcid.org/0000-0003-3385-972X">
+<p>P. J. Aphalo @ ORCID</p>
+</a>
+  </li>  
+</ul>
+    </div>   
+    <div class="nav-footer-center">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+ ISSN 2343-3248 (Helsinki, Finland)
+  </li>  
+</ul>
+    </div>
+    <div class="nav-footer-right">
+      <ul class="footer-items list-unstyled">
+    <li class="nav-item">
+    <a class="nav-link" href="../about/about.html">
+<p>© 2015-2023 Pedro J. Aphalo</p>
+</a>
+  </li>  
+</ul>
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
