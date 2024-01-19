@@ -3,7 +3,7 @@ title: "'ooacquire': Spectral Irradiance Algorithms"
 subtitle: "Corrections for enhanced dynamic range"
 author: "Pedro J. Aphalo"
 date: 2024-01-13
-date-modified: 2024-01-14
+date-modified: 2024-01-19
 categories: [R for Photobiology, data acquisition]
 keywords: [ooacquire pkg, acq_irrad_interactive, spectral irradiance, spectral fluence]
 code-fold: false
@@ -303,13 +303,13 @@ We can substitute $c_\lambda / t$ by "counts per second", which is what we use i
 $$k_\lambda^\prime = \frac{k_\lambda}{A 
 \cdot \Delta \lambda}$$
 
-# Examples (out-of-date)
+# Examples
 
-The examples in this section follow the protocols only approximately. Some groups of computations are carried out together within a single function and here mimicked using simplified code for step by step computations. The examples also skip the consistency checks (e.g., spectrometer serial number and match of column names). The examples below were written some years back and need to be updated. _For these reasons, the computed spectral irradiances may differ slightly among the "canned" and the "step-by-step" computations._ **An update is planned.** 
+First we describe how the data and metadata are stored. Next show the use of function `s_irrad_corrected()` to do the conversion from raw-counts into spectral irradiance applying verious corrections. Later we walk through the main stages on this conversion.
 
-## Preliminaries
+## From raw counts to spectral irradiance
 
-We will step through the different stages of the algorithms used, plotting the spectra at each step along the way. We use raw counts data, included in the package, from the measurement of sunlight at ground level with an *Ocean Optics Maya 2000 Pro* array spectrometer. Before the walk-through computations, we will describe how the data and metadata are stored. We will also show the use of a high level function that automatically caries out all the steps needed to convert raw spectrometer counts into irradiance when a correction method and an instrument calibration are supplied.
+Below different correction methods are compared and some of the steps of the algorithms are exemplified, plotting both the intermediate and final. Raw counts data included in package 'ooacquire' are used as example. The data were acquired with function `acq_irrad_interactive()` using both HDR mode and both  "dark"`and `"filter"` reference spectra. These data are from a measurement of spectral irradiance of sunlight at ground level, acquired with an *Ocean Optics Maya 2000 Pro* array spectrometer.
 
 We start by loading the R packages we will use.
 
@@ -329,29 +329,38 @@ We will use photon/quantum units throughout for plotting of spectra and display 
 photon_as_default()
 ```
 
-### From raw counts to spectral irradiance
+### Spectral data
 
-Spectral data used in this example were acquired using function `acquire_irrad_interactive()` from this package. This function implements the measurement protocols described above. RAW-counts data are returned as a collection of RAW spectra (constructed with function `raw_mspct()`) that contains also metadata including a descriptor of the instrument and a record of the instrument settings used. The instrument descriptor contains also the instrument calibration data when available. So irrespective of the approach and number of measurements needed for measuring one irradiance spectrum, all the data and metadata from a measurement event are contained in a single R object of class `raw_mspct`. If the calibration data is included in the metadata, then all the information needed to compute irradiance is stored in this single object, otherwise the calibration must be available separately.
+Spectral data used in this example were acquired using function `acquire_irrad_interactive()`. This function implements the measurement protocols described above. RAW-counts data are returned as a collection of RAW spectra (an object of class `raw_mspct` constructed with function `raw_mspct()`) that has also metadata stored as attributes. 
 
-Function `acquire_irrad_interactive()` returns both spectral irradiance and the raw counts data. For this example, we use the raw counts data. The use of this function to acquire the raw counts data is not a requirement, as data can be also imported from files saved as raw counts using Ocean Optics/Ocean Insight software (*SpectraSuite* or *OceanView*). During import the metadata is read from the file header, while the calibration data has to be imported separately from a separate file or read from the spectrometer memory, unless included in the 'ooacquire' package.
+The instrument descriptor contains the model, serial number, and calibration information when available. The instrument settings used are also stored. Thus, irrespective of the algorithm used for corrections and conversion and the number of individual spectra acquired with the spectrometer, all the data needed for computing spectral irradiance are stored together. In the case of a time series, data for multiple irradiance spectra, sharing the same metadata, except for time of acquisition, and also sharing`"dark"` and/or `"filter"` are stored in the same R object. If the calibration data are included in the metadata, then all the information needed to compute irradiance is stored in this single object, otherwise the calibration must be available separately.
 
-The data, measured using protocol `"lfd"`, contain a measurement of the *light* source, a measurement of the same light source through a polycarbonate *filter* and a reference or *dark* measurement. Each of the three member spectra in the collection is a `raw_spct` object (created with function `raw_spct()`).
+Function `acquire_irrad_interactive()` can return spectral irradiance plus raw counts data, counts per second plus raw counts data, or only the raw counts data. For this example, we use the raw counts data in object `sun009.raw_mspct`. 
+
+The use of function `acquire_irrad_interactive()` to acquire the raw counts data is not a requirement, as data can be also imported from files saved as raw counts using Ocean Optics/Ocean Insight software (*SpectraSuite* or *OceanView*). During import most of the metadata are read from the file header, except for the calibration data. Calibration data can be imported separately from a file or read from the spectrometer memory, unless already included in the 'ooacquire' package.
+
+The data, measured using protocol `"lfd"`, contain scans acquired for the *light* source, scans for the same light source through a polycarbonate *filter* and a reference or *dark* measurement. The `"light"` and `"filter"` data should be acquired under comparable conditions, ideally the only difference should be the presence of the filter. In practice a _small_ difference in irradiance can be compensated for by the algorithm.
+
+Each of the three members in the raw-counts data collection is a `raw_spct` object (created with function `raw_spct()`). We load this object.
 
 ```{r}
 load("data-files/sun-viikki-noon.Rda")
 ```
 
+We can use summary on the collection to explore the object.
+
 ```{r}
 summary(sun009.raw_mspct)
 ```
 
-The spectrum for the light measurement contains multiple columns, one for each of the different integration times used.
-
 ```{r}
-colnames(sun009.raw_mspct[["light"]])
+str(summary(sun009.raw_mspct))
 ```
 
-Summary in addition to displaying the summary for the columns, displays the most important metadata attributes, including the integration times and total measurement times.
+The spectra contain multiple columns, one, `"w.length"`, for calibrated wavelengths, and `"counts_1"` and `"counts_2"` each, for a different integration time used during acquisition (base on the HDR multipliers).
+
+We next use `summary()` on one of the members of the collection. 
+Summary in addition to displaying the summary for the vectors or columns, displays the most important metadata attributes, including the integration times and total measurement times.
 
 ```{r}
 summary(sun009.raw_mspct[["light"]])
@@ -376,6 +385,8 @@ As with any other R object we access an attribute and use indexing to extract a 
 attr(sun009.raw_mspct[["light"]], which = "instr.desc")$spectrometer.name
 ```
 
+### Ylianttila's modified method
+
 In normal use, we calculate irradiance from a raw-counts data set stored as a collection in a `raw_mspct` object using the high-level function `s_irrad_corrected()`. We pass as first argument the object containing the RAW counts and corresponding metadata and the *correction method* to be used in the conversion of the RAW counts into irradiance. In this case we use the modified method developed by Lasse Ylianttila for the _Maya 2000 Pro_ spectrometer, which suffers more from stray light than the _s2000_ spectrometer in Ylianttila et. al (2005), but at the same time has improved sensitivity to UV radiation.
 
 ```{r, fig.width=8, fig.asp=0.5}
@@ -384,17 +395,34 @@ sun009_recalc.spct <-
                     correction.method = ooacquire::MAYP11278_ylianttila.mthd)
 ```
 
-The R object returned by `s_irrad_corrected()` belongs to class `"source_spct"` (defined in package 'photobiology') for which summary and plotting methods are available. We first have a quick look at this object. In the output bellow we will notice that the six RAW measurements, three in the light and three in the dark have been used to calculate a single estimate of spectral irradiance. We can also see that the range of wavelengths is narrower as only wavelengths for which calibration data exists have been retained (within 250 to 900 nm in this case). Even though we have set the use of photon based units as the default, the returned spectrum is expressed in energy units as this are used in the calibration data.
+The R object returned by `s_irrad_corrected()` belongs to class `"source_spct"` (defined in package 'photobiology') for which summary and plotting methods are available. We first have a quick look at this object. In the output below , it can be seen that the six RAW measurements, two in the light, two with a filter and two in the dark have been combined to calculate a single estimate of spectral irradiance. We can also see that the range of wavelengths is narrower as only wavelengths for which calibration data exists have been retained (within 250 to 900 nm in this case). Even though we have set the use of photon based units as the default, the returned spectrum is expressed in energy units as this are used in the calibration data.
 
 ```{r}
 summary(sun009_recalc.spct)
 ```
 
-By plotting the spectral irradiance data, either in whole or a range of wavelengths we can better see the shape of the solar spectrum at ground level, and in this example also obtain summaries for the irradiance in different wavebands.
+By plotting the spectral irradiance data, either in whole or a range of wavelengths we can better see the shape of the solar spectrum at ground level, and in this example also obtain summaries for the irradiance in different wavebands. As we have set the R option to use by default photon based units, the plots also uses this units, doing the necessary conversion on-the-fly.
 
 ```{r, fig.width=8, fig.asp=0.5}
 autoplot(sun009_recalc.spct)
 ```
+
+::: callout-note
+This spectrum, measured under near-optimal conditions, gives (on a per nm basis) a ratio of 1:2000 between PAR and UV-C spectral irradiance. The UV-B band is 35 nm wide, while the PAR band is 300 nm wide, so on a per band basis, the ratio becomes nearly 1:20000, or between 5% and 10% of the UV-B reading in this example. When the sun is low in the sky, the UV-B irradiance is much less so the error becomes larger compared to the actual UV-B irradiance, but remains similar compared to the PAR irradiance.
+
+The zoomed-in plot shows that there is a small amount of noise remaining.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_recalc.spct, range = c(250, 315))
+```
+
+Averaging of multiple scans was used in this case.
+
+```{r}
+getInstrSettings(sun009_recalc.spct)
+```
+
+:::
 
 Using `get_attributes()` we can see that relevant metadata has been copied to the new object.
 
@@ -402,27 +430,10 @@ Using `get_attributes()` we can see that relevant metadata has been copied to th
 get_attributes(sun009_recalc.spct)
 ```
 
-Using a different correction method, that assumes that the measurements are of sunlight at ground level and consequently spectral irradiance for wavelengths shorter than 290 nm should be indistinguishable from zero.
+::: callout-note
+If a calibration for spectral irradiance is not available, we can still compute corrected counts per second, which can be used for relative measurements comparing two conditions, array-detector-pixel by pixel. One example is to compute spectral transmittance.
 
-```{r, fig.width=8, fig.asp=0.5}
-sun009_recalc_sun.spct <-
-  s_irrad_corrected(sun009.raw_mspct, 
-                    correction.method = ooacquire::MAYP11278_sun.mthd)
-```
-
-As above, the R object returned by `s_irrad_corrected()` belongs to class `"source_spct"`. As above, the six RAW measurements, three in the light and three in the dark have been used to calculate a single estimate of spectral irradiance.
-
-```{r}
-summary(sun009_recalc_sun.spct)
-```
-
-By plotting the spectral irradiance data, either in whole or a range of wavelengths we can see that the shape of the spectrum is the same as before but noise in wavelengths < 290 nm has been removed. These data are good so application of either of the two methods gives almost the same resulting spectrum.
-
-```{r, fig.width=8, fig.asp=0.5}
-autoplot(sun009_recalc_sun.spct)
-```
-
-We can also use the same function to obtain counts per second. In other words linearising and dividing the raw counts by the integration time, splicing of spectra obtained using different integration times, applying the corrections inherent to the method selected and the wavelength calibration but not the calibration for the sensitivity of the pixels.
+We can use the same function, `s_irrad_corrected()` to obtain **counts per second** instead of spectral irradiance. In other words linearising and dividing the raw counts by the integration time, splicing of spectra obtained using different integration times, applying the corrections inherent to the method selected and the wavelength calibration, but not the calibration for the sensitivity of the pixels.
 
 ```{r, fig.width=8, fig.asp=0.5}
 sun009_recalc.cps_spct <-
@@ -431,17 +442,18 @@ sun009_recalc.cps_spct <-
                     return.cps = TRUE)
 ```
 
-As the wavelength calibration is available for the whole wavelength range, the returned spectrum expressed as counts per second includes all the wavelengths acquired. In this cases this is an object of class `"cps_spct"`.
+As the wavelength calibration is available for the whole wavelength range, the returned spectrum expressed as counts per second includes all the wavelengths acquired. In this case, the returned object is of class `"cps_spct"`.
 
 ```{r}
 summary(sun009_recalc.cps_spct)
 ```
 
-By plotting the raw counts expressed as counts per second we can see that the shape of the curve is affected by the varying sensitivity of the spectrometer to photons of different wavelengths.
+By plotting the raw counts expressed as counts per second we can see that the shape of the curve is affected by the varying sensitivity of the spectrometer to photons of different wavelengths. The sensitivity decreases towards the shortest and longest wavelengths.
 
 ```{r, fig.width=8, fig.asp=0.5}
 autoplot(sun009_recalc.cps_spct)
 ```
+
 
 The instrument descriptor has been copied to 
 
@@ -483,7 +495,113 @@ calib.spct <- calibration_spct(w.length = wavelengths,
 autoplot(calib.spct)
 ```
 
-### Step-by-step walk through
+:::
+
+### Method sun
+
+A slight variation on Yliantila's method, using slightly different wavelengths. In this case the spectrum obtained is nearly identical.
+
+Using a different correction method, that assumes that the measurements are of sunlight at ground level and consequently spectral irradiance for wavelengths shorter than 290 nm should be indistinguishable from zero.
+
+```{r, fig.width=8, fig.asp=0.5}
+sun009_recalc_sun.spct <-
+  s_irrad_corrected(sun009.raw_mspct, 
+                    correction.method = ooacquire::MAYP11278_sun.mthd)
+```
+
+As above, the R object returned by `s_irrad_corrected()` belongs to class `"source_spct"`. As above, the six RAW measurements, three in the light and three in the dark have been used to calculate a single estimate of spectral irradiance.
+
+```{r}
+summary(sun009_recalc_sun.spct)
+```
+
+By plotting the spectral irradiance data, either in whole or a range of wavelengths we can see that the shape of the spectrum is the same as before but noise in wavelengths < 290 nm has been removed. These data are good so application of either of the two methods gives almost the same resulting spectrum.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_recalc_sun.spct)
+```
+
+The zoomed-in plot shows that there is a small amount of noise remaining.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_recalc_sun.spct, range = c(250, 315))
+```
+
+### No HDR
+
+A negative value as argument to `hdr.tolerance` disables merging of HDR cps data even if available.
+
+```{r, fig.width=8, fig.asp=0.5}
+sun009_no.hdr.spct <- 
+  s_irrad_corrected(sun009.raw_mspct,
+                    hdr.tolerance = -1,
+                    correction.method = ooacquire::MAYP11278_ylianttila.mthd)
+```
+
+The estimate for UV-B, UV-A, PAR have not changed, as the noise in the UV-C band increased only slightly, from 0.0492 to 0.0535.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_no.hdr.spct)
+```
+
+The zoomed-in plot shows that there is a small amount of noise remaining.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_no.hdr.spct, range = c(250, 315))
+```
+
+### No filter reference
+
+We can see the contribution of the `"filter"` measurement by not passing it to function `s_irrad_corrected()` and comparing the spectra.
+
+```{r, fig.width=8, fig.asp=0.5}
+sun009_ld.spct <- 
+  s_irrad_corrected(sun009.raw_mspct[c("light", "dark")], 
+                    correction.method = ooacquire::MAYP11278_ylianttila.mthd)
+```
+
+The estimate for UV-A and PAR have not changed, but that of UV-B has increased from 1.82 to 2.16 as well as the noise in the UV-C band from 0.049 to 0.39.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_ld.spct)
+```
+
+The zoomed-in plot shows that there is a small amount of noise remaining.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_ld.spct, range = c(250, 315))
+```
+
+### No filter and no dark reference
+
+Computations are also possible using the UV-C region as an internal dark reference.
+
+```{r, fig.width=8, fig.asp=0.5}
+sun009_l.spct <- 
+  s_irrad_corrected(sun009.raw_mspct[c("light")], 
+                    correction.method = ooacquire::MAYP11278_ylianttila.mthd)
+```
+
+The estimate for UV-A and PAR have not changed, but that of UV-B has increased from 1.82 to 2.32 as well as the noise in the UV-C band from 0.049 to 0.53.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_l.spct)
+```
+
+The zoomed-in plot shows that there is more noise remaining, including much more variation among neighbouring pixels as a `"dark"` reference as used in the sections above provides dark noise measurements for each pixel, the internal dark reference is an average from multiple pixels outside those included in the irradiance spectrum.
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(sun009_l.spct, range = c(250, 315))
+```
+
+# Step-by-step walk through (out-of-date)
+
+::: callout-warning
+The examples in this section follow the protocols only approximately (the diagrams above reflect the algorithms as implemented in 'ooacquire' 0.4.4). The examples below were written some years back and need to be updated. _For these reasons, the computed spectral irradiances may differ slightly among the "canned" and the "step-by-step" computations._ **An update is in course.** 
+
+In 'ooacquire', some groups of computations are carried out together within a single function and are here mimicked using simplified code in the step by step computation examples. The examples also skip the consistency checks (e.g., spectrometer serial number, column names, and acquisition settings among spectra to be used as reference or combined).
+:::
+
 
 In this section we will apply one by one the different computation steps staring from RAW spectral data until we obtain spectral irradiance, ´to obtain the same spectrum shown in the figure above. Unless mentioned explicitly all the steps in this walk-through apply to all the methods described above.
 
