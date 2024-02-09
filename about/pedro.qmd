@@ -1,7 +1,7 @@
 ---
 title: "Pedro J. Aphalo"
 date: "2023-02-19"
-date-modified: "2023-02-19"
+date-modified: "2024-01-30"
 image: pedro.jpg
 about:
   template: trestles
@@ -15,9 +15,9 @@ about:
     - icon: github
       text: Github
       href: https://github.com/aphalo
-    - icon: linkedin
-      text: LinkedIn
-      href: https://www.linkedin.com/in/pedro-j-aphalo-12055234/
+    - icon: rocket-takeoff
+      text: R Universe
+      href: https://aphalo.r-universe.dev
     - icon: camera
       text: Photography blog
       href: https://www.photo-spectrum.info/
@@ -27,6 +27,9 @@ about:
     - icon: mastodon
       text: Mastodon
       href: https://mastodon.social/@aphalo
+    - icon: linkedin
+      text: LinkedIn
+      href: https://www.linkedin.com/in/pedro-j-aphalo-12055234/
 ---
 
 I am a senior university lecturer in _physiological plant ecology_ and principal investigator at the [Organismal and Evolutionary Biology Research Programme (OEB)](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences/research/organismal-and-evolutionary-biology), [Faculty of Biological and Environmental Sciences](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences) of the [University of Helsinki](https://www.helsinki.fi/en) and member of the [Viikki Plant Science Center (ViPS)](https://www.helsinki.fi/en/researchgroups/viikki-plant-science-centre).

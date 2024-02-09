@@ -3,14 +3,14 @@ title: "ooacquire 0.4.x"
 subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-06-10
-date-modified: 2023-12-04
+date-modified: 2024-01-23
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
 
 ::: callout-note
 
-As part of moving the site to Quarto I intend to write a single post to give an
+As part of moving the site to Quarto, I intend to write a single post to give an
 overview of changes in minor versions of the packages. In this case, all
 versions in the 0.4.x series. I will update this same post in the case of minor
 version updates, and start a new post when the first version in the 0.5.x series
@@ -24,8 +24,27 @@ instructions are given in the
 
 ## Overview of changes
 
+_Versions 0.4.3 and 0.4.4_ Implement repeated measurements of spectral
+irradiance and spectral fluence, including repeated time series. Adjust the UI
+to support the new features, improve consistency and shorten the text lines to
+make it easier to use with small screens. Show more of the current settings.
+Optimize performance and test thoroughly. Implement asynchronous file saving
+using package 'mirai'. Profile and optimise code in 'ooacquire' and imported
+functions from 'photobiology'. Test the acquisition of time series of up to
+10000 spectra at high speed and their conversion from raw-counts to spectral
+irradiance.
+
+Improve the documentation, by including two vignettes only in the on-line
+documentation. This makes it easier to add diagrams and flowcharts. The
+algorithms are described in more detail than before in article [‘ooacquire’:
+Spectral Irradiance Algorithms](../../pages/ooacquire-algorithms.qmd) and the
+tutorial [‘ooacquire’: Spectral Irradiance
+Measurement](../../pages/acq-irrad-tutorial.qmd) about acquisition of spectral
+irradiance and spectral fluence, describing the UI in detail and the differences
+among interface modes of function `acq_irrad_interactive()`.
+
 _Version 0.4.2_ Tracks a change in 'photobiology' (>= 0.11.0), and depends on
-these newer versions. The vignette is also updated to work correctly with 
+these newer version. The vignette is also updated to work correctly with 
 'ggspectra' (>= 0.3.12).
 
 _Versions 0.4.0 and 0.4.1_ have full support for acquisition of time series

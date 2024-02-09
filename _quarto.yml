@@ -127,6 +127,9 @@ website:
           - icon: images
             text: Gallery RSS feed
             href: galleries.xml
+          - icon: rocket-takeoff
+            text: R-Universe
+            href: https://aphalo.r-universe.dev/feed.xml
   page-footer:
     right:
       - text: "&copy; 2015-2023 Pedro J. Aphalo"

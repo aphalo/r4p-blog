@@ -588,7 +588,7 @@ The estimate for UV-A and PAR have not changed, but that of UV-B has increased f
 autoplot(sun009_l.spct)
 ```
 
-The zoomed-in plot shows that there is more noise remaining, including much more variation among neighbouring pixels as a `"dark"` reference as used in the sections above provides dark noise measurements for each pixel, the internal dark reference is an average from multiple pixels outside those included in the irradiance spectrum.
+The zoomed-in plot shows that there is more noise remaining, including much more variation among neighbouring pixels. This is because a `"dark"` reference as used in the sections above provides dark noise values for each pixel, while the internal dark reference used in this cases is an average from multiple pixels outside those included in the irradiance spectrum.
 
 ```{r, fig.width=8, fig.asp=0.5}
 autoplot(sun009_l.spct, range = c(250, 315))
@@ -836,6 +836,14 @@ As above for the LED lamp, we first calculate spectral irradiance from a set of 
 halogen.spct <-
   s_irrad_corrected(halogen.raw_mspct, correction.method= MAYP11278_ylianttila.mthd)
 autoplot(halogen.spct)
+```
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(halogen.spct, range = c(250, 500))
+```
+
+```{r, fig.width=8, fig.asp=0.5}
+autoplot(smooth_spct(halogen.spct), range = c(250, 500))
 ```
 
 In the example above we called the functions used for each of the steps in the computation individually, saving the intermediate results so as to be able to show the partly processed data at each step. The functions, however, support the use of pipes as they all have as their first parameter the one accepting the R object returned by the previous stage.
