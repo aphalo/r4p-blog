@@ -26,7 +26,7 @@ website:
             href: https://docs.r4photobiology.info/
           - icon: cloud-download
             text: CRAN-like repository
-            href: https://r.r4photobiology.info/
+            href: https://aphalo.r-universe.dev
           - text: "---"
           - icon: box-seam
             text: 'learnrbook'
@@ -86,7 +86,7 @@ website:
             href: https://docs.r4photobiology.info/photobiologySensors/
           - text: "---"
           - icon: check-all
-            text: Checks and issues
+            text: Pre-releases and issues
             href: pages/packages-status.qmd
       - icon: book
         text: Books

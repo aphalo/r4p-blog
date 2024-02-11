@@ -1,0 +1,47 @@
+---
+title: "Repository migrated to R-Universe"
+subtitle: "Updated installation instructions"
+author: "Pedro J. Aphalo"
+date: "2024-02-10"
+date-modified: "2024-02-10"
+categories: [website news, repository news]
+---
+
+**I have moved the local CRAN-like repository to [R-Universe](https://r-universe.dev/).**
+The address <https://r.r4photobiology.info/> is replaced by <https://aphalo.r-universe.dev/>.
+
+## Installation using package 'photobiology' as example
+
+Installation of the most recent stable version from CRAN:
+
+```{r, eval=FALSE}
+install.packages('photobiology')
+```
+
+Installation of the current pre-release version from R-Universe CRAN-like 
+repository and dependencies from CRAN:
+
+```{r, eval=FALSE}
+install.packages('photobiology', 
+                 repos = c('https://aphalo.r-universe.dev', 'https://cloud.r-project.org'))
+```
+
+## Adding the repository to those used by R by default
+
+If you are using a recent version of R, the statements below can be added to the
+`.Rprofile` file for the repository to be always checked when installing or
+updating packages, or run before installing or updating the packages I maintain.
+
+```{r, eval=FALSE}
+repos <- getOption("repos", default = list("CRAN" = 'https://cloud.r-project.org'))
+repos[["r4photobiology"]] <- "https://aphalo.r-universe.dev'"
+old.repos <- options(repos = repos)
+```
+
+In the second case, the previous setting can be restored if needed with the
+statement below once the packages have been installed.
+
+```{r, eval=FALSE}
+options(repos = old.repos)
+```
+
