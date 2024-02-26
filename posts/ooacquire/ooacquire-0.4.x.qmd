@@ -3,19 +3,16 @@ title: "ooacquire 0.4.x"
 subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-06-10
-date-modified: 2024-01-23
+date-modified: 2024-02-26
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
 
 ::: callout-note
 
-As part of moving the site to Quarto, I intend to write a single post to give an
-overview of changes in minor versions of the packages. In this case, all
-versions in the 0.4.x series. I will update this same post in the case of minor
+_I will update this same post in the case of minor
 version updates, and start a new post when the first version in the 0.5.x series
-is developed. I hope this will reduce the clutter and still provide a good
-overview of progress. Differences between versions are listed in detail in the
+is developed._ Differences between versions are listed in detail in the
 [NEWS file](https://docs.r4photobiology.info/ooacquire/news/). Installation 
 instructions are given in the 
 [README file](https://docs.r4photobiology.info/ooacquire/).
@@ -24,7 +21,12 @@ instructions are given in the
 
 ## Overview of changes
 
-_Versions 0.4.3 and 0.4.4_ Implement repeated measurements of spectral
+**Version 0.4.5** Update the tail correction functions to use a narrower moving
+window (20 nm instead of 150 nm), with very little impact on the returned values
+and a 70% reduction in execution time. By default, "trim" calibration-related
+metadata attributes in the objects containing the computed spectral irradiance.
+
+**Versions 0.4.3 and 0.4.4** Implement repeated measurements of spectral
 irradiance and spectral fluence, including repeated time series. Adjust the UI
 to support the new features, improve consistency and shorten the text lines to
 make it easier to use with small screens. Show more of the current settings.
@@ -43,12 +45,22 @@ Measurement](../../pages/acq-irrad-tutorial.qmd) about acquisition of spectral
 irradiance and spectral fluence, describing the UI in detail and the differences
 among interface modes of function `acq_irrad_interactive()`.
 
-_Version 0.4.2_ Tracks a change in 'photobiology' (>= 0.11.0), and depends on
+**Version 0.4.2** Tracks a change in 'photobiology' (>= 0.11.0), and depends on
 these newer version. The vignette is also updated to work correctly with 
 'ggspectra' (>= 0.3.12).
 
-_Versions 0.4.0 and 0.4.1_ have full support for acquisition of time series
-of spectra. Version 0.4.1 adds checks for two conditions that are frequent when acquiring time series of spectra: 1) increased dark counts in only a part of the detector array, and 2) changes in irradiance between successive exposures when using integration time bracketing for HDR (high dynamic range) measurements. In the case of 1) all that is possible is to issue a warning, set an attribute to mark the spectrum as failing the quality control and expect the operator to solve the overheating problem. In the case of 2) merging of spectra taken with different integration times is skipped if they are not consistent and a message is emitted. This ensures that spectra with distorted shape can be avoided at the cost of a decrease in dynamic range in those cases that HDR cannot be validly applied.
+**Versions 0.4.0 and 0.4.1** have full support for acquisition of time series
+of spectra. Version 0.4.1 adds checks for two conditions that are frequent when
+acquiring time series of spectra: 1) increased dark counts in only a part of the
+detector array, and 2) changes in irradiance between successive exposures when
+using integration time bracketing for HDR (high dynamic range) measurements. In
+the case of 1) all that is possible is to issue a warning, set an attribute to
+mark the spectrum as failing the quality control and expect the operator to
+solve the overheating problem. In the case of 2) merging of spectra taken with
+different integration times is skipped if they are not consistent and a message
+is emitted. This ensures that spectra with distorted shape can be avoided at the
+cost of a decrease in dynamic range in those cases that HDR cannot be validly
+applied.
 
 The logic of the current user interface modes in described in detail in a
 [tutorial](../../pages/acq-irrad-tutorial.qmd). The most important new feature

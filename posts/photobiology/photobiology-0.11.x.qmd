@@ -3,7 +3,7 @@ title: "photobiology 0.11.x"
 subtitle: "Most significant recent changes"
 author: "Pedro J. Aphalo"
 date: 2023-10-21
-date-modified: 2023-10-21
+date-modified: 2024-02-26
 categories: [R Package Update]
 keywords: [photobiology pkg]
 format:
@@ -26,10 +26,16 @@ overview of progress. Differences between versions are listed in detail in the
 
 ## Overview of changes
 
-_Version 0.11.0_ makes operations on objects containing multiple spectra in long
+**Version 0.11.0** makes operations on objects containing multiple spectra in long
 form in most cases equivalent to operations on collections of spectra. This
 allows the use of simpler code and improves consistency of handling among the
 different supported ways of storing spectral data.
 
-
+**Version 0.11.1** supports additional operations on objects containing multiple 
+spectra in long, in particular the handling of metadata attributes. It also
+avoids unnecessary multiple copies of metadata attributes. The execution speed
+of irradiance computations on objects containing multiple spectra in long
+form has been improved. Add example data sets. Fix bugs, mostly boundary-case
+and minor. Minor changes to data sets could potentially affect backwards 
+compatibility, but this is unlikely.
 
