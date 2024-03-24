@@ -3,7 +3,7 @@ title: "Fitted-model labels with 'ggpmisc'"
 subtitle: "Polynomials, major axis, quantile and non-linear regression lines, bands and equations"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
-date-modified: "2023-10-14"
+date-modified: "2024-01-25"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
@@ -88,8 +88,23 @@ When adding annotations one should be aware that they add clutter to a
 plot, and clutter can make it difficult to see the patterns of interest
 in the data represented as points or curves.
 
-So, as usual, less is more, include those annotations that are relevant
-to the message conveyed by a plot and nothing more.
+So, as usual, less is more: _include those annotations that are relevant
+to the message conveyed by a plot and nothing more._
+
+Consider:
+
+-  **Add model fit equations only if the values of the parameters are interpretable.** For example, in a linear regression slope and intercept are interpretable as is the reaction constant in the Michaelis-Menten equation.
+
+-  **If you add an estimate of $R^2$ and/or $P$-value make sure that they correspond to the plotted curve.**
+
+-  **Display observations in addition to fitted-model curves or smoothers whenever possible.** A curve not supported by observations is usually frowned at. However, if the number of observations is large, they may have to be described by their empirical distribution.
+
+-  **Confidence bands around curves can be used to describe the confidence we can have on the estimated line.** However, be aware that these bands are a property of the fitted model, not the data.
+
+-  **The number of observations, is usually given in the figure legend, and less frequently as an annotation in the figure.** A plot annotation can be automated and is, thus, less likely to not match the number of observations plotted.
+
+-  **Inset tables are not very common, but when computed when the plot is rendered, also ensure that the reported statistics or summaries match the observations shown in the plot.**
+
 :::
 
 Fully automating the construction of fitted model equations is far from
@@ -284,7 +299,7 @@ ggplot(df1, aes(x, y)) +
                eq.with.lhs = "italic(t)~`=`~", 
                eq.x.rhs = "~italic(E)",
                label.x = "right", label.y = "bottom") +
-  labs(x = expression("Irrandiance, "*italic(E)~~(W~m^{-2})),
+  labs(x = expression("Irradiance, "*italic(E)~~(W~m^{-2})),
        y = expression("Temperature, "*italic(t)~~(degree*"C"))) +
   facet_wrap(~group)
 ```
