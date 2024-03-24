@@ -1,0 +1,200 @@
+---
+title: "Plotting circular data with 'ggplot2'"
+subtitle: ""
+author: "Pedro J. Aphalo"
+date: 2024-03-06
+date-modified: 2024-03-06
+categories: [R, plotting]
+keywords: [ggplot2 pkg, data visualization, dataviz]
+format:
+  html:
+    code-fold: false
+    code-tools: true
+bibliography: design-exp.bib
+draft: true
+abstract: |
+  Missing.
+---
+
+::: callout-note
+To see the source of this document click on "</> CODE" to the right of the
+page title. The page is written using [Quarto](https://quarto.org/) which is an enhanced version of [R Markdown](https://rmarkdown.rstudio.com/). The diagrams are created with [Mermaid](https://mermaid.js.org/), a language inspired by the simplicity of [Markdown](https://daringfireball.net/projects/markdown/syntax).
+:::
+
+::: callout-warning
+Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code breaking' you should be aware that the examples in this page have been tested with version (==3.5.0).
+:::
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, fig.height = 4, fig.width = 4)
+```
+
+```{r}
+library(ggplot2)
+library(lubridate)
+library(learnrbook) # for the wind data
+```
+
+## Introduction
+
+Circular plots can be disk-shaped or doughnut-shaped. They can be used to plot both
+linear and circular data. These plots use **two** coordinate axes, the angle
+around the circle and the radius of the circle to represent information from
+pairs of values. Pie-charts have values along a single positional axis, the
+angle around the circle, and will not be considered further here.
+
+All variations of round-shaped plots are, of course, most suitable for plotting
+circular data, such as angles or positions along a closed loop. 
+Linear data can be plotted on a circle by bending one of the linear axes of
+the Cartesian coordinates into a circle or arc and projecting the other linear
+axis onto the radius. This is artificial, and can be quite
+confusing for the reader.
+
+Examples of circular data are wind direction, various measurements relative to
+the time-of-day, gene positions in circular chromosomes in some bacteria and
+in cell organelles. When we plot individual observations as points, adding 
+`coord_polar()` or `coord_radial()` to a ggplot creates a circular plot.
+
+When we plot individual observations @fig-scatter, or apply binning such that one boundary 
+between bins falls at the closing point of the circle (0/360 degrees) @fig-histogram, plots
+for circular data work well even if the coordinate system is a bent line
+rather than a closed circle.
+
+::: {#fig-scatter layout-ncol=2}
+
+```{r}
+#| code-fold: true
+
+p <- 
+  ggplot(viikki_d29.dat, aes(WindDir_D1_WVT, WindSpd_S_WVT)) +
+  geom_point(alpha = 0.15) +
+  scale_x_continuous(expand = expansion(0, 0), 
+                     limits = c(0, 360),
+                     breaks = 0:3 * 90) +
+  scale_y_continuous(expand = expansion(c(0, 0.05)))
+
+p + coord_radial()
+```
+
+```{r}
+#| code-fold: true
+p + coord_radial(inner.radius = 1/5)
+```
+
+Scatterplots of wind speed vs. direction.
+:::
+
+::: {#fig-histogram layout-ncol=2}
+
+```{r}
+#| code-fold: true
+p <- 
+  ggplot(viikki_d29.dat, aes(WindDir_D1_WVT)) +
+  stat_bin(binwidth = 22.5, boundary = 0) +
+  scale_x_continuous(expand = expansion(0, 0), 
+                     limits = c(0, 360),
+                     breaks = 0:3 * 90) +
+  scale_y_continuous(expand = expansion(c(0, 0.05)))
+
+p + coord_radial()
+```
+
+```{r}
+#| code-fold: true
+p + coord_radial(inner.radius = 1/5)
+```
+
+Histogram of wind direction.
+:::
+
+With the histogram above @fig-histogram we were constrained in our choice of 
+`boundary` between bins. When fitting a probability density to circular data,
+if we fit probability distribution that ignores circularity, the plot created
+contains a spurious break or discontinuity where the two ends meet at 0 degrees 
+@fig-windrose.
+
+::: {#fig-windrose layout-ncol=2}
+
+```{r, message=FALSE}
+#| code-fold: true
+
+# the y scale expansion needs to be set to 0 to avoid a hole in the center
+# the x scale expansion needs to be set to 0, so that 0 degrees and 360 degrees meet
+
+p <- 
+  ggplot(viikki_d29.dat, aes(WindDir_D1_WVT)) +
+  stat_density(geom = "area", fill = "grey50") +
+  scale_x_continuous(expand = expansion(0, 0), 
+                     limits = c(0, 360),
+                     breaks = 0:3 * 90) +
+  scale_y_continuous(expand = expansion(c(0, 0.05)))
+
+p + coord_radial()
+```
+
+```{r}
+#| code-fold: true
+p + coord_radial(inner.radius = 1/5)
+```
+
+A 1D density function fitted to circular data.
+:::
+
+::: {#fig-windrose-speed layout-ncol=2}
+
+```{r}
+#| code-fold: true
+
+p <- 
+  ggplot(viikki_d29.dat, aes(WindDir_D1_WVT, WindSpd_S_WVT)) +
+  stat_density_2d_filled(alpha = 0.66) +
+  scale_x_continuous(expand = expansion(0, 0), 
+                     limits = c(0, 360),
+                     breaks = 0:3 * 90) +
+  scale_y_continuous(expand = expansion(c(0, 0.05))) +
+  theme(legend.position = "none")
+
+p + coord_radial()
+```
+
+```{r}
+#| code-fold: true
+p + coord_radial(inner.radius = 1/5)
+
+```
+
+A 2D density function fitted to circular data.
+:::
+
+To solve these problems new appropriate `stats` are needed, while existing
+geometries are enough.
+
+## What next?
+ 
+
+```{r, eval = FALSE}
+#| code-fold: true
+p <- 
+  ggplot(viikki_d29.dat, aes(WindDir_D1_WVT)) +
+  stat_bin(fill = "grey50", binwidth = 11.25) +
+  scale_x_continuous(expand = expansion(0, 0), 
+                     limits = c(0, 360),
+                     breaks = 0:3 * 90) +
+  scale_y_continuous(expand = expansion(c(0, 0.05)))
+
+p + coord_radial()
+
+p + coord_polar()
+
+p + coord_radial() +
+  facet_wrap(facets = vars(ifelse(hour(solar_time) < 12, "AM", "PM")))
+
+p + coord_radial(inner.radius = 1/3)
+
+```
+
+## Bent plots
+
+Data that are not circular, i.e., that have a linear sequence of values from a minimum to a maximum can be _bent_ into a curve, as in @fig-USB-cheating, or even into a full circle, however they have a discontinuity at their ends.
+
+![Panel meters for USB speed. Is this a case of cheating?](./circular-figures/USB-cheating.png){#fig-USB-cheating  fig-align="center"}

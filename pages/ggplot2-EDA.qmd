@@ -21,7 +21,7 @@ page title. The page is written using [Quarto](https://quarto.org/) which is an 
 :::
 
 ::: callout-warning
-Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code brealking' you should be aware that the examples in this page have been tested with version (==3.4.2).
+Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code breaking' you should be aware that the examples in this page have been tested with version (==3.4.2).
 :::
 
 ## Introduction
