@@ -20,11 +20,14 @@ draft: false
 ---
 
 ::: callout-warning
-The examples in this page make use of packages 'ggpmisc' (>= 0.5.5.9000) and
-'ggpp' (>= 0.5.5) not yet available through CRAN. In 'ggpmisc' 0.5.4 and 0.5.5
+The examples in this page make use of R packages ['ggpmisc'](https://docs.r4photobiology.info/ggpmisc/) (>= 0.5.5.9000) and
+['ggpp'](https://docs.r4photobiology.info/ggpp/) (>= 0.5.5) not yet available through CRAN. In 'ggpmisc' 0.5.4 and 0.5.5
 `stat_multcomp()` was a preliminary implementation that will change in future
 version 0.5.6. Versions before 0.5.4 lack the layer functions described in this
 page.
+
+Packages 'ggpp' and 'ggpmisc' extend the plotting commands from package 
+['ggplot2'](https://ggplot2.tidyverse.org/).
 :::
 
 ::: callout-tip
@@ -76,9 +79,36 @@ axis onto which a continuous numeric variable has been mapped, usually _y_.
 ## Multiple comparisons in ggplots
 
 ::: callout-caution
-Multiple comparisons are frequently applied as post-hoc tests, in many cases including all possible pairwise contrasts (Tukey contrasts) or every treatment individually against a control condition (Dunnet contrasts). As post-hoc tests, they are seen as a way of investigating the source of an overall significant difference, and multiple comparisons are applied only if the main effect of the factor is in itself significant and skipped otherwise. In other cases multiple comparisons can be the primary statistical test addressing the research hypotheses. Both approaches are valid as long as the hypotheses have been set independently of the data being used in the test. **What should be avoided is to cherry pick promising pairwise tests based on the data, and then correct the _P_-values taking into account only the cherry-picked pairs.**
+In experimental designs with more than two groups or treatments, we face the
+problem that testing every possible pair for significant difference, includes
+a test of the smallest vs. the largest observed value. This means that the
+probability of at least one pair being significant is no longer the one
+computed in a _t_-test or _LSD_ (least significant difference).
+We need to distinguish the probability of
+making the wrong decision in an individual comparison (comparison-wise) from 
+that for the experiment as a whole (experiment-wise, the number of wrong
+decisions per experiment).
 
-When applying multiple comparisons, it is necessary to adjust the _P_-values taking into account the fact the the more numerous the tests, the more likely is that at least one or a few of them will yield false positive outcomes. There are different approaches, that can be grouped into methods that attempt control the experiment-wise probability of false positive outcomes to a given _P_-level, such as 0.05, and those that attempt to control the false discovery rate, that can be thought of as the proportion of the tests that yield false positive outcomes. There are variations in both approaches, varying in power and conservativeness.
+There are different approaches, that can be grouped into methods that attempt control the experiment-wise probability of false positive outcomes to a given _P_-level, such as 0.05 (adjusted _P_-values), and those that attempt to control the false discovery rate (FDR), that can be thought of as the proportion of the positive outcomes that are false positives. There are variations in both approaches, varying in power and conservativeness.
+
+A correction needs to be applied to _P_-values or _LSD_. Different methods 
+are available for this.
+Methods differ in their assumptions and difficulty of computation. 
+Tukey's _HSD_ (honestly significant difference) and the Bonferroni correction
+are well known approaches. Bonferroni's method is a "quick and dirty" 
+calculation but nowadays not recommended as it applies an unnecessarily strong
+correction. Dunnet contrasts test all treatments individually against a control condition. Tukey contrasts targets the case of testing all possible pairs. It
+is also possible to set-up contrasts of interest individually, or testing for
+other differences, such as basing them on the average of related treatments.
+
+In general, one should test for significant differences only those contrasts
+selected _a priori_ as of interest. The fewer the pairs tested for significance,
+the smaller a correction needs to be applied, thus increasing the power of
+the test for the cases of interest. _Of course, for validity, which tests are
+of interest should be decided independently of the data._ **Avoid cherry picking!**
+
+Multiple comparisons are frequently applied as post-hoc tests (after a different
+test of significance with a broader scope). As post-hoc tests, they are seen as a way of investigating the source of an overall significant difference, and multiple comparisons are applied only if the main effect of the factor is in itself significant and the additional contrasts skipped otherwise. In other cases multiple comparisons can be the primary statistical test addressing the research hypotheses. Both approaches are valid as long as the hypotheses have been set independently of the data being used in the test. I repeat: **what should be avoided is to cherry pick promising pairwise tests based on the data, and then correct the _P_-values taking into account only the cherry-picked pairs.**
 :::
 
 Package [ggsignif](https://const-ae.github.io/ggsignif/) seems to be the most
