@@ -1,0 +1,106 @@
+---
+title: "R"
+subtitle: "Data Analysis and Visualization"
+author: Pedro J. Aphalo
+author-meta: Pedro J. Aphalo
+listing:
+  - id: R-intro
+    contents:
+      - "pages/R-intro.qmd"
+      - "pages/ggplot2-introduction.qmd"
+      - "pages/R-model-fitting-intro.qmd"
+      - "pages/r-flow-execution.qmd"
+    sort: false
+    type: grid
+    grid-columns: 2
+    fields: [title, date-modified, abstract]
+  - id: R-advanced
+    contents:
+      - "galleries/bar-col-plots.qmd"
+      - "galleries/quadrant-volcano-plots.qmd"
+      - "galleries/plot-equations.qmd"
+      - "galleries/pairwise-labels.qmd"
+      - "galleries/multcomp.qmd"
+      - "galleries/nudge-and-repel.qmd"
+      - "galleries/plot-insets.qmd"
+      - "galleries/plot-interactive.qmd"
+    sort: false
+    type: grid
+    grid-columns: 2
+    fields: [title, date-modified, abstract]
+  - id: IPS-003
+    contents:
+      - "galleries/dataviz-intro.qmd"
+      - "pages/approaches-to-research.qmd"
+      - "pages/design-exp-principles.qmd"
+      - "pages/design-exp-intro.qmd"
+      - "pages/theoretical-probability-distributions.qmd"
+      - "pages/linear-models-intro.qmd"
+      - "pages/ggplot2-EDA.qmd"
+    sort: false
+    type: grid
+    grid-columns: 2
+    fields: [title, date-modified, abstract]
+page-layout: full
+title-block-banner: true
+abstract: |
+  This Contents page lists pages that I have written for course IPS-003 and for the R-peer-support meetings at the Viikki Campus of the University of Helsinki. The level of difficulty level varies from introductory to intermediate. I update these pages from time to time and I will add new pages from time to time.
+---
+
+## R and programing
+
+R is a language and an environment for data analysis and visualization. It has
+become the standard for data analysis and visualisation in many fields. In
+Bioinformatics it "competes" with Python, but R can "talk" with code written in
+most other programming languages. R can be extended by means of code _packages_
+which can be locally installed in a _library_.
+
+### Introductory ("basic")
+
+Simple computations, introduction to plotting, ANOVA and regression, and
+some basic computer programming constructs.
+
+::: {#R-intro}
+:::
+
+Moderately advanced R learning material is available as a free on-line course at
+[intro2R](https://alexd106.github.io/intro2R/index.html).
+
+The second edition of my book _Learn R: As a Language_ will be published on 26 
+April 2024. A [dedicated website](https://www.learnr-book.info/) provides 
+additional information and some free extra chapters. My book does not assume
+previous programing and focuses on the R language itself rather than on using
+R for specific purposes.
+
+### Plotting in R ("specific")
+
+Creating informative and elegant plots for inclussion in publications, reports
+and theses requires the same kind of approach than text. Design, drafting and
+frequently several rounds of revision. Plots are also very important for
+exploration and quality control of data. The requirements are rather different
+with respect to the graphical design, but not in relation to highlighting
+different features of a data set. Pages in this section, describe how to
+create specific types of plots or even how to add specific features to a plot.
+They assume familiarity with the basics of plotting with package 'ggplot2'.
+The 'ggplot2' book is available on-line as an 
+[open-access web site](https://ggplot2-book.org/).
+
+::: {#R-advanced}
+:::
+
+## Data analysis and design of experiments
+
+I have beeen teaching data analysis and design of experiments, which are very
+tightly dependent on each other. Statistics gives theoretical support to data
+analysis methods, but efficiently extracting information from observations from
+experiments and surveys is in many ways like detective work or solving puzzles.
+Modern data analysis makes heavy use of visual data displays (plots, diagrams,
+graphs). Much of the material I have used for the course IPS-003 is in the pages
+listed below.
+
+::: {#IPS-003}
+:::
+
+Why these pages are not in Moodle? Because I want to make sure they are truly
+open access, and that they will remain available after as long as I can 
+maintain them, even after my inminent retirement.

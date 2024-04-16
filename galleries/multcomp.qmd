@@ -3,7 +3,7 @@ title: "Multiple comparisons with 'ggpmisc'"
 subtitle: "Letter labels and labelled bars"
 author: "Pedro J. Aphalo"
 date: "2023-08-14"
-date-modified: "2023-11-24"
+date-modified: "2024-04-15"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, pairwise]
 categories: [Plotting examples]
 abstract: |
