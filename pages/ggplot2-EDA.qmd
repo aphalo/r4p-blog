@@ -24,7 +24,7 @@ page title. The page is written using [Quarto](https://quarto.org/) which is an 
 Package ['ggplot2'](https://ggplot2.tidyverse.org/) has gained new features over its long life, and although few changes have been 'code breaking' you should be aware that the examples in this page have been tested with version (==3.4.2).
 :::
 
-## Introduction
+# Introduction
 
 Exploratory Data Analysis (EDA) as proposed by John W. Tukey is strongly based
 on data visualization. There is a contrast in how a plot and a numerical summary present the data to us. A well-designed data display shows the data in its context, while an isolated numerical summary does not. The _Data visualization handbook_ (@Koponen2019), and its Finnish language version, _Tieto näkyväksi_ (@Koponen2016), provides a detailed account of how to produce accurate and  effective graphs and diagrams based on data. 
@@ -71,7 +71,7 @@ _Exploratory data analysis can never be the whole story, but nothing else can se
 
 The Layered Grammar of Graphics implemented in R package [ggplot2]() derives from this tradition initiated by John Tukey, which encourages data exploration during analysis and the ad-hoc 
 
-## The role of EDA in research
+# The role of EDA in research
 
 Exploratory data analysis can play two distinct roles in research, depending on the type of experiment or survey. In both approaches EDA plays a crucial role (@fig-EDA-flowchart).
 
@@ -117,7 +117,7 @@ flowchart TD
 
 In most cases EDA relies heavily on the graphical display of data. It is however important to remember that different types of plots make it easy to visualize different aspects of a data set. In this page I show some examples using R and package 'ggplot2'. These are very far from being exhaustive. The detective work in most cases involves imagining and implementing a data visualization able to reveal the information we are interested in.
 
-## Quality control
+# Quality control
 
 Before any plotting it is good to start by tabulating the data. `table()` is useful when we have categorical variables or factors, as we can use it to get counts of observations.
 
@@ -184,7 +184,7 @@ log(-1) # is undefined
 ```
 :::
 
-## Plots of single variables
+# Plots of single variables
 
 The plots we will create today are for data exploration, not communication of results. If variable names are self explanatory as in the `iris` data set we do not need to change axis labels or change how plots look, except to ensure that the features of the data are clearly displayed.
 
@@ -193,7 +193,7 @@ library(ggplot2)
 theme_set(theme_bw(16))
 ```
 
-### Box plot
+## Box plot
 
 A very popular type of plot for EDA are box plots (more descriptively, also called box and whiskers plots). John Tukey's most important and original contribution was on EDA methods, including box plots, not Tukey's HSD.
 In the early 1970's easy of drawing and easy of computation were still crucial for method to be widely used, and this one of the goals in most of Tukey's work on EDA. In the `iris` data sets we have data from measurements of the size of different flower parts, petals and sepals. For each of them, width and length are available.
@@ -213,7 +213,7 @@ An enhancement to simple box plots is to show an approximate 95% confidence inte
 ggplot(iris, aes(x = Species, y = Petal.Length)) +
   geom_boxplot(notch = TRUE, width = 0.3)
 ```
-### Dot plot
+## Dot plot
 
 For exploration one would think that plotting all observations would be ideal, but how can we ensure that all observations are visible rather than occluded by other observations. We can use transparency, but this works well only with few overlaps, so works well in those situations when we have too few observations for a more complex visual like a boxplot or density plots. In the example I use `alpha = 0.25` meaning that a point is 1/4 opaque and 3/4 transparent. For a point to look black, four or more observations have to overlap.
 
@@ -229,7 +229,7 @@ ggplot(iris, aes(x = Species, y = Petal.Length)) +
   geom_point(position = position_jitter(width = 0.25))
 ```
 
-### Violin plot
+## Violin plot
 
 Surely we can do better than this with modern computers! Box plots aim at describing the distribution of observations based on the median, quartiles and range, and possible "outliers". Violin plots are like box plots but describe the density distribution with a fitted curve.
 
@@ -238,7 +238,7 @@ ggplot(iris, aes(x = Species, y = Petal.Length)) +
   geom_violin()
 ```
 
-### Beeswarm plot
+## Beeswarm plot
 
 A final alternative is to combine violin plots with showing the observations.
 
@@ -262,21 +262,21 @@ ggplot(iris, aes(x = Species, y = Petal.Length)) +
 
 These are some of the common variations around the theme of boxplots, or more accurately plots that give information not only on the _central tendency_ and _spread_ of the data but also on the _shape_ the empirical density distribution. This approach differs from the approach of showing means and standard errors, or confidence intervals, that implicitly assume that the data have been sampled from a population that follows a Normal distribution.
 
-### What do these plots tell us
+## What do these plots tell us
 
 In the case of variable `Petal.Length` from the `iris` data set it is clear that the spread of the values is less for _I. setosa_ than for the other two species. The distributions are rather symmetrical around the median, and no unusual or unexpected observations, or _outliers_ can be seen. What is considered an outliers in box plots and plotted individually should be taken with a grain of salt, as it can be affected by the number of observations plotted. For example, I would not worry about the highlighted "outliers" in the data for _I. setosa_. In this case, what would need to be considered for a data analysis is the heterosedasticity or differences in spread or variance.
 
 We would make similar plots for other variables and explore their properties.
 
-### What type of plot to use?
+## What type of plot to use?
 
 We are exploring the data, so essentially we can use what works best for us and our data. However, one key consideration is the number of observations. If we have many hundreds of observations, then violin plots are the best option, as anything else would become cluttered. The _beeswarm_ plot is useful with several tens of observations up to a couple of hundreds if one adjusts the size of the points and the width of the swarm. When using points to represent individual observations, the upper limit depends on the spread of the data compared to the plotting area (we can see this effect for _Iris setosa_ compared to the other species). I would avoid jitter, as I personally find it difficult to visualize the density in such plots, although it is used quite frequently.
 
-## Exploring relationships
+# Exploring relationships
 
 In the `iris` data set we could be interested in the relationships among the measured variables. Even if when plotted individually the data for each measured variable do not show anything unusual, a more subtle kind of outlier would be an unexpected relationship between petal length and width.
 
-### Scatter plot
+## Scatter plot
 
 A scatter plot is the simplest and usually first approach to try. As now there is variation both along _x_ and _y_ axes, overlaps are less likely for the same number of observation than in the case of dot plots (it is anyway important to use transparency to make sure overlaps do not remain unnoticed). We have three species, so I would start by using separate panels. We are not much interested in the actual results or interpretation, we are mainly focusing on quality of the data and properties that will affect how to analyse it.
 
@@ -333,7 +333,7 @@ ggplot(iris, aes(x = Petal.Width, y = Petal.Length)) +
   facet_wrap(facets = vars(Species))
 ```
 
-## Bad data are not always obvious
+# Bad data are not always obvious
 
 To end I will freely tell from memory what is I think, I wonderful demonstration, that plotting can show patterns that otherwise remain hidden. More so, different types of plots can reveal different features, including problems. Data set `barley` included in package 'lattice' includes data for yield in bushels per acre of 10 barley cultivars in Minnesota field trials at six sites on years 1931 and 1932. The question was revisited most recently by Wright (Wright, Kevin (2013). Revisiting Immer's Barley Data. _The American Statistician_, **67**(3), 129–133.)
 

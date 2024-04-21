@@ -20,7 +20,7 @@ abstract:
   In this page I give a brief presentation on the mechanics of fitting statistical models to observed data using R. I use a lineal model (LM), polynomial regression, as example. I describe the most important values contained in the model fit object returned by function `lm()` and how to extract them. I rely heavily on diagrams and data plots.
 ---
 
-## Introduction
+# Introduction
 
 _Fitting a model_ to data consists in finding the parameter values that best
 explain the data or observations. These parameter values are estimates of
@@ -99,7 +99,7 @@ ggplot(my.anscombe, aes(x,y)) +
 These concocted data examples demonstrates that when fitting any model to data, extreme caution is always needed. **We need to check graphically the observations and how well model estimates fit them.** $R^2$, $P$ values, and other parameter's estimates _must always be considered in the light of the data, rather than in isolation_.
 :::
 
-## Model-fitting core ideas
+# Model-fitting core ideas
 
 ```{mermaid}
 flowchart TB

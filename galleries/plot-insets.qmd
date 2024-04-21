@@ -47,7 +47,7 @@ data layers are plotted on top the inset layer any overlap can be easily
 detected.
 :::
 
-## Data labels, plot annotations and insets
+# Data labels, plot annotations and insets
 
 Data labels add textual information directly related to individual data
 points (shown as glyphs). Text position in this case is dependent on the
@@ -73,7 +73,7 @@ space within the plotting area. Insets can be moved from within the main
 plotting area to being adjacent to it, e.g., as a smaller panel, without
 any loss of meaning.
 
-## Uses of insets
+# Uses of insets
 
 The use of insets in plots was more frequent when plots where drawn
 using ink and pen by draftsmen. With the advent of computer-drawn plots
@@ -91,7 +91,7 @@ cases used in publications and reports, either to provide context or
 save space. If well designed they can enhance communication of
 information.
 
-## Preliminaries
+# Preliminaries
 
 The code used is shown on-demand above each plot and can be copied. We
 first load the packages we will use.
@@ -116,14 +116,14 @@ library(ggpp)
 library(dplyr)
 ```
 
-## Inset plots within plots
+# Inset plots within plots
 
 Inset plots are most frequently annotations. They can be used to zoom in
 to a portion of the data, to show a less important property of
 observations, or more commonly for maps, to show a broader region to
 provide recognizable context.
 
-### Using `annotate()`
+## Using `annotate()`
 
 The first set of examples show how to use `annotate()` together with the
 geoms from package 'ggpp' to add inset plots to single-panel ggplots.
@@ -131,7 +131,7 @@ The examples show different uses of insets. All examples use data sets
 available in R or the packages loaded. In this examples we use
 `annotate()` together with `geom_plot_npc()` or `geom_plot()`.
 
-#### Zoom in
+### Zoom in
 
 `geom_plot_npc()` obeys normalized plot coordinates (NPC) instead of
 data coordinates. NPC coordinates are relative to the plotting area and
@@ -189,7 +189,7 @@ p.d.combined +
 
 ```
 
-#### Zoom out
+### Zoom out
 
 ```{r}
 # zoom in region
@@ -222,7 +222,7 @@ p.base +
 
 ```
 
-#### Summary plot
+### Summary plot
 
 ```{r}
 # column plot of summaries as inset
@@ -246,7 +246,7 @@ p.base +
 
 ```
 
-#### Other data or variables
+### Other data or variables
 
 ```{r}
 # box plot as inset
@@ -272,7 +272,7 @@ p.base +
            vp.width = 0.6, vp.height = 0.4) # relative size of inset
 ```
 
-### Using `geom_plot()` and `geom_plot_npc()`
+## Using `geom_plot()` and `geom_plot_npc()`
 
 In the examples above we used `annotate()` as it is the easiest
 approach. However, `annotate()` does not support adding different
@@ -343,7 +343,7 @@ p.base +
                 mapping = aes(npcx = npcx, npcy = npcy, label = plots))
 ```
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 Inset plots used as annotations, but not as data labels, can be added to
@@ -356,7 +356,7 @@ individual plots can be converted first into grobs with function
 from package 'grid'.
 :::
 
-## Inset tables within plots
+# Inset tables within plots
 
 Tables are less frequently used as insets than plots. As annotations,
 they can be useful in two situations: 1) reporting results for the
@@ -365,7 +365,7 @@ summaries about the data. Very small tables can be also useful as data
 labels to highlight specific observations in a plot or data for
 locations in a map.
 
-### Using `annotate()`
+## Using `annotate()`
 
 The first set of examples show how to use `annotate()` together with the
 geoms from package 'ggpp' to add inset tables to single-panel ggplots.
@@ -373,7 +373,7 @@ The examples show different uses of insets. All examples use data sets
 available in R or package 'ggplot2'. In this examples we use
 `annotate()` together with `geom_table_npc()` or `geom_table()`.
 
-#### Summaries
+### Summaries
 
 A simple table of medians computed using base R's `aggregate()` added
 using `annotate()` and `geom = "table_npc"`.
@@ -470,7 +470,7 @@ ggplot(mpg, aes(displ, hwy)) +
   theme_bw()
 ```
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 Inset tables used as annotations, but not as data labels, can be added
@@ -484,7 +484,7 @@ grob subsequently combined with a table grob defining a table using
 functions from package 'grid'.
 :::
 
-## Inset 'grid' graphical objects within plots
+# Inset 'grid' graphical objects within plots
 
 Functions `geom_grob()` and `geom_grob_npc()` mimic the user interface
 of `geom_text_s()` which is a superset of that of `geom_text()` from
@@ -502,7 +502,7 @@ Conversion from vector graphics into bitmaps is usually relatively easy,
 while the reverse is much more difficult.
 :::
 
-### Using `annotate()`
+## Using `annotate()`
 
 Bitmaps in various file formats are very common, and include
 photographs. Using `annotate()` together with `geom_grob_npc()` we can
@@ -564,7 +564,7 @@ format into which the plot is rendered is also in a vector graphic
 format like SVG, PS or PDF.
 :::
 
-### Using `geom_grob()` and `geom_grob_npc()`
+## Using `geom_grob()` and `geom_grob_npc()`
 
 As shown above, we can use bitmaps or rasters as well as vector graphics
 as annotations. In the next example they function as data labels for a
@@ -667,7 +667,7 @@ not available in R, and substituted for the vector graphics version. The
 lines in the logo are also rendered slightly different as well as the
 colour of the text.
 
-### Chemical structures from PubChem
+## Chemical structures from PubChem
 
 The [PubChem site](https://pubchem.ncbi.nlm.nih.gov/) provides data and
 structural information for many substances. The images can be republished
@@ -699,7 +699,7 @@ ggplot(flavonoids2.df,
 
 Kim, S., Chen, J., Cheng, T., Gindulyte, A., He, J., He, S., Li, Q., Shoemaker, B. A., Thiessen, P. A., Yu, B., Zaslavsky, L., Zhang, J., & Bolton, E. E. (2023). PubChem 2023 update. _Nucleic Acids Res._, 51(D1), D1373–D1380. [10.1093/nar/gkac956](https://doi.org/10.1093/nar/gkac956)
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 Package 'ggplot2' defines `geom_raster()` which makes it possible to

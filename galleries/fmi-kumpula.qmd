@@ -15,7 +15,7 @@ editor:
     wrap: 72
 ---
 
-## Introduction
+# Introduction
 
 The [Finnish Meteorological Institute](https://en.ilmatieteenlaitos.fi/)
 shares a large amount of data openly. One way of accessing observations
@@ -45,7 +45,7 @@ and again the same data. Of course if data changes retrospectively in
 the FMI service we will want to retrieve a fresh copy also of the older
 data.
 
-## Installing R package 'fmi2'
+# Installing R package 'fmi2'
 
 The original version is available at (https://github.com/rOpenGov/fmi2).
 
@@ -65,7 +65,7 @@ Its dependencies may need to be installed manually from CRAN.
 The [documentation for the modified 'fmi2' package](https://docs.r4photobiology.info/fmi2-fork/) is available on-line and can be read without need to locally install the package.
 :::
 
-## Set up
+# Set up
 
 ```{r}
 library(fmi2)
@@ -87,7 +87,7 @@ starttime.char <- "2022-12-31 22:00" # UTC midnight in Finland
 
 We can query information about the station.
 
-## Downloading hourly data values
+# Downloading hourly data values
 
 We store data locally in a file and if the file exists load and append
 to it the missing data between its end and "now". We need to be careful
@@ -156,7 +156,7 @@ ggplot(wide_weather_data, aes(with_tz(time, tzone = "EET"), TA_PT1H_AVG)) +
   geom_line()
 ```
 
-## Downloading radiation data at 1 min
+# Downloading radiation data at 1 min
 
 The station ID was set above, and we use it again. However, FEW WEATHER STATIONS measure radiation! e.g., Kumpula does, but Lammi does not.
 

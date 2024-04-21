@@ -3,7 +3,7 @@ title: "Open Access Weather and Climate Data"
 subtitle: "Importing qne using them in R"
 author: "Pedro J. Aphalo"
 date: "2023-07-31"
-date-modified: "2023-08-01"
+date-modified: "2024-04-21"
 categories: [Using R]
 keywords: [R packages, weather data]
 code-fold: true
@@ -41,7 +41,7 @@ Names of functions and other R objects are linked to the corresponding on-line h
 The content of this page was originally written for the _Hints and Tips_ section of the [UV4Plants Bulletin](https://bulletin.uv4plants.org/) but was not published as the Bulletin ceased to be published.
 :::
 
-## Introduction
+# Introduction
 
 A problem faced when designing studies comparing plant responses over broad
 regions is how to obtain consistent and reliable weather and climatological
@@ -85,7 +85,7 @@ things are not as easy for UV research as one would like. Global radiation
 and ozone column are more easily obtainable, opening the door to radiation
 transfer modelling.
 
-## The NetCDF format
+# The NetCDF format
 
 _Network Common Data Form_ (NetCDF) files are described as
 self-descriptive, machine and computer-language independent, scalable,
@@ -125,7 +125,7 @@ free and are open-source. The format was developed by
 [UniData](https://www.unidata.ucar.edu/software/netcdf/) primarily for storing
 geophysical data.
 
-## Gridded data and interpolation
+# Gridded data and interpolation
 
 Original data collected at ground level by weather stations are not available
 on a regular grid, but instead stations are irregularly distributed in space,
@@ -167,7 +167,7 @@ to improve the predictions, such as the elevation above sea level at each
 grid point. In any case, topography decreases the reliability of
 the gridded estimates in mountainous regions.
 
-## Data use restrictions and acknowledgements
+# Data use restrictions and acknowledgements
 
 The data in each data base may have multiple origins and been subjected to
 various processing steps. There is much personal effort and money invested in
@@ -190,7 +190,7 @@ include the citation(s) and acknowledgement(s) as required or suggested at
 the time we are preparing the publication-ready version of our manuscripts.
 
 
-## The data bases
+# The data bases
 
 I will show how to retrieve data from several databases containing data of
 interest for research with plants and vegetation. Most databases provide
@@ -199,7 +199,7 @@ described above. Interactive access with a browser is demonstrated for E-OBS
 in a video (Video S1), while here I demonstrate code-based data access,
 download as well as some post-precessing with examples using R.
 
-### TerraClimate
+## TerraClimate
 
 [TerraClimate](https://www.climatologylab.org/terraclimate.html) provides 
 monthly data with worldwide coverage at a very high
@@ -343,7 +343,7 @@ variable. For this reason, unless we plan to use a large chunk of the data,
 or repeatedly extract different subsets
 it is more efficient to use selective downloads.
 
-### E-OBS
+## E-OBS
 
 The [E-OBS](https://surfobs.climate.copernicus.eu) [@Cornes2018] covers Europe plus
 nearby regions including land bordering the Mediterranean sea to the South
@@ -409,7 +409,7 @@ for time of `ymd("1900-01-01")` by `ymd("1950-01-01")` and the missing value
 marker `32768` by `9999`. These values are taken from the metadata
 we printed with the code above.
 
-### NASA POWER
+## NASA POWER
 
 [NASA POWER](https://power.larc.nasa.gov) hosts data mainly intended for
 renewable energy estimates such as temperature, relative humidity,
@@ -444,11 +444,11 @@ query_parameters(par = "T2M",
 
 # we download the data for one grid point, Joensuu, Finland
 daily_single_ag <- get_power(
-  community = "AG",
+  community = "ag",
   lonlat = c(29.76, 62.60),
   pars = c("RH2M", "T2M", "ALLSKY_SFC_SW_DWN"),
-  dates = c("2020-06-01", "2020-06-30"),
-  temporal_average = "DAILY"
+  dates = c("2023-06-01", "2023-06-30"),
+  temporal_api = "daily"
 )
 
 # print the downloaded data
@@ -459,7 +459,7 @@ We must be aware that near-real-time data from remote
 sensing is not subjected to as thorough a quality control as
 validated data made available with a longer delay.
 
-### Erythemal UV radiation and ozone column
+## Erythemal UV radiation and ozone column
 
 We will import data from a file downloaded manually (using URL https://avdc.gsfc.nasa.gov/index.php?site=164609600&id=79) and corresponding to Ushuaia, Argentina.
 When we first download data from a server as a text file, we need to inspect it. Most files will have a header with metadata and which needs to be read separately from the data itself. In this case, opening the file in a text editor, such as RStudio, notepad or nano, we can see that lines from 51 onwards contain the data in tabular shape and that line
@@ -506,7 +506,7 @@ specially unreliable when there is a snow or ice cover on the ground as it
 affects estimates of cloudiness.
 
 
-### Other data sources
+## Other data sources
 
 The [European Centre for Medium-Range Weather Forecasts](https://www.ecmwf.int/) 
 is another source of useful data. For example the "ECMWF Reanalysis
@@ -611,13 +611,13 @@ combining them with the data we have earlier collected ourselves. So even if
 we are confined at home because of the COVID epidemic we can do original
 research!
 
-## Related reading
+# Related reading
 
 A paper just published discusses satellite-retrieved UV-A data and its importance for biological research [@Parisi2021]. Another paper, available only as a preprint, describes real-time UV-Index retrieval at high spatial and temporal resolution over the whole of Europe [@Kosmopoulos2021]. An earlier paper is also of interest as it discusses some of the sources of bias in UV-irradiance retrieved from satellites [@Arola2009]. Finally an agronomic paper of interest in relation to how biases in weather data retrieved from satellite observations can affect estimates of biological responses [@Bai2010].
 
-Chapter 8 in my book _Learn R: As a Language_[@Aphalo2020a] provides code examples and explanations for importing data from files using additional formats to those I have discussed here.
+Chapter 8 in the first edition of my book _Learn R: As a Language_[@Aphalo2020a] provides code examples and explanations for importing data from files using additional formats to those I have discussed here.
 
-## Acknowledgements
+# Acknowledgements
 
 I warmly thank the discussions and thoughtful comments from Titta Kotilainen
 that helped me write and revise this column. I also thank Anders Lindfors for
@@ -631,7 +631,7 @@ several weeks ago, ended providing useful context data for three manuscripts
 that I am working on at the moment, an ideas for a couple of future articles!
 Not bad at all, and so an experience worthwhile sharing with our readers.
 
-## References
+# References
 
 ::: {#refs}
 :::

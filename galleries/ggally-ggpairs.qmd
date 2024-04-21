@@ -1,0 +1,218 @@
+---
+title: "Annotating Plot Matrices"
+subtitle: "Using 'GGally' Together with 'ggpmisc'"
+author: "Pedro J. Aphalo"
+date: 2024-04-17
+date-modified: 2024-04-17
+abstract: |
+  This page documents how to annotate plot matrices created with `GGally::ggpairs()` using the layer functions from package 'ggpmisc'.
+keywords: [ggplot2 pkg, GGally pkg, ggpmisc pkg, data labels, plot annotations, plot matrix]
+categories: [Plotting examples]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+draft: false
+---
+
+::: callout-note
+# Acknowledgement
+
+This page is based on ['ggpmisc' issue #51](https://github.com/aphalo/ggpmisc/issues/51) raised by Manuel Tiburtini at GitHub and my answers to his questions.
+:::
+
+::: callout-tip
+In this page most code chunks are "folded" so as to decrease the clutter when
+searching for examples. A few code chunks that are reused across several plots
+are by default unfolded to make them more visible. Above each plot you will find
+one or more "folded" code chunks signalled by a small triangle followed by
+"Code". Clicking on the triangle "unfolds" the code chunk making visible the R
+code used to produce the plot.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+
+The `</> Code` drop down menu to the right of the page title makes it possible
+to unfold all code chunks and to view the Quarto source of the whole web page.
+
+Names of functions and other R objects are linked to the corresponding on-line
+help pages. The names of R extension packages are linked to their documentation
+web sites when available.
+:::
+
+# Introduction
+
+Plot matrices are a useful tool for exploratory data analysis, but occasionally useful also for final reporting of a data analysis. They are an square array of panels, where all possible pairs of variables are plotted against each other. The most frequently used type of visualization used are scatter plots. Base R graphics has function `matplot()`. Extensions to package 'ggplot2' also support this type of data display. Function `ggmatplot()` from package 'ggmatplot()' mimicks the user interface of `matplot()`. Package 'GGally' provides function `ggpairs()`, with a different user interface better matching 'ggplot2' expectations. It can be thought as assembling a matrix where each panel is a ggplot object.
+
+# Function `ggpairs()`
+
+Function `ggpairs()` builds a `ggmatrix` object, but can take as arguments functions that return ggplot objects. These functions can be created with `ggplot()`, `aes()` and _layer_ functions. Thus functions from 'ggplot2' and its extensions can be used in the definition of these functions.
+
+A questions was raised at GitHub about how to add annotations and data labels with the functions from package 'ggpmisc' to the plots conforming a ggmatrix object created with function `ggpairs()`. So I give below some examples of how this works work. 
+
+# Plot examples with code
+
+Package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) imports and 
+re-exports all definitions from [ggpp](https://docs.r4photobiology.info/ggpp/)
+as well as from [ggplot2](https://ggplot2.tidyverse.org/), so it is enough to attach explicitly package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) . All three packages are available through CRAN.
+Package [GGally](https://ggobi.github.io/ggally/) needs to be also loaded.
+
+```{r, message=FALSE}
+#| code-fold: false
+library(ggpmisc)
+library(GGally)
+
+data(iris)
+
+theme_set(theme_bw())
+```
+
+The actual matrix is triangular, with a redundant diagonal. So in a square
+matrix the upper and lower triangles can be filled with different plots and
+the diagonal used for plots describing the variables individually. One needs
+to be careful to avoid clutter and try to keep the plot understandable.
+
+The first plot examples uses defaults.
+
+```{r}
+ggpairs(data = iris,
+        columns = 1:4,
+        mapping = aes(colour = Species),
+        progress = FALSE)
+```
+
+We can replace, one, two or all three of the default plotting functions. Below I replace all three, using layer functions from both 'ggplot2' and 'ggpmisc'. In allometry, it is preferred to use major axis regression as relationship is between pairs of variables measured with similar errors. It is also frequent to use log transformations.
+
+```{r}
+#upper function with equations
+upperfun <- function(data, mapping){
+  ggplot(data = data, mapping = mapping) +
+    geom_blank() +
+    stat_ma_eq(use_label(c("eq", "R2")),
+               vstep = 0.15, 
+               size = 2.7,
+               formula = y ~ x)
+}
+
+#lower function ma lines and no confidence band
+lowerfun <- function(data, mapping){
+  ggplot(data = data, mapping = mapping) +
+    geom_point(alpha = 0.4) +
+    ggpmisc::stat_ma_line(show.legend =  F,
+                          se = FALSE, 
+                          method = "lmodel2:SMA")
+}
+
+#diagfunction with density
+diagfun <- function(data, mapping){
+  ggplot(data = data, mapping = mapping) +
+    geom_density(alpha = 0.33)
+}
+
+# plotting using ggpairs
+ggpairs(data = iris,
+        columns = 1:4,
+        aes(colour = Species,
+            fill = Species, 
+            grp.label = abbreviate(Species)),
+        upper = list(continuous = wrap(upperfun)),
+        lower = list(continuous = wrap(lowerfun)),
+        diag = list(continuous = wrap(diagfun)),
+        progress = FALSE)
+```
+
+A few more tweaks are possible through the theme, here applied to the whole plot matrix.
+
+```{r}
+ggpairs(data = iris,
+        columns = 1:4,
+        aes(colour = Species, 
+            fill = Species, 
+            grp.label = abbreviate(Species)),
+        upper = list(continuous = wrap(upperfun)),
+        lower = list(continuous = wrap(lowerfun)),
+        diag = list(continuous = wrap(diagfun)),
+        labeller = as_labeller(function(x) {gsub("\\.", " ", x)}),
+        progress = FALSE) +
+  theme_bw(base_size = 9) +
+  theme(panel.grid = element_blank())
+```
+Or through the plot functions.
+
+```{r}
+#upper function for equations in "empty" panel
+upperfun2 <- function(data, mapping){
+  ggplot(data = data, mapping = mapping) +
+    geom_blank() +
+    stat_ma_eq(use_label(c("eq", "R2")),
+               vstep = 0.15, 
+               size = 2.7,
+               formula = y ~ x) +
+  theme_void()
+}
+
+# plotting using ggpairs
+ggpairs(data = iris,
+        columns = 1:4,
+        aes(colour = Species, 
+            fill = Species, 
+            grp.label = abbreviate(Species)),
+        upper = list(continuous = wrap(upperfun2)),
+        lower = list(continuous = wrap(lowerfun)),
+        diag = list(continuous = wrap(diagfun)),
+        labeller = 
+          as_labeller(function(x) {gsub("\\.", " ", x)}),
+        progress = FALSE)
+```
+
+We can apply a log transformation to the _x_ and _y_ scales. In this case this results in `NA` values when computing `log10(0)` in the density plots, so we leave the diagonal blank.
+
+```{r}
+ggpairs(data = iris,
+        columns = 1:4,
+        aes(colour = Species, 
+            fill = Species, 
+            grp.label = abbreviate(Species)),
+        upper = list(continuous = wrap(upperfun2)),
+        lower = list(continuous = wrap(lowerfun)),
+        diag = 'blank',
+        progress = FALSE,
+        legend = c(1, 1)) +
+  scale_x_log10() +
+  scale_y_log10()
+```
+
+Above, to make reasonable plots, we used mappings to separate the different species. Here I demonstrate how a plot can look like when the observations originate in a mixture of populations. Plot matrices are good are revealing such problems, but one needs to look at the plots carefully. Compare the plot below with those above.
+
+```{r}
+#lower function, plotting confidence bands
+lowerfun <- function(data, mapping){
+  ggplot(data = data, mapping = mapping) +
+    geom_point(alpha = 0.4) +
+    ggpmisc::stat_ma_line(show.legend =  F, 
+                          se = TRUE, 
+                          method = "lmodel2:SMA")
+}
+
+ggpairs(data = iris,
+        columns = 1:4,
+        upper = list(continuous = wrap(upperfun2)),
+        lower = list(continuous = wrap(lowerfun)),
+        diag = list(continuous = wrap(diagfun)),
+        progress = FALSE)
+```
+
+::: callout-warning
+A theme or scales added to the `ggmatrix` object affect all plots in the matrix, 
+and overwrite those set in the plotting functions as well as the defaults. In
+the case of scales for _x_ and _y_ it makes no sense to set them in the
+plotting functions.
+:::
+
+
+

@@ -53,7 +53,7 @@ that the layer with the equations is the lowest one, i.e., added to the
 plot first.
 :::
 
-## Preliminaries
+# Preliminaries
 
 We first load the packages we will use.
 
@@ -80,7 +80,7 @@ library(plotly)
 theme_set(theme_bw())
 ```
 
-## Using 'plotly'
+# Using 'plotly'
 
 Plotly can convert a regular ggplot into an interactive plot that can be
 embedded in HTML output. The advantage is that one uses the usual layer
@@ -117,7 +117,7 @@ ggplotly(p)
 ```
 
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 I have not yet tested 'ggigraph' together with 'ggpmisc', but I plan to, as it seems to allow finer grained control of the interaction. On the other hand, it could be incompatible.

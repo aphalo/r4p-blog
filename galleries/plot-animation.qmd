@@ -55,7 +55,7 @@ that the layer with the equations is the lowest one, i.e., added to the
 plot first.
 :::
 
-## Annotations showing parameters estimates
+# Annotations showing parameters estimates
 
 Fitted model equations and other related estimates can be useful in
 plots as they ensure that graphical representation as a curve and
@@ -81,7 +81,7 @@ One can first show observations then overplot the prediction from a fitted
 model and finally show annotations with numeriacal values.
 :::
 
-## Preliminaries
+# Preliminaries
 
 The code used is shown on-demand above each plot and can be copied. We
 first load the packages we will use.
@@ -110,7 +110,7 @@ library(gganimate)
 theme_set(theme_bw(16))
 ```
 
-## Linear correlation
+# Linear correlation
 
 I first generate some artificial data to use in the plotting examples.
 
@@ -201,7 +201,7 @@ animate(p,
   
 ```
 
-## Polynomials
+# Polynomials
 
 Polynomials are linear models, but many other linear models exist. The most
 common case is linear regression. Polynomials are very frequently used, and in the
@@ -433,7 +433,7 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-## Major axis regression
+# Major axis regression
 
 If *x* and *y* are both subject to random errors, and none is clearly
 the cause of the other, we should use major axis regression instead of
@@ -474,7 +474,7 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-## Quantile regression
+# Quantile regression
 
 Quantile regression is frequently used is some disciplines like
 Economics but less frequently in other fields. It is robust and can be
@@ -630,7 +630,7 @@ animate(p,
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
 
-## Non-linear models
+# Non-linear models
 
 The examples in previous sections were based on ready assembled labels. Here
 we show examples of how to generate labels for equations and other parameter
@@ -711,7 +711,8 @@ animate(p,
         dev = 'png',
         width = 8, height = 5, units = "in", res = 96, pointsize = 16)
 ```
-### Alternatives
+
+## Alternatives
 
 ::: callout-tip
 In all cases it is possible to do the model fitting before creating the plot,

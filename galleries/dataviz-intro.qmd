@@ -3,7 +3,7 @@ title: "Introduction to Data Visualization"
 subtitle: "Using R with package 'ggplot2' and extensions"
 author: "Pedro J. Aphalo"
 date: 2023-10-30
-date-modified: 2023-11-17
+date-modified: 2024-04-17
 categories: [data visualization]
 keywords: [research process, design of experiments, data analysis]
 format:
@@ -17,24 +17,16 @@ abstract:
 draft: false
 ---
 
-[Index to other pages at this web site](../index.qmd), including some describing additional types of plots.
-
-[Index of material at this site for course IPS-003](../ips-003.qmd)
-
-:::{.callout-note}
-# IPS-003
-In Topic 2 the emphasis of the class was on the usual approaches used in scientific journals when reporting results from molecular biology studies. I will keep the focus in this class much broader, away from the nitty-gritty details and focusing on the different types of plots that can be created. Putting more emphasis on the properties of the data than in their origin, and also considering the aims that we may have when plotting data.
-:::
-
 :::{.callout-warning}
-## Package 'ggpp' version
+# Package 'ggpp' version
 
-**Examples make use of an updated version of package 'ggpp' (version 0.5.5), now available from CRAN.**
+**Examples make use of an updated version of package 'ggpp' (version >= 0.5.5) available from CRAN.**
+
 ```{r}
 if (packageVersion("ggpp") < "0.5.5") {
   cat("Please, update package 'ggpp' before running the code examples.")
 }
-if (packageVersion("ggpmisc") < "0.5.4") {
+if (packageVersion("ggpmisc") < "0.5.5") {
   cat("Please, update package 'ggpmisc' before running the code examples.")
 }
 ```
@@ -46,11 +38,28 @@ All the figures in this page have been created with R and packages 'ggplot2',
 'ggpmisc', 'ggbeeswarm' and 'ggdensity'. Package 'lubridate' is used for conversion of times
 and dates from character strings.
 
-:::{.callout-tip}
-The code used to create the plots is "folded" or hidden behind a triangle followed by the word "code". Click on them to make the code visible. 
+::: callout-tip
+In this page most code chunks are "folded" so as to decrease the clutter when
+searching for examples. A few code chunks that are reused across several plots
+are by default unfolded to make them more visible. Above each plot you will find
+one or more "folded" code chunks signalled by a small triangle followed by
+"Code". Clicking on the triangle "unfolds" the code chunk making visible the R
+code used to produce the plot.
+
+The code in the chunks can be copied by clicking on the top right
+corner, where an icon appears when the mouse cursor hovers over the code
+listing.
+
+The `</> Code` drop down menu to the right of the page title makes it possible
+to unfold all code chunks and to view the Quarto source of the whole web page.
+
+Names of functions and other R objects are linked to the corresponding on-line
+help pages. The names of R extension packages are linked to their documentation
+web sites when available.
+:::
 
 **The code for loading of packages from the library is below, and needs to be run before any other code examples.**
-:::
+
 
 ```{r, message=FALSE}
 library(ggplot2)
@@ -1022,12 +1031,5 @@ A nice set of paired good and bad plots.
 
 ## Other plot examples
 
-These links are here in case you would like to see some additional possibilities, or as a cookbook of code examples if you need for reports or the thesis.
+[Index of material on R, data analysis and data visualization](../r-index.qmd), mostly what I have prepared for teaching and advice. 
 
-[Quadrant and volcano plots](quadrant-volcano-plots.qmd) are a special type of scatter plots.
-
-[Data labels in bar and column plots](bar-col-plots.qmd) a few examples using package 'ggpp'.
-
-[Index to other pages at this web site](../index.qmd), including some describing additional types of plots and other uses of R.
-
-[Index of material at this site for course IPS-003](../ips-003.qmd)

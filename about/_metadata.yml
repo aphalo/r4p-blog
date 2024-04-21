@@ -7,5 +7,7 @@ freeze: auto
 # Enable banner style title blocks
 title-block-banner: true
 
+number-sections: false
+
 code-fold: true
 toc: true

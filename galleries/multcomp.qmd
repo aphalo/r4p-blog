@@ -50,7 +50,7 @@ help pages. The names of R extension packages are linked to their documentation
 web sites when available.
 :::
 
-## Plot annotations for multiple comparison tests
+# Plot annotations for multiple comparison tests
 
 Data labels add textual information directly related to individual data
 points (shown as glyphs), such as original observations or summaries such as 
@@ -76,7 +76,7 @@ are a special case as they behave as data labels along the axis onto which an
 explanatory factor has been mapped, usually _x_, but frequently as annotations along the
 axis onto which a continuous numeric variable has been mapped, usually _y_.
 
-## Multiple comparisons in ggplots
+# Multiple comparisons in ggplots
 
 ::: callout-caution
 In experimental designs with more than two groups or treatments, we face the
@@ -144,7 +144,7 @@ approach to testing contrasts that are not orthogonal. R package 'multcomp' is
 well established and implements flexibly several different methods,
 including modern ones, to adjust _P_-values from multiple comparisons.
 
-### Package 'ggpp' (>= 0.5.4)
+# Package 'ggpp' (>= 0.5.4)
 
 I added two new geometries,`geom_text_pairwise()` and `geom_label_pairwise()` to package [ggpp](https://docs.r4photobiology.info/ggpp/). 
 Writing the code of `geom_text_pairwise()` and `geom_label_pairwise()` was easy, using the existing code of `geom_text_s()` and
@@ -164,7 +164,7 @@ Functions `geom_text_pairwise()` and `geom_label_pairwise()` are still under dev
 _Some features of the user interface of `geom_text_pairwise()` and `geom_label_pairwise()` may change in future versions of the package._
 :::
 
-## Package 'ggpmisc' (>= 0.5.4)
+# Package 'ggpmisc' (>= 0.5.4)
 
 I have added to package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) (>= 0.5.4) a new statistic, `stat_multcomp()`,
 that makes some of the features from function `glht()` from package [multcomp](http://multcomp.r-forge.r-project.org/)
@@ -186,7 +186,11 @@ are supported and the order of letters in letter labels is fixed. This statistic
 _Some features of the user interface of `stat_multcomp()` may change in future versions of the package._
 :::
 
-## Plot examples with code
+# Alternatives
+
+R package ['ggsignif'](https://const-ae.github.io/ggsignif/index.html) implements a similar graphical approach to annotating pairwise significance tests. However, it uses a different user interface, that deviates from my own expectations based on the Grammar of Graphics. Another difference is that it does not easily support methods specific to multiple comparisons or adjsuted _p_-values. The layer function `geom_signif()` can be made to work with dodged columns and boxplots, while the layer functions from packages 'ggpp' and 'ggpmisc' currently do not support this use case.
+
+# Plot examples with code
 
 Package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) imports and 
 re-exports all definitions from [ggpp](https://docs.r4photobiology.info/ggpp/)
@@ -198,7 +202,7 @@ library(ggpmisc)
 theme_set(theme_bw())
 ```
 
-### Using default labels
+## Using default labels
 
 Tukey's method for all pairwise contrasts using _honestly significant differences_.
 
@@ -314,7 +318,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 contrasts = "Dunnet")
 ```
 
-### Using pre-built labels other than default
+## Using pre-built labels other than default
 
 
 ```{r}
@@ -352,7 +356,7 @@ ggplot(mpg, aes(factor(cyl), cty)) +
                 contrasts = "Dunnet")
 ```
 
-### Using other aesthetics than the default
+## Using other aesthetics than the default
 
 ```{r}
 ggplot(mpg, aes(factor(cyl), cty)) +

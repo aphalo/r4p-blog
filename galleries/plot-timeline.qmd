@@ -36,7 +36,7 @@ Names of functions and other R objects are linked to the corresponding on-line h
 The content of this page was originally written for the _Questions and Answers_ section of the [UV4Plants Bulletin](https://bulletin.uv4plants.org/) but was not published as the Bulletin ceased to be published.
 :::
 
-## Why timelines as data plots?
+# Why timelines as data plots?
 
 The earliest examples of timeline plots date from the 1,700's [@Koponen2019]. Initially used to depict historical events, timeline plots are useful to describe any sequence of events and periods along a time axis. To be useful the events should be positioned proportionally, i.e., the distance along the timeline at which events are marked, should be proportional to the time interval separating these events [@Koponen2019].
 
@@ -52,7 +52,7 @@ The question for this second installment was asked from me orally by Yan Yan, so
 To understand the examples enough to be able to substantially edit them you will need some familiarity with R and [ggplot2](https://ggplot2.tidyverse.org/) \autocite[see][]{Wickham2016,Aphalo2020a}. On the other hand these examples, specially the simpler ones, can be used as a template, by only editing the data. You only need to remember that all vectors of values in a data frame or tibble must have the same length. I have used mnemonic names so as to make the role of the variables and data obvious.
 :::
 
-## A simple timeline
+# A simple timeline
 
 The first example is a timeline plot showing when each past issue of this Bulletin was published. We use two very popular packages, [ggplot2](https://ggplot2.tidyverse.org/) for the plotting, and [lubridate](https://lubridate.tidyverse.org/) to more easily deal with dates \autocite{Grolemund2011,Wickham2016}.
 
@@ -97,7 +97,7 @@ ggplot(issues.tb, aes(x = when, y = event.type, label = what)) +
   theme_minimal()
 ```
 
-## Two parallel timelines
+# Two parallel timelines
 
 Let's add a second parallel timeline with the UV4Plants Network Meetings and extend both ends of the lines. We use package [dplyr](https://dplyr.tidyverse.org/) to filter part of the data on the fly so that no points are plotted at the ends of the lines.
 
@@ -151,7 +151,7 @@ ggplot(uv4plants.tb, aes(x = when, y = event.type, label = what)) +
   theme_minimal()
 ```
 
-## Crowded timeline
+# Crowded timeline
 
 Let's assume an experiment with plants, and create some data. As the labels are rather long and we want to keep the text horizontal, we will use package [ggrepel](https://ggrepel.slowkow.com/) which provides geoms that implement repulsion of labels to automatically avoid overlaps \autocite{Slowikowski2021}.
 
@@ -223,7 +223,7 @@ ggplot(plants.tb, aes(x = when, y = series)) +
 
 ```
 
-## Timelines of graphic elements
+# Timelines of graphic elements
 
 Finally an example where the "labels" are inset plots. The aim is to have a timeline of the course of the year with plots showing the course of solar elevation through specific days of the year. This is a more complex example where we customize the plot theme.
 
@@ -355,13 +355,13 @@ ggplot(sun_elevation.tb, aes(x = when, y = where, label = plots)) +
         panel.grid.major = element_blank())
 ```
 
-## Related plots
+# Related plots
 
 Package [ggpp](https://docs.r4photobiology.info/ggpp/) provides in addition to `geom_plot()`, `geom_table()` and `geom_grob()`. The first of them makes it possible to inset a data frame as a table, and the second any graphic object supported by package 'grid' (_grob_ for short), which is part of R itself. These graphic objects can be vector graphics or bitmaps (or raster images) converted into grobs. Examples of how to convert bitmaps and vector graphics read from files of various formats is described in the documentation of packages `grid', [magick](https://docs.ropensci.org/magick/) and more briefly in package [ggpp](https://docs.r4photobiology.info/ggpp/). See the book _R Graphics_ [@Murrell2011] for details.
 
 Using photographs converted to grobs one can, for example, create phenological time lines. Another variation could to be to use a similar approach to represent geographic or topographic transects. In this last case instead of only using the $x$-axis to map time, one could map distance to the $x$-axis and elevation to the $y$-axis. Furthermore, one can use package `patchwork' to assemble a multi-panel figure in which one panel is a time line plot and other panels display other types of plots or even tables.
 
-## References
+# References
 
 ::: {#refs}
 :::

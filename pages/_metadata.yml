@@ -10,3 +10,6 @@ title-block-banner: true
 code-fold: true
 toc: true
 fig-format: svg
+
+number-sections: true
+number-depth: 3

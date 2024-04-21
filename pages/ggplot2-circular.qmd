@@ -35,7 +35,7 @@ library(lubridate)
 library(learnrbook) # for the wind data
 ```
 
-## Introduction
+# Introduction
 
 Circular plots can be disk-shaped or doughnut-shaped. They can be used to plot both
 linear and circular data. These plots use **two** coordinate axes, the angle
@@ -169,7 +169,7 @@ A 2D density function fitted to circular data.
 To solve these problems new appropriate `stats` are needed, while existing
 geometries are enough.
 
-## What next?
+# What next?
  
 
 ```{r, eval = FALSE}
@@ -193,7 +193,7 @@ p + coord_radial(inner.radius = 1/3)
 
 ```
 
-## Bent plots
+# Bent plots
 
 Data that are not circular, i.e., that have a linear sequence of values from a minimum to a maximum can be _bent_ into a curve, as in @fig-USB-cheating, or even into a full circle, however they have a discontinuity at their ends.
 

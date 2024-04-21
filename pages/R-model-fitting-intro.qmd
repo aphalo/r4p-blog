@@ -14,7 +14,7 @@ abstract:
   In this page I give a brief presentation on the mechanics of fitting statistical models to observed data using R. I use a lineal model (LM), polynomial regression, as example. I describe the most important values contained in the model fit object returned by function `lm()` and how to extract them. I rely heavily on diagrams and data plots.
 ---
 
-## Introduction
+# Introduction
 
 _Fitting a model_ to data consists in finding the parameter values that best
 explain the data or observations. These parameter values are estimates of
@@ -61,9 +61,9 @@ library(broom)
 theme_set(theme_bw(16))
 ```
 
-## Linear models (LM)
+# Linear models (LM)
 
-### Fitting
+## Fitting
 
 I use here polynomial regressions as an example.
 
@@ -118,7 +118,7 @@ for example `summary()`.
 summary(fm1)
 ```
 
-### The components of the model fit object
+## The components of the model fit object
 
 Functions to extract and/or compute different estimates and carry out tests are available. These functions take the model fit object as argument. Above I showed the use of `summary()`. The next diagram shows most of the functions that can be used with linear-model-fit objects.
  
@@ -269,7 +269,7 @@ ggplot(my.data, aes(x = x, y = y)) +
   expand_limits(x = c(-10, 40)) # an arbitrary range
 ```
 
-## Generalised linear models (GLM)
+# Generalised linear models (GLM)
 
 As shown in the diagram below, the overall approach is very similar to that used for linear models.
 
@@ -285,7 +285,7 @@ flowchart LR
   A4(<i>family</i> and <i>link</i>) --> B
 ```
 
-## Non-linear models
+# Non-linear models
 
 As shown in the diagram below, the overall approach is very similar to that used for linear models.
 
@@ -301,7 +301,7 @@ flowchart LR
   A5(<i>starting values</i>) --> B
 ```
 
-## Model selection flowchart
+# Model selection flowchart
 
 I mentioned above that the model chosen was given by the argument we passed to `lm()`. Obviously, it is also possible to use other models. The choice of a model has to balance increasing the proportion of the total variation that is explained while still extracting the useful information out of the data separately from accounting for the noise. One approach is model selection, instead of simply finding the best set of parameter estimates, comparing the best fits possible with each equation form, and selecting the best performing one.
 

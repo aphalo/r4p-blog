@@ -25,7 +25,7 @@ options(warnPartialMatchArgs = FALSE,
         dplyr.summarise.inform = FALSE)
 ```
 
-## Introduction
+# Introduction
 
 The very popular R package 'ggrepel' does a great job at avoiding
 overlaps among data labels and between them and observations plotted as
@@ -50,7 +50,7 @@ fully compatible with all geometries that have a formal parameter
 currently geoms from these packages can draw connecting segments or
 arrows between the original and displaced positions.
 
-## Preliminaries
+# Preliminaries
 
 As we will use text and labels on the plotting area we change the
 default theme to an uncluttered one.
@@ -69,7 +69,7 @@ if (eval_ggrepel) library(ggrepel)
 old_theme <- theme_set(theme_bw())
 ```
 
-## Position functions and nudging
+# Position functions and nudging
 
 Nudging shifts deterministically the *x* and/or *y* coordinates of an
 observation. This takes place early enough for the limits of the
@@ -140,7 +140,7 @@ increases the size of the data, and consequently also the size of the ggplot
 objects. Because of this, the position functions from 'ggpp' allow the keeping 
 of the original positions to be disabled when needed.
 
-## Connecting segments and arrows
+# Connecting segments and arrows
 
 Function `position_nudge_keep()` is like `ggplot2::position_nudge()` but
 keeps (stores) the original *x* and *y* coordinates. It is similar to
@@ -173,7 +173,7 @@ ggplot(df, aes(x, y, label = l)) +
                   max.iter = 0)
 ```
 
-## PCA loadings
+# PCA loadings
 
 A usually more problematic example is the labeling of loadings in PCA
 and similar biplots.
@@ -202,7 +202,7 @@ ggplot(df1, aes(x=PC1, y = PC2, label = Species, colour = Species)) +
   theme(legend.position = "none")
 ```
 
-## Aligned data labels
+# Aligned data labels
 
 Function `position_nudge_to()` nudges to a given position instead of
 using the same shift for each observation. It can be used to align labels
@@ -310,7 +310,7 @@ ggplot(df, aes(x, y, label = round(x, 2))) +
   geom_rug(sides = "b", length = unit(0.02, "npc"))
 ```
 
-## Clouds of observations
+# Clouds of observations
 
 In many cases data are distributed as a cloud with decreasing density towards
 edges. In some other cases, even with evely distributed observations, a certain
@@ -536,7 +536,7 @@ ggplot(dset, aes(x=x, y=y, label = label)) +
   theme_bw()
 ```
 
-## Lines, curves and observations along them
+# Lines, curves and observations along them
 
 Function `position_nudge_line()` nudges away from a line, which can be a
 user supplied straight line as well as a smooth spline or a polynomial
@@ -624,7 +624,7 @@ ggplot(df, aes(x, yy)) +
                                            direction = "split"))
 ```
 
-## Combined dodge and nudge
+# Combined dodge and nudge
 
 In many cases combining nudging along one plot axis and repulsion along the other axis makes it possible to constrain the randomness of the labelling in the resulting plot. Applying this approach to labelling dodged points is not possible using the position functions defined in package 'ggplot2'. Package 'ggpp' defines a combined position function that "keeps" the dodged position making it possible for `geom_text_repel()` to draw segments connecting the text to the dodged points.
 
@@ -652,14 +652,14 @@ ggplot(mtcars, aes(x = am, y = mpg, label = format(mpg, 3))) +
   )
 ```
 
-## Acknowledgements
+# Acknowledgements
 
 I warmly thank Kamil Slowikowski for agreeing to make changes in
 'ggrepel' that make the use of 'ggrepel' together with 'ggpp' possible
 and smooth. This document shows some use examples, but surely new ones
 will be found by users of R and 'ggplot2'.
 
-## References
+# References
 
 ```{r}
 citation('ggplot2')

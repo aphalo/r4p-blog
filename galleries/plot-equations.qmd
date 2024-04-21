@@ -34,7 +34,7 @@ The `</> Code` drop down menu to the right of the page title makes it possible t
 Names of functions and other R objects are linked to the corresponding on-line help pages. The names of R extension packages are linked to their documentation web sites when available.
 :::
 
-## Introduction
+# Introduction
 
 Here you will find examples of ggplots with labels for fitted model equations,
 various parameter estimates. The labels have been
@@ -50,7 +50,7 @@ that the layer with the equations is the lowest one, i.e., added to the
 plot first.
 :::
 
-## Data labels and plot annotations
+# Data labels and plot annotations
 
 Data labels add textual information directly related to individual data
 points (shown as glyphs). Text position in this case is dependent on the
@@ -76,7 +76,7 @@ normally displayed as annotations. However, it is also possible to
 consider them data labels "connected" to individual curves representing
 the corresponding model fits.
 
-## Annotations showing parameters estimates
+# Annotations showing parameters estimates
 
 Fitted model equations and other related estimates can be useful in
 plots as they ensure that graphical representation as a curve and
@@ -119,7 +119,7 @@ As shown below other model formulas can be rather easily assembled and
 added as annotations if one is familar with R's expressions as used for
 `plotmath`.
 
-## Preliminaries
+# Preliminaries
 
 The code used is shown on-demand above each plot and can be copied. We
 first load the packages we will use.
@@ -146,7 +146,7 @@ library(ggrepel)
 library(dplyr)
 ```
 
-## Linear correlation
+# Linear correlation
 
 ```{r}
 # generate artifical data for a linear relationship
@@ -262,14 +262,14 @@ ggplot(df1, aes(x, y)) +
   facet_wrap(~group)
 ```
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 Package 'ggpubr' provides alternative approaches to correlation testing
 and reporting.
 :::
 
-## Polynomials
+# Polynomials
 
 Polynomials are linear models, but many other linear models exist. The most
 common case is linear regression. They are very frequently used, and in the
@@ -618,7 +618,7 @@ ggplot(df3, aes(x, y)) +
                label.y = 0.9)
 ```
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 Package 'ggpubr' provides a renamed copy of `stat_poly_eq()` taken from
@@ -630,7 +630,7 @@ code in `stat_smooth()` from [ggplot2](https://ggplot2.tidyverse.org/) was used 
 switches to using splines for large numbers of observations.
 :::
 
-## Major axis regression
+# Major axis regression
 
 If *x* and *y* are both subject to random errors, and none is clearly
 the cause of the other, we should use major axis regression instead of
@@ -650,7 +650,7 @@ ggplot(df3, aes(x, y)) +
 No alternatives I know of.
 :::
 
-## Quantile regression
+# Quantile regression
 
 Quantile regression is frequently used is some disciplines like
 Economics but less frequently in other fields. It is robust and can be
@@ -761,7 +761,7 @@ ggplot(df2, aes(x, y, group = group, linetype = group,
   theme_classic()
 ```
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 Package [ggplot2](https://ggplot2.tidyverse.org/) defines `stat_quantile()` which can be used to plot as
@@ -769,7 +769,7 @@ a line some types of quantile regression fits, but is less flexible than
 `stat_quant_line()` and `stat_quant_band()`.
 :::
 
-## Non-linear models
+# Non-linear models
 
 The examples in previous sections were based on ready assembled labels. Here
 we show examples of how to generate labels for equations and other parameter
@@ -827,7 +827,7 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
   theme_bw()
 ```
 
-### Alternatives
+## Alternatives
 
 ::: callout-tip
 In all cases it is possible to do the model fitting before creating the plot, assembling

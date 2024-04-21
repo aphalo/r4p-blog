@@ -45,7 +45,7 @@ help pages. The names of R extension packages are linked to their documentation
 web sites when available.
 :::
 
-## Introduction
+# Introduction
 
 Here you will find examples of ggplots with labeled segments as used to
 highlight pairwise comparisons among factor levels. The labelled segments have
@@ -65,7 +65,7 @@ that the layer with the equations is the lowest one, i.e., added to the
 plot first.
 :::
 
-## Data labels and plot annotations
+# Data labels and plot annotations
 
 Data labels add textual information directly related to individual data
 points (shown as glyphs). Text position in this case is dependent on the
@@ -91,7 +91,7 @@ case as they behave as data labels along the axis onto which an explanatory
 factor has been mapped, usually _x_, but as annotation along the axis onto
 which a continuous numeric variable has been mapped, usually _y_.
 
-## Pairwise comparisons and labels
+# Pairwise comparisons and labels
 
 Pairwise comparisons are used with grouped observations, i.e., when a factor
 is mapped to the _x_ (or _y_) aesthetic. Usually observations are summarized
@@ -201,7 +201,8 @@ page can be easily changed to use `geom_label_pairwise()` instead of
                       segment.linewidth = 0.75) +
   expand_limits(y = 40)
 ```
-### Pairwise _t_-test
+
+## Pairwise _t_-test
 
 To label the bars with _P_-values we can compute them before plotting and build
 a suitable data frame.
@@ -294,7 +295,7 @@ t.test.df <- data.frame(
   expand_limits(y = 40)
 ```
 
-### Pairwise Wilcox test
+## Pairwise Wilcox test
 
 The object returned by `pairwise.wilcox.text()` has the same structure as that
 returned by `pairwise.t.test()` so we only need to change the names.
@@ -331,7 +332,7 @@ without changes.
   expand_limits(y = 40)
 ```
 
-### Fitted contrasts
+## Fitted contrasts
 
 Package 'gmodels' provides methods for fitting arbitrary contrasts.
 
@@ -393,7 +394,7 @@ more complex contrast involving more than two factor levels. Currently, no
 geometry can directly add them to a plot as a single layer. One needs
 to build them layer by layer (not shown).
 
-### Multiple comparisons
+## Multiple comparisons
 
 Package 'multicomp' implements different multiple comparison methods, using
 a flexible and generally applicable approach.
@@ -457,7 +458,7 @@ otherwise, with suitable corrections for multiple comparisons.  Currently, no
 geometry can directly add labelled segments for contrasts that are not pairwise.
 One needs to build them layer by layer, labels and segments (not shown).
 
-### Other uses
+## Other uses
 
 Although labelled segments are most commonly used to report the results
 of pairwise significance tests, several other uses are possible. An obvious

@@ -21,8 +21,9 @@ listing:
       - "galleries/plot-equations.qmd"
       - "galleries/pairwise-labels.qmd"
       - "galleries/multcomp.qmd"
-      - "galleries/nudge-and-repel.qmd"
+      - "galleries/ggally-ggpairs.qmd"
       - "galleries/plot-insets.qmd"
+      - "galleries/nudge-and-repel.qmd"
       - "galleries/plot-interactive.qmd"
     sort: false
     type: grid
@@ -47,7 +48,7 @@ abstract: |
   This Contents page lists pages that I have written for course IPS-003 and for the R-peer-support meetings at the Viikki Campus of the University of Helsinki. The level of difficulty level varies from introductory to intermediate. I update these pages from time to time and I will add new pages from time to time.
 ---
 
-## R and programing
+# R and programing
 
 R is a language and an environment for data analysis and visualization. It has
 become the standard for data analysis and visualisation in many fields. In
@@ -55,7 +56,7 @@ Bioinformatics it "competes" with Python, but R can "talk" with code written in
 most other programming languages. R can be extended by means of code _packages_
 which can be locally installed in a _library_.
 
-### Introductory ("basic")
+## Introductory ("basic")
 
 Simple computations, introduction to plotting, ANOVA and regression, and
 some basic computer programming constructs.
@@ -72,7 +73,7 @@ additional information and some free extra chapters. My book does not assume
 previous programing and focuses on the R language itself rather than on using
 R for specific purposes.
 
-### Plotting in R ("specific")
+## Plotting in R ("specific")
 
 Creating informative and elegant plots for inclussion in publications, reports
 and theses requires the same kind of approach than text. Design, drafting and

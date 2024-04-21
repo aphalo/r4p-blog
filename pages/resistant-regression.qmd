@@ -21,7 +21,7 @@ abstract:
   In this page I give a brief presentation on alterative approaches to OLS fitting of linear models using R. I use robust linear models, quantile regression and major axis regression as examples. I rely heavily on diagrams and data plots.
 ---
 
-## Introduction
+# Introduction
 
 ::: callout-tip
 In this page some code chunks are "folded" so as to decrease the clutter. Above the R

@@ -41,7 +41,7 @@ Artificial intelligence (AI) and machine learning (ML) models are becoming every
 You have already attended or will attend courses in Bioinformatics. I will introduce in my classes very briefly some concepts about AI and ML models. 
 :::
 
-## Data analysis as a soft skill
+# Data analysis as a soft skill
 
 Statistics gives the formal support to data analysis, but data analysis and design of experiments are in many respects acquired skills. They both involve un-directed open-minded observation as well as imagination. They are creative activities and to an extent subjective in their execution but if done respecting common sense and the principles of statistics, they allow us to learn something about how the world works.
 
@@ -49,7 +49,7 @@ The link between reality and scientific knowledge has been debated by philosophe
 
 To a smaller or larger extent, the world view of researchers affects the hypothesis they more readily imagine, but these biases tend sooner or later to be sorted out by deeper theoretical analysis and experimentation or observation. An obvious case has been the contrasting emphasis put on competition vs. facilitation among plant ecologists (tainted to an extent by socialist vs. capitalist viewpoints on human society).
 
-## The aims of data analysis
+# The aims of data analysis
 
 Data analysis can have three different aims: **prediction**, **estimation**, and **attribution**, as discussed by @Efron2020.
 
@@ -57,7 +57,7 @@ Data analysis can have three different aims: **prediction**, **estimation**, and
   - **Estimation.** The aim is to use observations on a random sample of a population to conclude about the properties of the sampled population.
   - **Attribution.** The aim is to conclude about cause and effect relationships. In a manipulative experiment this is rather straightforward. In observational surveys this is extremely difficult, although to some extent possible when multivariate time series data are available.
 
-## Scientific research
+# Scientific research
 
 The scope of this text is scientific research, which by definition seeks understanding, which is equivalent to describing mechanisms, or how the world works. Using the aims from the previous section, science ultimately seeks attribution.
 
@@ -77,13 +77,13 @@ Another consequence of knowledge based on abstraction or simplification is that 
 
 Controversies in science in many cases are not the result of disagreement on the validity of observations but instead caused by disagreement about what frame of reference to use or by the reliance on poorly defined frames of reference. For example, there are many different definitions of _stress_ in use, each leading to a different frame of reference for the study of responses to _stress_ and the mechanisms involved in these responses.
 
-## Machine learning (ML)
+# Machine learning (ML)
 
 The data-analysis methods may be the same or different than for research, but the aim is clearly different: only prediction. Thus how goodness or usefulness is tested is different as well as what matters and what not. The approach is more empirical and practical. A book published a few days ago and its companion R package is my suggested reading for an easy introduction to ML [@Matloff2023].
 
-## Two approaches
+# Two approaches
 
-### Hypothetic-deductive approach
+## Hypothetic-deductive approach
 
 This approach, for which I will use **H-D** as abbreviation, emphasizes the role of hypothesis testing. It is deductive because we derive knowledge from a planned test, and assume this knowledge is applicable more broadly. The actual process can be described by a linear succession of steps @fig-hd-process-flowchart. In this case the origin or source of the hypothesis is not emphasized.
 
@@ -102,7 +102,7 @@ _Unless we are able to test all possible cases of interest, and obtain the full 
 The probabilities computed for a test apply to the population studied or sampled, which determines the _range of validity_ of our conclusions. If we try to extend the range of situations to which knowledge applies, such as using knowledge from current research to explain past and/or future events, the probabilities computed are no longer strictly valid. Extrapolation, thus, assumes that everything relevant and not studied will remain unchanged outside the _range of validity_ of the study.
 :::
 
-### Observational-inductive approach
+## Observational-inductive approach
 
 This approach, for which I will use **O-I** as abbreviation, emphasizes the role of observation and the extraction of information via generalization. It is inductive because we derive knowledge from many observations, and assume this knowledge describes what they have in common. The actual process can be described by a linear succession of steps @fig-oi-process-flowchart. In this case the origin or source of the hypothesis is not emphasized.
 
@@ -120,7 +120,7 @@ Once again we need to use statistical methods, but methods that help detect patt
 The concept of _range of validity_ also applies in this case, making extrapolation outside of the "observed universe" risky. 
 :::
 
-### How does it really work?
+## How does it really work?
 
 A simplified linear view of the whole research process is shown in @fig-research-process-flowchart-linear. From it we can see how the two approaches work together. 
 
@@ -213,7 +213,7 @@ If we follow the O-I approach, how we treat data changes compared to the H-D app
 
 This quotation also highlights that frequently we choose among possible data analysis approaches in a rather subjective manner, mostly based on previous experience and expertise. These approaches may involve different assumptions, whose fulfilment in many cases cannot be reliably tested from the data being analysed.
 
-## Which approach is better?
+# Which approach is better?
 
 Summarizing the discussion above, I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I-based research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
 
@@ -236,7 +236,7 @@ Looking back into his time, it was quite a feat to make a convincing case for ev
 See [Evolutionary Thought Before Darwin](https://plato.stanford.edu/entries/evolution-before-darwin/), [Darwin: From Origin of Species to Descent of Man](https://plato.stanford.edu/entries/origin-descent/), and [Darwinism](https://plato.stanford.edu/entries/darwinism/) for the details.
 :::
 
-## Differences among disciplines and problems
+# Differences among disciplines and problems
 
 The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that the approaches predominantly used and emphasis on either the O-I or the H-D approach depends on the discipline and subject under study.
 
@@ -244,7 +244,7 @@ Usually, the more constrained the frame of reference is, the easier it is to app
 
 Some of the most urgent problems faced by humankind, like global climate change, can be mainly studied using the O-I approach. We cannot apply the H-D approach in full, because as researchers we cannot change the variables we hypothesise to be the drivers of global change. The use of the H-D approach is limited to small parts of the system, or to mathematical models that have been developed using at least in part the O-I approach.
 
-## Small-, mediun- and big-sized data
+# Small-, mediun- and big-sized data
 
 Frequently, the distinction between small, medium and big data is data relies on the number of numeric values a data set contains. This can be useful from a computational perspective, but not from a data analysis perspective. I use here a different criterion, the number of significance tests or contrasts relative to the number of independent replicates.
 
@@ -254,7 +254,7 @@ Frequently, the distinction between small, medium and big data is data relies on
 
   3. From the perspective of data analysis, RNAseq data is extremely small: we study the response of thousands of genes, based on a handful of replicates. The data can be analysed only by assuming that the variation in expression among genes within a single replicate informs about variation in gene expression of an individual gene among replicates. In the case of multiple comparisons, we attempt to control the probability of false positive outcomes only in relative terms to the number of "positive outcomes". In this case, we use the false discovery rate, to adjust _P_-values.
 
-## Research vs. statistical hypotheses
+# Research vs. statistical hypotheses
 
 Research hypotheses must be falsifiable: based on data we should be able to conclude if they are compatible with observations or not. The validity of some research hypotheses can be decided directly without use of statistics. For example, if our hypothesis is that all swans have white plumage, observation of a single black swan in Australia or a black-necked sawn in South America is enough to decide that the hypothesis that all swans have white is wrong.
 
@@ -286,7 +286,7 @@ Statistical hypotheses can be formulated for any estimated parameter, not just a
 In addition to parameters, we can also compare the functions used to describe data, e.g., is the relationship between two variables linear or exponential. Although the specifics of methods vary, they are mostly based on the same basic ideas.
 :::
 
-## What does a small _P_-value tell us? 
+# What does a small _P_-value tell us? 
 
 The usefulness as a criterion of the _P_-value depends on the size of the data.
 
@@ -306,7 +306,7 @@ The American Statistical Society released an official statement [@Wasserstein201
 See also the blog posts [After 150 Years, the ASA Says No to _P_-values](https://matloff.wordpress.com/2016/03/07/after-150-years-the-asa-says-no-to-p-values/) and  [Further comments on the ASA manifesto](https://matloff.wordpress.com/2016/03/09/further-comments-on-the-asa-manifesto/) by Norman Matloff.
 :::
 
-## Are negative test outcomes, or negative results of any use?
+# Are negative test outcomes, or negative results of any use?
 
 Negative results can be useful and should be published, but only if they are informative. A high _P_-value by itself is not informative. As discussed above, it does not tell us the cause behind the lack of statistical significance: low replication, large uncontrolled variation or small size of effect or difference under study.
 
@@ -320,7 +320,7 @@ A different approach is to stop using _P_-values and use confidence intervals (C
 
 If CIs are used in a figure to assess significance through implicit multiple comparisons, they should be based on adjusted _P_-values. These "adjusted" CIs are frequently called _simultaneous CIs_.
 
-## Further reading
+# Further reading
 
   - _The Sunset Salvo_ [@Tukey1986] is a sobering medicine for those with blind faith in Statistics and the objectivity of data analysis.
   

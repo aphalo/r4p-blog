@@ -38,7 +38,7 @@ corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
 
-## Data labels and plot annotations
+# Data labels and plot annotations
 
 Data labels add textual information directly related to individual data
 "points", in this case bar and column segments (shown as glyphs). Text position
@@ -48,7 +48,7 @@ when the link to the bar or column is unclear, this link is signaled with a line
 segment or arrow. Data labels are distinct from annotations in that they
 contribute directly to the representation of data on a plot or map.
 
-## Postion functions
+# Postion functions
 
 In column and bar plots, and more generally when either _x_ or _y_ is a discrete
 factor very frequently functions `position_stack()`, `position_fill()`, 
@@ -66,7 +66,7 @@ geometries from ggpplot2 and extensions. However, only those from packages
 ‘ggpp’ and ‘ggrepel’ (> 0.9.1) plot segments and arrows linking original and
 displaced positions as saved by these position functions.
 
-## Preliminaries
+# Preliminaries
 
 The code used is shown on-demand above each plot and can be copied. We
 first load the packages we will use.
@@ -93,9 +93,9 @@ library(ggrepel)
 # library(dplyr)
 ```
 
-## Bar and column plots
+# Bar and column plots
 
-### Simple examples
+## Simple examples
 
 Some simple artificial data.
 

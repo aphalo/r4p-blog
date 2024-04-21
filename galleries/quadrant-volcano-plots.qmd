@@ -38,7 +38,7 @@ corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 :::
 
-## Data labels and plot annotations
+# Data labels and plot annotations
 
 Data labels add textual information directly related to individual data
 points (shown as glyphs). Text position in this case is dependent on the
@@ -59,12 +59,12 @@ data. In the case of volcano and quadrant plots, a typical use of
 annotations is to indicate the number of observations in each quadrant
 of the plot.
 
-## Scales and out-of-bounds observations
+# Scales and out-of-bounds observations
 
 Volcano and quadrant plots normally have symetrical positive and
 negative limits on axes and use transformations for the scales.
 
-## Preliminaries
+# Preliminaries
 
 The code used is shown on-demand above each plot and can be copied. We
 first load the packages we will use.
@@ -91,9 +91,9 @@ library(ggrepel)
 library(dplyr)
 ```
 
-## Quadrant plots
+# Quadrant plots
 
-### Simple examples using 'ggpp'
+## Simple examples using 'ggpp'
 
 Quadrant plots are scatterplots with the origin (0, 0) at the center of
 the plotting region. In the first two examples we use artificial data
@@ -175,7 +175,7 @@ ggplot(my.data, aes(x, y)) +
   expand_limits(y = c(-260, 260))
 ```
 
-### Realistic examples using 'ggpp' and 'ggpmisc'
+## Realistic examples using 'ggpp' and 'ggpmisc'
 
 For the examples we will use a subset of RNAseq data for Arabidopsis,
 available in package 'ggpmisc'. We show here the first 10 rows.
@@ -302,9 +302,9 @@ ggplot(subset(quadrant_example.df,
 
 ```
 
-## Volcano plots
+# Volcano plots
 
-### Simple examples using 'ggpp'
+## Simple examples using 'ggpp'
 
 We use here a subset of RNAseq data from Arabidopsis. The predefined
 scales simplify the plotting by handling the tick mark labels and axis
