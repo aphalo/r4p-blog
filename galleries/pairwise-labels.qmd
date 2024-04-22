@@ -3,7 +3,7 @@ title: "Pairwise labels with 'ggpp'"
 subtitle: "Contrasts, multiple comparisons and simple labels"
 author: "Pedro J. Aphalo"
 date: "2023-08-01"
-date-modified: "2023-08-14"
+date-modified: "2024-04-22"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, pairwise]
 categories: [Plotting examples]
 editor: 
@@ -119,7 +119,11 @@ Load and attach the packages.
 ```{r, message=FALSE}
 #| code-fold: false
 library(ggpmisc)
+library(gginnards) # for debugging
 ```
+
+## Simple labelling examples
+
 Make a simple plot to label.
 
 ```{r}
@@ -202,6 +206,78 @@ page can be easily changed to use `geom_label_pairwise()` instead of
   expand_limits(y = 40)
 ```
 
+## Labelling with dodged groups
+
+For a change from the examples above we use `stat_summary()` with `geom = "col"` to obtain a column plot. In this case, we have two groupings, created by the mappings to the `x` and `fill` aesthetics. We use `position = position_dodge2()` to avoid the overlap of the columns.
+
+::: callout-tip
+We can use `geom_debug()` from package 'gginnards' to check the values returned by `stat_summary()`. The code below is not run.
+
+```{r, eval=FALSE}
+ggplot(mtcars, aes(factor(cyl), mpg, fill = factor(vs))) +
+  # adds layer
+  stat_summary(fun = mean, 
+               position = position_dodge2(preserve = "single", width = 1), 
+               width = 1, 
+               geom = "col") +
+  # prints data to the console by setting geom = "debug"
+  stat_summary(fun = mean, 
+               position = position_dodge2(preserve = "single", width = 1), 
+               width = 1, 
+               geom = "debug")
+```
+
+:::
+
+Using the pairwise geometries together with `position_dodge()` requires some ingenuity when creating the data frames. When a factor is mapped to _x_, the positions for the levels along the _x_ axis, increase by one, starting at one. So in this case the tick labelled "4" corresponds to an `x` value of 1, "6" to 2, and "8" to 3. Be aware, though, that in this case the data are split into five groups. 
+
+_Function `position = position_dodge2()` is not passed as argument in the calls to `geom_label_pairwise()`!_
+
+```{r}
+ggplot(mtcars, aes(factor(cyl), mpg, fill = factor(vs))) +
+  stat_summary(fun = mean, 
+               position = position_dodge2(preserve = "single", width = 1), 
+               width = 1, 
+               geom = "col") +
+  geom_label_pairwise(data = data.frame(xmin = c(1, 1, 2), 
+                                        xmax = c(2, 3, 3), 
+                                        label = rep("test1", 3), 
+                                        y = 31 + (0:2) * 1.75), # start + shifts
+                      mapping = aes(xmin = xmin, xmax = xmax, label = label, y = y),
+                      fill = "yellow"
+  ) +
+  geom_label_pairwise(data = data.frame(xmin = 0.75 + (0:1), 
+                                        xmax = 1.25 + (0:1), 
+                                        label = rep("test2", 2), 
+                                        y = c(28.5, 22.2)), # values given directly
+                      mapping = aes(xmin = xmin, xmax = xmax, label = label, y = y)
+  ) +
+  scale_fill_grey()
+```
+
+If we change the width of the columns, we need to adjust the coordinates of the ends of the pairwise bars so that they match the centre of the columns.
+
+```{r}
+ggplot(mtcars, aes(factor(cyl), mpg, fill = factor(vs))) +
+  stat_summary(fun = mean, 
+               position = position_dodge2(preserve = "single", width = 1), 
+               width = 0.75, # 1 -> 0.75
+               geom = "col") +
+  geom_label_pairwise(data = data.frame(xmin = c(1, 1, 2), 
+                                        xmax = c(2, 3, 3), 
+                                        label = rep("test1", 3), 
+                                        y = 31 + (0:2) * 1.75),
+                      mapping = aes(xmin = xmin, xmax = xmax, label = label, y = y),
+                      fill = "yellow"
+  ) +
+  geom_label_pairwise(data = data.frame(xmin = 0.8 + (0:1), # 0.75 -> 0.8
+                                        xmax = 1.2 + (0:1), # 1.15 -> 1.2
+                                        label = rep("test2", 2), 
+                                        y = c(28.5, 22.2)),
+                      mapping = aes(xmin = xmin, xmax = xmax, label = label, y = y)
+  ) +
+  scale_fill_grey()
+```
 ## Pairwise _t_-test
 
 To label the bars with _P_-values we can compute them before plotting and build

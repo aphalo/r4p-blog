@@ -86,7 +86,31 @@ ggpairs(data = iris,
         progress = FALSE)
 ```
 
-We can replace, one, two or all three of the default plotting functions. Below I replace all three, using layer functions from both 'ggplot2' and 'ggpmisc'. In allometry, it is preferred to use major axis regression as relationship is between pairs of variables measured with similar errors. It is also frequent to use log transformations.
+We can replace, one, two or all three of the default plotting functions, by functions we define.
+
+::: callout-tip
+# What is a function
+
+A function is a named R-code statement, simple or compound, that usually accepts arguments through formal parameters. Formal parameters parameters function as placeholders that replaced by the values passed as arguments when the function is called.
+
+In the very simple function below, `my.fun()` is the name of our function and `x` is a formal parameter.
+
+```{r}
+my.fun <- function(x) {
+  (x + 1)^2
+}
+```
+
+We _call_ the function by its name passing the arguments to its formal parameters within parentheses, A call requires the use of parentheses even when no arguments are passed.
+
+```{r}
+my.fun(x = 5)
+my.fun(x = 0)
+```
+
+:::
+
+Below I replace all three plotting functions, using calls to layer functions from both 'ggplot2' and 'ggpmisc' to define them. In allometry, it is preferred to use major axis regression as relationships are between pairs of variables measured with similar errors. It is also frequent to use log transformations.
 
 ```{r}
 #upper function with equations
