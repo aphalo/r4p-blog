@@ -16,10 +16,10 @@ website:
       - icon: file-richtext
         href: pages.qmd
       - icon: images
-        text: R gallery
+        text: Gallery
         href: galleries.qmd
       - icon: box-seam
-        text: R packages
+        text: Packages
         menu:
           - icon: list
             text: Documentation Index
@@ -100,6 +100,12 @@ website:
           - icon: book-half
             text: Book _R for Photobiology_
             href: pages/r4p-book.qmd
+      - icon: database
+        text: Data
+        menu:
+        - icon: cloud-sun
+          text: Solar radiation and weather
+          href: https://viikki-stn.r4photobiology.info/
       - icon: person
         text: About
         menu:
@@ -115,8 +121,14 @@ website:
           - icon: github
             text: Source of _this site_ at GitHub
             href: https://github.com/aphalo/r4p-blog/
+          - icon: people
+            text: Research group blog
+            href: https://blogs.helsinki.fi/senpep-blog/
+          - icon: camera
+            text: Photography website
+            href: https://www.photo-spectrum.info/
       - icon: rss
-        text: "RSS feeds"
+        text: "Feeds"
         menu:
           - icon: newspaper
             text: Blog RSS feed

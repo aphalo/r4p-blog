@@ -1,40 +1,40 @@
 ---
-title: "ggpp 0.5.0/0.5.1/0.5.2/0.5.3/0.5.4"
+title: "ggpp >= 0.5.0 updates"
 subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: "2022-12-05"
-date-modified: "2023-08-14"
+date-modified: "2024-05-07"
 categories: [R Package Update]
 keywords: [ggpp pkg]
 ---
 
 ::: callout-note
 
-As part of moving the site to Quarto I intend to write a single post to give an
-overview of changes in minor versions of the packages. In this case, all
-versions in the 0.5.x series. I will update this same post in the case of minor
-version updates, and start a new post when the first version in the 0.6.x series
-is developed. I hope this will reduce the clutter and still provide a good
-overview of progress. Differences between versions are listed in detail in the
+Since moving the site to Quarto I am updating this post to give a concise
+overview of changes. Differences between versions are listed in detail in the
 [NEWS file](https://docs.r4photobiology.info/ggpp/news/).
 
 :::
 
 ## Overview of changes
 
-_Version 0.5.0_ includes **code-breaking** enhancements to `geom_text_s()` and `geom_label_s()`. The most significative is a mechanism to selectively applying aesthetics to different components of linked labels and text. This replaces the previous use of separate aesthetics applied only to segments or arrows. The reason behind this change is that segments are only links, and not meant to inform about data values on their own. Please see the post [Enhancing geom_text() and geom_label()](../Enhancing-geom-text/) for example plots.
+_Version 0.5.7_ brings helpers function `wrap_labels()`, `as_npc()`, `as_npcx()` and `as_npcy()` together with enhancements to `geom_point_s()`, `geom_text_s()`, `geom_label_s()`. `geom_text_pairwise()` and 
+`geom_label_pairwise()`, mostly fixing bugs and adding new features from 'ggplot2' 3.5.0. Updated `stat_fmt_table()` allows application of functions to columns. **Depends on 'ggplot2' >= 3.5.0.**
 
-New functions `stat_panel_counts()` and `stat_group_counts()` make it easy to annotate plots with the number of observations.
+_Version 0.5.6_ brings bug fixes.
 
-_Version 0.5.1_ brings enhancements to the density-based statistics. They gain several new features without changing their default behaviour. The aim is to add flexibility to allow improved support of the annotation of volcano and quadrant plots. Two types of plots frequently used to present gene transcript abundance estimates obtained by RNAseq or microarray methods.
+_Version 0.5.5_ brings compatibility with 'ggplot2' >= 3.5.0. Adds support for `angle`aesthetic to geoms that are variations on `geom_label()`. Add support for error bars in stacked columns. Add example data sets.
 
-_Version 0.5.2_ brings additional enhancements to the density-based statistics. Mainly smoothing the rough edges left by the overhaul done in _version 0.5.1_ to these functions. A change to `position_nudge_to()` makes it possible to evenly spread positions to reduce overlaps. **Most importantly** add many unit tests to reach > 90% code coverage by tests (contribution of Daniel Sabanés Bové and his team). 
+_Version 0.5.4_ brings two new geometries `geom_text_pairwise()` and `geom_label_pairwise()` useful for adding to plots the outcomes from pairwise tests, and for highlighting ranges along the _x_ axis.
 
 _Version 0.5.3_ brings enhancements to `stat_quadrant_counts()` and `stat_group_counts()`. They are now both based on a _compute panel_ function, which makes it possible to compute the same counts as in earlier versions but also the count for the whole panel. This in turn facilitates the creation of labels based on percents and fractions of the total number of observations. The default behaviour remains the same as in earlier versions, with labels for counts.
 
-The new statistic `stat_functions()` implements plotting of multiple functions per layer and supports groups and facets, i.e., the grammar of graphics. Be aware that `stat_functions()` is under development and its interface may change in future versions.
+_Version 0.5.2_ brings additional enhancements to the density-based statistics. Mainly smoothing the rough edges left by the overhaul done in _version 0.5.1_ to these functions. A change to `position_nudge_to()` makes it possible to evenly spread positions to reduce overlaps. **Most importantly** add many unit tests to reach > 90% code coverage by tests (contribution of Daniel Sabanés Bové and his team). 
 
-_Version 0.5.4_ brings two new geometries `geom_text_pairwise()` and `geom_label_pairwise()` useful for adding to plots the outcomes from pairwise tests, and for highlighting ranges along the _x_ axis.
+_Version 0.5.1_ brings enhancements to the density-based statistics. They gain new features without changing their default behaviour allowing improved support of the annotation of volcano and quadrant plots. The new statistic `stat_functions()` implements plotting of multiple functions per layer and supports groups and facets.
+
+_Version 0.5.0_ includes **code-breaking** enhancements to `geom_text_s()` and `geom_label_s()`. The most significative is a mechanism to selectively applying aesthetics, replacing use of separate aesthetics for segments or arrows. Please see [Enhancing geom_text() and geom_label()](../Enhancing-geom-text/) for example plots.
+New functions `stat_panel_counts()` and `stat_group_counts()` for annotations showing the number of observations.
 
 ::: callout-note
 

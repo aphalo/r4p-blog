@@ -1,0 +1,10 @@
+---
+title: "Learn R: As a Language 2ed"
+subtitle: "Published on 2024-04-26"
+author: "Pedro J. Aphalo"
+date: "2024-04-30"
+date-modified: "2024-04-30"
+categories: [website news]
+draft: true
+---
+
