@@ -1,0 +1,128 @@
+---
+title: "Is this a polynomial?"
+subtitle: "Computing on the R langauge"
+author: "Pedro J. Aphalo"
+date: 2024-05-16
+date-modified: 2024-05-16
+categories: [R, plotting]
+keywords: [ggpmisc pkg, R programming]
+code-fold: false
+code-tools: true
+---
+
+## The problem
+
+Two statistics from package 'ggpmisc' could produce bad return values if the
+model formula passed by users as argument did not match the expectations. The
+problem was that any valid model formula accepted by `lm()` or `rlm()` would
+be silently accepted as input but only some formulations would result in valid
+equation labels added to plots. Although the statistics expect what to me
+feels like the "normal" way of writing a polynomial, some users had different
+expectations. So, in spite of the examples in the documentation an issue was
+raised for a bug. Of course the lack of a proper test was a bug, but not as
+the user thought, one affecting input that was deemed correct by design. Of
+course, functions like these should check that user-provided input
+is valid and will result in correct output.
+
+Why I did not implement a check earlier? It seemed to me at first that
+implementing code for such a test was an extremely difficult task. However, one
+of the strong points of the R language is that langauge objects like model
+formulas can be manipulated and converted like almost any other object in R.
+Making the story short, it was fairly easy to write an ad-hoc function to
+validate model functions as representing a polynomial. It took a couple of hours
+of design, coding, testing, revision, and trying to imagine all the different
+ways in which polynomials can be described in model functions, as well as
+imagining model functions that are similar to polynomials but not true
+polynomials. Given how the two statistics work, polynomials have to have the
+terms in order of increasing power, and they can have or not a constant
+(y-intercept) term. In addition terms in a model formula, containing a bare `^`
+operator are only powers of the explanatory variable if inclosed in an _as.is_
+call (`I()`). Power transformations are also acceptable if applied to a single
+term.
+
+::: callout-note
+
+Does this function give false positives and false negatives? Possibly, time and
+further testing will tell. Meanwhile, the two statistics now issue a warning when
+passed model formulas that fail this new test.
+
+:::
+
+The function, `check_poly_formula()` has an on-line version of [its help page](https://docs.r4photobiology.info/ggpmisc/reference/check_poly_formula.html),
+with some code examples.
+
+And here is the code as of 2024-05-16:
+
+```{r, eval=FALSE, echo=TRUE}
+check_poly_formula <-
+  function(formula,
+           x.name = "x",
+           warning.text = "'formula' is not an increasing polynomial: expect bad/no 'eq.label'!") {
+  term.labels <- attr(terms(formula), "term.labels")
+  num.terms <- length(term.labels)
+  x.terms <- grepl(x.name, term.labels)
+  poly.in.terms <- grepl("poly *\\(", as.character(formula)[3L])
+  power.terms  <- grepl("\\^ *", term.labels)
+  as.is.terms <- grepl("I *\\(", term.labels)
+
+  if (num.terms > 1L && poly.in.terms && sum(power.terms) != 0L) {
+    stop("Both 'poly()' and power (^) terms in model formula.")
+  }
+  if (num.terms > 1L && !all(power.terms == as.is.terms)) {
+    stop("Power (^) terms in model formula need to be protected by 'I()'.")
+  }
+  if (num.terms == 0L || poly.in.terms && num.terms == 1L) {
+    polynomial <- TRUE
+    increasing <- TRUE
+  } else if (sum(power.terms) <= 1L ||
+             sum(power.terms) == num.terms - 1L &&
+             sum(x.terms) == num.terms) {
+    polynomial <- TRUE
+    if (sum(x.terms) == 1L || min(which(power.terms)) == 2L) {
+      powers <- as.numeric(gsub(".*\\^([0-9]+).*", "\\1", term.labels[power.terms]))
+      increasing <- length(powers) <= 1L ||
+        !is.unsorted(powers, strictly = TRUE) &&
+        max(powers) == length(powers) + 1 # no missing terms
+    } else {
+      increasing <- FALSE
+    }
+  } else {
+    polynomial = FALSE
+  }
+  if (!polynomial || !increasing) {
+    if (length(warning.text)) {
+      warning(warning.text)
+    }
+    FALSE
+  } else {
+    TRUE
+  }
+}
+
+```
+
+
+Am I still missing something? Can the code be really this simple?
+
+Some examples follow.
+
+```{r}
+library(ggpmisc)
+
+check_poly_formula(y ~ 1)
+check_poly_formula(y ~ x)
+check_poly_formula(y ~ x^3)
+check_poly_formula(y ~ poly(x, 2))
+check_poly_formula(y ~ x + 0)
+check_poly_formula(y ~ x - 1)
+check_poly_formula(y ~ x + 1)
+check_poly_formula(y ~ x + I(x^2))
+check_poly_formula(y ~ I(x^2) + x)
+check_poly_formula(y ~ x + I(x^2) + I(x^3))
+check_poly_formula(y ~ I(x^2) + I(x^3))
+check_poly_formula(y ~ x + I(x^3) + I(x^2))
+```
+
+
+
+
