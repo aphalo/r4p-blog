@@ -115,6 +115,13 @@ are available through CRAN through this repository.
 This menu entry gives access to pages related to books I have written or
 edited about R and/or photobiology.
 
+## Data
+
+Here you will find data acquired at a weather station that I manage. The 
+station is located in the Viikki Campus of the University of Helsinki, 
+in Helsinki, Finland. There is also a description of the station equipment
+and the variables in the data.
+
 ## About
 
 Pages with additional information about the site and its webmaster and
