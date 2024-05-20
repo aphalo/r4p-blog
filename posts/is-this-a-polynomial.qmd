@@ -3,9 +3,9 @@ title: "Is this a polynomial?"
 subtitle: "Computing on the R langauge"
 author: "Pedro J. Aphalo"
 date: 2024-05-16
-date-modified: 2024-05-16
+date-modified: 2024-05-19
 categories: [R, plotting]
-keywords: [ggpmisc pkg, R programming]
+keywords: [ggpmisc pkg, R programming, annotations]
 code-fold: false
 code-tools: true
 ---
@@ -42,16 +42,21 @@ term.
 
 ::: callout-note
 
-Does this function give false positives and false negatives? Possibly, time and
-further testing will tell. Meanwhile, the two statistics now issue a warning when
-passed model formulas that fail this new test.
+Does this function give false positives and false negatives? Possibly, but
+hopefully I haven't missed any frequently used case. Time and further testing
+will tell. _Please, do raise 
+[an issue](https://github.com/aphalo/ggpmisc/issues) if you discover a failure._
+
+Meanwhile, the two statistics, `stat_poly_eq()` and `stat_quant_eq()`, now issue
+a warning when passed model formulas that fail this new test and set `eq.label`
+to `NA` in the returned data frame, the `data` seen by the downstream geometry.
 
 :::
 
 The function, `check_poly_formula()` has an on-line version of [its help page](https://docs.r4photobiology.info/ggpmisc/reference/check_poly_formula.html),
 with some code examples.
 
-And here is the code as of 2024-05-16:
+And here is the definition of `check_poly_formula()` as of 2024-05-19:
 
 ```{r, eval=FALSE, echo=TRUE}
 check_poly_formula <-
@@ -63,13 +68,18 @@ check_poly_formula <-
   x.terms <- grepl(x.name, term.labels)
   poly.in.terms <- grepl("poly *\\(", as.character(formula)[3L])
   power.terms  <- grepl("\\^ *", term.labels)
+  raw.terms  <- grepl("raw *=", term.labels)
   as.is.terms <- grepl("I *\\(", term.labels)
 
   if (num.terms > 1L && poly.in.terms && sum(power.terms) != 0L) {
     stop("Both 'poly()' and power (^) terms in model formula.")
   }
   if (num.terms > 1L && !all(power.terms == as.is.terms)) {
-    stop("Power (^) terms in model formula need to be protected by 'I()'.")
+    warning("Power (^) terms in model formula of a polynomial need to be protected by 'I()'.")
+    return(FALSE)
+  }
+  if (poly.in.terms && !sum(raw.terms)) {
+    message("'poly()' in model formula may need to be passed 'raw = TRUE'")
   }
   if (num.terms == 0L || poly.in.terms && num.terms == 1L) {
     polynomial <- TRUE
@@ -98,7 +108,6 @@ check_poly_formula <-
     TRUE
   }
 }
-
 ```
 
 
