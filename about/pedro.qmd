@@ -37,3 +37,5 @@ I am a senior university lecturer in _physiological plant ecology_ and principal
 I am the leader of the research group [Sensory and Physiological Ecology of Plants (SenPEP)](https://blogs.helsinki.fi/senpep-blog).
 
 <a rel="me" href="https://mastodon.social/@aphalo">Mastodon</a>
+
+[Slides from a talk introducing my research in plant sciences.](vitae-2024/index.qmd)
