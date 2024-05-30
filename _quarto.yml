@@ -18,6 +18,27 @@ website:
       - icon: images
         text: Gallery
         href: galleries.qmd
+      - icon: book
+        text: Books
+        menu:
+          - icon: book
+            text: Book _Learn R - As a Language_
+            href: https://www.learnr-book.info/
+          - icon: book
+            text: Handbook _Beyond the Visible_
+            href: pages/beyond-the-visible.qmd
+          - icon: book-half
+            text: Book _R for Photobiology_
+            href: pages/r4p-book.qmd
+      - icon: projector
+        text: Talks
+        href: presentations.qmd
+      - icon: database
+        text: Data
+        menu:
+        - icon: cloud-sun
+          text: Solar radiation and weather
+          href: https://viikki-stn.r4photobiology.info/
       - icon: box-seam
         text: Packages
         menu:
@@ -88,24 +109,6 @@ website:
           - icon: check-all
             text: Pre-releases and issues
             href: pages/packages-status.qmd
-      - icon: book
-        text: Books
-        menu:
-          - icon: book
-            text: Book _Learn R - As a Language_
-            href: https://www.learnr-book.info/
-          - icon: book
-            text: Handbook _Beyond the Visible_
-            href: pages/beyond-the-visible.qmd
-          - icon: book-half
-            text: Book _R for Photobiology_
-            href: pages/r4p-book.qmd
-      - icon: database
-        text: Data
-        menu:
-        - icon: cloud-sun
-          text: Solar radiation and weather
-          href: https://viikki-stn.r4photobiology.info/
       - icon: person
         text: About
         menu:

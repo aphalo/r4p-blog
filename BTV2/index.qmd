@@ -48,17 +48,21 @@ self-contained: false
 ## Editors
 
 -   Pedro A.
--   Wolgang Bilger (?)
+-   Wolgang Bilger
 -   Eva Rosenqvist (?)
--   Marcel (???)
+-   Marcel Jansen
 
 ## Publisher
 
--   Self
+-   Self (pre-print on-line)
 -   CRC/Taylor & Francis
 -   other?
 
 ## Chapters for 2nd edition
+
+0.  Preface
+
+   -    xxx
 
 1.  Radiation and optics (Previously: *Introduction*)
 

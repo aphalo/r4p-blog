@@ -38,4 +38,3 @@ I am the leader of the research group [Sensory and Physiological Ecology of Plan
 
 <a rel="me" href="https://mastodon.social/@aphalo">Mastodon</a>
 
-[Slides from a talk introducing my research in plant sciences.](vitae-2024/index.qmd)
