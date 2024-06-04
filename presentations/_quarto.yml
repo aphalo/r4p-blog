@@ -1,0 +1,23 @@
+# options specified here will apply to all posts in this folder
+format:
+  revealjs:
+    self-contained: true
+    lightbox: true
+    number-sections: false
+    toc: false
+mermaid:
+  theme: neutral
+self-contained-math: true
+
+# freeze computational output
+# (see https://quarto.org/docs/projects/code-execution.html#freeze)
+freeze: auto
+
+# Enable banner style title blocks
+# title-block-banner: true
+
+code-fold: true
+
+
+
+

@@ -1,0 +1,19 @@
+year.start,year.end,equipment,role
+1980,1985,SIRIGOR gas-exchange system,assemble
+1982,1982,auxanometer,design and build
+1984,1984,porometer,modify
+1981,1981,digital thermometer,design and build
+1982,1985,temperature controllers for growth chambers,design and build
+198x,198x,field deployment of LEDs,design and source parts
+1987,1989,update gas-exchange system,design and assemble and software
+1992,1993,Nelder tables,design
+1993,1994,R and FR illumination system, design and build
+1995,1996,UV-B iradiation system,design and build
+1996,1998,UV-B modulated system,design hardware and design and write software
+2001,2020,filtering of sunlight,design and in part build
+2018,2019,sun-like light in growth chambers,design
+2021,2023,sunfleck simulation in growth chambers,design and build
+2015,2024,weather station,select components, assemble and write software
+2022,2022,hemispherical diffuser for spectrometer,design
+2024,2024,high-speed UV and light sensor,especify and contribute to design
+2020,2024,cylindrical UV and light sensors,especify and contribute to design

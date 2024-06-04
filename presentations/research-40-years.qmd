@@ -1,0 +1,203 @@
+---
+title: "Looking back 40 years"
+subtitle: "Research into environmental sensing and acclimation"
+author: Pedro J. Aphalo
+date: 2024-05-28
+format: 
+  revealjs:
+    self-contained: true
+    number-sections: false
+    lightbox: true
+    toc: false
+mermaid:
+  theme: neutral
+self-contained-math: true
+---
+
+## Presentation roadmap
+
+- Where I come from
+- What research I have been doing
+- What is my expertise
+- What are my skills
+- Finding shared interests
+
+## Parallel "lives" as researcher
+
+-  Plants and their environment
+-  Research instrumentation
+-  Data and computers
+
+These subjects and skills have been intertwined during my whole life, influencing and facilitating each 
+other.
+
+Research subjects have varied over 40 years but there has been continuity in the 
+development of ideas with some ups and downs.  
+
+## Timeline summary of places {.scrollable}
+
+```{mermaid}
+flowchart TB
+    subgraph "1956-1987 Argentina"
+    B[Family farm + INTA] --> C
+    C[Univ. Buenos Aires, Ing. Agr., MSc]
+    end
+    subgraph "1987-1991 UK"
+    C --> D[Univ. Edinburgh, PhD]
+    end
+    subgraph "1991- FINLAND"
+    D --> E[METLA Suonenjoki]
+    E --> F[Univ. Joensuu] --> H
+    E --> G[METLA Joensuu] --> H
+    H[Univ. Jyväskylä] --> I
+    I[Univ. Helsinki] -.-> J
+    J(Retirement):::retirementclass
+    J -.-> K((?)):::futureclass
+    end
+ classDef retirementclass fill:#FFA
+ classDef futureclass fill:#AFA
+```
+
+## It all started in our farm
+
+-  My mother owned a bookshop in Buenos Aires, frequented by writers and academics.
+-  My father managed the family farm (mostly cattle) and collaborated in research by INTA, Argentina's "Luke".
+-  Exposed as a young boy to research and researchers of several nationalities.
+-  As a teenager I was already more interested in crops and farm machinery than in cattle.
+
+## At the university
+
+-  1982: **Ing. Agr.** with focus on crop breeding (Bs. Aires).^[Thesis: "Efectos del stress hídrico y la luz sobre la conductancia foliar de hojas variegadas de _Hedera helix_" (Supervisor Rodolfo A. Sánchez).] 
+-  1989: **M. Sc.** in Plant Production (Bs. Aires).^[Thesis: "Valor adaptativo de la modulación de la actividad
+de los fotosistemas que controlan la apertura de los estomas: Su evaluación mediante un modelo de
+simulación." (Supervisopr Rodolfo A. Sánchez)]
+-  1991: **Ph. D.** in Science (Edinburgh).^[Thesis: "Interactions in stomatal function" (supervisor Paul G. Jarvis).]
+-  2001: **Dosentti** in Physiological Plant Ecology (Joensuu).
+
+## Jobs in Finland
+
+- 1992-1994: at METLA **Suonenjoki**, working with _Risto Rikala_ and _Hessu Smolander_. I also collaborated with _Elina Vapaavuori_.
+- 1995-2001: **Joensuu**, with short-term contracts, at the University of Joensuu and METLA, as well as fellowships (contibuted to "root lab").
+- 2001-2006: University of **Jyväskylä**: Lecturer (Yliassistentti) in Environmental Statistics and Metrics.
+- 2006-2024: University of **Helsinki**: Lecturer/Senior Lecturer in Physiological Plant Ecology.
+
+## My "historical" research topics
+
+- Most of the research I have lead as PI has related to plants' responses to neighbours/light/shade/UV or to plants' water relations and drought.
+- I have contributed to research in other subjects: mineral nutrition, mycorrhizas, agronomy, forestry, economy, and even fish parasites. Collaborators: Tarja Lehto, Tapani Repo, Lena Finer.
+- I have published research articles, reviews, chapters, books and also data sets and software.
+
+--------------------
+
+![Fluctuating sunlight (PJA)](photos/_9111898.jpg){width=21%}
+![Seedling spacing (PJA)](photos/Scanned Photo-7.jpg){width=21%}
+![Seedling spacing and light (PJA)](photos/N92_peri.jpg){width=21%}
+
+![Minirhizotrons (PJA)](photos/025_1.jpg){width=21%}
+![UV-B lamps in greenhouse (PJA)](photos/Scanned Photo-25-3_edited.jpg){width=21%}
+![UV-B lamps outdoors (PJA)](photos/010_15A.jpg){width=21%}
+
+![Solar UV radiation with filters (TKK)](photos/outdoors2006_06b.jpg){width=21%}
+![Solar UV radiation with filters (TKK)](photos/outdoors2006_06c.jpg){width=21%}
+![Solar UV radiation with filters (TKK)](photos/koe18b.jpg){width=21%}
+
+Top left, Buenos Aires. Top center and righ, Suonenjoki. Middle row, Joensuu. Bottom row, Jyväskylä.
+
+## Current research focus
+
+- Preemptive acclimation to drought: theoretical framework, environmental cues and response mechanisms.
+- Functions of **UVR8** and **CRY**, the UV photoreceptors, in day/sunlight vs. controlled environments.
+- Plants' responses (growth, morphology, phenolics) to fluctuating visible light and UV radiation.
+- Theory: the definitions of _stress_ and _strain_ and their scaling up from plant-parts to communities.
+
+## _Vicia faba_
+
+![Thermal camera (PJA)](photos/_Z181130_HDR.jpg){width=20%}
+![Thermal camera (PJA)](photos/_Z181143.jpg){width=20%}
+
+![Weather and light environment (PJA)](photos/_Z181100_HDR.jpg){width=20%}
+![Weather and light environment (PJA)](photos/_Z181094_HDR.jpg){width=20%}
+
+Growth chambers, yellow filters. Top row, left thermal camera, and right, thermal image. 
+[Thermal timelapse videos.](https://vimeo.com/showcase/9320532) 
+
+## _Medicago truncatula_
+
+![Solar UV radiation and blue light with filters (NR)](photos/_8152272.jpg){width=33%}
+![Medicago truncatula (YY)](photos/2015-08-11 22-49-17 (B,R8,S4) 1.jpg){width=22%}
+![Medicago truncatula (YY)](photos/2015-08-11 22-53-02 (B,R8,S4) 1.jpg){width=22%}
+
+Filtered sunlight at the Viikki reasearch field, and plants.
+
+## Light and weather measurements
+
+- 2021-: soil water and temperature profile 0-50 cm (1 h)
+- 2016-: weather variables (1 min)
+- 2016-April 2024: light data (1 min); May 2024-: (0.5 s)
+
+![Weather and light environment (PJA)](photos/_1040314_DxO.jpg){width=20%}
+![Weather and light environment (PJA)](photos/IMG_2091.jpg){width=20%}
+
+weather station at Viiki research field. See [station web site](https://viikki-stn.r4photobiology.info/).
+
+
+## Light spectrum measurements
+
+- Special protocol and calibration from STUK (Lasse Ylianttila).
+- Near-real time computations and direct data acquisition from within R.
+- Software already in use at Luke (Titta Kotilainen) and HU.
+- Wavelength range 250-1050 nm.
+
+## Research focus: acclimation<br>_resource or information driven?_
+
+- Insight: many responses involved in acclimation are slow and difficult to reverse.
+- Acclimation needs to be triggered in advance, but mistakes are costly to fitness or yield.
+
+[Recent paper coauthored with V. O. Sadras](https://doi.org/10.1093/jxb/erab537)
+
+----------
+
+- Correlations and lags among variables (cues and signals) in the environment make this possible (e.g., anticipated shade avoidance).
+- _Collaborators:_ Matthew Robson, Jorge J. Casal, Víctor O. Sadras, Marcel Jansen, Ariel Novoplansky.
+- Applications to agriculture and horticulture.
+- _Collaborators:_ Titta Kotilainen, Alexey Shapiguzov, Tao Li, Elias Kaiser, Leo Marcelis, Daniel Calderini, Fred Stoddard, Hamid Khazei.
+
+---------
+
+- How do plants integrate information acquired from cues and signals?
+- ... in time and space
+- Control seems to be layered: "meta-plasticity", i.e., plasticity is plastic.
+- What are good sources of information in the environment? that plants can sense...
+- We know more about the plants' responses than...
+- ...about the details of the environment they are exposed to (natural or production).
+
+## Theory and the bigger picture
+
+- Stress and strain definitions at different levels of organization: a source of conflict.
+- Stress, acclimation and fitness definitions: are they consistent?
+- What plant-related research useful to horticulture/agriculture/forestry?
+- Collaborators: Víctor O. Sadras, Marcel Jansen.
+
+::: {.notes}
+OED Workshop and article in Advances in Agronomy
+:::
+
+## Current methods focus
+
+- Light environment: high frequency $(\approx 5\,\mathrm{ms})$ and special geometries (hemispherical and radial entrance optics), broad-band and spectral measurements.
+- Simulated sunflecks and daylight with LEDs in controlled environments.
+- Software for acquisition, visualization and analysis of data.
+- "Technical" collaborators: Alan Morrison (U. C. Cork, electronic engineering), Stefan Langer (**sg**lux GmbH, Berlin), Bentham Instruments (Reading, U.K.), Nikolai Belevich (Helsinki), Lasse Ylianttila (STUK).
+
+## Research after retirement
+
+- I am looking forward to continuing collaboration with Luke researchers, with a more formal status.
+- I hope this very broad introduction helps us find subjects of shared interest.
+- **More information:**
+- [Web site on R packages and R](https://www.r4photobiology.info)
+- [ORCID public profile, and publications](https://orcid.org/0000-0003-3385-972X)
+- [Research group blog](https://blogs.helsinki.fi/senpep-blog/)
+
+## Thanks! {.center}
+
+![](photos/_5049020.jpg){width=70%}
