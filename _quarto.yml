@@ -10,14 +10,24 @@ website:
   navbar:
     logo: r4p-logo.png
     right:
-      - icon: newspaper
-        text: blog
-        href: posts.qmd
-      - icon: file-richtext
-        href: pages.qmd
-      - icon: images
-        text: Gallery
-        href: galleries.qmd
+      - icon: list-ul
+        text: Contents
+        menu:
+          - icon: newspaper
+            text: Blog
+            href: posts.qmd
+          - icon: file-richtext
+            href: pages.qmd
+          - icon: images
+            text: Gallery
+            href: galleries.qmd
+          - icon: projector
+            text: Talks
+            href: presentations.qmd
+          - text: "---"
+          - icon: easel
+            text: From Courses
+            href: r-index.qmd
       - icon: book
         text: Books
         menu:
@@ -30,9 +40,6 @@ website:
           - icon: book-half
             text: Book _R for Photobiology_
             href: pages/r4p-book.qmd
-      - icon: projector
-        text: Talks
-        href: presentations.qmd
       - icon: database
         text: Data
         menu:
@@ -40,7 +47,7 @@ website:
           text: Solar radiation and weather
           href: https://viikki-stn.r4photobiology.info/
       - icon: box-seam
-        text: Packages
+        text: R Packages
         menu:
           - icon: list
             text: Documentation Index
