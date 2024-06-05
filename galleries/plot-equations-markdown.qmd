@@ -1,11 +1,14 @@
 ---
-title: "Fitted-model labels in Markdown "
+title: "Fitted-model labels in Markdown"
 subtitle: "'ggpmisc' together with 'ggtext'"
 author: "Pedro J. Aphalo"
 date: "2024-06-01"
 date-modified: "2024-06-04"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
 categories: [Plotting examples]
+editor: 
+  markdown: 
+    wrap: 72
 code-fold: true
 format:
   html: 
@@ -13,6 +16,7 @@ format:
     code-tools: true
 abstract: |
   Example R code for plots with predictions from fitted models labelled with model fitted equations, parameter estimates, _R_<sup>2</sup>, _F_-value, _P_-value, etc. Polynomial regression, quantile regression, major-axis regression, robust linear model fits as well as non-linear regression are examplified. Markdown encoded labels make use of statistics from package 'ggpmisc' and geometries fron 'ggtext'.
+draft: true
 ---
 
 ::: callout-tip
@@ -267,7 +271,9 @@ ggplot(df1, aes(x, y)) +
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq"), 
-               label.x = "right", label.y = "bottom") +
+               label.x = "right", label.y = "bottom", 
+                   geom = "richtext",
+                   hjust = 1, vjust = 0) +
   facet_wrap(~group)
 ```
 

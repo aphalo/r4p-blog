@@ -13,7 +13,10 @@ abstract: |
 editor: 
   markdown: 
     wrap: 72
+resources:
+  - "*.html"
 self-contained: false
+draft: true
 ---
 
 ## Practicalities
@@ -64,7 +67,7 @@ self-contained: false
 
    -    xxx
 
-1.  Radiation and optics (Previously: *Introduction*)
+1.  [Radiation and optics](BTV2-radiation-and-optics.html) (Previously: *Introduction*)
 
     -   Make text more accessible to those not-mathematically minded.
         (Pedro + LOB + Andreas Albert (?) + Ylianttila (?))
