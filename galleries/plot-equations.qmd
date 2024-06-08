@@ -3,7 +3,7 @@ title: "Fitted-model labels with 'ggpmisc'"
 subtitle: "Polynomials, major axis, quantile and non-linear regression lines, bands and equations"
 author: "Pedro J. Aphalo"
 date: "2023-02-27"
-date-modified: "2024-05-19"
+date-modified: "2024-06-06"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
 categories: [Plotting examples]
 editor: 
