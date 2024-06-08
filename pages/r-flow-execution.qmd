@@ -9,6 +9,7 @@ format:
     mermaid:
       theme: neutral
 code-fold: show
+keywords: [programming, webr-based]
 callout-icon: false
 engine: knitr
 filters:

@@ -152,8 +152,7 @@ options(warnPartialMatchArgs = FALSE,
 ```
 
 
-```{r, message=FALSE}
-#| code-fold: false
+```{r, message=FALSE, echo=TRUE}
 library(ggpmisc)
 library(ggrepel)
 library(dplyr)
@@ -458,19 +457,26 @@ mapped to the `x` or `y` aesthetic as explanatory variable depending on the
 model formula and argument passed to parameter `orientation`. It does not decode
 any transformations applied on the fly to `x` or `y`. In addition it does not
 generate `eq.label` for linear models that are not polynomials with no missing
-terms and terms enetered in increasing order of their powers.
+terms and terms entered in increasing order of their powers.
 
-If a transformation is applied, the user is responsible for replacing as shown
-below the $x$ (and/or $y$) symbol in the equation by setting an alternative 
-value matching the transformation applied in the model formula.
+If a transformation is applied or any other deviation from a regular polynomial
+is passed to `formula`, it is still possible to use the labels for other fitted
+parameters. It is also possible to set `output.type = "numeric"` and manually
+build the equation label, using `sprintf()` as shown below, or a combination 
+of `paste()` and `format()` or any other R function that can assemble a suitable
+character string from the numeric values returned.
+
+_When using this non-automated approach, any valid linear model can be fitted._
 
 ```{r}
 formula <- y ~ I(x^2) # we apply a transformation to x within the formula
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label("eq"), 
-               eq.x.rhs = "~x^2",
+  stat_poly_eq(mapping = aes(label = sprintf_dm("y~`=`~%.3g~x^2",
+                                                after_stat(b_0))), 
+               parse = TRUE,
+               output.type = "numeric",
                formula = formula)
 ```
 

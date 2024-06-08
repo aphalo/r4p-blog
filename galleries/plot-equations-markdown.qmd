@@ -16,7 +16,7 @@ format:
     code-tools: true
 abstract: |
   Example R code for plots with predictions from fitted models labelled with model fitted equations, parameter estimates, _R_<sup>2</sup>, _F_-value, _P_-value, etc. Polynomial regression, quantile regression, major-axis regression, robust linear model fits as well as non-linear regression are examplified. Markdown encoded labels make use of statistics from package 'ggpmisc' and geometries fron 'ggtext'.
-draft: true
+draft: false
 ---
 
 ::: callout-tip
@@ -38,15 +38,15 @@ Names of functions and other R objects are linked to the corresponding on-line h
 # Introduction
 
 Here you will find examples of ggplots with labels for fitted model equations,
-various parameter estimates. The labels have been
+and various parameter estimates. The labels have been
 added to the plots with geometries defined in package ['ggtext'](https://wilkelab.org/ggtext/) and statistics from package ['ggpmisc'](https://docs.r4photobiology.info/ggpmisc/) both available at CRAN.
 
-**Currently, the labels are not correctly rendered by `marquee::geom_marquee()`, which is at an early stage of development.**
+**Currently, the labels are not always correctly rendered by `marquee::geom_marquee()`, which is at an early stage of development.**
 
-_The code examples in this page are based on those in [a page with equivalent labels using R plotmath expressions](plot-equations.qmd)._
+_The code examples in this page are edited versions on those in [a page with equivalent labels using R plotmath expressions](plot-equations.qmd)._
 
 ::: callout-warning
-The statistics from 'ggpmisc' use by default the geometries from 'ggpp'. These geometries support like `ggplot2::geom_text()` and `ggplot2::geom_label()` character string `"inward"` for justification. We use in the examples in the page explicit arguments for justification and label positions.
+The statistics from 'ggpmisc' use by default the geometries from 'ggpp'. These geometries support like `ggplot2::geom_text()` and `ggplot2::geom_label()` character string `"inward"` for justification. We use in the examples in the page explicit arguments for justification and label positions as `geom_richtext()` does not seem to support these rather recent feature of geometries from 'ggplot2' also added to 'ggpp'.
 :::
 
 ::: callout-important
@@ -68,6 +68,7 @@ When package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/) is loaded and 
 redefined by [ggpp](https://docs.r4photobiology.info/ggpp/) is `annotate()`, which remains backwards compatible
 with [ggplot2](https://ggplot2.tidyverse.org/).
 
+
 ```{r, include=FALSE}
 library(knitr)
 opts_chunk$set(fig.align = 'center', dev = "svg",
@@ -79,8 +80,7 @@ options(warnPartialMatchArgs = FALSE,
 ```
 
 
-```{r, message=FALSE}
-#| code-fold: false
+```{r, message=FALSE, echo=TRUE}
 library(ggplot2)
 library(ggpmisc)
 library(ggtext)
@@ -103,6 +103,20 @@ df1 <- data.frame(x = rep(x, 2),
 
 The examples in this section make use of `stat_correlation()` from package
 [ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
+
+All the examples, except the one below, use the default border and fill of `geom_richtext()`, setting the
+`label.size = 0` and `fill = NA` makes the output similar to that of 
+`geom_text()`.
+
+```{r}
+ggplot(subset(df1, group == "A"), 
+       aes(x, y)) +
+  geom_point() +
+  stat_correlation(geom = "richtext", 
+                   label.size = 0,
+                   fill = NA,
+                   hjust = 0, vjust = 1)
+```
 
 Pearson correlation.
 
@@ -190,7 +204,7 @@ Grouping supported.
 ggplot(df1, aes(x, y, color = group)) +
   geom_point() +
   stat_correlation(geom = "richtext",
-                   vstep = 0.2,
+                   vstep = 0.1,
                    hjust = 0, vjust = 1)
 ```
 
@@ -201,7 +215,7 @@ ggplot(df1, aes(x, y)) +
   geom_point() +
   stat_correlation(label.x = "right", label.y = "bottom", 
                    geom = "richtext",
-                   hjust = 0, vjust = 1) +
+                   hjust = 1, vjust = 0) +
   facet_wrap(~group)
 ```
 
@@ -286,10 +300,12 @@ ggplot(df1, aes(x, y)) +
   geom_point() +
   stat_poly_line() +
   stat_poly_eq(use_label("eq"), 
-               eq.with.lhs = "italic(t)~`=`~", 
-               eq.x.rhs = "~italic(E)",
-               label.x = "right", label.y = "bottom") +
-  labs(x = expression("Irradiance, "*italic(E)~~(W~m^{-2})),
+               eq.with.lhs = "_t_ = ", 
+               eq.x.rhs = "_E_",
+               label.x = "right", label.y = "bottom", 
+               geom = "richtext",
+               hjust = 1, vjust = 0) +
+labs(x = expression("Irradiance, "*italic(E)~~(W~m^{-2})),
        y = expression("Temperature, "*italic(t)~~(degree*"C"))) +
   facet_wrap(~group)
 ```
@@ -317,7 +333,7 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(formula = formula)
+  stat_poly_eq(formula = formula, geom = "richtext", hjust = 0)
 ```
 
 Fitted model equation, available for polynomials with no missing terms. Here
@@ -329,7 +345,8 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label("eq"), formula = formula)
+  stat_poly_eq(mapping = use_label("eq"), formula = formula, 
+               geom = "richtext", hjust = 0)
 ```
 
 $R_\mathrm{adj}^2$ and *P*-value added separately. This is necessary if separate locations or colours are desired for different labels derived from the same
@@ -340,9 +357,11 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label("adj.R2"), formula = formula) +
+  stat_poly_eq(mapping = use_label("adj.R2"), formula = formula, 
+               geom = "richtext", hjust = 0, vjust = 1) +
   stat_poly_eq(mapping = use_label("P"), label.x = "right", label.y = "bottom", size = 3,
-               formula = formula)
+               formula = formula, 
+               geom = "richtext", hjust = 1, vjust = 0)
 ```
 
 Fitted model equation and $R_\mathrm{adj}^2$. As seen above, function `use_label()` 
@@ -353,8 +372,8 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label(c("eq", "adj.R2"), sep = "~~italic(\"with\")~~"),
-               formula = formula)
+  stat_poly_eq(mapping = use_label(c("eq", "adj.R2"), sep = "<br>_with_ "),
+               formula = formula, geom = "richtext", hjust = 0, vjust = 1)
 ```
 
 Equation with no left-hand-side (lhs).
@@ -366,7 +385,7 @@ ggplot(df2, aes(x, y)) +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("eq"),
                eq.with.lhs = FALSE,
-               formula = formula)
+               formula = formula, geom = "richtext", hjust = 0, vjust = 1)
 ```
 
 Variable names in the equation set to be informative, and match the axis labels.
@@ -376,10 +395,11 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label(c("eq", "R2")),
-               eq.with.lhs = "italic(h)~`=`~",
-               eq.x.rhs = "~italic(z)",
-               formula = formula) +
+  stat_poly_eq(mapping = use_label(c("eq", "R2", "P"), sep = ", "),
+               eq.with.lhs = "_h_ = ",
+               eq.x.rhs = "_z_",
+               formula = formula, 
+               geom = "richtext", hjust = 0) +
   labs(x = expression(italic(z)), y = expression(italic(h)))
 ```
 
@@ -391,9 +411,10 @@ ggplot(df2, aes(x, log10(y + 1e6))) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(mapping = use_label("eq"),
-               eq.with.lhs = "plain(log)[10](italic(delta)+10^6)~`=`~",
-               eq.x.rhs = "~Omega",
-               formula = formula) +
+               eq.with.lhs = "log<sub>10</sub>_&delta;_ + 10<sup>6</sup> = ",
+               eq.x.rhs = "_&Omega;_",
+               formula = formula, 
+               geom = "richtext", hjust = 0, vjust = 1) +
   labs(y = expression(plain(log)[10](italic(delta)+10^6)), 
        x = expression(Omega))
 ```
@@ -404,20 +425,27 @@ mapped to the `x` or `y` aesthetic as explanatory variable depending on the
 model formula and argument passed to parameter `orientation`. It does not decode
 any transformations applied on the fly to `x` or `y`. In addition it does not
 generate `eq.label` for linear models that are not polynomials with no missing
-terms and terms enetered in increasing order of their powers.
+terms and terms entered in increasing order of their powers.
 
-If a transformation is applied, the user is responsible for replacing as shown
-below the $x$ (and/or $y$) symbol in the equation by setting an alternative 
-value matching the transformation applied in the model formula.
+If a transformation is applied or any other deviation from a regular polynomial
+is passed to `formula`, it is still possible to use the labels for other fitted
+parameters. It is also possible to set `output.type = "numeric"` and manually
+build the equation label, using `sprintf()` as shown below, or a combination 
+of `paste()` and `format()` or any other R function that can assemble a suitable
+character string from the numeric values returned.
+
+_When using this non-automated approach, any valid linear model can be fitted._
 
 ```{r}
 formula <- y ~ I(x^2) # we apply a transformation to x within the formula
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(mapping = use_label("eq"), 
-               eq.x.rhs = "~x^2",
-               formula = formula)
+  stat_poly_eq(mapping = aes(label = sprintf_dm("y = %.3g x<sup>2</sup>",
+                                                after_stat(b_0))), 
+               output.type = "numeric",
+               formula = formula, 
+               geom = "richtext", hjust = 0)
 ```
 
 In some cases, such as when applying a power as transformation and fitting higher
@@ -433,9 +461,10 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y2, colour = group)) +
   geom_point() +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(aes(label = after_stat(eq.label)), 
+  stat_poly_eq(use_label("eq"), 
                formula = formula, 
-               vstep = 0.08) +
+               vstep = 0.08, 
+               geom = "richtext", hjust = 0) +
   theme_bw()
 ```
 
@@ -447,9 +476,9 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y2, linetype = group, grp.label = group)) +
   geom_point() +
   stat_poly_line(formula = formula, color = "black") +
-  stat_poly_eq(aes(label = after_stat(paste("bold(", grp.label, "*':')~~~", 
+  stat_poly_eq(aes(label = after_stat(paste("**", grp.label, ":**  ", 
                                       eq.label, sep = ""))),
-               formula = formula)
+               formula = formula, geom = "richtext", hjust = 0, vstep = 0.1)
 ```
 
 Facets are also supported.
@@ -460,7 +489,7 @@ ggplot(df2, aes(x, y2)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(aes(label = after_stat(eq.label)),
-               formula = formula) +
+               formula = formula, geom = "richtext", hjust = 0) +
   facet_wrap(facets = vars(group), scales = "free_y", ncol = 1)
 ```
 
@@ -488,8 +517,9 @@ ggplot(mpg, aes(displ, hwy)) +
    geom_point() +
    stat_poly_line(method = "poly_or_mean") +
    stat_poly_eq(method = poly_or_mean,
-   aes(label = after_stat(eq.label)),
-   label.x = "right") +
+                use_label("eq"),
+                label.x = "right", 
+                geom = "richtext", hjust = 1, vjust = 1) +
    theme(legend.position = "bottom") +
    facet_wrap(~class, ncol = 2)
 ```
@@ -501,9 +531,11 @@ formula <- y ~ poly(x, 3, raw = TRUE)
 ggplot(df2, aes(x, y2, fill = block)) +
   geom_point(shape = 21, size = 3) +
   stat_poly_line(formula = formula) +
-  stat_poly_eq(aes(label = after_stat(rr.label)), size = 3,
-               geom = "label_npc", alpha = 0.33,
-               formula = formula) +
+  stat_poly_eq(use_label("R2"), 
+               size = 3,
+               alpha = 0.33,
+               formula = formula,
+               geom = "richtext", hjust = 0, vstep = 0.1) +
   facet_wrap(~group, scales = "free_y") +
   theme(legend.position = "top")
 ```
@@ -517,14 +549,16 @@ ggplot(df2, aes(x, y2, fill = block)) +
   geom_point(shape = 21, size = 3) +
   stat_poly_line(formula = formula) +
   stat_poly_eq(use_label("R2"), size = 3,
-               geom = "label_npc", alpha = 0.33,
+               alpha = 0.33,
                formula = formula,
                label.x = "right", label.y = "bottom",
-               rr.digits = 3) +
+               rr.digits = 3,
+               geom = "richtext", hjust = 1, vstep = 0.1) +
   stat_poly_eq(use_label(c("F", "P")),
                size = 3,
-               geom = "label_npc", alpha = 0.33,
-               formula = formula) +
+               alpha = 0.33,
+               formula = formula, 
+               geom = "richtext", hjust = 0, vstep = 0.1) +
   facet_wrap(~group, scales = "free_y") +
   theme(legend.position = "top")
 ```
@@ -549,7 +583,7 @@ ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_poly_line(formula = formula) +
   stat_poly_eq(formula = formula,
-               mapping = use_label("eq"))
+               mapping = use_label("eq"), geom = "richtext", hjust = 0)
 ```
 
 ::: callout-caution
@@ -570,9 +604,10 @@ ggplot(df3) +
                                ymin = after_stat(ymin + 5)),
                  formula = I(y - 5) ~ x + 0) +
   stat_poly_eq(mapping = aes(x, y5, 
-                             label = after_stat(paste(eq.label, "~+~5*\", \"*", rr.label))), 
+                             label = after_stat(paste(eq.label, " + 5, ", rr.label))), 
                orientation = "x", 
-               formula = I(y - 5) ~ x + 0) +
+               formula = I(y - 5) ~ x + 0, 
+               geom = "richtext", hjust = 0) +
   geom_point(mapping = aes(x, y5), size = 2.5) +
   ylab("y")
 ```
@@ -588,11 +623,12 @@ ggplot(df3) +
                                ymin = after_stat(ymin + x - mean(x))),
                  formula = y ~ 1) +
   stat_poly_eq(mapping = aes(x, y5 - mean(x), 
-                             label = sprintf("y~`=`~%.3g~+~italic(x)", 
+                             label = sprintf("y = %.3g + _x_", 
                                              after_stat(b_0))), 
                parse = TRUE,
                output.type = "numeric",
-               formula = y ~ 1) +
+               formula = y ~ 1, 
+               geom = "richtext", hjust = 0) +
   geom_point(mapping = aes(x, y5), size = 2.5) +
   ylab("y")
 ```
@@ -607,14 +643,14 @@ case between the two fits.
 ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_poly_line(color = "blue") +
-  stat_poly_eq(mapping = use_label(c("R2", "eq")), 
-               color = "blue") +
+  stat_poly_eq(mapping = use_label("R2", "eq", sep = ", "), 
+               color = "blue", geom = "richtext", hjust = 0) +
   stat_poly_line(color = "red", 
                  orientation = "y") +
-  stat_poly_eq(mapping = use_label(c("R2", "eq")), 
+  stat_poly_eq(mapping = use_label("R2", "eq", sep = ", "), 
                color = "red", 
                orientation = "y",
-               label.y = 0.9)
+               label.y = 11, geom = "richtext", hjust = 0)
 ```
 
 ## Alternatives
@@ -642,7 +678,8 @@ from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc/).
 ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_ma_line() +
-  stat_ma_eq(mapping = use_label(c("R2", "eq")))
+  stat_ma_eq(mapping = use_label("R2", "eq", sep = ", "), 
+             geom = "richtext", hjust = 0)
 ```
 
 ::: callout-tip
@@ -675,7 +712,7 @@ regressions.
 ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_quant_band() +
-  stat_quant_eq(quantiles = 0.5)
+  stat_quant_eq(quantiles = 0.5, geom = "richtext", hjust = 0)
 ```
 
 Median regression through the origin.
@@ -686,7 +723,8 @@ formula <- y ~ x + 0
 ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = formula) +
-  stat_quant_eq(formula = formula, quantiles = 0.5)
+  stat_quant_eq(formula = formula, quantiles = 0.5, 
+                geom = "richtext", hjust = 0)
 ```
 
 Quantile regressions of _y_ on _x_ and _x_ on _y_.
@@ -696,11 +734,13 @@ Quantile regressions of _y_ on _x_ and _x_ on _y_.
 ggplot(df3, aes(x, y)) +
   geom_point() +
   stat_quant_band(color = "blue") +
-  stat_quant_eq(quantiles = 0.5, color = "blue") +
+  stat_quant_eq(quantiles = 0.5, color = "blue", 
+                geom = "richtext", hjust = 0) +
   stat_quant_band(color = "red", 
-                 orientation = "y") +
+                  orientation = "y") +
   stat_quant_eq(quantiles = 0.5, color = "red", 
-               orientation = "y", label.y = 0.9)
+                orientation = "y", label.y = 11, 
+                geom = "richtext", hjust = 0)
 ```
 
 Fitting a polynomial by quantile regression.
@@ -709,7 +749,8 @@ Fitting a polynomial by quantile regression.
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = y ~ poly(x, 2, raw = TRUE)) +
-  stat_quant_eq(formula = y ~ poly(x, 2, raw = TRUE), quantiles = 0.5)
+  stat_quant_eq(formula = y ~ poly(x, 2, raw = TRUE), quantiles = 0.5,
+                geom = "richtext", hjust = 0)
 ```
 
 Two quantiles are by default plotted as lines,
@@ -718,7 +759,8 @@ Two quantiles are by default plotted as lines,
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_line(formula = y ~ poly(x, 2, raw = TRUE), quantiles = c(0.05, 0.95)) +
-  stat_quant_eq(formula = y ~ poly(x, 2, raw = TRUE), quantiles = c(0.05, 0.95))
+  stat_quant_eq(formula = y ~ poly(x, 2, raw = TRUE), quantiles = c(0.05, 0.95), 
+                geom = "richtext", hjust = 0, vstep = 0.1)
 ```
 
 A single quantile, here the median, is plotted as a line plus a
@@ -728,7 +770,8 @@ confidence band.
 ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_line(formula = y ~ poly(x, 2, raw = TRUE), quantiles = 0.5) +
-  stat_quant_eq(formula = y ~ poly(x, 2, raw = TRUE), quantiles = 0.5)
+  stat_quant_eq(formula = y ~ poly(x, 2, raw = TRUE), quantiles = 0.5, 
+                geom = "richtext", hjust = 0)
 ```
 
 Equations labelled by quantile. (This code works only with 'ggpmisc' > 0.5.6,
@@ -739,9 +782,10 @@ ggplot(df2, aes(x, y)) +
   geom_point() +
   stat_quant_band(formula = y ~ poly(x, 2, raw = TRUE), 
                   color = "black", fill = "grey60") +
-  stat_quant_eq(aes(label = paste(after_stat(qtl.label), "*\": \"*",
+  stat_quant_eq(aes(label = paste(after_stat(qtl.label), ": ",
                                   after_stat(eq.label), sep = "")),
-                formula = y ~ poly(x, 2, raw = TRUE)) +
+                formula = y ~ poly(x, 2, raw = TRUE), 
+                geom = "richtext", hjust = 0, vstep = 0.1) +
   theme_classic()
 ```
 
@@ -754,11 +798,12 @@ ggplot(df2, aes(x, y, group = group, linetype = group,
   stat_quant_line(formula = y ~ poly(x, 2, raw = TRUE), 
                   quantiles = c(0.1, 0.9), 
                   color = "black") +
-  stat_quant_eq(aes(label = paste(after_stat(grp.label), "~~",
-                                  after_stat(qtl.label), "*\": \"*",
+  stat_quant_eq(aes(label = paste(after_stat(grp.label), " ",
+                                  after_stat(qtl.label), ": ",
                                   after_stat(eq.label), sep = "")),
                 formula = y ~ poly(x, 2, raw = TRUE), 
-                quantiles = c(0.1, 0.9)) +
+                quantiles = c(0.1, 0.9), 
+                geom = "richtext", hjust = 0, vstep = 0.1) +
   theme_classic()
 ```
 
@@ -799,32 +844,12 @@ ggplot(Puromycin, aes(conc, rate, colour = state)) +
                 method.args = list(formula = micmen.formula),
                 label.x = "right",
                 label.y = "bottom",
-                aes(label = paste("V[m]~`=`~", signif(after_stat(Vm_estimate), digits = 3),
-                                  "%+-%", signif(after_stat(Vm_se), digits = 2),
-                                  "~~~~K~`=`~", signif(after_stat(K_estimate), digits = 3),
-                                  "%+-%", signif(after_stat(K_se), digits = 2),
-                                  sep = "")),
-                parse = TRUE) +
-  theme_bw()
-```
-
-```{r}
-micmen.formula <- y ~ SSmicmen(x, Vm, K) 
-ggplot(Puromycin, aes(conc, rate, colour = state)) +
-  geom_point() +
-  geom_smooth(method = "nls", 
-              formula = micmen.formula,
-              se = FALSE) +
-  stat_fit_tidy(method = "nls", 
-                method.args = list(formula = micmen.formula),
-                label.x = "center",
-                label.y = "bottom",
-                vstep = 0, hstep = -0.3,
-                aes(label = paste("V~`=`~frac(", signif(after_stat(Vm_estimate), digits = 2), "~C,",
-                                  signif(after_stat(K_estimate), digits = 2), "+C)",
-                                  sep = "")),
-                parse = TRUE) +
-  labs(x = "C", y = "V") +
+                aes(label = paste("V<sub>m</sub> = ", signif(after_stat(Vm_estimate), digits = 3),
+                                  "&plusmn;", signif(after_stat(Vm_se), digits = 2),
+                                  "  K = ", signif(after_stat(K_estimate), digits = 3),
+                                  "&plusmn;", signif(after_stat(K_se), digits = 2),
+                                  sep = "")), 
+                geom = "richtext", hjust = 1, vstep = 0.1) +
   theme_bw()
 ```
 
