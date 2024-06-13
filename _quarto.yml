@@ -14,8 +14,11 @@ website:
         text: Contents
         menu:
           - icon: newspaper
-            text: Blog
+            text: R Blog
             href: posts.qmd
+          - icon: journal-richtext
+            text: SenPEP Blog
+            href: senpep-posts.qmd
           - icon: file-richtext
             href: pages.qmd
           - icon: images
@@ -141,7 +144,10 @@ website:
         text: "Feeds"
         menu:
           - icon: newspaper
-            text: Blog RSS feed
+            text: R Blog RSS feed
+            href: posts.xml
+          - icon: journal-richtext
+            text: SenPEP Blog RSS feed
             href: posts.xml
           - icon: file-richtext
             text: Pages RSS feed
@@ -150,7 +156,7 @@ website:
             text: Gallery RSS feed
             href: galleries.xml
           - icon: rocket-takeoff
-            text: R-Universe
+            text: Repository at R-Universe
             href: https://aphalo.r-universe.dev/feed.xml
   page-footer:
     right:

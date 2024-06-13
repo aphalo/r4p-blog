@@ -1,0 +1,142 @@
+---
+title: "Multichannel LED arrays"
+subtitle: "Ready-made and custom-assembled"
+date: 2024-06-11
+date-modified: 2024-06-11
+author: "Pedro J. Aphalo"
+keywords: [LED arrays, multichannel]
+categories: [Research instrumentation]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  Brief description of modern multichannel LED arrays with medium power, both off-the-self and custom-assembled.
+draft: true
+---
+
+LEDs together with modern driver modules make it possible device custom
+light sources for measuring spectral responses. Compared to
+multi-monochromator based approaches, LEDs make a lot simpler and
+cheaper to simulataneously irradiate a target with arbitrary sets of
+multiple wavelengths. The limitation is that the wavelength of the peak
+of emission of LEDs is a property of each LED, and these peaks are
+significantly wider than those from a high-resolution monochromator. An
+alternative, used in the past, are sets of band-pass interference
+filters. These are usualy single band filters and although two- and
+three-band pass filters exist, there is no easy way of adjusting the
+iradiance in one band separately of others.
+
+Arrays are assembled from bare LED chips, while modules are normally
+assemble from individually packages LED chips. Currently, most LED
+modules are assembled from LED chips packaged individually or in small
+arrays as SMDs (surfafe mounted devices). For the measurement of
+response and action spectra it is impossible to find off-the-shelf parts
+that are well suited to the task. One needs to either use a sub-optimal
+set of wavelengths or have arrays or modules custom assembled, which is
+surprysingly easy and relatively cheap.
+
+## Chips
+
+LED chips are nowadays available in many different peak-emission
+wavelengths and power ratings. One constrait for research
+reproducibility is that the design-life of LEDs is rather short given
+rapid development of new types, which replace similar older types but
+with improved performance. On the other hand use-life is several times
+longer than design-life. Given the relatively low cost of LEDs, in most
+cases it is best to buy more pieces than needed at a given time, as
+spare parts.
+
+## Arrays
+
+LED arrays with between 1 and 12 channels are available of-the-shelf in
+some configurations, while suppliers of custom-assembled LED arrays with
+1 to 12 channels abound. Some suppliers have minimum quantities of 1 to
+10 arrays per custom-assembled tipe. As arrays are assembled from
+individual chips, and for some types manual assembly is relatively
+simple, these arrays can combine chips of different wavelengths and from
+different chip manufacturers. Each array channel is wired independently,
+and its output can be dimmed and/or switched on and off independently of
+other channels. Each channel can contain a set of chips emiting all at
+the same wavelength or a mix of chips, such as alternating chips of two
+different wavelengths. In custom assembled arrays, chips tend to be less
+densily packed, while some off-the-shelf types pack multiple high power
+chips into a very small area. When few arrays of a given form factor and
+power are needed, they are assembled onto of-the-shelf carriers or
+boards.
+
+## An off-the-shelf seven-channel array
+
+Assembly of individual LED chips into an array is a specialized job done
+under a miscroscope using special tools and potting compounds.
+
+[![Seven-channel (Red, Green, Blue, White, Amber, Cyan, Violet) array
+soldered onto a solid copper circuit board. Array case dimension: 7 mm x
+7 mm, light emitting area 3.8 mm x 3.8 mm. Board size: 31 mm x 38 mm.
+Total maximum power 20 W, maximum power per individual channel \> 4 W.
+LedEngin-Osram.](led-images/C290406-scaled.jpg){fig-align="center"}](led-images/C290406-scaled.jpg)
+
+![Detail view of the array containing seven LED chips embedded in a heat
+conductive matrix.](led-images/C290398num6CS4-scaled.jpg)
+
+## A custom-assembled 12-channel array
+
+[![A custom assembled 12-channel LED array containing 120 LED chips, 10
+of each of 12 different peak emission wavelengths. Array mounted on an
+aluminum heat sink. Light emitting
+area](led-images/C290369-scaled.jpg)](led-images/C290369-scaled.jpg)
+
+![View of the light emitting region of the array with 12 groups of 10
+LED chips. Each string of 10 LEDs is separately wired and can be powered
+independently of all others. LEDs span from FR at the top to UVA1 at the
+bottom. Assembled by ShenZhen Weilli using CREE, Luminus and possibly
+other suppliers' 1W-LED chips. Light emitting area 24 mm x 24 mm, array
+40 mm x 56 mm.](led-images/C290356num4CS4-scaled.jpg)
+
+[![Close up view showing the wiring of chips using gold wires and the
+attachment of each individual chip to the aluminun base or substrate of
+the array. The chips are embedded in clear silicone for protection.
+Modules](led-images/C290363-scaled.jpg)](led-images/C290363-scaled.jpg)
+
+Modules are assembled either on fibre epoxi circuit boards or metal core
+(solid aluminium or solid copper) circuit boards, of which several types
+are readily available of-the-shelf both unpopulated and populated with
+LEDs. They are relatively easy to assemble as as SMDs chips are
+protected and ready to be soldered in the same way as most other SMDs
+used in modern electronics. For in house assemply with manual equipment
+the trickiest aspect is dosing of the solder paste evenly are sparingly
+to ensure that the light emitting surface remains level with the board
+and other LEDs on the same board. When using metal core boards, there
+are some restrictions about what methods for heating the solder work
+well.
+
+## A simple RGBW module
+
+[![A four-channel, red, green, blue and white (RGBW) "array" module,
+with one high power LED per channel. The tight arrangement of small SMD
+LEDs makes this module functionally similar to an array. Nominal power
+1W per channel with all channels on; \>2W channel at total power \< 4W.
+Board size 13 mm by 13 mm. Lumitronix, Germany. Chips supplied by
+Nichia,
+Japan.](led-images/C290397-scaled.jpg)](led-images/C290397-scaled.jpg)
+
+When larger quantities of modules with special shapes or arrengements of
+LEDs are needed, custom module boards can be designed, made and
+assembled by special order. Because of setup costs, special designs when
+robotically assembled make sense for series of not fewer than 100's of
+modules, but this is changing rapidly.
+
+Unpopulated boards for the assembly of modules are more easily available
+for single-channel than multichannel designs.
+
+[![Unpopulated board for the assembly of a module with four SMD LEDs
+connected as a single channel. Solid copper core
+board.](led-images/C300413-1.jpg)](led-images/C300413-1.jpg)
+
+[![Unpopulated board for 10 SMD LEDs, connected as a single channels.
+Solid-copper core
+board.](led-images/C300409-1.jpg)](led-images/C300409-1.jpg)

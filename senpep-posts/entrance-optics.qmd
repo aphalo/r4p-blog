@@ -1,0 +1,130 @@
+---
+title: "Are plants and plant canopies flat?"
+subtitle: "The shape of light sensors"
+date: 2022-12-30
+date-modified: 2024-06-11
+author: "Pedro J. Aphalo"
+keywords: [light measurement, entrance optics, difusser geometry]
+categories: [Research instrumentation]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  Irradiance or spectral irradiance on a horizontal plane is normally used to quantify energy or photons available for photosynthesis. Here I discuss whether this is always the best approach in photobiology.
+draft: true
+---
+
+![Cosine diffuser as used to measure irradiance. Off-the-shelf D7-H
+type from Bentham
+Instruments.](diffusers-images/betham-DH7-cosine.jpeg){#fig-cosine-difusser fig-align="center"}
+
+## The problem
+
+Irradiance or spectral irradiance on a horizontal plane is normally used
+to quantify energy or photons available for photosynthesis. Similar
+measurements of irradiance in narrow bands of the spectrum or spectral
+irradiance measurements are used to characterize radiation features
+perceived by plant through photoreceptors.
+
+::: callout-tip
+# Cosine response
+
+Irradiance is defined as the flux received on a flat surface. The irradiance on the plane is proportional to the cosine of the angle of incidence of the light. To measure irradiance we use difussers with a shape similar to a flat disk. Achieving the correct response when the angle of incidence is shallow is difficult, but the conbination of a slightly raised disk and a ridge around it are effective in correcting deviations (@fig-cosine-difusser). The DH7 and D7 cosine diffusers from Bentham Instruments are some of the best available. 
+:::
+
+In the case of photosynthesis this makes some sense if we assume that a
+crop field is like a large horizontal leaf. In a closed canopy this
+assumtion may hold but in a canopy that does not fully cover the ground,
+the angle at which light is incident affects the fraction of the
+irradiance that is intercepted by foliage. How big this effect is
+depends on the structure of the canopy and with crops planted in rows,
+also on the orientation of the rows.
+
+Is this all? No, light penetration, and thus the partition of the
+incident irradiance among leaves at different depths within a canopy
+depends on scattering as well as on the angle of incidence. Thus plant
+canopies do not behave optically as large flat light collecting
+surfaces.
+
+If we consider individual plants, it is obvious that they are not flat
+horizontal light collectors with their multiple leaves displayed at
+various angles in 3D space. Leaves are the main site of photosinthesis,
+but considering photoreceptors, sensing is not restricted to leaves, as
+buds and elongating stems play a key role.
+
+What about individual leaves? Do flat leaves behave optically as flat
+featureless surfaces? Probably nearly so, but not quite, especially in
+the case of leaves with a shinny reflective cuticle. Irradiance measured
+on a plane parallel to the leaf surface is relevant. Buds and stems are
+not flat.
+
+## Possible solutions
+
+Can we do any better than just measuring irradiance or spectral
+irradiance on a horizontal plane? We can measure the diffuse component
+of daylight by occluding the solar disk, using shade bands (with
+position manually adjusted every couple of days) or solar tracking shade
+disks (motor driven). Usually used with pyranometers, but could be
+adapted to other sensors. Available ones are large in size, but a
+manually positioned shading disk contraption could be easily built and
+used with any existing cosine diffuser.
+
+Alternatively, we can use sensors containing multiple detectors and a
+static shading structure. Available as irradiance sensors. These sensors
+require that all (seven) detectors are exposed to uniform irradiance,
+thus these sensors can be used only above a vegetation canopy.
+
+All the approaches described above measure irradiance, using diffusers
+or detectors whose response to light beams at an angle are weighted by
+the cosine of the angle, i.e., they behave as a flat light collector.
+
+Individual plants within a sparse canopy, capture light on leaves at
+multiple orientations, almost never only with horizontal leaf surfaces.
+Irradiance on a horizontal plane quantifies the available energy or
+photons per unit ground area, not the light available to isolated
+plants. While an ideal cosine diffuser weights incoming radiation
+according to the cosine of the angle of incidence, a theoretical
+spherical diffuser gives the same weight to radiation incoming from any
+angle in 3D space. A hemispherical diffuser is just half a sphere, which
+in terrestrial systems is usually enough and easier to design and manufacture (@fig-dome-diffuser).
+
+![Hemispherical diffuser prototype (side view). Custom-made by Bentham
+Instruments based on the D7 cosine diffuser. Can be used to measure
+hemispherical scalar irradiance or hemispherical fluence
+rate.](diffusers-images/betham-D7-hemispheric.jpeg){#fig-dome-diffuser}
+
+![Hemispherical diffuser prototype (top
+view)](diffusers-images/betham-D7-hemispheric-top.jpeg){#fig-dome-diffuser-top}
+
+The Bentham diffusers are normally used as entrance optics of
+spectrometers. We will also build a shading disk so that we can measure
+diffuse spectral irradiance. These diffusers could be easily adapted to
+work as broadband sensors as we have already discussed with Bentham
+Instruments technical staff.
+
+While our two types of diffusers provide differently weighted summaries
+of radiation, a much more complex and expensive spectrometer has been
+built by Gunther Seckmeyer and colaborators capable of measuring
+spectral radiance for more than 100 directions within 1 s. Radiance, is
+a 3D spatially resolved quantification of incoming radiation expressed
+per unit solid angle, in the case of this new instrument, describing the
+sky hemisphere.
+
+## Planned measurements
+
+Spectral measurements above the vegetation canopy of total and diffuse
+components of daylight are planned for the coming Spring and Summer of
+2023. These measurements will be done in Viikki using Maya 2000 Pro
+array spectrometers. I am looking for a M.Sc. student willing to do a
+thesis or internship in this project. M.Sc. students enrolled in any
+study program with a connection to plants (IPS, EEB, AGRI, FOR, ENV),
+meteorology or physics are welcome to discuss the possibilities.
+
+As part of a collaboration, Maxime Durand and his research group will
+also use the diffusers and spectrometers to measure light conditions
+within plant canopies.

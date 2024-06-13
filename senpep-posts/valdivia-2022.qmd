@@ -1,0 +1,29 @@
+---
+title: "Visit to Universidad Austral de Chile"
+subtitle: "Resaerch and teaching"
+date: 2022-12-23
+date-modified: 2024-06-11
+author: "Pedro J. Aphalo"
+keywords: [wheat, light, photomorphogenesis]
+categories: [Travel]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  I visited Prof. Daniel Calderini and his research group in Valdivia, Chile. 
+draft: false
+---
+
+I recently visited Universidad Austral de Chile (UACh) located i n Valdivia. This trip is part of a colaboration with Daniel Calderini in a project about responses of wheat to planting density. My contribution is related to light quality in wheat canopies with plants at different spacing.
+
+![View of the plots from an experiment comparing wheat genotypes at different planting densities.](travel-images/wheat-plots-in-Valdivia-2022.jpeg)
+
+I also taught an intensive doctoral course titled "Ecología sensorial de plantas y aclimatación" and gave a seminar "Usando R en fotobiología".
+
+
+

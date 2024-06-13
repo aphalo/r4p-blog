@@ -1,8 +1,8 @@
 ---
-title: "R Blog"
-subtitle: "Package Updates and News"
+title: "Research News"
+subtitle: "Sensory Ecology and Photobiology of Plants (SenPEP)"
 listing:
-  contents: posts
+  contents: senpep-posts
   sort: "date-modified desc"
   type: table
   fields: [date-modified, date, title]
@@ -13,7 +13,7 @@ listing:
   sort-ui: true
   filter-ui: true
   feed: 
-    title: "Blog from R for Photobiology" 
+    title: "SenPEP Blog" 
     items: 8
     type: "partial"
 page-layout: full

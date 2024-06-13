@@ -1,0 +1,82 @@
+---
+title: "What is plant intelligence? and what it is not?"
+subtitle: "A very personal take"
+date: 2021-10-20
+date-modified: 2024-06-11
+author: "Pedro J. Aphalo"
+keywords: [plant behaviour, plant intelligence]
+categories: [Sensory ecology]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  Plant "intelligence" is a very controversial subject, in great part because of the multiple meanings of the term intelligence. Here I ponder whether using "intelligence" for plants' behaviour is going too far or not, and why.
+draft: false
+---
+
+_Much of what I discuss in this post is too me to just common sense and obvious. Still in a field where strong evidence is scarce and over-interpretation of data too frequent, please, be aware that this text is tinted by my opinions._
+
+The scientific discussion about "plant intelligence" was started by Anthony Trewavas nearly 20 years ago, culminating with the publication of his book _Plant Behaviour and Intelligence_. The use of the word "intelligence" for plants was then controversial and remains nowadays still controversial. On the other hand the phenomena described and the experiments used by Trewavas as support for his discussion are not specially controversial.
+
+![](intelligence-images/trewavas.jpg){width=50% fig-align="center"}
+
+In recent times the use of the term “plant intelligence” has reached the daily press and science popularization books in addition to videos in the internet. Much of this recent material is not only controversial in the meaning given to the word "intelligence" but also in the quality or strength of the evidence presented. This has led, in my view, to confusion and misinterpretations of what has been actually demonstrated with experiments versus what remians as tentative hypotheses in need of (further) testing. <!--more-->This is the case in some sections of a book recently published in Finland.
+
+![](intelligence-images/angervuo.jpg){width=50% fig-align="center"}
+
+However, I think most of the confussion originates in some members of the scientific community, as their writitngs fail to clearly differentiate hypotheses and provisional working ideas from knowledge supported by strong experimental evidence. By strong evidence I mean experiments that if repeated give consistent results and that have been well designed to truly provide an answer about intelligence <strong><em>as a function</em></strong> in plants. Another source of confusion stems from the the word "intelligence" having in everyday speech several different meanings. Except for Trewavas in his book, authors rarely provide a definition for "plant intelligence" as used in their writings. An example of use of weak evidence and confusing writing is the popularization book by a well known researcher, which has been even translated into Finnish.
+
+![](intelligence-images/mancuso.jpg){width=50% fig-align="center"}
+
+Every organism, from bacteria and plants to humans, senses what is going on in its surroundings and responds to what it perceives. Sensors and the responses to the conditions in the environment detected through them have been under natural selection in wild plants. In crops, natural selection and artificial directional selection by humans have acted concurrently. Such is life, all life. In abstract terms, all organisms acquire information from their environment and conribute information to the environment. There is no important controversy about this. We can call responses triggered by sensing of the living environment intelligent in the sense of being "good" for the individual's fitness, i.e., ensuring fertile progenie or passing own genes to future generations. We can call this "intelligent behaviour" and thus say that plants are "intelligent" <em>as long as we define intelligence appropriately</em>. After all, this is not different to advertisements that call a bread toaster that senses when the toast is ready and pops it out, intelligent. It is obvious to everyone that the intelligence of the toaster is very different to human intelligence. Plant’s intelligence is not as simple as that of this hypothetical toaster but as far as we know it is far from matching human intelligence in its capabilities and for sure very different in its physiological implementation.
+
+In the next paragraphs I will first tell what I think are amazing sensory abilities of plants. Abilities that are well demonstrated, and next highlight a hypothesis lacking solid evidence but that has been frequently presented as a true fact to the public. What surprises me is that many of those well demonstrated abilities and features in many ways surpass the abilities of humans, while those hypotheses that sometimes make it to the press as facts, in many cases assign to plants human-like features and abilities, that most likely they lack. So, <em>let's look at plants as plants</em> and explore how fascinating and unique they are. One thing to keep in mind is that many plant responses are too slow for us to notice in full. The video below replays 56 h 36 min of a young plant's (Nasturtium, <em>Tropaeolum majus</em>) movements in 1 min 21 s.
+
+{{< video https://vimeo.com/357193909 >}}
+
+Plants sense and respond to a broader range of wavelengths or colours of light than humans and most animals. Some plants can sense the length of the night with a precision of a few minutes. Plants “remember” past experiences, even their parents’ experiences. Plants communicate with each other, mostly using chemicals. Plants communicate with animals and insects, through colours, flavours and scents (think flowers and fruits). The branches and stems of plants can navigate in search light. Plants defend themselves with chemicals, frequently producing them only when needed. They also cooperate with and depend on other organisms (from all kingdoms of life). They react to touch. So, even if they do not have a brain, they do step into action as and when needed and they share information with their neighbours. They are more intelligent than an intelligent toaster, they even surpass a smart phone in some respects, some call these abilities plant intelligence, others like myself, prefer to simply describe plants’ abilities as such. The sensory and communication abilities of plants are well described and discussed based good scientific evidence in an accesible and objective manner in the book <em>"What a Plant Knows"</em>.
+
+![](intelligence-images/chamovitz.jpg){width=50% fig-align="center"}
+
+I think a key question is "Can plants generate such complex behaviour without a brain?" Some members of the research community seem to assume <em>a priori</em> that plants must have a human-like brain, i.e., that what they call plants' "intelligence" cannot exist in its abscence. But going back to an intelligent toaster or a smart phone, their "brains" have almost nothing in common with the human brain in their structure or implementation. So, assuming that plants need a human-like brain in unwarranted. On the other hand, there is no doubt that plants can process information acquired through sensors such as light and chemical receptors (special proteins) and use such information to enhance their fitness. However, information and its transport and processing are very abstract concepts that we know can be implemented in various ways both in organisms and innanimate systems. One can for example apply the concept of information transport and/or processing to molecular signalling networks in cells, hormone signalling in plant tissues and organs, to the release and sensing of volatile organic compouns to the atmosphere and to the exhudation of soluble metabolites to the soil.
+
+What is an example of an unproven hypothesis? Most obvious is the attempt to assign brain-like/neuronal activity to plants. Put boldly, the falacy is implicitly assuming that plants' known behaviour is enough evidence to demonstrate the existence brain-like or neuronal systems in plants. What is presented as evidence, is not evidence of brain-like function. For example, that roots (and/or fungal mycelia) form a vast interconnected network and that electrical pulses can be detected only demonstrates some similarity in structure and activity, not function. We could equally argue that the telegraph network of the late 1800’s had an autonomous brain-like activity using such criterion. Using Occam’s razor as criterion we should remain sceptical while simpler explanations for what has been observed exist, but, of course, only until evidence on the contrary becomes available. If we ignore Occam's razor, we would need to accept that brain-like neuronal function is ubiquitous, both in living organisms and inanimate objects, an approach that would be unhelpful and against common sense.
+
+I have left the toughest question as the last one. Are plants conscious? Defining human consciousness is already difficult. But, let’s consider how do we know if a fellow human is unconscious or not? We make attempts to communicate. Will we as humans ever know if plants are conscious of their own existence or not? Probably never for sure, we are not plants, we cannot communicate as equals. What I think is clear is that if plants are conscious, even if we will never know the answer, we can expect that their consciousness if real, is likely to be as different from human consciousness as plant intelligence is from human intelligence. What is that we really know? We think that plants can distinguish self from non-self, maybe even kin from alien. The experimental evidence is still weak, but this can be remedied through further research. These are testable hypotheses, that biological research can answer with well-designed experiments. Some researchers have argued that plants are conscious while others have strongly refuted it, based on the same evidence. So, can anybody even describe what plant’s consciousness could be like from a plant’s perspective? Of course not, we are not plants. Plants are plants, we are humans, even if we share the same planet. I think that plants’ consciousness should be treated as a known unknown or as a question for philosophers to ponder about.
+
+Discussing subjects like the intelligence or conciousness of other organisms is taxing because these words are loaded with meaning specific to humans and how we define these words has implications for our worldview as well as moral ones. The fact remains that the meaning of the words we use needs to be agreed upon to allow understanding and that strong evidence is needed for (provisional) certainty on how the world works. We should also acknowledge that there are questions that are beyond experimental sciences and in the realm of philosophy.
+
+In this closing paragraph it is important to remind us that culture has played a role in how humans see plants and what capabilities they attribute to them. These changing views through history and accross human communities are important because they constrain what hypotheses are considered interesting or worthwhile studying. During the industrial revolution organisms were in many respects analysed as if they were mechanical machines. In our times the mechanical or chemical machine as a model for organisms is less predominant with a growing interest in looking at organims as systems for information processing. These viewpoints can coexist if we use the <em>system</em>s abstraction to analyse complexity. The book <em>Plants as Persons</em> analyses how different culturers through history and geography have conceptually positioned plants with respect to humans.
+
+![](intelligence-images/hall.jpg){width=50% fig-align="center"}
+
+## Recommended reading:
+
+<strong>Chamovitz D</strong>. 2017. <em>What a Plant Knows: A Field Guide to the Senses: Updated and Expanded Edition</em>. Scientific American Books.
+<div id="content">
+<div>
+
+<strong>Hall M. 2011.</strong> <em>Plants as Persons: A Philosophical Botany</em>. State University of New York Press.
+
+<strong><em>Other references:</em></strong>
+
+</div>
+<div><span class="info-value"><strong>Angervuo R, Leskinen A. 2019.</strong> <em>Kasvien Salainen Elämä.</em> Minerva.
+</span></div>
+<div></div>
+<div>
+
+<strong>Darwin C. 1880.</strong> <em>The Power of Movement in Plants</em>. London: John Murray. <a href="http://darwin-online.org.uk/converted/pdf/1880_Movement_F1325.pdf">http://darwin-online.org.uk/converted/pdf/1880_Movement_F1325.pdf</a>
+
+<strong>Lee D. 2010.</strong> <em>Nature’s Palette: The Science of Plant Color</em>. University of Chicago Press.
+<div id="content">
+<div class="csl-entry">
+
+<strong>Mancuso S., Viola A. 2017.</strong> <em>Loistavat Kasvit.</em> Aula Co.
+
+<strong>Trewavas A.</strong> <strong>2014.</strong> Plant Behaviour and Intelligence. Oxford University Press.
+

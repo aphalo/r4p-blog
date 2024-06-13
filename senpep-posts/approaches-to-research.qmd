@@ -1,0 +1,334 @@
+---
+title: "Research as a process"
+subtitle: "Design, realization, data analysis, and communication of research"
+author: "Pedro J. Aphalo"
+date: 2023-08-19
+date-modified: 2023-10-19
+categories: [scientific method]
+keywords: [research process, design of experiments, data analysis]
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    mermaid:
+      theme: neutral
+bibliography: design-exp.bib
+image: research-process.png
+abstract: 
+  Fortuitously, in the last few days I have several times have had to ponder about the roles of hypothesis-based and descriptive approaches to research. Being an agronomist and ecologist rather than a philosopher, the question that worries me is how data analysis differs between these two approaches and how we should interpret the results of the analysis in each case. This page collects some of my thoughts and opinions on the subject _at the time of writing_.
+draft: false
+---
+
+**I have changed the title of this page from its original _P-values, R^2^, AIC, BIC: How do they fit into the research process?_ into _Research as a process: Design, realization, data analysis, and communication_. The original title reflected that the usefulness and interpretation of estimates of different statistical parameters depends on the design of an experiment and the nature of the researchers' hypotheses.**
+
+::: callout-note
+# Differences among scientific disciplines
+
+I was surprised, truly shocked, that the paper _Reassess the t Test: Interact with All Your Data via ANOVA_ was published in 2015. Not because there is anything wrong with it, but because I expected the content to be obvious to all active researchers. To any agronomist who has studied in the last 70 or so years, the use of ANOVA is plain obvious. The main worry among agronomists and ecologists are those cases where ANOVA is not suitable and other more modern and advanced methods should be used instead traditional ANOVA.
+
+ANOVA was invented by Ronald Fisher and described in 1918 as an extension of the _t_ and the _z_ tests. ANOVA has been well described in most statistics text books touching field research, published in the last 70 or 80 years. I have learnt and used ANOVA already as BSc student when preparing assignments, as well as calculated them by hand in exams as a student. Already in the 1970's I found surprising that my supervisor was not using ANOVA...
+
+I think the explanation of the prevalence of the _t_-test in some fields is that research in the lab or indoors is frequently based on simpler experiments than field research. Until rather recently many experiments compared a single treatment against a control and, thus, the _t_-test was in many cases a reasonable approach to data analysis. What we can learn from this is not to simply use as a guide for your research approach or data analysis the tradition of any research field, but instead base your decisions on the design and structure of your experiment or survey. In other words, think about the best approach for design and matching data analysis on a case by case basis.
+:::
+
+::: callout-tip
+# Statistics, Bioinformatics, Artificial Intelligence and Machine Learning
+
+Bioinformatics depends heavily on very advanced and complex statistics, but I dare say that few researchers working in the lab or in the field with plants understand the statistical bases of such methods (or as I do, only vaguely understand all the assumptions and "short-cuts" involved in at least some of these methods.)
+
+Artificial intelligence (AI) and machine learning (ML) models are becoming everyday tools, and are being widely discussed in the press and in relation to teaching and research. There seems to be little attention paid outside the specific fields of Statistics and Data Science about how these models are built, what assumptions involved or their relationship to Statistics and traditional approaches to data analysis and prediction.
+
+You have already attended or will attend courses in Bioinformatics. I will introduce in my classes very briefly some concepts about AI and ML models. 
+:::
+
+# Data analysis as a soft skill
+
+Statistics gives the formal support to data analysis, but data analysis and design of experiments are in many respects acquired skills. They both involve un-directed open-minded observation as well as imagination. They are creative activities and to an extent subjective in their execution but if done respecting common sense and the principles of statistics, they allow us to learn something about how the world works.
+
+The link between reality and scientific knowledge has been debated by philosophers for a long time. Most researchers disagree with the idea that scientific knowledge is a construct disconnected from the real world. On the other hand, it is difficult to support the idea that scientific knowledge reflects only real world untainted by how and why we study it. My own view is that even if scientific knowledge describes the real world, it is also influenced by researchers' views and decisions. I tend to think that even though scientific knowledge describes in an abstract way real events, objects and relationships that exist independently of the observer, how we describe them or imagine them is not unique. As abstractions are simplifications, they only represent a portion of the total reality. Thus, different abstractions may coexist and be valid within their own frames of reference. So testing is possible, within a frame of reference or context that is part of an hypothesis.
+
+To a smaller or larger extent, the world view of researchers affects the hypothesis they more readily imagine, but these biases tend sooner or later to be sorted out by deeper theoretical analysis and experimentation or observation. An obvious case has been the contrasting emphasis put on competition vs. facilitation among plant ecologists (tainted to an extent by socialist vs. capitalist viewpoints on human society).
+
+# The aims of data analysis
+
+Data analysis can have three different aims: **prediction**, **estimation**, and **attribution**, as discussed by @Efron2020.
+
+  - **Prediction.** The aim is to use observations to make conclusions about conditions in the future, in the past or at a different location. Observations are not a random sample from a population that includes the target of the prediction.
+  - **Estimation.** The aim is to use observations on a random sample of a population to conclude about the properties of the sampled population.
+  - **Attribution.** The aim is to conclude about cause and effect relationships. In a manipulative experiment this is rather straightforward. In observational surveys this is extremely difficult, although to some extent possible when multivariate time series data are available.
+
+# Scientific research
+
+The scope of this text is scientific research, which by definition seeks understanding, which is equivalent to describing mechanisms, or how the world works. Using the aims from the previous section, science ultimately seeks attribution.
+
+The use of the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) separates science from pseudo-science. However, there are different views among philosophers of science about how narrow and strict the definition of _scientific method_ should be. 
+
+Empirical approaches to prediction, are by definition judged by their predictive capacity, and based solely on correlations. They do not seek mechanistic understanding and are not discussed here in full detail. They can be used in research as tools, both for hypothesis development, and in the calibration of methods and measuring equipment.
+
+I will not discuss the differences in reliability between mechanistic and purely empiric approaches to prediction, their robustness or their usefulness. The discussion here centres on the role played observation and manipulations in the acquisition of mechanistic understanding, including how we decide which manipulations are worthwhile studying.
+
+The root of the problem is that the world is too complex to be grasped as is through our limited mental capacity, but more fundamentally because the entity that attempts to achieve understanding is a small part of this whole. Thus this complexity can never by represented in all its detailed properties (neither by man nor machine).
+
+Scientific research works by simplification or abstraction, attempts to separate important from unimportant features of the world. What is important vs. unimportant depends on the context. Nothing is in every possible respect, at every possible temporal and spatial scale irrelevant. Importance of an event, observation or function can be decided only after we set a frame of reference. The frame of reference is determined by temporal and spatial scales and an aim: which phenomenon we want to explain or understand. 
+
+To ensure relevance and practical usefulness, the scale at which the research is carried out and the scale of the phenomenon we want to explain need to at least partly overlap. If there is no overlap conclusions about the connection between the observations and the phenomenon remain subjective rather than supported by scientific evidence, i.e., any statement of usefulness or explanatory value would be based of faith instead of evidence and thus unscientific.
+
+Another consequence of knowledge based on abstraction or simplification is that it is tentative and subject to revision. Not only because observation of previously unobserved events adds new information, but also because we may need/want to revise the frame of reference for the problem under study. 
+
+Controversies in science in many cases are not the result of disagreement on the validity of observations but instead caused by disagreement about what frame of reference to use or by the reliance on poorly defined frames of reference. For example, there are many different definitions of _stress_ in use, each leading to a different frame of reference for the study of responses to _stress_ and the mechanisms involved in these responses.
+
+# Machine learning (ML)
+
+The data-analysis methods may be the same or different than for research, but the aim is clearly different: only prediction. Thus how goodness or usefulness is tested is different as well as what matters and what not. The approach is more empirical and practical. A book published a few days ago and its companion R package is my suggested reading for an easy introduction to ML [@Matloff2023].
+
+# Two approaches
+
+## Hypothetic-deductive approach
+
+This approach, for which I will use **H-D** as abbreviation, emphasizes the role of hypothesis testing. It is deductive because we derive knowledge from a planned test, and assume this knowledge is applicable more broadly. The actual process can be described by a linear succession of steps @fig-hd-process-flowchart. In this case the origin or source of the hypothesis is not emphasized.
+
+```{mermaid}
+%%| label: fig-hd-process-flowchart
+%%| fig-cap: "A diagram showing the steps of studies based on the hypothetico-deductive approach (H-D)."
+flowchart LR
+    B([background\ninformation]) ==> H(Hypothesis)
+    H ==> E[[planned test]]
+    E ==deduction==> C(Knowledge)
+```
+
+_Unless we are able to test all possible cases of interest, and obtain the full answer from observation, we need to use statistics as a tool._ When testing hypothesis the role of statistics is _confirmatory_, and based on tests of significance. These tests yield a probabilistic answer about the direction of the difference between groups or treatments. 
+
+::: callout-caution
+The probabilities computed for a test apply to the population studied or sampled, which determines the _range of validity_ of our conclusions. If we try to extend the range of situations to which knowledge applies, such as using knowledge from current research to explain past and/or future events, the probabilities computed are no longer strictly valid. Extrapolation, thus, assumes that everything relevant and not studied will remain unchanged outside the _range of validity_ of the study.
+:::
+
+## Observational-inductive approach
+
+This approach, for which I will use **O-I** as abbreviation, emphasizes the role of observation and the extraction of information via generalization. It is inductive because we derive knowledge from many observations, and assume this knowledge describes what they have in common. The actual process can be described by a linear succession of steps @fig-oi-process-flowchart. In this case the origin or source of the hypothesis is not emphasized.
+
+```{mermaid}
+%%| label: fig-oi-process-flowchart
+%%| fig-cap: A diagram showing the steps of studies based on the Observational-inductive approach (H-D).
+flowchart LR
+    B(Observation) ==> S(Summary)
+    S ==induction==> C(Knowledge)
+```
+
+Once again we need to use statistical methods, but methods that help detect patterns in observations. These can be as simple as computing mean and its standard deviation or machine learning approaches based on thousands of explanatory variables. In this case we cannot base our decisions of probabilities, as unbiased estimates are not available. Most statistical methods used to distinguish between better and weaker descriptors of the observations are based on the proportion of the total variation that is explained by the summaries.
+
+::: callout-caution
+The concept of _range of validity_ also applies in this case, making extrapolation outside of the "observed universe" risky. 
+:::
+
+## How does it really work?
+
+A simplified linear view of the whole research process is shown in @fig-research-process-flowchart-linear. From it we can see how the two approaches work together. 
+
+```{mermaid}
+%%| label: fig-research-process-flowchart-linear
+%%| fig-cap: A diagram showing the steps of scientific studies. This includes using the O-I approach to develop the hypothesis to be tested and the H-D approach to test it.
+%%{init: {"htmlLabels": true} }%%
+flowchart TB
+    B([Background<br>information]) ==induction==> H(New<br>hypothesis)
+    H ==> D[Study<br>design]
+    D ==> P[Study planning]
+    P ==> E[[Experiment or survey<br>collect data]]
+    E ==> A[data<br>analysis]
+    A ==deduction==> C(conclusion)
+    C ==> c([communication])
+```
+
+The process shown in @fig-research-process-flowchart-linear is the most usual, but we can add alternative parallel paths to scientific advances @fig-research-process-flowchart-directional.  Depositing the data collected as well as scripts used in data analysis is needed to achieve reproducibility as well as facilitating reanalysis and reuse.
+
+```{mermaid}
+%%| label: fig-research-process-flowchart-directional
+%%| fig-cap: A diagram showing the steps of scientific studies. This includes using the O-I approach to develop the hypothesis to be tested and the H-D approach to test it. Thicker arrows show the most frequent approach to original research and the dotted arrows show other common routes for the acquisition of new scientific knowledge. _Use of existing data to test new hypotheses must ensure independence of the data from the hypothesis being tested._
+%%{init: {"htmlLabels": true} }%%
+flowchart TB
+    B([Background<br>information]) ==induction==> H(New<br>hypothesis)
+    B -.-> HH([Published hypothesis or<br>outstanding controversy])
+    H ==> D[Study<br>design]
+    HH -.-> D[Study design]
+    D ==> P[Study planning]
+    P ==> E[[Experiment or survey<br>collect data]]
+    E ==> A[data<br>analysis]
+    E -.-> c
+    P -.-> F[[Find data sources<br>acquire data]]
+    B -.-> F
+    F -.-> A[data analysis]
+    A -.-> c
+    A ==deduction==> C(conclusion)
+    C ==> c([communication])
+```
+
+We can add also include in the diagram the constraints imposed by decisions made during previous stages, as well as the possible need for corrective actions @fig-research-process-flowchart. Another big difference in this more complex diagram is that we include the possibility of not doing a tests of hypothesis. The reason is that some hypotheses are impossible to test experimentally. This diagram is also the first to incorporate explicitly the use of statistical parameters.
+
+A strict H-D approach would imply that all valid scientific knowledge derives from hypothesis testing (<font color=green>green</font> in @fig-research-process-flowchart). As discussed above the most common source of new hypotheses in the O-I approach, either directly or as a result of an unexpected outcomes from tests of hypotheses. A less frequent source of new hypotheses is through theoretical analysis that reveals that current theory is internally inconsistent. An additional question is how the application of the two approaches is constrained by factors researchers cannot control or manipulate (to be discussed later).
+
+**The question is not H-D-based vs. O-I-based research, but how the two approaches work together.**
+
+The currently most accepted views on the [Scientific Method](https://plato.stanford.edu/entries/scientific-method/) base it on the H-D approach. O-I approaches are usually considered not to provide strong enough evidence. However, this does not mean that O-I does not play a key role in scientific research. Many statisticians, starting with John Tukey [@Friendly2022], have argued that the O-I approach plays a crucial, and possibly more important role in data analysis and scientific advancement than H-D approaches. The truth is that outside the scientific search for cause-effect relationships, O-I approaches can be very effectively used on their own to solve everyday problems (think AI and ML). In scientific research while O-I provides weaker evidence H-I, it is still widely used and useful as a tool.
+
+Thus, we also use an approach based on looking/searching for consistent patterns in the observed world (<font color=blue>blue</font> in @fig-research-process-flowchart). The role of hypotheses in this case is much weaker, just a viewpoint that guides where we put the focus of the exploration of the world. John Tukey rightly emphasized in his writings the difficulties involved real-world tests of hypothesis [@Friendly2022] compared with an idealised view where the outcome from a test of hypothesis is a binary, yes or no, answer. In practice, the outcome is always probabilistic and dependent on assumptions. Moreover, he cogently argued that the idea of even considering that any intervention/treatment can have absolutely not effect, i.e., to the highest degree of precision, is just nonsensical. This is the background for his view, currently largely shared by statisticians, that the O-I approach plays a central role and that the difficulties in the practical application of the H-D approach must be always kept in mind. A crucial one is that the concept of _accepting the null hypothesis_ is fundamentally flawed and needs to be replaced by _undecided_ or _unknown direction of the difference or effect_.
+
+::: callout-caution
+From an operational perspective, which approach we use determines how we can analyse the data. Most importantly the approach we use also informs what type of conclusions we can reach and what criteria we should use to reach these conclusions.
+:::
+
+```{mermaid}
+%%| label: fig-research-process-flowchart
+%%| fig-cap: A diagram showing the steps of scientific studies. The thick arrows describe the sequence of events/actions, connecting the design of an experiment to the communication of the results. Two paths, <font color=green>**1.** for hypothesis based research</font> and <font color=blue>**2.** for descriptive studies</font>, are highlighted (see main text). The dotted arrows with round heads indicate constraints imposed by design-related decisions. The double headed dotted arrow describes that the realization of a study can be influenced by data observed during its course, especially when data are collected repeatedly. Thin arrows indicate how one study can affect subsequent studies. _QC_= Quality Control or sanity checks of data. Even when no hypothesis testing is done, a hypothesis of what variables are of interest is involved in deciding what data are going to be used or collected. _Only if no formal hypothesis testing is involved, we can revise this weaker hypothesis during data analysis._ This abstraction can be applied to empirical research, but with small changes (not shown) also to simulation studies.
+%%{init: {"htmlLabels": true} }%%
+
+flowchart TD
+  
+  Z([background<br>information]) ==> Y(Hypothesis)
+  Y ==> A(Design) ==> Aa(Planning) ==> B(Realization) ==> H(Data collection) ==<font color=blue><strong>2.</strong>==> C
+  C[<font color=blue><i>full</i> <strong>EDA</strong>] ==> D(<font color=blue>Model\nSelection) =="<font color=blue><i>R</i><sup>2</sup>, <i>f(x<sub>i</sub>)</i>, AIC, BIC"==> E(Interpretation) ==> F([communication])
+  H ==<font color=green><strong>1.</strong>==> I[<font color=green><i>QC</i> <strong>EDA</strong>]
+  H ==deposit<br>data+metadata=====> X([data<br>repository])
+  I ==> G(<font color=green><strong>CDA</strong>\nTests of\nHypothesis) ==<font color=green><i>P</i>-value==> E
+  E --follow up<br>study--> Y
+  C <--<font color=blue>new/modified<br>hypothesis--> Y
+  C --improved design--> A 
+  I --improved design--> A
+  B <-.-> H
+  A -.-o D
+  A -.-o E
+  A -.-o G
+  F --scientific<br>literature--> Z
+  X --"open data"--> Z
+  Z ==> E
+  linkStyle 5,6,7,14,15 stroke: blue
+  linkStyle 9,11,12,16 stroke: green
+```
+
+If we follow the O-I approach, how we treat data changes compared to the H-D approach: we explore the data with an open mind, rather than only as a source of information to make a decision about a hypothesis set _a priori/independently_ of the observations.
+
+::: callout-tip
+# In the words of F. Mosteller and J. W. Tukey
+
+… data analysis, like calculations, can profit from repeated starts and fresh approaches; there is not just one analysis for a substantial problem. [@Mosteller1977]
+:::
+
+This quotation also highlights that frequently we choose among possible data analysis approaches in a rather subjective manner, mostly based on previous experience and expertise. These approaches may involve different assumptions, whose fulfilment in many cases cannot be reliably tested from the data being analysed.
+
+# Which approach is better?
+
+Summarizing the discussion above, I will start with what seems self evident to me. Neither H-D-based experimental research nor O-I-based research is better, both need to be combined for original scientific knowledge or technical know-how to be generated.
+
+  1. Even when we think we use only one of these approaches, even if informally, we are using both. Why? Because new hypotheses do not come out of thin air! Because, when describing something new we always need something already known as a reference! Of course one approach may be emphasized at the expense of the other, or only one of them may be formally used and explicitly described and the other may participate implicitly and remain undescribed.
+
+  2. Scientific research usually works by alternatively emphasizing each of the two approaches, although it is also possible to use them in parallel. This seems to be true for every branch of science, from Physics to Humanities.
+
+  3. Simplifying the process to its bare bones, observation suggests hypotheses (= triggers in our mind possible explanations for observed phenomena) and testing selects from these hypotheses those which appear most likely to be true within a specific context or frame of reference. Thus, we never test all possible explanations, only those we have been able to imagine from our exposure to previous observations or other experience.
+  
+::: callout-note
+
+# Charles Darwin and evolution
+
+The idea of evolution by natural selection preceded Darwin's publication of _The Origin of Species_. The development of the hypothesis of evolution by Darwin is usually timed to Darwin's travel around the world on the _Beagle_. Frequently it is attributed to his observations as naturalist, emphasizing the species he encountered in the Galapagos. There is an alternative explanation: on board the ship there was a library with at least one book that presented rudiments of some of the same ideas. Charles Darwin did indeed write the first notes about evolution on board the Beagle, but the role of his previous academic contacts while a student and before the trip on the Beagle are now thought to have made this synthesis possible. Ideas related to evolution had been considered by philosophers and naturalists over the previous centuries, and Darwin was aware of at least some of these. Even Erasmus Darwin, Charles Darwin's grandfather had written about them.
+
+Why does then Darwin get all the credit? He framed these ideas into a coherent and credible phenomenon. This was possible in part because he limited himself to a more restricted problem than his predecessors: _he did not deal with the controversial question of the origin of life_. In his theory, that populations or living organisms exists and individuals multiply was an axiom. In addition Darwin spent most of his life looking for evidence to support evolution by natural selection in different groups of organisms. 
+
+Looking back into his time, it was quite a feat to make a convincing case for evolution in the absence of an understanding of genetics or molecular biology. There was no known mechanism of how traits could be inherited from parents to offspring. At a higher level of organization, of course, there was evidence for trait inheritance documented in relation to plant and animal breeding, a literature Charles Darwin was also familiar with.
+
+See [Evolutionary Thought Before Darwin](https://plato.stanford.edu/entries/evolution-before-darwin/), [Darwin: From Origin of Species to Descent of Man](https://plato.stanford.edu/entries/origin-descent/), and [Darwinism](https://plato.stanford.edu/entries/darwinism/) for the details.
+:::
+
+# Differences among disciplines and problems
+
+The subjects of study of different disciplines differ in complexity and in the reasons behind this complexity. The effort needed to test hypotheses, thus also depends on the disciplines, and in some crucially important fields, like medicine and environmental science it is frequent that direct tests of hypotheses are impossible, either by physical, temporal, spatial or ethical constraints. Taking this into account, it should be not a surprise that the approaches predominantly used and emphasis on either the O-I or the H-D approach depends on the discipline and subject under study.
+
+Usually, the more constrained the frame of reference is, the easier it is to apply the H-D approach but also narrower the range of validity of our conclusions. When we study very large and complex systems, the H-D approach becomes difficult to apply, simply because it is difficult or impossible to manipulate the factors we want to study. Sometimes, we can use a weaker version of the H-D approach, that at its extreme is not much more than the O-I approach presented as if it were H-D.
+
+Some of the most urgent problems faced by humankind, like global climate change, can be mainly studied using the O-I approach. We cannot apply the H-D approach in full, because as researchers we cannot change the variables we hypothesise to be the drivers of global change. The use of the H-D approach is limited to small parts of the system, or to mathematical models that have been developed using at least in part the O-I approach.
+
+# Small-, mediun- and big-sized data
+
+Frequently, the distinction between small, medium and big data is data relies on the number of numeric values a data set contains. This can be useful from a computational perspective, but not from a data analysis perspective. I use here a different criterion, the number of significance tests or contrasts relative to the number of independent replicates.
+
+  1. Big data are normally analysed with methods that do not consider statistical significance. The reason is that in this case statistical significance does not help at the time of making a decision. With thousands or even millions of replicates, random variation in the estimates is always very well controlled (because $S^2_{\overline x} = S^2_x / n$), and very small effects are statistically significant. Bias is much more difficult to control and "measure", specially because in most cases the sampling behind big data is not a perfectly aleatory process.
+
+  2. Medium sized data, has enough replicates to meaningfully test significance assuming that experiments or surveys are well randomised in all relevant aspects. In this case, _P_-values inform us about the probability of observing the observed outcome assuming that the null hypothesis is true. The null hypothesis provides a reference condition to compute the _P_-value, and is most frequently "no effect". With multiple comparisons, in most cases we aim at controlling the number of false positive outcomes per experiment. We achieve this by adjusting the _P_-values upwards based on assumptions specific to each method. 
+
+  3. From the perspective of data analysis, RNAseq data is extremely small: we study the response of thousands of genes, based on a handful of replicates. The data can be analysed only by assuming that the variation in expression among genes within a single replicate informs about variation in gene expression of an individual gene among replicates. In the case of multiple comparisons, we attempt to control the probability of false positive outcomes only in relative terms to the number of "positive outcomes". In this case, we use the false discovery rate, to adjust _P_-values.
+
+# Research vs. statistical hypotheses
+
+Research hypotheses must be falsifiable: based on data we should be able to conclude if they are compatible with observations or not. The validity of some research hypotheses can be decided directly without use of statistics. For example, if our hypothesis is that all swans have white plumage, observation of a single black swan in Australia or a black-necked sawn in South America is enough to decide that the hypothesis that all swans have white is wrong.
+
+Things get more complicated when hypotheses are about a quantitative response instead of a discrete condition as in the previous example. Say, we may have as research hypothesis that plants of genotype A are taller than plants of genotype B. As within each genotype, the height of plants varies, and it is obviously impossible to compare all individuals of each genotype, we need to use a statistical approach.
+
+John Tukey argues that _lack of effect_ is a practical impossibility, for our example that plants of the two genotypes would have exactly the same height. Thus, accepting _no effect_ or _no difference_ as the result of a test is nonsensical. So we may reject or not the null hypothesis, but non-rejection does not mean acceptance, it means not enough information is available to make a decision, for our example deciding plant of which genotype are taller. 
+
+::: callout-tip
+# In the words of John W. Tukey
+
+_Statisticians classically asked the wrong question—and were willing to answer with a lie, one that was often a downright lie. They asked "Are the effects of A and B different?" and they were willing to answer "no."
+All we know about the world teaches us that the effects of A and B are always different—in some decimal place—for any A and B. Thus asking ``Are the effects different?'' is foolish.
+What we should be answering first is ''Can we tell the direction in which the effects of A differ from the effects of B?'' In other words, can we be confident about the direction from A to B? Is it "up," "down" or "uncertain"?
+The third answer to this first question is that we are "uncertain about the direction"—it is not, and never should be, that we "accept the null hypothesis."_
+[@Tukey1991]
+:::
+
+This leads to further questions: 1) does the null hypothesis need to be _no effect_, and 2) how should we validly interpret the results from statistical tests?
+
+When we set a null hypothesis, in principle we can set it to any value instead of zero. In other words test for significance against a size of response that is of interest. This is rarely done in practice, except for testing if a slope differs from one (1:1 relationship).
+
+Even in Bioinformatics this is not the usual approach, we tend to test for significance compared to zero change in expression and simultaneously require a minimum size of the response, usually a fold-change in expression. This is different to testing that the fold-change is significantly larger than an hypothesized value, which in most cases is a more stringent test.
+
+Practical considerations play a role in the choice of approaches. With small data and using FDR we will get false positives, and we hope that many false positives will be in the small effects that we discard preventively. With big data unless we require a minimum size for the responses of interest, we cannot distinguish what is important from what is not.
+
+::: callout-note
+Statistical hypotheses can be formulated for any estimated parameter, not just as usual for the mean, but for example the slope in a linear relationship between two variables. 
+
+In addition to parameters, we can also compare the functions used to describe data, e.g., is the relationship between two variables linear or exponential. Although the specifics of methods vary, they are mostly based on the same basic ideas.
+:::
+
+# What does a small _P_-value tell us? 
+
+The usefulness as a criterion of the _P_-value depends on the size of the data.
+
+  1. In the case of big data, _P_-values do not tell anything useful. We should ignore _P_-values and base our interpretation on how much of the variation is explained by different explanatory variables. For example using partial correlations, AIC or BIC, and the relative importance of explanatory variables measured as the fraction of the variation explained.
+
+  2. In the case of medium-sized data and simple assumed responses, traditionally _P_-values for main effects and interactions together with the use of adjusted _P_-values for multiple comparisons has been the preferred approach. When dose responses or time courses have complex shapes, setting a mathematical formulation for the shape of the response curve describing an _a priori_ hypothesis can be extremely challenging and simultaneously uninformative for complex systems. In such cases model selection as described above in 1. is more useful.
+
+  3. In the case of small data, individual outcomes based on FDR must be taken with a grain of salt. Say with an FDR of 5%, if we get 1000 positive outcomes, 50 out of them can be expected to be false positives. This means, that in the case of gene expression assessed with arrays or by RNAseq, looking at the enrichment of metabolic pathways or processes, provides more reliable information than the outcomes for individual genes.
+  
+::: callout-note
+# _P_-values
+
+In recent years the use of _P_-values in research has been under debate. At the very least we need to assess if they are informative or not, data set by data set, taking into consideration the aims of each study and available replication. I think that one can safely say that _P_-values are currently overused in scientific reports and too frequently misinterpreted.
+
+The American Statistical Society released an official statement [@Wasserstein2016] against the predominance of significance tests and _p_-values as a core part of Statistics practice and teaching:  [The ASA statement](https://amstat.tandfonline.com/doi/full/10.1080/00031305.2016.1154108#.Xb_1B9VS9aQ). 
+
+See also the blog posts [After 150 Years, the ASA Says No to _P_-values](https://matloff.wordpress.com/2016/03/07/after-150-years-the-asa-says-no-to-p-values/) and  [Further comments on the ASA manifesto](https://matloff.wordpress.com/2016/03/09/further-comments-on-the-asa-manifesto/) by Norman Matloff.
+:::
+
+# Are negative test outcomes, or negative results of any use?
+
+Negative results can be useful and should be published, but only if they are informative. A high _P_-value by itself is not informative. As discussed above, it does not tell us the cause behind the lack of statistical significance: low replication, large uncontrolled variation or small size of effect or difference under study.
+
+Statistical power analysis is the tool that helps us out of this difficulty. Statistical power measures the sensitivity of a past or of a planned experiment towards detecting treatment or group differences. A post-mortem power analysis can be used to estimate the probability of effects of an arbitrary size having been detected in an experiment. So, even if as discussed above, it makes no-sense to accept the idea of no-effect or accepting the null hypothesis, we can get an idea how small a response would have had a high probability of having been detected by our study. This can be extremely useful to know.
+
+The other side of the coin is that if we can estimate at the planning stage the error variance, and we have a target minimum size of response we want to be able to detect, we can compute how many replicates we need to achieve the desired level of sensitivity.
+
+One can understand why journal editors are reticent to publish reports of negative results from experiments. However, rarely editors or authors are aware that through application of post-mortem power analysis it is possible to assess if negative results were caused by poor experimental design or by the small size of responses. Power analysis is infrequently taught or even mentioned in introductory Statistics courses.
+
+A different approach is to stop using _P_-values and use confidence intervals (CI) for the estimated effects or parameter estimates. These have the advantage they show at a glance the value of an estimate and how much we can trust that this value is representative of that in the population sampled. _Many researchers use in plots standard errors of the mean instead of CIs because shorter error bars make the plots look nicer, even if not as easy to interpret._
+
+If CIs are used in a figure to assess significance through implicit multiple comparisons, they should be based on adjusted _P_-values. These "adjusted" CIs are frequently called _simultaneous CIs_.
+
+# Further reading
+
+  - _The Sunset Salvo_ [@Tukey1986] is a sobering medicine for those with blind faith in Statistics and the objectivity of data analysis.
+  
+  - The article _Prediction, Estimation, and Attribution_ [@Efron2020] discusses in more depth, but still accessibly, the differences between traditional data analysis and "large-scale" prediction algorithms as used in "machine learning (ML)" and "artificial intelligence".
+
+  - The books Planning of Experiments [@Cox1958] and Statistics and Scientific Method [@Diggle2011] can also be recommended as they focus mainly on the logic behind the different designs.
+
+  - The book _Modern Statistics for Modern Biology_ [@Holmes2019], is true to its name, a modern account of Statistics that takes a broad view including extensive use of data visualizations. It is specially well suited to those interested in molecular biology as it includes the statistics behind bioinformatics. In other words, this books presents statistics in the context of biological data analysis.
+  
+  - The booklet _The Guide-Dog Approach_ [@Tuomivaara1994] proposes a middle ground in the philosophy of science controversy, as applied to Ecology. [Mario Bunge](https://en.wikipedia.org/wiki/Mario_Bunge), a philosopher of science who started his scientific career as a researcher in quantum physics, has written very extensively on philosophical questions related to science: what is knowable, how to understand cause and effect relationships, and how much of the knowledge we acquire is a reflection of ourselves, individually or collectively, versus a description of the real world as it is independently of us, the observers. In _Chasing Reality: Strife over Realism_, @Bunge2014 brings together some of the ideas from his long career. Among other things he highlights the role of "disciplined imagination" in scientific research, something he has written about earlier, even considering the role of the reading of fantastic literature as a way of developing imagination skills in future scientists and technicians.
+  
