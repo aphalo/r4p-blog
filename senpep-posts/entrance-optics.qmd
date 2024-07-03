@@ -2,7 +2,7 @@
 title: "Are plants and plant canopies flat?"
 subtitle: "The shape of light sensors"
 date: 2022-12-30
-date-modified: 2024-06-11
+date-modified: 2024-06-28
 author: "Pedro J. Aphalo"
 keywords: [light measurement, entrance optics, difusser geometry]
 categories: [Research instrumentation]
@@ -21,7 +21,7 @@ draft: true
 
 ![Cosine diffuser as used to measure irradiance. Off-the-shelf D7-H
 type from Bentham
-Instruments.](diffusers-images/betham-DH7-cosine.jpeg){#fig-cosine-difusser fig-align="center"}
+Instruments.](diffusers-images/betham-DH7-cosine.jpeg){#fig-cosine-diffuser fig-align="center"}
 
 ## The problem
 
@@ -34,7 +34,7 @@ perceived by plant through photoreceptors.
 ::: callout-tip
 # Cosine response
 
-Irradiance is defined as the flux received on a flat surface. The irradiance on the plane is proportional to the cosine of the angle of incidence of the light. To measure irradiance we use difussers with a shape similar to a flat disk. Achieving the correct response when the angle of incidence is shallow is difficult, but the conbination of a slightly raised disk and a ridge around it are effective in correcting deviations (@fig-cosine-difusser). The DH7 and D7 cosine diffusers from Bentham Instruments are some of the best available. 
+Irradiance is defined as the flux received on a flat surface. The irradiance on the plane is proportional to the cosine of the angle of incidence of the light. To measure irradiance we use difussers with a shape similar to a flat disk. Achieving the correct response when the angle of incidence is shallow is difficult, but the conbination of a slightly raised disk and a ridge around it are effective in correcting deviations (@fig-cosine-diffuser). The DH7 and D7 cosine diffusers from Bentham Instruments are some of the best available. 
 :::
 
 In the case of photosynthesis this makes some sense if we assume that a
@@ -109,22 +109,161 @@ Instruments technical staff.
 
 While our two types of diffusers provide differently weighted summaries
 of radiation, a much more complex and expensive spectrometer has been
-built by Gunther Seckmeyer and colaborators capable of measuring
+built by Gunther Seckmeyer and collaborators capable of measuring
 spectral radiance for more than 100 directions within 1 s. Radiance, is
 a 3D spatially resolved quantification of incoming radiation expressed
 per unit solid angle, in the case of this new instrument, describing the
 sky hemisphere.
 
-## Planned measurements
+## Calibrations
 
-Spectral measurements above the vegetation canopy of total and diffuse
-components of daylight are planned for the coming Spring and Summer of
-2023. These measurements will be done in Viikki using Maya 2000 Pro
-array spectrometers. I am looking for a M.Sc. student willing to do a
-thesis or internship in this project. M.Sc. students enrolled in any
-study program with a connection to plants (IPS, EEB, AGRI, FOR, ENV),
-meteorology or physics are welcome to discuss the possibilities.
+We have to array spectrometers, Ocean Optics Maya 2000Pro, with
+the same configuration. Both are calibrated with their cosine diffusers, and
+one of them, in addition with a hemispherical diffuser.
 
-As part of a collaboration, Maxime Durand and his research group will
-also use the diffusers and spectrometers to measure light conditions
-within plant canopies.
+I have made enhancements to my R package 'ooacquire' that implement automatic
+acquisition of times series of spectra, with accurate timing, and time-based
+triggering. This makes it possible to acquire spectra concurrently with both 
+spectrometers, either with similar or different diffusers.
+
+## Example measurements
+
+Preliminary measurements, as could be expected, show differences in the
+measurements with the two types of diffusers that depend on the sun elevation
+and on the vegetation.
+
+What we see below is a higher proportion of NIR light when using the dome-shaped diffuser. This is consistent with the sun occluded or not by clouds. Nearest trees were nearly 100 m away.
+
+
+
+```{r, echo=FALSE, message=FALSE}
+library(photobiology)
+library(photobiologyWavebands)
+library(ggspectra)
+
+photon_as_default()
+```
+
+### 14:30 EEST, 11:30 UTC
+
+```{r, echo=FALSE, warning=FALSE}
+load("diffusers-spectra/cosine.hour.2.1h.spct.Rda")
+cosine_14_30.mspct <- subset2mspct(cosine.hour.2.1h.spct)
+load("diffusers-spectra/hemis.hour.2.spct.Rda")
+dome_14_30.mspct <- subset2mspct(hemis.hour.2.spct)
+rm(list = ls(pattern = ".*raw_mspct$|.*\\.spct$"))
+```
+
+```{r}
+q_irrad(cosine_14_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+```
+
+```{r}
+q_irrad(dome_14_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1.5e6)
+```
+
+```{r}
+sun_1128.mspct <- source_mspct(list(cosine = cosine_14_30.mspct[[5]],
+                       dome = dome_14_30.mspct[[19]] * 2))
+autoplot(sun_1128.mspct, range = c(300, 900))
+```
+
+
+```{r}
+autoplot(fscale(sun_1128.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
+```
+
+
+```{r}
+sun_1137.mspct <- source_mspct(list(cosine = cosine_14_30.mspct[[14]],
+                       dome = dome_14_30.mspct[[28]] * 2))
+autoplot(sun_1137.mspct, range = c(300, 900))
+```
+
+
+```{r}
+autoplot(fscale(sun_1137.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
+```
+
+### 16:30 EEST, 13:30 UTC
+
+```{r, echo=FALSE, warning=FALSE}
+load("diffusers-spectra/cosine.hour.4.spct.Rda")
+cosine_16_30.mspct <- subset2mspct(cosine.hour.4.spct)
+load("diffusers-spectra/henmis.hour.4.spct.Rda")
+dome_16_30.mspct <- subset2mspct(henmis.hour.4.spct)
+rm(list = ls(pattern = ".*raw_mspct$|.*\\.spct$"))
+```
+
+```{r}
+q_irrad(cosine_16_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+```
+
+```{r}
+q_irrad(dome_16_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+```
+
+```{r}
+sun_1328.mspct <- source_mspct(list(cosine = cosine_16_30.mspct[[1]],
+                       dome = dome_16_30.mspct[[1]] * 2))
+autoplot(sun_1328.mspct, range = c(300, 900))
+```
+
+
+```{r}
+autoplot(fscale(sun_1328.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
+```
+
+
+```{r}
+sun_1347.mspct <- source_mspct(list(cosine = cosine_16_30.mspct[[20]],
+                       dome = dome_16_30.mspct[[20]] * 2))
+autoplot(sun_1347.mspct, range = c(300, 900))
+```
+
+
+```{r}
+autoplot(fscale(sun_1347.mspct, range = c(400:700), f = q_irrad, target = 1e-3), range = c(300, 900))
+```
+
+### 18:30 EEST, 15:30 UTC
+
+```{r, echo=FALSE, warning=FALSE}
+load("diffusers-spectra/cosine.hour.6.spct.Rda")
+cosine_18_30.mspct <- subset2mspct(cosine.hour.6.spct)
+load("diffusers-spectra/hemis.hour.6.spct.Rda")
+dome_18_30.mspct <- subset2mspct(hemis.hour.6.spct)
+rm(list = ls(pattern = ".*raw_mspct$|.*\\.spct$"))
+```
+
+```{r}
+q_irrad(cosine_18_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+```
+
+```{r}
+q_irrad(dome_18_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+```
+
+```{r}
+sun_1528.mspct <- source_mspct(list(cosine = cosine_16_30.mspct[[14]],
+                       dome = dome_16_30.mspct[[15]] * 2))
+autoplot(sun_1528.mspct, range = c(300, 900))
+```
+
+
+```{r}
+autoplot(fscale(sun_1528.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
+```
+
+
+```{r}
+sun_1537.mspct <- source_mspct(list(cosine = cosine_18_30.mspct[[83]],
+                       dome = dome_18_30.mspct[[84]] * 2))
+autoplot(sun_1347.mspct, range = c(300, 900))
+```
+
+
+```{r}
+autoplot(fscale(sun_1347.mspct, range = c(400:700), f = q_irrad, target = 1e-3), range = c(300, 900))
+```
+

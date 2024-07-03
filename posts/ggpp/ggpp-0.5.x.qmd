@@ -3,7 +3,7 @@ title: "ggpp >= 0.5.0 updates"
 subtitle: "ggpp: Grammar Extensions to 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: "2022-12-05"
-date-modified: "2024-05-07"
+date-modified: "2024-06-27"
 categories: [R Package Update]
 keywords: [ggpp pkg]
 ---
@@ -17,6 +17,8 @@ overview of changes. Differences between versions are listed in detail in the
 :::
 
 ## Overview of changes
+
+_Version 0.5.8_ brings a bug fix in two documentation code examples and a small enhancement to `position_nudge_to()`.
 
 _Version 0.5.7_ brings helpers function `wrap_labels()`, `as_npc()`, `as_npcx()` and `as_npcy()` together with enhancements to `geom_point_s()`, `geom_text_s()`, `geom_label_s()`. `geom_text_pairwise()` and 
 `geom_label_pairwise()`, mostly fixing bugs and adding new features from 'ggplot2' 3.5.0. Updated `stat_fmt_table()` allows application of functions to columns. **Depends on 'ggplot2' >= 3.5.0.**
