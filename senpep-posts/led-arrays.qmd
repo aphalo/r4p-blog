@@ -1,8 +1,8 @@
 ---
 title: "Multichannel LED arrays"
 subtitle: "Ready-made and custom-assembled"
-date: 2024-06-11
-date-modified: 2024-06-11
+date: 2024-07-10
+date-modified: 2024-07-10
 author: "Pedro J. Aphalo"
 keywords: [LED arrays, multichannel]
 categories: [Research instrumentation]
@@ -19,60 +19,83 @@ abstract: |
 draft: true
 ---
 
-LEDs together with modern driver modules make it possible device custom
+LEDs together with modern driver modules make it possible design custom
 light sources for measuring spectral responses. Compared to
-multi-monochromator based approaches, LEDs make a lot simpler and
-cheaper to simulataneously irradiate a target with arbitrary sets of
+multi-monochromator based approaches, the availabilty of LEDs has made it a lot simpler and
+cheaper to simultaneously irradiate a target with arbitrary sets of
 multiple wavelengths. The limitation is that the wavelength of the peak
 of emission of LEDs is a property of each LED, and these peaks are
 significantly wider than those from a high-resolution monochromator. An
 alternative, used in the past, are sets of band-pass interference
-filters. These are usualy single band filters and although two- and
-three-band pass filters exist, there is no easy way of adjusting the
-iradiance in one band separately of others.
+filters. These are usually single band pass filters and although two- and
+three-band pass filters exist, when using them there is no easy way of adjusting the
+irradiance in one band separately of others.
 
 Arrays are assembled from bare LED chips, while modules are normally
-assemble from individually packages LED chips. Currently, most LED
+assemble from individually packages LED chips. Currently, many LED
 modules are assembled from LED chips packaged individually or in small
-arrays as SMDs (surfafe mounted devices). For the measurement of
-response and action spectra it is impossible to find off-the-shelf parts
+arrays as SMDs (surface mounted devices). For the measurement of
+response and action spectra it is frequently impossible to find off-the-shelf parts
 that are well suited to the task. One needs to either use a sub-optimal
 set of wavelengths or have arrays or modules custom assembled, which is
-surprysingly easy and relatively cheap.
+surprisingly easy and relatively cheap.
+
+Two channel arrays, including chip-on-board (COB) modules, have become
+relatively common as two channels of white light of warmth (two colour temperatures, such as 2700 K and 6500 K), which are used as light sources of tunnable colour temperature varying smoothly between the two extreme values. They are mainly used as light sources for photography and video, but are nowadays also advertised as a more comfortable household and workplace illumination.
 
 ## Chips
 
-LED chips are nowadays available in many different peak-emission
-wavelengths and power ratings. One constrait for research
+LED chips are available in many different peak-emission
+wavelengths and power ratings. One constraint for research
 reproducibility is that the design-life of LEDs is rather short given
 rapid development of new types, which replace similar older types but
 with improved performance. On the other hand use-life is several times
 longer than design-life. Given the relatively low cost of LEDs, in most
-cases it is best to buy more pieces than needed at a given time, as
-spare parts.
+cases it is best to buy more pieces than needed at a given time, and stock them as
+spare parts. 
+
+::: callout-note
+"Design lifetime" means the length of time that a specific type, with no change in specifications, remains available for purchase in quantity from the manufacturer. The "use lifetime" is normally given in hours of use at rated power (current and voltage) until a given decrease in light output due to ageing. The mean-time-to-failure (MFT) is expected length of time 50% of the sold units will remain functional. The actual life time is lengthened considerably when the LEDs are run at a lower power than they are rated at, and it is shortened is they are not cooled down to the maximum rated temperature.
+:::
 
 ## Arrays
 
 LED arrays with between 1 and 12 channels are available of-the-shelf in
 some configurations, while suppliers of custom-assembled LED arrays with
 1 to 12 channels abound. Some suppliers have minimum quantities of 1 to
-10 arrays per custom-assembled tipe. As arrays are assembled from
+10 arrays per custom-assembled type or set of chip types. As arrays are assembled from
 individual chips, and for some types manual assembly is relatively
 simple, these arrays can combine chips of different wavelengths and from
-different chip manufacturers. Each array channel is wired independently,
-and its output can be dimmed and/or switched on and off independently of
-other channels. Each channel can contain a set of chips emiting all at
+different chip manufacturers. Each array channel is usually wired independently,
+and its output can be dimmed and/or switched on and off separately from
+other channels. Each channel can contain a set of chips emitting all at
 the same wavelength or a mix of chips, such as alternating chips of two
 different wavelengths. In custom assembled arrays, chips tend to be less
-densily packed, while some off-the-shelf types pack multiple high power
+densely packed, while some off-the-shelf types such as COBs pack multiple high power
 chips into a very small area. When few arrays of a given form factor and
 power are needed, they are assembled onto of-the-shelf carriers or
 boards.
 
+## RGB and RGBW modules
+
+Red-green-blue and red-green-blue-white arrays are common off-the-shelf parts
+used in large-sized screens and other uses that take advantage of the
+trichromatic vision of humans. Small sized arrays have one LED chip of each
+colour and larger ones, frequently used for illumination for video recording
+have multiple clusters of chips, with each cluster having RGB or RGBW chips.
+
+[![A four-channel, red, green, blue and white (RGBW) "array" module,
+with one high power LED per channel. The tight arrangement of small SMD
+LEDs makes this module functionally similar to an array. Nominal power
+1W per channel with all channels on; \>2W channel at total power \< 4W.
+Board size 13 mm by 13 mm. Lumitronix, Germany. Chips supplied by
+Nichia,
+Japan.](led-images/C290397-scaled.jpg)](led-images/C290397-scaled.jpg)
+
 ## An off-the-shelf seven-channel array
 
-Assembly of individual LED chips into an array is a specialized job done
-under a miscroscope using special tools and potting compounds.
+Assembly of individual LED chips into an array is a specialized job that can be done
+mannualy under a microscope using special tools and potting compounds, or using robotic machines. The choice tends to depend on the number of arrays to be assembled. The array shown in the photographs below used to be available of-the-shelf as a standard type produce in large quantities.
 
 [![Seven-channel (Red, Green, Blue, White, Amber, Cyan, Violet) array
 soldered onto a solid copper circuit board. Array case dimension: 7 mm x
@@ -102,36 +125,30 @@ attachment of each individual chip to the aluminun base or substrate of
 the array. The chips are embedded in clear silicone for protection.
 Modules](led-images/C290363-scaled.jpg)](led-images/C290363-scaled.jpg)
 
-Modules are assembled either on fibre epoxi circuit boards or metal core
+## Modules assembled using SMD LEDs
+
+Modules are assembled either on glass-fibre-epoxi circuit boards or metal core
 (solid aluminium or solid copper) circuit boards, of which several types
 are readily available of-the-shelf both unpopulated and populated with
-LEDs. They are relatively easy to assemble as as SMDs chips are
-protected and ready to be soldered in the same way as most other SMDs
-used in modern electronics. For in house assemply with manual equipment
-the trickiest aspect is dosing of the solder paste evenly are sparingly
+LEDs. They are relatively easy to assemble as in SMDs LEDs chips are mounted on a carrier, protected and ready to be soldered in the same way as most other SMDs
+used in modern electronics. For assembly with manual equipment
+the trickiest aspect is the dosing of the solder paste evenly and sparingly
 to ensure that the light emitting surface remains level with the board
-and other LEDs on the same board. When using metal core boards, there
+and other SMD LEDs on the same board. When using metal core boards, there
 are some restrictions about what methods for heating the solder work
 well.
 
-## A simple RGBW module
+::: callout-note
+Epoxi-fiber-glass boards are cheaper than metal-core ones but they do not conduct heat as efficiently, thus can be used with lower power chips and only if these are not densely packed. Aluminium-core boards are commonly used as they ensure good conduction of heat from the SMD packages through the board to an underlying heat-sink or other cooling system. Copper-core board conduct heat even better that aluminium but are quite a lot more expensive.
+:::
 
-[![A four-channel, red, green, blue and white (RGBW) "array" module,
-with one high power LED per channel. The tight arrangement of small SMD
-LEDs makes this module functionally similar to an array. Nominal power
-1W per channel with all channels on; \>2W channel at total power \< 4W.
-Board size 13 mm by 13 mm. Lumitronix, Germany. Chips supplied by
-Nichia,
-Japan.](led-images/C290397-scaled.jpg)](led-images/C290397-scaled.jpg)
-
-When larger quantities of modules with special shapes or arrengements of
+When larger quantities of modules with special shapes or arrangements and wiring of
 LEDs are needed, custom module boards can be designed, made and
-assembled by special order. Because of setup costs, special designs when
-robotically assembled make sense for series of not fewer than 100's of
-modules, but this is changing rapidly.
+assembled by special order. Because of set-up costs, special designs when
+robotically assembled make economic sense usually only for series of not fewer than 100's of modules, but this is changing rapidly.
 
 Unpopulated boards for the assembly of modules are more easily available
-for single-channel than multichannel designs.
+for single-channel than multichannel designs. The foot-print (the soldering pads at the back of SMD LEDs) vary in design with the size and power of the packaged chips and among manufacturers. Boards need to match the SMD LED type for successful assembly.
 
 [![Unpopulated board for the assembly of a module with four SMD LEDs
 connected as a single channel. Solid copper core
@@ -140,3 +157,30 @@ board.](led-images/C300413-1.jpg)](led-images/C300413-1.jpg)
 [![Unpopulated board for 10 SMD LEDs, connected as a single channels.
 Solid-copper core
 board.](led-images/C300409-1.jpg)](led-images/C300409-1.jpg)
+
+## Soldering of SMD LEDs
+
+::: callout-note
+I wrote this section as a separate post on 2021-10-16. I moved it here as works better here.
+:::
+
+High power SMD (surface mounted device) LEDs are normally soldered to a printed circuit board that has a metal core to help conduct the heat generated away. SMD devices are usually small, sometimes very small. Soldering them with a soldering iron is to say the least, challenging as unlike components installed with pins going through holes in the board SMDs just sit on its surface.
+
+The use of electronic devices in "trough-hole" packages is decreasing rapidly, so availability is limited. I recently bought a mini-hot plate and the photographs below shows how it works. Alternative approaches are re-flow ovens and hot air guns. The hot-plate I show here (MHP30 from Miniware, Guangzhou City, China) is specially handy when working with small individual boards and not too many of them. The size of the ceramic plate is 30 mm $\times$ 30 mm, and can reach 300 C.
+
+![Mini hot plate, circuit board with an SMD LED soldered onto it.](images/_Z152623.jpg "Mini hot plate")
+
+When using a soldering iron one adds the solder using a lead/tin "wire" that has a core of flux, when using a hot plate for re-flow soldering one uses a paste with the flux as matrix carrying small beads of lead/tin or other alloy. As temperature increases gradually the flux melts first, cleaning the metal surface and acting as a wetting agent for the metal that melts at a higher temperature. The solder paste can be applied with a stencil, but in this example with a "large" LED $4 \times 4$ mm device I applied it directly with a syringe and a very small tip. I could have used slightly less solder paste, but not much less as the metal pads on the board are larger. Through this series of images the temperature of the board raises from ambient to nearly 250 C.
+
+![The LED sitting on the solder paste (cold)](images/_Z152643.jpg "The LED sitting on the solder paste (cold)")
+
+![The solder paste spreads as the flux becomes more fluid but the metal beads are still solid.](images/_Z152648.jpg "The LED sitting on the solder paste (hot and spreading)")
+
+![The first solder beads in the paste start to melt while the flux remains semi-liquid.](images/_Z152652.jpg "The solder beads in the paste start to melt")
+
+![The metal melts and surface tension changes](images/_Z152654.jpg "The metal melts and surface tension changes")
+
+![Surface tension pulls the molten metal to the contact pads](images/_Z152655.jpg "Surface tension pulls the molten metal to the contact pads")
+
+![Surface tension pulls the LED into place, the surface has a mask that "rejects" the molten metal as it separates from the flux. It only remains for the board to cool down.](images/_Z152656.jpg "Surface tension pulls the LED into place")
+

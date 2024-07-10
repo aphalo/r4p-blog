@@ -1,0 +1,49 @@
+---
+title: "Instrumentation"
+subtitle: "We use in growth chambers"
+date: 2022-01-30
+date-modified: 2024-07-10
+author: "Pedro J. Aphalo"
+keywords: []
+categories: [Research instrumentation]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  Brief description of how we use USB modules from YoctoPuce.
+draft: true
+---
+
+## Dedicated equipment
+
+The instrumentation described in this section was in part bought for use in the Integrative Plant Sciences (IPS) M.Sc. Master Program and in part with research funding awarded to P. J. Aphalo.
+
+Data acquisition is done with a distributed system using various types of isolated USB modules from YoctoPuce connected into a local network using one YoctoEthernet Hub per chamber. They are powered by power over Ethernet (POE). The data acquisition modules can log data autonomously.
+
+Six Metler-Toledo industrial weighing platforms can be used to log the change in weight, such as water loss from potted plants continuously.
+
+![Four broad bean plants on one of the weighing platforms](images/beans-on-scale.jpg)
+
+Temperature of leaves and other surfaces can be measured based on the emitted infrared radiation. We have four small sensors based on this principle and capable of measuring in the range -50 C to 900 C (CSmicro LT02, Optris, Germany). We also have a thermal camera (PI-450, Optris, Germany).
+
+::: {style="padding:70.94% 0 0 0;position:relative;"}
+<iframe src="https://player.vimeo.com/video/683485767?h=4b4a3f5114&amp;badge=0&amp;autopause=0&amp;player_id=0&amp;app_id=58479" frameborder="0" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen style="position:absolute;top:0;left:0;width:100%;height:100%;" title="Temperature: darkness to blue to white light (fast version)">
+
+</iframe>
+:::
+
+```{=html}
+<script src="https://player.vimeo.com/api/player.js"></script>
+```
+Three USB modules YoctoMeteo, one for each chamber, can be used to log ambient conditions (air temperature, air humidity and air pressure) near the plants.
+
+![A YoctoHub-Ethernet and two YoctoBridge modules on the side of one chamber. A large port for wiring and instrumentation makes it possible to keep, for example, a console of gas-exchange equipment outside the growth chamber and the cuvette inside it while keeping the chamber doors closed. A YoctoMeteo module located inside the chamber and connected to the same hub is not visible in the photograph while the two YoctoBridge modules are connected to the weighing platforms.](images/_Z253912.jpg)
+
+## Other equipment
+
+The research program has other portable equipment that can be used in these chambers and for their calibration, including gas-change and chlorophyll fluorescence instruments (from Walz and LI-COR) and spectroradiometers. These should be booked separately from those managing their use and booking systems.

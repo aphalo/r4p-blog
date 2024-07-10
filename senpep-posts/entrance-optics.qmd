@@ -2,9 +2,9 @@
 title: "Are plants and plant canopies flat?"
 subtitle: "The shape of light sensors"
 date: 2022-12-30
-date-modified: 2024-06-28
+date-modified: 2024-07-10
 author: "Pedro J. Aphalo"
-keywords: [light measurement, entrance optics, difusser geometry]
+keywords: [light measurement, entrance optics, diffuser geometry]
 categories: [Research instrumentation]
 editor: 
   markdown: 
@@ -16,7 +16,7 @@ format:
     code-tools: true
 abstract: |
   Irradiance or spectral irradiance on a horizontal plane is normally used to quantify energy or photons available for photosynthesis. Here I discuss whether this is always the best approach in photobiology.
-draft: true
+draft: false
 ---
 
 ![Cosine diffuser as used to measure irradiance. Off-the-shelf D7-H
@@ -117,153 +117,117 @@ sky hemisphere.
 
 ## Calibrations
 
-We have to array spectrometers, Ocean Optics Maya 2000Pro, with
-the same configuration. Both are calibrated with their cosine diffusers, and
-one of them, in addition with a hemispherical diffuser.
+We have two array spectrometers, Ocean Optics Maya 2000Pro, with the same
+configuration. Both were calibrated with their cosine diffusers, and one of
+them, in addition with a hemispherical diffuser. Calibrations were done on the
+same day using the same calibration lamps. Under a collimated light beam normal
+to the diffusers, the readings from the two spectromters and two three diffusers
+agree.
 
-I have made enhancements to my R package 'ooacquire' that implement automatic
+I have made enhancements to my R package ['ooacquire'](https://aphalo.r-universe.dev/ooacquire) that implement automatic
 acquisition of times series of spectra, with accurate timing, and time-based
 triggering. This makes it possible to acquire spectra concurrently with both 
 spectrometers, either with similar or different diffusers.
 
-## Example measurements
+## Comparative Measurements
+
+::: callout-note
+# Added on 2024-07-10
+
+When I wrote this post I did not yet have any data to show. So, now, when transferring the post from WordPress to Quarto I added this section for completeness. I also slightly edited the sections above.
+
+The plotting and calculation of summaries in this section are done when the site content is rendered. The R code used is "folded" and can be made visible by clicking on the triangle or word "Code".
+:::
 
 Preliminary measurements, as could be expected, show differences in the
 measurements with the two types of diffusers that depend on the sun elevation
 and on the vegetation.
 
-What we see below is a higher proportion of NIR light when using the dome-shaped diffuser. This is consistent with the sun occluded or not by clouds. Nearest trees were nearly 100 m away.
+What we see below is a higher proportion of NIR light when using the dome-shaped diffuser. This is consistent with the sun occluded or not by clouds. Nearest trees were nearly 100 m away, and the diffusers approximately 1.6 m above the ground.
 
-
-
-```{r, echo=FALSE, message=FALSE}
+```{r, message=FALSE}
+library(dplyr)
 library(photobiology)
 library(photobiologyWavebands)
+library(photobiologyPlants)
+library(lubridate)
 library(ggspectra)
 
 photon_as_default()
 ```
 
-### 14:30 EEST, 11:30 UTC
+Two spectra measured simultaneaously with the two diffusers under clear sky conditions are shown as an example. These spectra were measured very near the time of local solar noon, on 12 June 2023 at Viikki, HElsinki, Finland.
 
 ```{r, echo=FALSE, warning=FALSE}
-load("diffusers-spectra/cosine.hour.2.1h.spct.Rda")
-cosine_14_30.mspct <- subset2mspct(cosine.hour.2.1h.spct)
-load("diffusers-spectra/hemis.hour.2.spct.Rda")
-dome_14_30.mspct <- subset2mspct(hemis.hour.2.spct)
+load("diffusers-spectra/cosine.hour.1.spct.Rda")
+load("diffusers-spectra/hemis.hour.1.spct.Rda")
+diffusers.mspct <- as.source_mspct(list(cosine = cosine.hour.1.spct,
+                                        dome = hemis.hour.1.spct))
 rm(list = ls(pattern = ".*raw_mspct$|.*\\.spct$"))
 ```
 
-```{r}
-q_irrad(cosine_14_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
-```
+The two spectra were measured simultaneously.
 
 ```{r}
-q_irrad(dome_14_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1.5e6)
+lubridate::with_tz(when_measured(diffusers.mspct), tz = "EET")
 ```
+
+The photosynthetically active radiation measured with the dome diffuser was 23% higher than that measured with the cosine diffuser.
 
 ```{r}
-sun_1128.mspct <- source_mspct(list(cosine = cosine_14_30.mspct[[5]],
-                       dome = dome_14_30.mspct[[19]] * 2))
-autoplot(sun_1128.mspct, range = c(300, 900))
-```
-
-
-```{r}
-autoplot(fscale(sun_1128.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
-```
-
-
-```{r}
-sun_1137.mspct <- source_mspct(list(cosine = cosine_14_30.mspct[[14]],
-                       dome = dome_14_30.mspct[[28]] * 2))
-autoplot(sun_1137.mspct, range = c(300, 900))
-```
-
-
-```{r}
-autoplot(fscale(sun_1137.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
-```
-
-### 16:30 EEST, 13:30 UTC
-
-```{r, echo=FALSE, warning=FALSE}
-load("diffusers-spectra/cosine.hour.4.spct.Rda")
-cosine_16_30.mspct <- subset2mspct(cosine.hour.4.spct)
-load("diffusers-spectra/henmis.hour.4.spct.Rda")
-dome_16_30.mspct <- subset2mspct(henmis.hour.4.spct)
-rm(list = ls(pattern = ".*raw_mspct$|.*\\.spct$"))
+q_irrad(diffusers.mspct, PAR(), scale.factor = 1e6)
 ```
 
 ```{r}
-q_irrad(cosine_16_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+q_PAR <- as.numeric(round(q_irrad(diffusers.mspct[["cosine"]], PAR(), scale.factor = 1e6), -1))
+
+viikki_bio3.geo <- data.frame(lon = 25.019212, lat = 60.226805, address = "BIO3, Viikki")
+
+sun_elev <- round(sun_elevation(time = when_measured(diffusers.mspct[["cosine"]]),
+                                geocode = viikki_bio3.geo), 0)
 ```
+
+Almost at solar noon, under a clear sky the PAR photon irradiance was `r q_PAR` $\mathrm{\mu mol\,m^{-2}\,s^{-1}}$ with a sun elevation of `r sun_elev` degrees above the horizon.
+
+Plotting the spectra shows that the dome shaped diffuser collects more photons than the horizontal cosine (flat) diffuser at all wavelengths.
 
 ```{r}
-q_irrad(dome_16_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+autoplot(diffusers.mspct, range = c(290, 1100))
 ```
+
+Plotting the two spectra after scaling them to an equal PAR photon irradiance of $1\,600\,\mu mol\,m^{-2}\,s^{-1}$ reveals that the spectrum "seen" in each case differs.
 
 ```{r}
-sun_1328.mspct <- source_mspct(list(cosine = cosine_16_30.mspct[[1]],
-                       dome = dome_16_30.mspct[[1]] * 2))
-autoplot(sun_1328.mspct, range = c(300, 900))
+autoplot(fscale(diffusers.mspct, range = c(400:700), f = q_irrad, target = 1600e-6), range = c(290, 1100))
 ```
 
+At noon, the dome shaped diffuser "sees" the same red to far-red photon ratio, as in the case of these measurements the nearest trees were far away.
 
 ```{r}
-autoplot(fscale(sun_1328.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
+R_FR(diffusers.mspct) |> mutate(`R:FR[q:q]` = round(`R:FR[q:q]`, 2))
 ```
 
+The dome shaped diffuser compared to the cosine diffuser "sees" a spectrum enriched by 5% in blue- compared to green light.
 
 ```{r}
-sun_1347.mspct <- source_mspct(list(cosine = cosine_16_30.mspct[[20]],
-                       dome = dome_16_30.mspct[[20]] * 2))
-autoplot(sun_1347.mspct, range = c(300, 900))
+B_G(diffusers.mspct) |>
+  mutate(`Blue:Green[q:q]` = round(`Blue:Green[q:q]`, 2))
 ```
 
+The dome shaped diffuser "sees" proportionally 22% more UV-A radiation than the cosine diffuser.
 
 ```{r}
-autoplot(fscale(sun_1347.mspct, range = c(400:700), f = q_irrad, target = 1e-3), range = c(300, 900))
+UVA_PAR(diffusers.mspct) |>
+  mutate(`UVA:PAR[q:q]` = round(`UVA:PAR[q:q]`, 3))
 ```
 
-### 18:30 EEST, 15:30 UTC
-
-```{r, echo=FALSE, warning=FALSE}
-load("diffusers-spectra/cosine.hour.6.spct.Rda")
-cosine_18_30.mspct <- subset2mspct(cosine.hour.6.spct)
-load("diffusers-spectra/hemis.hour.6.spct.Rda")
-dome_18_30.mspct <- subset2mspct(hemis.hour.6.spct)
-rm(list = ls(pattern = ".*raw_mspct$|.*\\.spct$"))
-```
+The dome shaped diffuser "sees" relative to PAR by about 40% to 50% more UV-B radiation than the cosine diffuser. 
 
 ```{r}
-q_irrad(cosine_18_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
+UVB_PAR(diffusers.mspct) |>
+  mutate(`UVB:PAR[q:q]` = round(`UVB:PAR[q:q]`, 4))
 ```
 
-```{r}
-q_irrad(dome_18_30.mspct, PAR(), attr2tb = "when.measured", scale.factor = 1e6)
-```
-
-```{r}
-sun_1528.mspct <- source_mspct(list(cosine = cosine_16_30.mspct[[14]],
-                       dome = dome_16_30.mspct[[15]] * 2))
-autoplot(sun_1528.mspct, range = c(300, 900))
-```
-
-
-```{r}
-autoplot(fscale(sun_1528.mspct, range = c(400:700), f = q_irrad), range = c(300, 900))
-```
-
-
-```{r}
-sun_1537.mspct <- source_mspct(list(cosine = cosine_18_30.mspct[[83]],
-                       dome = dome_18_30.mspct[[84]] * 2))
-autoplot(sun_1347.mspct, range = c(300, 900))
-```
-
-
-```{r}
-autoplot(fscale(sun_1347.mspct, range = c(400:700), f = q_irrad, target = 1e-3), range = c(300, 900))
-```
-
+::: callout-note
+This is just one example, at other sun elevation angles and cloud conditions the differences in the measurements using the two diffusers vary both qualitatively and quantitatively.
+:::

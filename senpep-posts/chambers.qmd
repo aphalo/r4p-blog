@@ -1,0 +1,116 @@
+---
+title: "Controlled Environment Chambers"
+subtitle: "With custom-built light sources"
+date: 2022-01-30
+date-modified: 2024-07-10
+author: "Pedro J. Aphalo"
+keywords: [LED arrays, multichannel]
+categories: [Research instrumentation]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  Brief description of modern multichannel LED arrays with medium power, both off-the-self and custom-assembled.
+draft: true
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+```{r, include=FALSE}
+library(photobiology)
+library(photobiologyLamps)
+library(photobiologyLEDs)
+library(ggspectra)
+
+photon_as_default()
+theme_set(theme_bw() + theme(legend.position = "top"))
+options("photobiology.plot.bands" = photobiologyWavebands::Plant_bands("CIE"))
+```
+
+```{r, include=FALSE, echo=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', 
+               fig.show = 'hold', fig.width = 7, fig.height = 4,
+               cache = FALSE, echo = FALSE)
+options(warnPartialMatchArgs = FALSE)
+```
+
+## Aralab Fitoclima 1200
+
+The facility consists of three Fitoclima 1200 growth chambers ([Aralab, Portugal](https://www.aralab.pt/)) initially customized by the manufacturer and further updated with light sources designed and built in-house using the latest technology available as of year 2020.
+
+The internal size is 1340 $\times$ 1320 $\times$ 660 mm (height $\times$ width $\times$ depth). They have a single plant cultivation layer. The light sources are fixed at to top of the chamber and the distance between plants and these sources can be adjusted by changing the height of the shelf where the plants are located. The shelf area is 0.66 $m^2$ per chamber.
+
+One of the customizations done at the factory was the addition of ample-sized instrument ports to both side-walls and the installation of controlled mains power sockets inside the chamber.
+
+The chambers can do additive and subtractive control of air humidity and carbon dioxide concentration. The control envelope allow temperatures from +1 C to +45 C, RH from 40% to 90% and $\mathrm{CO}_2$ between approximately 200 and 1500 ppm (v/v). Set points are adjustable in small steps and smooth ramps between set points can be programmed. This also applies to light, with a range of between 20 and 1600 $\mu mol m^{-2} s^{-1}$.
+
+![Photograph of chambers 1 and 2](images/chambers-1-2.jpg "Photograph of chambers 1 and 2")
+
+![Photograph of chamber 3](images/chamber-3.jpg "Photograph of chamber 3")
+
+## Growth light sources
+
+The light sources were designed by Pedro J. Aphalo with help from Nikolai Belevich, and assembled by Nikolai Belevich, using original lamp-ventilation boxes from Aralab. They are based on LEDs of the latest technology with very high efficiency in electrical to light energy conversion ($\approx 60\%$) and an emission spectrum similar to that of sunlight ( 5000 K colour temperature and colour rendition index, CRI = 98, type Optisolis NF2W757GT-F1 Rfc00 from Nichia, Japan). The LEDs are mounted on linear modules following the Zhaga book standard (52 LEDs adding up to 13 W per 20 mm $\times$ 560 mm module; LinearZ 31332, Lumitronix, Germany). Each chamber has two light boxes, and 24 modules were fit into each box, giving a tota intalled power of 624 W, or 945 $W m^2$ of growing space. The maximum usable PAR irradiance at plant height is $\approx 1600\ \mu mol m^2 s^{-1}$.
+
+![Custom-built light source with 1248 Optisolis LEDs, CCT 5000K, CRI \> 95, 315 W of rated electrical power, illuminated area shelf 60 cm $\times$ 60 cm, maximum PAR photon irradiance \> 1500 $\mu mol m^{-2} s^{-1}$ at 20 cm from window.](images/leds.jpg)
+
+### Light spectrum
+
+Within the visible range the light spectrum of the LEDs used resembles that of direct daylight at ground level. However, it is deficient in UV radiation and near infrared radiation, including far-red light.
+
+```{r, echo = FALSE}
+load("aralabs-data/Aralab.3x100pc.spct.Rda")
+autoplot(Aralab.3x100pc.spct, range = c(280,NA), span = 71)
+```
+
+Given the high PAR irradiance, use of filters to alter the spectrum can be effective. As an example we show the effect of using a yellow Plexiglas filter on the spectrum.
+
+```{r, echo = FALSE}
+load("aralabs-data/Aralab.3x100pc.yellow.plexi.spct.Rda")
+autoplot(Aralab.3x100pc.yellow.plexi.spct, range = c(280,NA), span = 71)
+```
+
+The two mains power sockets that can be switched on/off through the chambers' built-in controller, allow the use additional light sources that can be switched in synchrony with the climate control and built-in light sources of the chambers.
+
+### Light control
+
+The new light sources can be controlled through the chambers' original built-in microcontroller using the original Aralab control firmware, after re-calibration of the controlled range. The LEDs are connected as three independently-controlled groups, each of them continuously dimmable between ≅10% and 100% output, giving an overall range of ≅3.3% to 100% with the built-in controller of the chambers. Group 1 is the master group and must be enabled first.
+
+The customized light boxes have an additional control port (optically isolated for additional safety), which allows switching off half of the modules in one of the three groups allowing to extend the controlled range down to ≅1.6% (keeping 4 out the 24 modules in each light box powered and dimmed to 10%). The dimming as described until here is based on the regulation of the current flowing through the LEDs, a constant current approach to dimming, with no pulsing whatsoever of the light (not even at twice mains line frequency as is the case for older fluorescent lamps and incandescent lamps and some LEDs).
+
+With an external square-wave pulse generator, whose use is enabled by the customization, the light can be also dimmed using a PWM modulation approach, independently for each group of LEDs. Both approaches to dimming, CC and PWM, can be combined without restrictions. PWM dimming is normally done at frequencies between 100Hz and 1KHz because slower frequencies are noticeable, and disturbing, to human vision. With a suitable external pulse generator, frequencies down to \< 0.01 Hz and up to 1 kHz can be used. If pulses are generated with a microcomputer such as Raspberry Pi or Arduino, the train of pulses does not need to be of constant frequency and duty cycle: just any train of pulses can be used to control the LEDs. The limitation of the pulsing is that it is an on/off type of control, but as each group of LEDs can be controlled separately, the pulses can be superimposed on a background of constant light, or even pulses of different duty cycle or frequency superimposed. This allows a crude simulation of sunfleks.
+
+Pulse generators are external to the chambers, and at the moment those available are able to control all channels in two light boxes (a single chamber). Two prototype pulse generators are available: a) A simple pulse generator assembled from two cheap micro-processor based PWM modules has a limited frequency range of 1 Hz to 1 kHz. The logic level output of the modules is buffered with a MOSFET driver and a set of DIP switches makes it possible to route pulses from either generator to any of the LED groups in the light boxes. b) A programmable pulse generator with two channels that can be linked in software to generate pulses synchronously and even allow a phase shift between channels. Frequency range is 0.01 Hz to 1 MHz, although only frequencies up to 1 kHz are usable with the Aralab chambers. This more advanced pulse generator is based on a Yocto-PWM-Tx USB module from [YoctoPuce](https://www.yoctopuce.com/) with very high timing precision and wide range of settings. The module has a built-in MOSFET driver capable of directly driving the opto-couplers in the light boxes. A set of DIP switches makes it possible to route pulses from either channel of the PWM generator module to any of the LED groups in the light boxes.It is programmed through a USB connection, or if connected to a YoctoHub, through a network connection.
+
+![DIP switch used to route the PWM pulses from the two pulse generators to at most eight different groups of LEDs](images/dip-switch-labelled.jpg)
+
+The LED drivers used in the light boxes are from the same series and make as those used in the LED controllers used autonomously and described in the page about light sources. The pulse generator is in both cases a Yocto-PWM-Tx USB module. The MOSFET driver used in a) is very similar to the one built into the Yocto-PWM-Tx USB module. The pulse generators and LED controllers were designed and assembled by Pedro J. Aphalo and Nikolai Belevich.
+
+## Sources for specific wavelengths
+
+We have tested prototypes of three small LED luminaires emitting UV radiation at 365 nm and 385 nm (PowerBar V3 from Lumitronix, with 12 LEDs of types NVSU233B U365 and NVSU119C U385 from Nichia, respectively), and emitting FR light at 730 nm (Lumitronix PowerBar V3, using LEDs OSLON SSL 150 type GF CSHPM2.24-2T4T from Osram). The prototypes are one for each wavelength and if funding becomes available, more could be assembled.
+
+![UVA and FR sources PowerBar V3 modules.](images/uva-fr-sources.jpg "UVA and FR sources PowerBar V3 modules"){alt="UVA and FR sources PowerBar V3 modules"}
+
+We show below the spectral irradiance measured at 40 cm from the Aralab chamber custom light source when supplemented by each of these light sources. Both the additional light sources and the chamber light source dimmed to 50% maximum current. None of the sources with the diffuser cover.
+
+```{r, echo = FALSE, fig.height=12, fig.width = 8}
+files <- list.files(path = "./aralabs-data", pattern = "50pc", full.names = TRUE)
+aralab.mspct <- source_mspct()
+for (f in files) {
+  name <- gsub("\\.Rda$", "", basename(f))
+  load(f)
+  aralab.mspct[[gsub("Aralab1|3x|50pc|50px|no|diff|_|spct|\\.", "", name)]] <- get(name)
+}
+names(aralab.mspct) <- paste("WL+", names(aralab.mspct), sep = "")
+
+autoplot(aralab.mspct, facets = 1, span = 71)
+```
