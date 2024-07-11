@@ -15,13 +15,9 @@ format:
     code-link: true
     code-tools: true
 abstract: |
-  Brief description of modern multichannel LED arrays with medium power, both off-the-self and custom-assembled.
-draft: true
+  Brief description of our Aralab growth chambers with custon-built LED-based light sources..
+draft: false
 ---
-
-```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE)
-```
 
 ```{r, include=FALSE}
 library(photobiology)
@@ -34,11 +30,11 @@ theme_set(theme_bw() + theme(legend.position = "top"))
 options("photobiology.plot.bands" = photobiologyWavebands::Plant_bands("CIE"))
 ```
 
-```{r, include=FALSE, echo=FALSE}
+```{r, include=FALSE}
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4,
-               cache = FALSE, echo = FALSE)
+               cache = FALSE)
 options(warnPartialMatchArgs = FALSE)
 ```
 
@@ -66,14 +62,14 @@ The light sources were designed by Pedro J. Aphalo with help from Nikolai Belevi
 
 Within the visible range the light spectrum of the LEDs used resembles that of direct daylight at ground level. However, it is deficient in UV radiation and near infrared radiation, including far-red light.
 
-```{r, echo = FALSE}
+```{r}
 load("aralabs-data/Aralab.3x100pc.spct.Rda")
 autoplot(Aralab.3x100pc.spct, range = c(280,NA), span = 71)
 ```
 
 Given the high PAR irradiance, use of filters to alter the spectrum can be effective. As an example we show the effect of using a yellow Plexiglas filter on the spectrum.
 
-```{r, echo = FALSE}
+```{r}
 load("aralabs-data/Aralab.3x100pc.yellow.plexi.spct.Rda")
 autoplot(Aralab.3x100pc.yellow.plexi.spct, range = c(280,NA), span = 71)
 ```
@@ -102,7 +98,7 @@ We have tested prototypes of three small LED luminaires emitting UV radiation at
 
 We show below the spectral irradiance measured at 40 cm from the Aralab chamber custom light source when supplemented by each of these light sources. Both the additional light sources and the chamber light source dimmed to 50% maximum current. None of the sources with the diffuser cover.
 
-```{r, echo = FALSE, fig.height=12, fig.width = 8}
+```{r, fig.height=12, fig.width = 8}
 files <- list.files(path = "./aralabs-data", pattern = "50pc", full.names = TRUE)
 aralab.mspct <- source_mspct()
 for (f in files) {

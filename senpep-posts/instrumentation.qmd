@@ -15,8 +15,8 @@ format:
     code-link: true
     code-tools: true
 abstract: |
-  Brief description of how we use USB modules from YoctoPuce.
-draft: true
+  Brief description of how we use USB modules from YoctoPuce and other measuring equipment in our growth chambers.
+draft: false
 ---
 
 ## Dedicated equipment
@@ -40,6 +40,7 @@ Temperature of leaves and other surfaces can be measured based on the emitted in
 ```{=html}
 <script src="https://player.vimeo.com/api/player.js"></script>
 ```
+
 Three USB modules YoctoMeteo, one for each chamber, can be used to log ambient conditions (air temperature, air humidity and air pressure) near the plants.
 
 ![A YoctoHub-Ethernet and two YoctoBridge modules on the side of one chamber. A large port for wiring and instrumentation makes it possible to keep, for example, a console of gas-exchange equipment outside the growth chamber and the cuvette inside it while keeping the chamber doors closed. A YoctoMeteo module located inside the chamber and connected to the same hub is not visible in the photograph while the two YoctoBridge modules are connected to the weighing platforms.](images/_Z253912.jpg)
