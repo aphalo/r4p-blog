@@ -18,7 +18,7 @@ format:
     code-tools: true
 abstract: |
   Brief description of modern multichannel LED arrays with medium power, both off-the-self and custom-assembled.
-draft: true
+draft: false
 ---
 
 LEDs together with modern driver modules make it possible design custom

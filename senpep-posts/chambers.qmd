@@ -79,25 +79,22 @@ autoplot(Aralab.3x100pc.yellow.plexi.spct, range = c(280,NA), span = 71)
 The two mains power sockets that can be switched on/off through the chambers' built-in controller, allow the use additional light sources that can be switched in synchrony with the climate control and built-in light sources of the chambers.
 
 ::: callout-note
-# Older and newer LEDs
+# Old and new LEDs
+\[Call-out originally published in 2021 as a separate post\]
 
-The latest LEDs from Nichia and other suppliers are game changers. I designed a replacement light source for our Aralab Fitoclima 1200 growth chambers and Nikolai Belevich (Biotechnology Institute) assembled a prototype before the start of the pandemic. This post was written time ago, but I am publishing it now that the final design of the light sources is ready for use after extensive testing. Nikolai Belevich also assembled the six light boxes for three growth chambers based on the final design, to which he also contributed.
+The latest (2019-2020) LEDs from Nichia and other suppliers were game changers. I designed a replacement light source for our Aralab Fitoclima 1200 growth chambers and Nikolai Belevich (Biotechnology Institute) assembled a prototype before the start of the pandemic. This post was written time ago, but I am publishing it now that the final design of the light sources is ready for use after extensive testing. Nikolai Belevich also assembled the six light boxes for three growth chambers based on the final design, to which he also contributed.
 
-In this post I briefly describe the prototype and some of the steps that led to the final design. I also discuss how the latest LED components, icnluding some specifically designed for horticulture, have qualitatively changed lighting possibilities in growth chambers and rooms.
+In this post I briefly describe the prototype and some of the steps that led to the final design. I also discuss how the latest LED components, including some specifically designed for horticulture, have qualitatively changed lighting possibilities in growth chambers and rooms.
 
-[caption id="attachment_1237" align="aligncenter" width="3024"]<a href="https://blogs.helsinki.fi/senpep-blog/files/2019/11/MVIMG_20191107_124340-e1573164231560.jpg"><img class="size-full wp-image-1237" src="https://blogs.helsinki.fi/senpep-blog/files/2019/11/MVIMG_20191107_124340-e1573164231560.jpg" alt="Aralab Fitoclima 1200" width="3024" height="4032" /></a> On the left Valoya B50 AP67, on the right Nichia horticulture Rspa 5000 K. Neither at full power.[/caption]
-
-On the left Valoya B50 AP67, on the right Nichia horticulture Rspa 5000 K. Neither at full power.
+![On the left Valoya B50 AP67, on the right Nichia horticulture Rspa 5000 K. Neither at full power.](./aralabs-images/valoya-nichia.jpg)
 
 Our first Aralab chambers were delivered in 2015 with the then best LEDs available. The B50 AP67 from Valoya. I was amazed that in this smaller chambers we could reach 1000 umol m-2 s-1. This has allowed us to do experiments in more realistic conditions than is usual indoors.
 
 The problem we faced was that when buying one more chamber we learnt taht Valoya no longer sells the same luminaires, or any luminaires in a suitable form factor. We looked for commercial solutions but we received a quotation for replacement LEDs that looked unreasonably expensive. At the same time the LED luminaires offered had a spectrum that as a photobiologist I was not happy with. So, I thought why not assemble our own? After some on-line search and visits to the usual electronic parts and LED suppliers I found LED modules assembled in Germany with Japanese LEDs from Nichia. (A Nichia employee invented the white LEDs time ago and Nichia remains the market leader.)
 
-The irradiance of the first prototype, using very high efficiency LEDs for horticulture was more than  2000 umol m-2 s-1 PAR. This is as high as irradiance gets outdoors in the Summer in Helsinki! I did not cut any corners with the design. Specified the highest rated components and made a modular design for easy assembly and repair. Still the components are reasonably priced and the cost scales almost linearly with maximum irradiance.
+The irradiance of the first prototype, using very high efficiency LEDs for horticulture was more than $2\,000\,\mu mol\,m^{-2}\,s^{-1}$ PAR. This is as high as irradiance gets outdoors in the Summer in Helsinki! I did not cut any corners with the design. Specified the highest rated components and made a modular design for easy assembly and repair. Still the components are reasonably priced and the cost scales almost linearly with maximum irradiance.
 
-For the final design, I traded slightly decreased efficiency, for a more natural-like spectrum. We used Nichia Optisolis LEDs, which are marketed for use in museums and other situations where faithful color reproduction is required. These LEDs emit visible light with a spectrum very similar to that of sunlight. With these LEDs maximum PAR irradiance is lower than with the horticulture ones at 1600 umol m-2 s-1. The expected life, if used at maximum power during 8 h per day, every day of the year, according to specifications they should last for 20 years. Used dimmed, they should last even longer. The driving electronics have an efficiency of over 90% and the LEDs themselves of over 50%.
-
-A description of the facility is available  in the photobiology plant growth facility's web site.
+For the final design, I traded slightly decreased efficiency, for a more natural-like spectrum. We used Nichia Optisolis LEDs, which are marketed for use in museums and other situations where faithful color reproduction is required. These LEDs emit visible light with a spectrum very similar to that of sunlight. With these LEDs maximum PAR irradiance is lower than with the horticulture ones at $1\,600\,\mu mol\,m^{-2}\,s^{-1}$. The expected life, if used at maximum power during $8\,\mathrm{h}$ per day, every day of the year, according to specifications they should last for 20 years. Used dimmed, they should last even longer. The driving electronics have an efficiency of over 90% and the LEDs themselves of over 50%.
 :::
 
 ### Light control
