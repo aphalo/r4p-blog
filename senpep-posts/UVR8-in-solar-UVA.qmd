@@ -1,0 +1,65 @@
+---
+title: "Sensing of solar UVA by plants"
+subtitle: "How did we work out that UVR8 is a solar-UV-B plus UV-A photoreceptor?"
+date: 2021-10-17
+date-modified: 2024-07-11
+author: "Pedro J. Aphalo"
+keywords: [plant photoreceptors, sunlight spectrum, ultraviolet radiation]
+categories: [Sensory ecology]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  The role of biological photosensory systems depends on their interaction the light environemnt and on interactions among them. Work lead by my research grouop with the help of collaborators shed light on how two families of photoreceptors function in plants growing in sunlight.
+draft: false
+---
+
+## What were our findings?
+
+We reported in two recent research papers and an update review, that functional UVR8 is required for the perception by plants of solar UV-radiation with wavelengths shorter than approximately 340 nm, which includes the whole UV-B band plus the shorter wavelengths in the UV-A band. In sunlight, cryptochromes are required for the perception by plants of blue light and the longer wavelengths within the UV-A band leading to changes in gene expression. In sunlight cryptochrome-mediated signalling is driven mostly by violet and blue light with wavelength longer than 400 nm. In comparison wavelengths between 350 nm and 400 nm of solar radiation seem to play only a minor role in the regulation of gene expression.
+
+This is an important step forward in our understanding of the perception of different wavelengths of sunlight by plants as the former accepted view was that UVR8 is a UV-B photoreceptor that participated only in the perception of UV-B radiation while all wavelengths of UV-A radiation were perceived by cryptochromes and the other UV-A/Blue photoreceptors, phototropins and ZTL.
+
+In addition to the direct roles described above, we also showed that functional cryptochromes in the presence of visible light mediate a strong down-regulation of responses to UV-B and UV-A radiation perceived through UVR8. Evidence for down-regulation of responses to violet-blue light perceived through cryptochromes by UVR8 in the presence of UV-radiation was much weaker, but the known mechanisms for signalling interactions would make it possible.
+
+Our Update in the journal <em>Plant Physiology</em> summarizes research in our group and other laboratories giving an up-to-date account of how plants sense the ultraviolet radiation in sunlight. It is published under open access at <a href="https://doi.org/10.1093/plphys/kiab162">https://doi.org/10.1093/plphys/kiab162</a>
+
+Full reference is:
+
+**Rai N, Morales L O, Aphalo P J.** 2021. Perception of solar UV radiation by plants: photoreceptors and mechanisms. _Plant Physiology_ **186**: 1382–1396.
+
+They are part of the doctoral thesis that Neha Rai defended on 17 November 2020. Neha Rai's thesis was awarded a prize by our university. It is available at [http://urn.fi/URN:ISBN:978-951-51-6737-8](http://urn.fi/URN:ISBN:978-951-51-6737-8).
+
+## How did all this happen?
+
+Already in year 2004 we included in our outdoors filtering experiments, treatments to study plant responses to UV-A- and UV-B radiation. These were part of Titta Kotilainen's PhD thesis. These experiments showed that accumulation and/or composition of secondary phenolic metabolites responded differently to solar radiation in these two wavebands. At this time, it had not yet been demonstrated that UVR8 was a photoreceptor, and cryptochromes and phototropins photoreceptors had only been identified recently. We carried out similar experiments on trees and tree seedlings that showed that responses to these wavebands depended on the species under study. During this research, collaboration with Anders Lindfors at the Finnish Meteorological Institute began, a colaboration that still continues. This colaboration played a key role as doing photobiological research outdoors in sunlight required information on the solar spectrum at an hourly basis through out the duration of all our outdoor experiments.
+
+In 2006 we became interested in films used as cladding of greenhouses, and obtained some free samples from BPI Agri in the UK. At the time many of the films used in greenhouses had a cutoff near 350 to 370 nm, because of the UV-absorbing additives added to extend their useful life. In our first experiments allowing the separation of UV-A &lt; 350 nm from UV-A &gt; 350 nm we used a standard greenhouse film as filter. What we observed was interesting enough to justify further study and in later experiments we split the UV-A band near 350 nm, close to the boundary at 340 nm between what in medical research  are called UVA1 and UVA2. Treatments were long-term and experiments where done using both tree seedlings and trees that were several-years' old.
+
+In 2007, Sari Siipola, then a MSc student proposed adding as a treatment a yellow filter to block solar blue light in an experiment studying solar-ultraviolet, part of her thesis.  In this experiment it became clear that in pea solar blue light, instead of UV radiation as expected, was the main cue behind the accumulation of flavonoids when treatments were applied continuously since germination until measurements.
+
+By this time UVR8 had been identified as an UV-B photoreceptor and the idea was proposed that UV-B rather than acting always as a stressor could also be an informational cue. Gareth Jenkins provided us with seeds from an <em>uvr8 </em>mutant while at the same time, Luis Morales, first as PhD student, and later as a postdoc brought to the research group molecular biology methods and ideas, co-supervised by Mikael Brosché, an expert in molecular biology with earlier experience in photobiology. Luis Morales' thesis and his paper published in 2013 were key steps forward, as they provided the first glimpse into the interactions between UVR8- and cryptochrome- signalling in sunlight.
+
+Involvement in the COST action UV4growth and collaboration with researchers at the Finnish Meteorological Institute and the Finnish Radiation Authority made me familiar with how difficult it is to measure UV-B radiation in sunlight given that it is such a small component of sunlight compared to UV-A and visible radiation. It slowly downed on us that plants should face these same "difficulty" for the perception on UV-B.
+
+In our first experiment with a <em>uvr8</em> mutant in sunlight, we noticed that what we observed did not fit well with the expectation for a UV-B photoreceptor, but we attributed the observed results mostly to an interaction between UVR8 and CRYs. The existence of an interaction has been corroborated by our later experiments and the work of other research groups, but this turned out to be only a part of the story.
+
+We also showed that for plants growing continuously in sunlight, neither the _uvr8_ nor the _cry1 cry2_ mutations are lethal, in fact they have only a weak phenotype. In contrast the triple mutant _uvr8 cry1 cry2_ is short-lived in sunlight, unless protected from UV-B radiation, and its plants are stunted remaining very small unless protected from both the UV-B and UV-A radiation contained in sunlight. This demonstrated partial redundancy between UVR8 and cryptochromes, as also shown by experiments in Roman Ulm's lab.
+
+I have been active in plant photobiology long enough to be aware that long ago it was a frequent exercise to compute the phytochrome photoequilibrium for light sources based on their spectrum. Of course, such calculations are rather poor proxis of what happens _in planta_ as screening by other leaf pigments can be expected to modify the spectrum of the light before it reaches the target photoreceptor. However, this made me familiar with  the idea that one needs to combine the spectrum of incident light with the absorption spectrum of a photoreceptor to be able to predict plant responses.
+
+When  our experiments started to provide clear evidence for a role of UVR8 in the perception of UV-A, I realized that we needed to estimate if UVR8 could absorb enough UV-A photons in sunlight to be activated. At this point I contacted Prof. Åke Strid in Sweden and asked if he knew of any absorption data for UVR8 in the UV-A region. He very quickly answered that he did not know of any, but that he had the UVR8 protein that was needed for such measurement. The initial problem was finding a spectrometer with enough dynamic range and stability to measure the expected large range of absorbance values. The first attempt was done in Helsinki with UVR8 brought from Örebro by Daniel Farkas. The initial measurements were done with the help of Nikolai Belevich at the Institute of Biotechnology. This first spectrum was encouraging and Daniel did additional measurements in Sweden, that when he sent the data, allowed me to estimate the spectrum of absorbed photons. It showed that in sunlight more than 50% of the photons absorbed by UVR8 could be in the UV-A band. In vitro absorption was not convincing enough to reviewers of our manuscript, and the next step was done also in Örebro by Andrew O'Hara, demonstrating that UV-A radiation up to <em>ca.</em> 340 nm, but not longer wavelengths, could induce the monomerization of UVR8.
+
+This almost closed the case, with relation to UVR8's ability to mediate the perception of UV-A... agreeing in broad lines with gene expression measured within hours of the start of irradiation. A couple of months after we published these results, an article reported a photochemical mechanism in the UVR8 protein capable of explaining our observation of a threshold near 340 nm for monomerization. However, this does not "close the case" because the genes responding to UV-B and UV-A are mostly different! This cannot be easily explained by the action of a single photoreceptor... unless the photoreceptor has multiple modes of action (as phytochrome A has) or it interacts with another photoreceptor with a non-overlaping or a partly overlapping absorption spectrum.
+
+So, an interaction between UVR8 and CRYs has been postulated, and has recently been demonstrated to be active in sunlight, both shortly after the start of exposure and during long-term exposure. The exact nature of the interaction mechanism remains to be described. Most likely, multiple points of interaction exist downstream of UVR8, CRYs and other photoreceptors. The molecular mechanisms of interaction are the focus of the research of Luis Morales, now leading a research group at the University of Orebrö, and of Roman Ulm's lab at the University of Geneva, where Neha Rai is now a postdoctoral researcher.
+
+::: callout-note
+# Where to next?
+
+An approach to research combining experiments and expertize at different levels of organization allowed us to link molecular mechanisms to function in whole plants growing in natural light. Looking at the problem from a holistic perspective, several key questions remain open: 1) are all plant photoreceptors part of a single regulatory system? 2) given the complexity revealed by recent research, how is signalling organized to achieve a failure-tolerance? 3) what "colours can plants distinguish" and more generally what information plants acquire from the environment through photoreceptors?
+:::

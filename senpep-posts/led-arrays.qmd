@@ -12,6 +12,8 @@ editor:
 code-fold: true
 format:
   html: 
+    resource-path: 
+      - ./led-images
     code-link: true
     code-tools: true
 abstract: |
@@ -58,6 +60,12 @@ spare parts.
 "Design lifetime" means the length of time that a specific type, with no change in specifications, remains available for purchase in quantity from the manufacturer. The "use lifetime" is normally given in hours of use at rated power (current and voltage) until a given decrease in light output due to ageing. The mean-time-to-failure (MFT) is expected length of time 50% of the sold units will remain functional. The actual life time is lengthened considerably when the LEDs are run at a lower power than they are rated at, and it is shortened is they are not cooled down to the maximum rated temperature.
 :::
 
+## Single-chip packages
+
+The traditional LEDs encased in plastic with leads for connection are becoming a rarity and being replaced by other packages that are small. Surface mounted device (SMD) is the most commonly type of packaging for electronic components, including single-chip LEDs. SMD packages are sometimes used also for clusters of 2, 3 or even 4 chips. These can be very small, a common size for 1 W LEDs is a square $3 \times 3\,\mathrm{mm}$ and $1\,\mathrm{mm}$ thick. The photograph below shows a slightly larger LED, rated foe 2.3 W of power dissipation. This is the same LED shown in the last section describing soldering of SMD LEDs.
+
+![An SMD package with a single LED chip. The chip is mounted on a metal base for heat and electrical contact and also connected with thin gold wires. A molded silicone resin window protects the chip. In this case the size of the package is $5.0 \times 5.2\,\mathrm{mm}$ and the size of the chip  $1 \times 1\,\mathrm{mm}$](./led-images/_Z152635.jpg "Mini hot plate")
+
 ## Arrays
 
 LED arrays with between 1 and 12 channels are available of-the-shelf in
@@ -82,7 +90,7 @@ Red-green-blue and red-green-blue-white arrays are common off-the-shelf parts
 used in large-sized screens and other uses that take advantage of the
 trichromatic vision of humans. Small sized arrays have one LED chip of each
 colour and larger ones, frequently used for illumination for video recording
-have multiple clusters of chips, with each cluster having RGB or RGBW chips.
+have multiple clusters of chips, with each cluster having RGB or RGBW chips. In this case the chips are individually mounted in SMD packages.
 
 [![A four-channel, red, green, blue and white (RGBW) "array" module,
 with one high power LED per channel. The tight arrangement of small SMD
@@ -90,12 +98,12 @@ LEDs makes this module functionally similar to an array. Nominal power
 1W per channel with all channels on; \>2W channel at total power \< 4W.
 Board size 13 mm by 13 mm. Lumitronix, Germany. Chips supplied by
 Nichia,
-Japan.](led-images/C290397-scaled.jpg)](led-images/C290397-scaled.jpg)
+Japan.](./led-images/C290397-scaled.jpg)](led-images/C290397-scaled.jpg)
 
 ## An off-the-shelf seven-channel array
 
 Assembly of individual LED chips into an array is a specialized job that can be done
-mannualy under a microscope using special tools and potting compounds, or using robotic machines. The choice tends to depend on the number of arrays to be assembled. The array shown in the photographs below used to be available of-the-shelf as a standard type produce in large quantities.
+manualy under a (stereo) microscope using special tools and potting compounds, or using robotic machines. The choice tends to depend on the number of arrays to be assembled. The array shown in the photographs below used to be available of-the-shelf as a standard type produce in large quantities. In this case the seven chips are packaged together into a special SMD package, and then this single SMD is soldered into a copper metal core board.
 
 [![Seven-channel (Red, Green, Blue, White, Amber, Cyan, Violet) array
 soldered onto a solid copper circuit board. Array case dimension: 7 mm x
@@ -108,17 +116,22 @@ conductive matrix.](led-images/C290398num6CS4-scaled.jpg)
 
 ## A custom-assembled 12-channel array
 
-[![A custom assembled 12-channel LED array containing 120 LED chips, 10
-of each of 12 different peak emission wavelengths. Array mounted on an
-aluminum heat sink. Light emitting
-area](led-images/C290369-scaled.jpg)](led-images/C290369-scaled.jpg)
+A custom assembled 12-channel LED array containing 120 LED chips, 10
+of each of 12 different peak emission wavelengths. In this case bare chips 
+were mounted and wired onto a standard 120 W array package and "potted" using
+clear silicone resin. Given the very high power disipation, the array is 
+mounted on an aluminum heat sink, using a heat transfer compound.
 
-![View of the light emitting region of the array with 12 groups of 10
-LED chips. Each string of 10 LEDs is separately wired and can be powered
-independently of all others. LEDs span from FR at the top to UVA1 at the
-bottom. Assembled by ShenZhen Weilli using CREE, Luminus and possibly
+Assembled by ShenZhen Weilli using CREE, Luminus and possibly
 other suppliers' 1W-LED chips. Light emitting area 24 mm x 24 mm, array
-40 mm x 56 mm.](led-images/C290356num4CS4-scaled.jpg)
+40 mm x 56 mm.
+
+[![Overview of the 12-channel array.](led-images/C290369-scaled.jpg)](led-images/C290369-scaled.jpg)
+
+[![View of the light emitting region of the array with 12 groups of 10
+LED chips. Each string of 10 LEDs is separately wired in series and can be powered
+independently of all others. LED chips span from FR at the top to UVA1 at the
+bottom.](led-images/C290356num4CS4-scaled.jpg)](led-images/C290356num4CS4-scaled.jpg)
 
 [![Close up view showing the wiring of chips using gold wires and the
 attachment of each individual chip to the aluminun base or substrate of
@@ -168,19 +181,27 @@ High power SMD (surface mounted device) LEDs are normally soldered to a printed 
 
 The use of electronic devices in "trough-hole" packages is decreasing rapidly, so availability is limited. I recently bought a mini-hot plate and the photographs below shows how it works. Alternative approaches are re-flow ovens and hot air guns. The hot-plate I show here (MHP30 from Miniware, Guangzhou City, China) is specially handy when working with small individual boards and not too many of them. The size of the ceramic plate is 30 mm $\times$ 30 mm, and can reach 300 C.
 
-![Mini hot plate, circuit board with an SMD LED soldered onto it.](images/_Z152623.jpg "Mini hot plate")
+![Mini hot plate, circuit board with an SMD LED soldered onto it.](./led-images/_Z152623.jpg "Mini hot plate")
 
 When using a soldering iron one adds the solder using a lead/tin "wire" that has a core of flux, when using a hot plate for re-flow soldering one uses a paste with the flux as matrix carrying small beads of lead/tin or other alloy. As temperature increases gradually the flux melts first, cleaning the metal surface and acting as a wetting agent for the metal that melts at a higher temperature. The solder paste can be applied with a stencil, but in this example with a "large" LED $4 \times 4$ mm device I applied it directly with a syringe and a very small tip. I could have used slightly less solder paste, but not much less as the metal pads on the board are larger. Through this series of images the temperature of the board raises from ambient to nearly 250 C.
 
-![The LED sitting on the solder paste (cold)](images/_Z152643.jpg "The LED sitting on the solder paste (cold)")
+![The LED sitting on the solder paste (cold)](./led-images/_Z152643.jpg "The LED sitting on the solder paste (cold)")
 
-![The solder paste spreads as the flux becomes more fluid but the metal beads are still solid.](images/_Z152648.jpg "The LED sitting on the solder paste (hot and spreading)")
+![The solder paste spreads as the flux becomes more fluid but the metal beads are still solid.](./led-images/_Z152648.jpg "The LED sitting on the solder paste (hot and spreading)")
 
-![The first solder beads in the paste start to melt while the flux remains semi-liquid.](images/_Z152652.jpg "The solder beads in the paste start to melt")
+![The first solder beads in the paste start to melt while the flux remains semi-liquid.](./led-images/_Z152652.jpg "The solder beads in the paste start to melt")
 
-![The metal melts and surface tension changes](images/_Z152654.jpg "The metal melts and surface tension changes")
+![The metal melts and surface tension changes](./led-images/_Z152654.jpg "The metal melts and surface tension changes")
 
-![Surface tension pulls the molten metal to the contact pads](images/_Z152655.jpg "Surface tension pulls the molten metal to the contact pads")
+![Surface tension pulls the molten metal to the contact pads](./led-images/_Z152655.jpg "Surface tension pulls the molten metal to the contact pads")
 
-![Surface tension pulls the LED into place, the surface has a mask that "rejects" the molten metal as it separates from the flux. It only remains for the board to cool down.](images/_Z152656.jpg "Surface tension pulls the LED into place")
+![Surface tension pulls the LED into place, the surface has a mask that "rejects" the molten metal as it separates from the flux. It only remains for the board to cool down.](./led-images/_Z152656.jpg "Surface tension pulls the LED into place")
 
+::: callout-note
+# Update
+\[2024-07-11\]
+
+A new lager version of the hot plate (MHP50 from Miniware, Guangzhou City, China) is now also available. The size of the MHP30 hot plate is $30 \times 30\,\mathrm{mm}$ while the size of the MHP50 is $50 \times 50\,\mathrm{mm}$
+
+Independently developed firmware for the MHP30 is available at [https://github.com/Ralim/IronOS](https://github.com/Ralim/IronOS). It adds a few useful features but can be a bit more complex to set-up for use than the original firmware.
+:::

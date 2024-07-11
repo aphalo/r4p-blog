@@ -12,6 +12,8 @@ editor:
 code-fold: true
 format:
   html: 
+    resource-path: 
+      - ./aralabs-images
     code-link: true
     code-tools: true
 abstract: |
@@ -48,15 +50,15 @@ One of the customizations done at the factory was the addition of ample-sized in
 
 The chambers can do additive and subtractive control of air humidity and carbon dioxide concentration. The control envelope allow temperatures from +1 C to +45 C, RH from 40% to 90% and $\mathrm{CO}_2$ between approximately 200 and 1500 ppm (v/v). Set points are adjustable in small steps and smooth ramps between set points can be programmed. This also applies to light, with a range of between 20 and 1600 $\mu mol m^{-2} s^{-1}$.
 
-![Photograph of chambers 1 and 2](images/chambers-1-2.jpg "Photograph of chambers 1 and 2")
+![Photograph of chambers 1 and 2](./aralabs-images/chambers-1-2.jpg)
 
-![Photograph of chamber 3](images/chamber-3.jpg "Photograph of chamber 3")
+![Photograph of chamber 3](./aralabs-images/chamber-3.jpg)
 
 ## Growth light sources
 
 The light sources were designed by Pedro J. Aphalo with help from Nikolai Belevich, and assembled by Nikolai Belevich, using original lamp-ventilation boxes from Aralab. They are based on LEDs of the latest technology with very high efficiency in electrical to light energy conversion ($\approx 60\%$) and an emission spectrum similar to that of sunlight ( 5000 K colour temperature and colour rendition index, CRI = 98, type Optisolis NF2W757GT-F1 Rfc00 from Nichia, Japan). The LEDs are mounted on linear modules following the Zhaga book standard (52 LEDs adding up to 13 W per 20 mm $\times$ 560 mm module; LinearZ 31332, Lumitronix, Germany). Each chamber has two light boxes, and 24 modules were fit into each box, giving a tota intalled power of 624 W, or 945 $W m^2$ of growing space. The maximum usable PAR irradiance at plant height is $\approx 1600\ \mu mol m^2 s^{-1}$.
 
-![Custom-built light source with 1248 Optisolis LEDs, CCT 5000K, CRI \> 95, 315 W of rated electrical power, illuminated area shelf 60 cm $\times$ 60 cm, maximum PAR photon irradiance \> 1500 $\mu mol m^{-2} s^{-1}$ at 20 cm from window.](images/leds.jpg)
+![Custom-built light source with 1248 Optisolis LEDs, CCT 5000K, CRI \> 95, 315 W of rated electrical power, illuminated area shelf 60 cm $\times$ 60 cm, maximum PAR photon irradiance \> 1500 $\mu mol m^{-2} s^{-1}$ at 20 cm from window.](./aralabs-images/leds.jpg)
 
 ### Light spectrum
 
@@ -76,6 +78,28 @@ autoplot(Aralab.3x100pc.yellow.plexi.spct, range = c(280,NA), span = 71)
 
 The two mains power sockets that can be switched on/off through the chambers' built-in controller, allow the use additional light sources that can be switched in synchrony with the climate control and built-in light sources of the chambers.
 
+::: callout-note
+# Older and newer LEDs
+
+The latest LEDs from Nichia and other suppliers are game changers. I designed a replacement light source for our Aralab Fitoclima 1200 growth chambers and Nikolai Belevich (Biotechnology Institute) assembled a prototype before the start of the pandemic. This post was written time ago, but I am publishing it now that the final design of the light sources is ready for use after extensive testing. Nikolai Belevich also assembled the six light boxes for three growth chambers based on the final design, to which he also contributed.
+
+In this post I briefly describe the prototype and some of the steps that led to the final design. I also discuss how the latest LED components, icnluding some specifically designed for horticulture, have qualitatively changed lighting possibilities in growth chambers and rooms.
+
+[caption id="attachment_1237" align="aligncenter" width="3024"]<a href="https://blogs.helsinki.fi/senpep-blog/files/2019/11/MVIMG_20191107_124340-e1573164231560.jpg"><img class="size-full wp-image-1237" src="https://blogs.helsinki.fi/senpep-blog/files/2019/11/MVIMG_20191107_124340-e1573164231560.jpg" alt="Aralab Fitoclima 1200" width="3024" height="4032" /></a> On the left Valoya B50 AP67, on the right Nichia horticulture Rspa 5000 K. Neither at full power.[/caption]
+
+On the left Valoya B50 AP67, on the right Nichia horticulture Rspa 5000 K. Neither at full power.
+
+Our first Aralab chambers were delivered in 2015 with the then best LEDs available. The B50 AP67 from Valoya. I was amazed that in this smaller chambers we could reach 1000 umol m-2 s-1. This has allowed us to do experiments in more realistic conditions than is usual indoors.
+
+The problem we faced was that when buying one more chamber we learnt taht Valoya no longer sells the same luminaires, or any luminaires in a suitable form factor. We looked for commercial solutions but we received a quotation for replacement LEDs that looked unreasonably expensive. At the same time the LED luminaires offered had a spectrum that as a photobiologist I was not happy with. So, I thought why not assemble our own? After some on-line search and visits to the usual electronic parts and LED suppliers I found LED modules assembled in Germany with Japanese LEDs from Nichia. (A Nichia employee invented the white LEDs time ago and Nichia remains the market leader.)
+
+The irradiance of the first prototype, using very high efficiency LEDs for horticulture was more than  2000 umol m-2 s-1 PAR. This is as high as irradiance gets outdoors in the Summer in Helsinki! I did not cut any corners with the design. Specified the highest rated components and made a modular design for easy assembly and repair. Still the components are reasonably priced and the cost scales almost linearly with maximum irradiance.
+
+For the final design, I traded slightly decreased efficiency, for a more natural-like spectrum. We used Nichia Optisolis LEDs, which are marketed for use in museums and other situations where faithful color reproduction is required. These LEDs emit visible light with a spectrum very similar to that of sunlight. With these LEDs maximum PAR irradiance is lower than with the horticulture ones at 1600 umol m-2 s-1. The expected life, if used at maximum power during 8 h per day, every day of the year, according to specifications they should last for 20 years. Used dimmed, they should last even longer. The driving electronics have an efficiency of over 90% and the LEDs themselves of over 50%.
+
+A description of the facility is available  in the photobiology plant growth facility's web site.
+:::
+
 ### Light control
 
 The new light sources can be controlled through the chambers' original built-in microcontroller using the original Aralab control firmware, after re-calibration of the controlled range. The LEDs are connected as three independently-controlled groups, each of them continuously dimmable between ≅10% and 100% output, giving an overall range of ≅3.3% to 100% with the built-in controller of the chambers. Group 1 is the master group and must be enabled first.
@@ -86,7 +110,7 @@ With an external square-wave pulse generator, whose use is enabled by the custom
 
 Pulse generators are external to the chambers, and at the moment those available are able to control all channels in two light boxes (a single chamber). Two prototype pulse generators are available: a) A simple pulse generator assembled from two cheap micro-processor based PWM modules has a limited frequency range of 1 Hz to 1 kHz. The logic level output of the modules is buffered with a MOSFET driver and a set of DIP switches makes it possible to route pulses from either generator to any of the LED groups in the light boxes. b) A programmable pulse generator with two channels that can be linked in software to generate pulses synchronously and even allow a phase shift between channels. Frequency range is 0.01 Hz to 1 MHz, although only frequencies up to 1 kHz are usable with the Aralab chambers. This more advanced pulse generator is based on a Yocto-PWM-Tx USB module from [YoctoPuce](https://www.yoctopuce.com/) with very high timing precision and wide range of settings. The module has a built-in MOSFET driver capable of directly driving the opto-couplers in the light boxes. A set of DIP switches makes it possible to route pulses from either channel of the PWM generator module to any of the LED groups in the light boxes.It is programmed through a USB connection, or if connected to a YoctoHub, through a network connection.
 
-![DIP switch used to route the PWM pulses from the two pulse generators to at most eight different groups of LEDs](images/dip-switch-labelled.jpg)
+![DIP switch used to route the PWM pulses from the two pulse generators to at most eight different groups of LEDs](./aralabs-images/dip-switch-labelled.jpg)
 
 The LED drivers used in the light boxes are from the same series and make as those used in the LED controllers used autonomously and described in the page about light sources. The pulse generator is in both cases a Yocto-PWM-Tx USB module. The MOSFET driver used in a) is very similar to the one built into the Yocto-PWM-Tx USB module. The pulse generators and LED controllers were designed and assembled by Pedro J. Aphalo and Nikolai Belevich.
 
@@ -94,7 +118,7 @@ The LED drivers used in the light boxes are from the same series and make as tho
 
 We have tested prototypes of three small LED luminaires emitting UV radiation at 365 nm and 385 nm (PowerBar V3 from Lumitronix, with 12 LEDs of types NVSU233B U365 and NVSU119C U385 from Nichia, respectively), and emitting FR light at 730 nm (Lumitronix PowerBar V3, using LEDs OSLON SSL 150 type GF CSHPM2.24-2T4T from Osram). The prototypes are one for each wavelength and if funding becomes available, more could be assembled.
 
-![UVA and FR sources PowerBar V3 modules.](images/uva-fr-sources.jpg "UVA and FR sources PowerBar V3 modules"){alt="UVA and FR sources PowerBar V3 modules"}
+![UVA and FR sources PowerBar V3 modules.](./aralabs-images/uva-fr-sources.jpg){alt="UVA and FR sources PowerBar V3 modules"}
 
 We show below the spectral irradiance measured at 40 cm from the Aralab chamber custom light source when supplemented by each of these light sources. Both the additional light sources and the chamber light source dimmed to 50% maximum current. None of the sources with the diffuser cover.
 
