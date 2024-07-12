@@ -1,0 +1,43 @@
+---
+title: "Perception of solar UV radiation by plants"
+subtitle: "Photoreceptors and mechanisms"
+date: 2021-07-13
+date-modified: 2024-07-12
+author: "Pedro J. Aphalo"
+keywords: [photoreceptors, UVR8, cryptochrome, sunlight spectrum, ultraviolet radiation]
+categories: [Sensory ecology]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    resource-path: 
+      - ./UVR8-images
+    code-link: true
+    code-tools: true
+abstract: |
+  Our Update article has been published in July's (2021) ssue of Plant Physiology. The abstract is reproduced together with one diagram.
+draft: false
+---
+
+Our Update article has been published in July's issue of Plant Physiology. It summarizes the current state of knowledge including the new understanding and insights brought to light by the research by our group in Helsinki, done with the help of several collaborators.
+
+**Title:** _Perception of solar UV radiation by plants: photoreceptors and mechanisms_
+
+**Authors:** Neha Rai, Luis O. Morales, Pedro J. Aphalo
+
+Neha Rai is now at the University of Geneva in [Roman Ulm's lab](https://www.ulm-lab.ch/).
+
+[Luis O. Morales](https://www.oru.se/english/employee/luis_morales) is at Örebro University leading his own research group.
+
+**DOI (open access):** [https://doi.org/10.1093/plphys/kiab162](https://doi.org/10.1093/plphys/kiab162)
+
+## Article Abstract
+
+About 95% of the ultraviolet (UV) photons reaching the Earth’s surface are UV-A (315–400 nm) photons. Plant responses to UV-A radiation have been less frequently studied than those to UV-B (280–315 nm) radiation. Most previous studies on UV-A radiation have used an unrealistic balance between UV-A, UV-B, and photosynthetically active radiation (PAR). Consequently, results from these studies are difficult to interpret from an ecological perspective, leaving an important gap in our understanding of the perception of solar UV radiation by plants. Previously, it was assumed UV-A/blue photoreceptors, cryptochromes and phototropins mediated photomorphogenic responses to UV-A radiation and “UV-B photoreceptor” UV RESISTANCE LOCUS 8 (UVR8) to UV-B radiation. However, our understanding of how UV-A radiation is perceived by plants has recently improved. Experiments using a realistic balance between UV-B, UV-A, and PAR have demonstrated that UVR8 can play a major role in the perception of both UV-B and short-wavelength UV-A (UV-A<sub>sw</sub>, 315 to ∼350 nm) radiation. These experiments also showed that UVR8 and cryptochromes jointly regulate gene expression through interactions that alter the relative sensitivity to UV-B, UV-A, and blue wavelengths. Negative feedback loops on the action of these photoreceptors can arise from gene expression, signaling crosstalk, and absorption of UV photons by phenolic metabolites. These interactions explain why exposure to blue light modulates photomorphogenic responses to UV-B and UV-A<sub>sw</sub> radiation. Future studies will need to distinguish between short and long wavelengths of UV-A radiation and to consider UVR8’s role as a UV-B/UV-A<sub>sw</sub> photoreceptor in sunlight.
+
+![Figure 5 from the paper at Plant Physiology web site](./UVR8-images/kiab162f5.jpeg)
+
+See also [_Sensing of solar UVA by plants_](UVR8-in-solar-UVA.qmd).
+

@@ -1,6 +1,6 @@
 ---
-title: "Galleries"
-subtitle: "Galleries of illustrations with R code"
+title: "Galleries of R examples"
+subtitle: "R code and resulting plots or results."
 listing:
   contents: galleries
   sort: "date-modified desc"
@@ -8,7 +8,7 @@ listing:
   fields: [date-modified, date, title]
   field-display-names:
     date: "First published"
-    date-modified: "Last edited"  
+    date-modified: "Last edited"
   categories: true
   sort-ui: true
   filter-ui: true
@@ -20,3 +20,11 @@ page-layout: full
 toc: true
 title-block-banner: true
 ---
+
+::: {.callout-note collapse=true}
+# What are these galleries?
+
+These pages contain collections of R code examples using a "cookbook-like" approach. Many of these examples make use of packages 'ggpp', 'ggpmisc', "gginnards' or from the R for photobiology suite. Frequently, they are together with other packages, thus are several of these examples are unsuitable for inclusion in the packages' documentation.
+
+A couple of these pages focus on downloading data from specific on-line APIs.
+:::

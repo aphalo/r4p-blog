@@ -9,7 +9,7 @@ keywords: [IPS003, design of experiments]
 format: html
 image: t-dist.png
 abstract: 
-  Shiny Apps or dashboards for interactive explorartion on the dependence of the t and F distributions on the degrees of freedom.
+  Shiny Apps or dashboards for interactive exploration on the dependence of the t and F distributions on the degrees of freedom.
 draft: false
 ---
 

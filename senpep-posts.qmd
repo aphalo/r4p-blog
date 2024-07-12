@@ -1,6 +1,6 @@
 ---
-title: "Research News"
-subtitle: "Sensory Ecology and Photobiology of Plants (SenPEP)"
+title: "Sensory Ecology and Photobiology of Plants (SenPEP)"
+subtitle: "Decoding the acquisition and use of information by wild and cultivated plant species"
 listing:
   contents: senpep-posts
   sort: "date-modified desc"
@@ -19,3 +19,32 @@ listing:
 page-layout: full
 title-block-banner: true
 ---
+
+This index page lists posts related to my research with plants and crops. The posts first published before 2024 have been transferred, and in some cases updated, from the site at [https://blogs.helsinki.fi/senpep-blog/](https://blogs.helsinki.fi/senpep-blog/). Please, open the collapsed callouts below for additional information.
+
+::: {.callout-note collapse=true}
+## Research Group
+
+I lead a research group, currently at the University of Helsinki. The group has been
+active for more than 30 years. I has been of moderate and variable size, and subjects have varied, but the main research approach and focus has remained the same:the sensory ecology of plants.
+
+We aim at elucidating how plants acquire and use information about their abiotic and biotic environment. Perception of visible, near infrared, and ultraviolet regions of the daylight spectrum and the acclimation responses triggered by these cues are the main focus of our research.
+:::
+
+::: {.callout-note collapse=true}
+## Field of study
+
+**Sensory ecology:** Plants are capable of sensing their physical, chemical and biological environment. They perceive signals and cues containing information. This information guides development, growth and morphology, based on the template of responses embedded in the genotype. We are interested not only on the physiology of these processes (how they are implemented in the plant) but in their role in the adaptation and acclimation of individual plants to their environment and how responses leading to acclimation may have been shaped through evolution. In the environment we consider both abiotic and biotic factors including in plant-plant interactions such as competition and facilitation. Understanding these interactions is highly relevant to bioresilience.
+
+**Sensory photobiology:** Light is both a source of energy and a source of information for plants. Through photosynthesis plants capture solar energy. This energy is absorbed by chlorophylls and accessory pigments. Through other pigments that are in very small quantities in the plant, small amounts of energy are absorbed. This energy is not important as such but rather as a source of information about the environment. This is “light sensing” like that done by our eyes. This can be thought as a very different kind of vision than ours, but anyway a light sensory mechanism to acquire information about the environment. We are interested mainly in how these sensory systems function in plants’ natural and farming environments.
+
+**Information and resources:** Resources are consumed or made unavailable to other individuals when they are used (soil mineral nutrients, soil water, carbon dioxide in the atmosphere, light as a source of energy). Environmental signals and cues are not modified by the sensory events and can behave as sources of information (the spectrum of light, metabolites released by other individuals or organisms, temperature fluctuations, speed and direction of change of nutrient concentrations in the soil). For humans food is a resource, and light perceived through our eyes is a source of information.
+
+Resources are strong modulators of plant growth. However, we contend that resource availability and direct effects of stress are not always the main and direct driver of the most important plant-plant and plant-environment interactions. In fact we think that the acquisition of information, and the “use” of this information to adjust growth, morphology, development, and metabolism, are central to achieving fitness in a complex and temporarily changing environment.
+:::
+
+::: {.callout-note collapse=true}
+## History
+
+Pedro J. Aphalo’s research group had its origin at METLA (now  Luke) in Suonenjoki in the early 1990’s, continued at METLA and what is now the University of Eastern Finland in Joensuu from 1995, and then at the University of Jyväskylä from 2001, and finally at the University of Helsinki from 2006 onwards. However, it has existed for about 15 years without a name before we started calling ourselves SenPEP soon after PJA moved to Helsinki.
+:::

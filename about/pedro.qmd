@@ -38,3 +38,38 @@ I am the leader of the research group [Sensory and Physiological Ecology of Plan
 
 <a rel="me" href="https://mastodon.social/@aphalo">Mastodon</a>
 
+::: {.callout-note collapse=true}
+# My background
+
+I have been using and teaching [R](https://www.r-project.org/), the free
+software environment for statistical computing and graphics, for more
+than 20 years. I am a researcher working in the field of sensory ecology
+of plants. I have been interested throughout my career in plants'
+responses to light.
+
+In my research group we have used R for general data analysis, as well
+as for plotting and calculations related to photobiology. We are also using
+R for the near-real time acquisition of light spectra, and time series of 
+light spectra. As a result of
+all these activities I developed several R packages and published them
+through CRAN. I have also written books both on R and on photobiology.
+
+I had a [separate website for my research group's
+activities](https://blogs.helsinki.fi/senpep-blog/) (with contents
+that I am slowly transferring to [its own section here](../senpep-posts.qmd)) 
+and I have a [website with
+material related to photography and photography
+techniques](https://www.photo-spectrum.info/). My scientific
+publications are listed at my [ORCID
+profile](https://orcid.org/0000-0003-3385-972X).
+
+I published my first website, *The Plant Photobiology Notes*, between
+1995 and 2001. Initially it was hosted in the desktop PC in my office,
+the same I used everyday for other tasks. The site survived with minor
+updates, mostly deletion of broken links, until around 2009. In the
+meantime the URL changed two or three times when I changed jobs. Much of
+its contents are now outdated but [the site was archived by the Wayback
+Machine](https://web.archive.org/web/*/http://cc.joensuu.fi/photobio*)
+and remains available. Most of the spectral data at the old site are now
+included in my R packages together with newer data.
+:::

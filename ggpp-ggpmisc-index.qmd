@@ -5,6 +5,7 @@ author: Pedro J. Aphalo
 author-meta: Pedro J. Aphalo
 listing:
   - id: intro-pages
+    categories: true
     contents:
       - "pages/ggplot2-introduction.qmd"
       - "pages/ggpmisc-intro.qmd"

@@ -1,0 +1,47 @@
+---
+title: "Cryptochromes and stomatal opening"
+subtitle: "Whole-day time course measurements made the difference"
+date: 2021-10-17
+date-modified: 2024-07-12
+author: "Pedro J. Aphalo"
+keywords: [plant photoreceptors, blue light, stomata, time of day]
+categories: [Sensory ecology]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    resource-path: 
+      - ./stomata-images
+    code-link: true
+    code-tools: true
+abstract: |
+  That the role of phototropins and cryptochromes in stomatal opening is different in the morning and in the afternoon was reported in our paper. The abstract and one figure are reproduced here.
+draft: false
+---
+
+Our paper, included in Fang Wang's PhD thesis, was recently published.
+
+Fang Wang, T Matthew Robson, Jorge J Casal, Alexey Shapiguzov, Pedro J Aphalo (2020) Contributions of cryptochromes and phototropins to stomatal opening through the day. _Functional Plant Biology,_ 47, 226-238. DOI: [https://doi.org/10.1071/FP19053](https://doi.org/10.1071/FP19053).
+
+## Article abstract
+
+The role of phototropins in stomatal opening in response to blue light in well documented in the literature. Reports of a role for cryptochromes in this response have been few, and to some extent contradictory. Most studies on the daily patterns of stomatal opening date from the time when well described photoreceptor mutants were not yet available, so using these mutants was expected to reveal new features of stomatal responses.
+
+Diurnal patterns in stomatal responsiveness to blue light have been earlier described but the details of the mechanisms had remained unresolved.  These measurements are time-consuming, requiring both technical proficiency and a lot of patience. Fang fulfilled both of these requirements managing to obtain a comprehensive data set. In addition an efficient and valid statistical method for the data analysis needed to be found and learnt, which Fang did by participation in specialized course.
+
+What can we conclude: in plants exposed to a regular photoperiod, opening of stomata in blue light at the start of the day is mostly mediated by phototropins. However, during the course of the day the role of cryptochromes becomes more important, so that after the middle of the day their contribution is quantitatively similar to that of phototropins. Under bluish-green light cryptochromes make a significant, although small contribution to stomatal opening, while phototropins played no detectable role. As expected, under read light, neither phototropins nor cryptochromes played a role in stomatal opening.
+
+![Stomatal conductance through the photoperiod in two Arabidopsis photoreceptor mutants and their wild types. Solid  lines indicate wild types and dashed lines the mutants. The irradiance was kept constant through the photoperiod, which started at ZT = 0](./stomata-images/fang-stomata.png)
+
+::: callout-note
+# Remaining knowledge gap
+
+The question remains unsolved as to how much the difference observed between the timing of the activity of the two photoreceptors depends on the circadian clock and how much on the length of time under illumination.
+:::
+
+::: callout-tip
+# Take home message
+
+From the perspective of acclimation and adaptation of plants, the main achievement is that an additional "degree of freedom" has been added to the available description of the regulation of stomatal function.  This raises many questions for further research that could open the door to translation to agriculture through breeding.
+:::

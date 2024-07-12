@@ -21,19 +21,87 @@ listing:
     max-items: 3
     contents: 
       - pages
-    sort: "date-modified desc" 
+    sort: "date desc" 
     type: grid
     image-placeholder: r4p-logo.png
   - id: recent-galleries
     max-items: 3
     contents: 
       - galleries
-    sort: "date-modified desc" 
+    sort: "date desc" 
+    type: grid
+    image-placeholder: r4p-logo.png
+  - id: recent-senpep
+    max-items: 3
+    contents: 
+      - senpep-posts
+    sort: "date desc" 
     type: grid
     image-placeholder: r4p-logo.png
 ---
 
-::: callout-tip
+_If you are interested in the R language, data visualization, data analysis, 
+the daylight spectrum, measurement of light and optical properties or in how
+plants perceive and respond to the characteristics of the light environment
+in which they grow, you are likely to find something of interest among the more
+than a hundred pages and posts at this site._
+
+I have written the contents of this web site over many years. I continue adding new material but it is also a compilation, with some updates, of what I have written on earlier web sites that do no longer exist or may soon be terminated. Because of this this site is organized in _sections_, each one with its own index page (see contents menu entry). 
+
+**Recently published content is showcased below.**
+
+::: {.callout-note collapse=true}
+## R Blog
+
+The [R blog](posts.qmd) contains short articles, mostly news that once
+published are not revised, or revised during a few months, except for
+mistakes. In this section I publish condensed news about package
+updates, and R-related books and articles published elsewhere.
+:::
+
+::: {#recent-posts}
+:::
+
+::: {.callout-note collapse=true}
+## R Pages
+
+The [R pages](pages.qmd) are informative articles and tutorials that once
+published I update as needed to keep them useful and relevant. Many
+of the pages are based on material prepared for courses or talks and
+republished in a different format. In general, the focus is not on
+cookbook-style R code examples.
+:::
+
+::: {#recent-pages}
+:::
+
+::: {.callout-note collapse=true}
+## R Gallery
+
+The [R gallery](galleries.qmd) contains pages that demonstrate use cases
+of R and R packages, mostly my own packages. Each page contains multiple
+R-code recipes for ploting and computations for specific tasks, cookbook
+style. The aim is to provide additional recipes complementing those in
+the well known [Cookbook for R](http://www.cookbook-r.com/) website.
+Once pages in this section are published they are updated as needed to
+keep them useful and relevant, and possibly to expand them.
+:::
+
+::: {#recent-galleries}
+:::
+
+::: {.callout-note collapse=true}
+## SenPEP research blog
+
+These posts are related to research with plants and crops in the research group I lead: _Sensory Ecology and Photobiology of Plants (SenPEP)_.
+:::
+
+::: {#recent-senpep}
+:::
+
+::: {.callout-tip collapse=true}
+# Feeds and announcements
+
 **The best way to remain up-to-date about the contents of this site is to
 use an RSS feed reader** such as NetNewsWire (iPhone) or a browser add-on
 like "FeedBro" (Firefox) and subscribe to the feeds you are interested
@@ -52,123 +120,56 @@ You can visit my Mastodon profile at
 am no longer using Twitter/X or Facebook.
 :::
 
+::: {.callout-tip collapse=true}
+## Other index pages
+
+These index pages list a selection of posts that are already listed in other index
+pages. They are only a convenience.
+:::
+
+* [Talks as slides or videos](presentations.qmd)
+
+* [Pages related to R packages 'ggpp' and 'ggpmisc'](ggpp-ggpmisc-index.qmd)
+
+* [Data analysis and statistics with R](r-index.qmd)
+
+::: {.callout-note collapse=true}
+# Site navigation and menu
+
+The site is searchable, and the search is based on a static index. In other 
+words, the search is fast and local.
+
 # Contents
 
-The following sections of the site can be accessed through the menu at
-the top of all pages in the website. The most recent content is also showcased 
-below.
+Opens a nested menue that links to the tables of contents of the different sections.
 
-The contents can be accessed through four tables of contents: 
-[blog post](posts.qmd), [pages](pages.qmd), [R gallery](galleries.qmd) and
-a selection of [material on R and data analysis](r-index.qmd) that I have
-used in teaching course or advice to students at BSc, MSc and PhD levels.
-
-## Blog
-
-The [blog](posts.qmd) contains short articles, mostly news that once
-published are not revised, or revised during a few months, except for
-mistakes. In this section I published condensed news about package
-updates, and books and articles published elsewhere.
-
-::: {#recent-posts}
-:::
-
-## Pages
-
-The [pages](pages.qmd) are informative articles and tutorials that once
-published are updated as needed to keep them useful and relevant. Many
-of the pages are based on material prepared for courses or talks and
-republished in a different format. In general, the focus is not on
-cookbook-style R code examples.
-
-
-::: {#recent-pages}
-:::
-
-## R Gallery
-
-The [R gallery](galleries.qmd) contains pages that demonstrate use cases
-of R and R packages, mostly my own packages. Each page contains multiple
-R-code recipes for ploting and computations for specific tasks, cookbook
-style. The aim is to provide additional recipes complementing those in
-the well known [Cookbook for R](http://www.cookbook-r.com/) website.
-Once pages in this section are published they are updated as needed to
-keep them useful and relevant, and possibly to expand them.
-
-::: {#recent-galleries}
-:::
-
-## R packages
+# R packages
 
 This menu entry gives access to the [documentation in HTML format for all the R
-packages that I actively maintain](https://docs.r4photobiology.info). It also
-lists a page that summarizes the results of the latest test runs at CRAN and
-GitHub and links for reporting bugs or requesting support.
+packages that I actively maintain](https://docs.r4photobiology.info).
 
-I also maintain a [CRAN-like repository](https://r.r4photobiology.info) with
-those packages that I maintain but which are not available through CRAN.
-Occasionally, I also make available under development versions of the packages that
-are available through CRAN through this repository.
+Under development versions of the packages that I maintain are available at a [CRAN-like repository](https://aphalo.r-universe.dev). I addition to the packages published in CRAN, a few packages are only available through this repository.
 
-## Books
+# Books
 
 This menu entry gives access to pages related to books I have written or
 edited about R and/or photobiology.
 
-## Data
+# Data
 
 Here you will find data acquired at a weather station that I manage. The 
 station is located in the Viikki Campus of the University of Helsinki, 
 in Helsinki, Finland. There is also a description of the station equipment
 and the variables in the data.
 
-## About
+# About
 
-Pages with additional information about the site and its webmaster and
-author.
+Pages with additional information about the site and myself.
 
-# R, data analysis and photobiology
+# Feeds
 
-This website's focuses mostly on methodology, and R and R packages as
-tools. It complements R packages and books I have authored. The site
-emphasizes the use of the R packages I have developed and maintain,
-including extensions to 'ggplot2' and a suite of several R packages
-supporting computations, data acquisition and plotting related to
-photobiology. However, this website also includes some content broadly
-applicable to data analysis and data visualization.
+Each index page generates a matching RSS feed that can be followed with any 
+compatible feed reader.
 
-```{r, message=FALSE}
-library(ggspectra)
-photon_as_default()
-autoplot(sun.daily.spct, annotations = c("+", "title:where:when"))
-```
+:::
 
-# My other websites
-
-I have been using and teaching [R](https://www.r-project.org/), the free
-software environment for statistical computing and graphics, for more
-than 20 years. I am a researcher working in the field of sensory ecology
-of plants. I have been interested throughout my career in plants'
-responses to light.
-
-In my research group we have used R for general data analysis, as well
-as for plotting and calculations related to photobiology. As a result of
-all these activities I developed several R packages and published them
-through CRAN. I have also written books both on R and on photobiology.
-
-I have a [separate website for my research group's
-activities](https://blogs.helsinki.fi/senpep-blog/) and a [website with
-material related to photography and photography
-techniques](https://www.photo-spectrum.info/). My scientific
-publications are listed at my [ORCID
-profile](https://orcid.org/0000-0003-3385-972X).
-
-I published my first website, *The Plant Photobiology Notes*, between
-1995 and 2001. Initially it was hosted in the desktop PC in my office,
-the same I used everyday for other tasks. The site survived with minor
-updates, mostly deletion of broken links, until around 2009. In the
-meantime the URL changed two or three times when I changed jobs. Much of
-its contents are now outdated but [the site was archived by the Wayback
-Machine](https://web.archive.org/web/*/http://cc.joensuu.fi/photobio*)
-and remains available. Most of the spectral data at the old site are now
-included in my R packages together with newer data.

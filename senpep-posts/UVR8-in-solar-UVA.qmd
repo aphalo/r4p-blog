@@ -63,3 +63,5 @@ So, an interaction between UVR8 and CRYs has been postulated, and has recently b
 
 An approach to research combining experiments and expertize at different levels of organization allowed us to link molecular mechanisms to function in whole plants growing in natural light. Looking at the problem from a holistic perspective, several key questions remain open: 1) are all plant photoreceptors part of a single regulatory system? 2) given the complexity revealed by recent research, how is signalling organized to achieve a failure-tolerance? 3) what "colours can plants distinguish" and more generally what information plants acquire from the environment through photoreceptors?
 :::
+
+See also [_Perception of solar UV radiation by plants_](perception-of-solar-ultraviolet.qmd).

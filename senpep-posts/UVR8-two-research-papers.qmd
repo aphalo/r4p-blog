@@ -1,0 +1,50 @@
+---
+title: "UVR8 is an UV-B and UV-A photoreceptor"
+subtitle: "How did we work out that UVR8 is a solar-UV-B plus UV-A photoreceptor?"
+date: 2020-04-25
+date-modified: 2024-07-12
+author: "Pedro J. Aphalo"
+keywords: [plant photoreceptors, sunlight spectrum, ultraviolet radiation]
+categories: [Sensory ecology]
+editor: 
+  markdown: 
+    wrap: 72
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  The role of biological photosensory systems depends on their interaction the light environemnt and on interactions among them. Two recently published articles from our research group shed light on how two families of photoreceptors function in plants growing in sunlight.
+draft: false
+---
+
+**Our two recent papers:**
+
+Neha Rai, Susanne Neugart, Yan Yan, Fang Wang, Sari M Siipola, Anders V Lindfors, Jana Barbro Winkler, Andreas Albert, Mikael Brosché, Tarja Lehto, Luis O Morales, Pedro J Aphalo (2019) How do cryptochromes and UVR8 interact in natural and simulated sunlight? _Journal of Experimental Botany_, **70**, 4975–4990, [https://doi.org/10.1093/jxb/erz236](https://doi.org/10.1093/jxb/erz236).
+
+Neha Rai, Andrew O'Hara, Daniel Farkas, Omid Safronov, Khuanpiroon Ratanasopa, Fang Wang, Anders V. Lindfors, Gareth I. Jenkins, Tarja Lehto, Jarkko Salojärvi, Mikael Brosché, Åke Strid, Pedro J. Aphalo, Luis O. Morales (2020) The photoreceptor UVR8 mediates the perception of both UV‐B and UV‐A wavelengths up to 350 nm of sunlight with responsivity moderated by cryptochromes. _Plant, Cell &amp; Environment_, [https://doi.org/10.1111/pce.13752](https://doi.org/10.1111/pce.13752).
+
+In these two recent publications we have shown that UVR8, previously described as an ultravioltet-B (UV-B, 280-315 nm) photoreceptor, in sunlight functions both as an ultraviolet-A (UV-A, 315-400 nm) and UV-B photoreceptor. Although UVR8 presents maximal absorption at the boundary between ultraviolet-C (UV-C, &lt;280 nm) and UV-B, the shape of the solar spectrum in the ultraviolet region, characterized by a very steep slope, allows the UVR8 protein to absorb nearly as many UV-A photons as UV-B photons, and obviously no photons in the UV-C as they are not present in sunlight at ground level.
+
+![Normalized spectral absoorbance of UVR8 protein in vitro (From Rai et al.. 2020).](./UVR8-images/UVR8Ecoli-web.png)
+
+The longer the wavelength the less energy photons carry, and this may limit their ability to drive photochemical reactions, such as the activation of a photoreceptor. We show that somewhere near 340 to 350 nm there is a transition, with photons at longer wavelengths, even if absorbed not leading to monomerization and activation of the UVR8 photoreceptor.
+
+Plants have other photoreceptors capable of absorbing ultraviolet-A radiation: cryptochromes (cry1, cry2), phototropins (phot1, phot2) and proteins in the Zeitloup family (zl). In sunlight, cry1 and cry2 , are mainly activated by blue light (BL) and they seem to play a smaller direct role in the UV-A region of sunlight. However, the action of cry1 and/or cry2 very strongly down-regulates responses to UV-A and UV-B mediated by UVR8.
+
+Finally we also showed that both the _cry1 cry2_ and _uvr8-2_ mutants survive and grow almost normally in full sunlight, while full sunlight kills within a few days of germination most individuals of the _cry1 cry2_ _uvr8_-2 triple mutant.
+
+![Clockwise from top left: _uvr8-2 cry1 cry2_ mutant; _uvr8-2_ mutant; _cry1 cry2_ mutant; L_er_ wild type.](./UVR8-images/seedlings-in-sunlight.jpg)
+
+::: callout-note
+#Take home message
+
+UVR8 should be in the future described as a UV-B/UV-A photoreceptor. When studying plants, for measurements and treatments to be informative need to divide the UV-A range into two regions UV-Asw and UV-Alw with a split at 350 nm as we have used, or following CIEs definitions of UV-A1 and UV-A2 with a split at 340 nm. Fully understanding the mechanisms of perception of ultraviolet radiation by plants will require additional studies aiming at disentangling the many signalling interactions downstream of these and other photoreceptors.</span>
+:::
+
+::: callout-note
+# How we did it
+
+Pedro J. Aphalo and Luis O. Morales lead this research and generated the main hypotheses, but the success of these studies was made possible by intellectual and practical contributions from several other research groups from Finland, Sweden, Germany, Singapore and Great Britain. It took nearly six years since we started suspecting that UVR8 played a role in UV-A perception in sunlight and the publication of these articles were we demonstrated why and how UVR8 functions as UV-B/UV-A photoreceptor in sunlight. Both the process and the achievement were highly rewarding intellectually in spite of the lack of enthusiasm shown by several grant-application reviewers along the way and the slow-down this caused.
+:::
+
