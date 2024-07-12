@@ -1,0 +1,168 @@
+---
+title: "Article titles in the era of the internet"
+subtitle: "Does popularity in Research Gate mean anything?"
+date: 2017-11-24
+date-modified: 2024-07-12
+author: "Pedro J. Aphalo"
+keywords: [article reads, snowball effect, piggy-back effect]
+categories: [Bibliometrics]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    resource-path: 
+      - ./RG-images
+    code-link: true
+    code-tools: true
+abstract: |
+  This page gives an account of the very strange "life" of an article that became viral by accident, and remains unjustifiably popular eight years after publication.
+draft: false
+---
+
+::: callout-warning
+This page includes two previously-published posts plus an update. I discuss here an
+extremely popular article in Research Gate, that did not deserve such popularity.  
+As a bold counterexample, I think it demonstrates that long-term sustained 
+citation frequency, even if not unbiased, gives a much more reliable measure
+of the usefulness of a publication than page or file reads. This cannot be 
+strictly demonstrated, so there exists the possibility that some magic hidden 
+in the text I wrote attracted reader or confused search-engine hit-ranking
+algorithms.
+:::
+
+## Article titles in the era of the internet
+
+::: callout-note
+I wrote this post on November 2017, 17 months after the publication of the article.
+:::
+
+A currently ongoing surprising event affecting what I considered [one of my least important articles](https://doi.org/10.19232/uv4pb.2016.1.92), has made me rethink how search engines and the internet affect the impact of publications.
+
+Among web site developers "SEO" is considered a very important factor in being successful in "drawing traffic or page reads" to a site. SEO means search-engine optimisation. For web pages, it involves much more than subjectively choosing suitable words for titles. In a way it is like reverse engineering how research engines like Google work, so as to write web pages in a way such that they will appear near the top of searches as frequently as possible. There exist different types of tools and software to help in the task of achieving good "SEO" and even companies that offer for a payment SEO for websites. My thoughts are: do we need similar tools for SEO of research papers? Needed or not, a more important question is how much do the properties of the algorithms used by search engines affect the impact of the articles we write? I do not know the answers, but I think these are important questions.
+
+What is the incident? To me it looks like a snowball effect, helped by accidental good SEO. I wrote a short review of a book in the [UV4Plants Bulletin](http://bulletin.uv4plants.org) and as it is allowed, made it available through ResearchGate. It is being read and being followed and recommended... but much more than what would seem to me to be reasonable, to the point that it has already been on two weeks according to ResearchGate the most read article from a Finnish author! and more than once the most read forestry article worldwide (although neither the Bulletin, nor the reviewed book, have anything to do with forestry).
+
+## Update on: 'Article titles in the era of the internet'
+
+::: callout-note
+I wrote this post in January 2018, 18.5 months after the publication of the article.
+:::
+
+Exponential growth in read counts continues.
+
+[Reads in ResearchGate for my review of a book, published in the _UV4Plants Bulletin_](./RG-images/snowball-fig.png)
+
+As [ResearchGate](https://www.researchgate.net/profile/Pedro_Aphalo) seems to assign subjects to papers based on the subjects in the author's profile, rather than the paper itself, all sorts of astonishing achievements are being reported for this very modest one-page-long book review... and for myself... 
+
+Last week's achievements as example. (It would have been nice if any of the achievements after the first two would have been meaningful!)
+<table style="border-color: #000000; background-color: #fafafa;" border="5">
+<thead>
+<tr style="border-color: #000000; background-color: #d8f7d0;">
+<td><em><strong>Week ending December 31st, 2017</strong></em></td>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Your project reached 200 reads R for Photobiology</td>
+</tr>
+<tr>
+<td>Your project reached 400 reads Sensory ecology of plants and pre-emptive acclimation.</td>
+</tr>
+<tr>
+<td>Your publications reached 50,000 reads</td>
+</tr>
+<tr>
+<td>With 3,852 new reads, your article was the most read article from your department Thinking, Fast and Slow (by Daniel Kahneman)</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from your department</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Molecular Biology</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from Statistics</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from Forestry</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Botany</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Forestry</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Agronomy</td>
+</tr>
+<tr>
+<td>With 3,852 new reads, your article was the most read article from your institution</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Ecology</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Agricultural Plant Science</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from Finland</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from your institution</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from Agricultural Plant Science</td>
+</tr>
+<tr>
+<td>With 3,852 new reads, your article was the most read article from Finland Thinking, Fast and Slow (by Daniel Kahneman)</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from Botany</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Statistics</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from Finland</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from  Ecology</td>
+</tr>
+<tr>
+<td>With 3,922 new reads, your publications were the most read publications from your institution</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from your department</td>
+</tr>
+<tr>
+<td>With 3,928 new reads, your contributions were the most read contributions from Agronomy</td>
+</tr>
+<tr>
+<td>Your article reached 40,000 reads Thinking, Fast and Slow (by Daniel Kahneman)</td>
+</tr>
+</tbody>
+</table>
+
+**So, we need to just ignore ResearchGate reads, as they mean little if anything about the impact of one's own scientific research...**
+
+## Eight years later: 'Article titles in the era of the internet'
+
+::: callout-note
+I am writing this text in July 2024, 97 months after the publication of the article.
+:::
+
+As a consequence of the event described in the two posts reproduced above I lost all interest in ResearchGate statistics and stopped paying attention to them. This week, however, in a bought of curiosity, I looked at them. This same article continues to be the most read out of the over 100 articles I have authored. The number of reads has gone down a lot, but at 40 reads per week it is still a popular read around the world.
+
+The life-time number of article reads at Research Gate is currently 557408, making an 97-month average rate of 5806 reads / month!
+
+A likely explanation, is that the book I reviewed, _Think, Fast and Slow_ by Daniel Kahneman, has sold over 10 million copies, and had sold over 1 million copies already by 2012. My review included the whole title of the book in its title, most likely boosting its ranking in search engine hits. After that initial push, it seems that a snowball effect meant it became "viral" and retained some of this initial push for several years.
+
+Obviously, being just a book review, it has been cited only once, by myself [in a commentary](https://doi.org/10.19232/uv4pb.2018.1.10) when discussing the non-sensical popularity of the article.
+
+::: callout-tip
+# Take home message
+
+Just ignore reads and rankings based on reads! They are meaningless because they are just page or file visits, many of which can be accidental or biased by how search engine algorithms work. Even if worthless articles will most likely not be cited very frequently in the scientific literature, the kind of accidental popularity that affected the article discussed here can affect which one out of several competing and equally good articles get cited more frequently. A likely source of a snowball effect on overall citations are accidentally (or intentionally) biased citations in text books.
+:::
