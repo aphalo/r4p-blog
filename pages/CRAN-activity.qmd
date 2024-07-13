@@ -1,0 +1,117 @@
+---
+title: "R Packages: Timeline of Updates"
+subtitle: "Packages published in CRAN that I maintain "
+author: "Pedro J. Aphalo"
+date: "2024-07-13"
+date-modified: "2024-07-13"
+categories: [R packages]
+keywords: [R, photobiology, data visualization, computations]
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.retina = 3,
+  out.width = "100%"
+)
+
+library(lubridate)
+library(ggplot2)
+library(ggpp)
+```
+
+
+```{r, echo=FALSE, include=FALSE}
+# protect against date change while script is running
+today  <- lubridate::today() 
+
+# download info from CRAN
+# cache the data based on R session and date
+if (!exists("all_pkgs.df") || 
+    is.null(attr(all_pkgs.df, "download.date")) || # not strictly needed
+    attr(all_pkgs.df, "download.date") != today) {
+  all_pkgs.df <- tools::CRAN_package_db() |>
+    tibble::as_tibble()
+  attr(all_pkgs.df, "download.date") <- lubridate::today()
+}
+dim(all_pkgs.df)
+
+all_pkgs.df |> 
+  janitor::clean_names()  |> 
+  dplyr::filter(grepl("Aphalo", author)) -> my_pkgs.df
+dim(my_pkgs.df)
+
+my_pkgs.df |> 
+  dplyr::filter(package != "ggrepel") |>
+  dplyr::select(Package = package, Title = title, Version = version, Date = published, doi) -> my_pkgs_condensed.df 
+dim(my_pkgs_condensed.df)
+```
+
+
+```{r, echo = FALSE}
+# Prepare data for plotting
+packages <- my_pkgs_condensed.df[["Package"]]
+# we download package history only once per session if possible
+if (!exists("pkgs_hist.ls") || 
+    length(packages) != length(names(pkgs_hist.ls)) ||
+    length(setdiff(packages, names(pkgs_hist.ls)))) {
+  pkgs_hist.ls <- list() # will collect one member per package
+  for (package in packages) {
+    pkgs_hist.ls[[package]] <- 
+      packageRank::packageHistory(package, check.package = TRUE)
+  }
+}
+dates.vec <- lubridate::Date() # 
+packages.vec <- character()
+for (package in packages) {
+  temp <- pkgs_hist.ls[[package]]
+  dates.vec <- c(dates.vec, temp[["Date"]])
+  packages.vec <- c(packages.vec, rep(package, length(temp[["Date"]])))
+}
+ordering <- order(dates.vec)
+dates.vec <- dates.vec[ordering]
+packages.vec <- packages.vec[ordering]
+
+earliest.date <- dates.vec[1]
+latest.date <- dates.vec[length(dates.vec)] 
+```
+
+The sources of the R packages I have published are in public Git repositories at GitHub. Out of the packages that I have authored and maintain, `r length(packages)` are currently available through CRAN. The total number of packages submissions (mostly updates) as author and maintainer is `r length(dates.vec)` since `r format.Date(earliest.date)`.
+The most recent of these updates was published in CRAN on `r format.Date(latest.date)`.
+
+```{r 'cran-packages-plot', echo = FALSE,  fig.width=6, fig.height=5}
+
+cran_releases.df <- 
+  data.frame(Package = factor(packages.vec), 
+             CRAN.dates = dates.vec, 
+             ones = rep(1, length(dates.vec)))
+
+# combined plot
+ggplot(cran_releases.df, aes(CRAN.dates, Package, colour = Package)) +
+  geom_point(shape = "|", size = 6, alpha = 0.8) +
+  scale_x_date(name = "Date of Publication in CRAN",
+               date_breaks = "year", date_labels = "%Y") +
+  theme_minimal(12) + theme(legend.position = "none")
+```
+
+
+```{r cran-packages-table, results='asis', echo = FALSE}
+#| label: tbl-packages
+#| tbl-cap: List of packages available at CRAN-with the most recently updated one at the top. Package names are linked to their pages in CRAN. Titles are linked to their HTML documentation at this site.
+
+my_pkgs_condensed.df |> 
+  dplyr::transmute("Package (CRAN)"  = paste("[", Package, "](", "https://doi.org/", doi, ")", sep = ""),
+                "Title (documentation)" = paste("[", Title, "](", "https://docs.r4photobiology.info/", package, "/)", sep = ""),
+                 Version = Version,
+                Date = Date) |>
+  dplyr::arrange(desc(Date)) |>
+  knitr::kable()
+```
+
+Updates under development are published at R-Universe as soon as merged or commited into the main branch in the repositories at GitHub. Two packages that depend on a commercial closed-source driver, but usable with a free runtime of the driver, are published only at R-Universe.
+
+R-Universe profile: [https://aphalo.r-universe.dev](https://aphalo.r-universe.dev).
+[![:name status badge](https://aphalo.r-universe.dev/badges/:name)](https://aphalo.r-universe.dev/)
+[![:packages status badge](https://aphalo.r-universe.dev/badges/:packages)](https://aphalo.r-universe.dev/)
+

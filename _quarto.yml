@@ -52,6 +52,9 @@ website:
       - icon: box-seam
         text: R Packages
         menu:
+          - icon: arrow-clockwise
+            text: Updates timeline
+            href: pages/CRAN-activity.qmd
           - icon: list
             text: Documentation Index
             href: https://docs.r4photobiology.info/
