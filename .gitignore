@@ -9,3 +9,5 @@ _site
 galleries/online-weather-data_cache/html/
 
 galleries/data/
+
+_freeze/
