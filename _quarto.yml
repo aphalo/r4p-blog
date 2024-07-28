@@ -7,6 +7,7 @@ website:
   description: "Web site R, data analysis and photobiology. It includes a blog, web pages and galleries of R code examples and other resources."
   favicon: r4p-favicon.png
   search: true
+  draft-mode: visible
   navbar:
     logo: r4p-logo.png
     right:
