@@ -1,9 +1,9 @@
 ---
-title: "ooacquire 0.4.x"
+title: "ooacquire >= 0.4.0"
 subtitle: "ooacquire: Acquire Data from OO Spectrometers"
 author: "Pedro J. Aphalo"
 date: 2023-06-10
-date-modified: 2024-02-26
+date-modified: 2024-08-24
 categories: [R Package Update]
 keywords: [ooacquire pkg]
 ---
@@ -20,6 +20,16 @@ instructions are given in the
 :::
 
 ## Overview of changes
+
+**Version 0.5.1** Update default arguments related to triggers in 
+`acq_irrad_interactive()`.
+
+**Version 0.5.0** Major update. Update `acq_irrad_interactive()` to support
+synchronized triggering of other devices during acquisition of spectra.
+Rewrite `acq_fraction_interactive()` to match all the features of 
+`acq_irrad_interactive()`.
+
+**Version 0.4.6** Add function `update_bad_pixels()` for calibration data.
 
 **Version 0.4.5** Update the tail correction functions to use a narrower moving
 window (20 nm instead of 150 nm), with very little impact on the returned values

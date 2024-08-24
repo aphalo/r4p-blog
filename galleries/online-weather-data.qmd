@@ -3,7 +3,7 @@ title: "Open Access Weather and Climate Data"
 subtitle: "Importing qne using them in R"
 author: "Pedro J. Aphalo"
 date: "2023-07-31"
-date-modified: "2024-04-21"
+date-modified: "2024-08-24"
 categories: [Using R]
 keywords: [R packages, weather data]
 code-fold: true
@@ -17,8 +17,21 @@ abstract: |
 ---
 
 ::: callout-warning
-This page is still a draft. Code examples do work but will be expanded and the
-text will be revised.
+Something has changed in R package 'tidync' between April and August 2024, in a
+way that broke the code examples. When selecting a single value in two out of
+three grid variables, none of the grid variables are included in the tibble
+returned by function `hyper_tibble()`. Another change is that in the examples
+below, the values returned in the tibble for grid variable `time` are not the
+numeric values stored in the NCDF file, but instead character strings. However,
+selection of grid points seems still to work based on the numeric values.
+
+In the case of e-obs the changed behaviour was also when using the same locally 
+saved NCDF file as earlier.
+
+I have edited the code examples that extracted data using ranges to work with
+the current version of 'tidync' and other packages. I was unable to make the
+example of extracting data for a single geografic grid point to work, so I have
+deleted it.
 :::
 
 ::: callout-tip
@@ -32,7 +45,7 @@ The code in the chunks can be copied by clicking on the top right
 corner, where an icon appears when the mouse cursor hovers over the code
 listing.
 
-The `</> Code` drop down menu to the right of the page title makes it possible to unfold all code chunks and to view the Quarto source of the whole web page.
+The `Code` drop down menu to the right of the page title makes it possible to unfold all code chunks and to view the Quarto source of the whole web page.
 
 Names of functions and other R objects are linked to the corresponding on-line help pages. The names of R extension packages are linked to their documentation web sites when available.
 :::
@@ -271,9 +284,17 @@ library(dplyr)
 library(lubridate)
 library(tidync)
 ```
+We retrieve data from all grid points
+within an area and for a time period. To save typing we define a function,
+which, thanks to its name, makes also clear the intention of the code.
 
-```{r, TC-02, message=FALSE}
-var="tmax"
+
+```{r, TC-02}
+# name of variable to fetch
+
+var <- "tmax"
+
+# URL to remotely access data and selectively download them
 
 data_url <- 
   paste0(paste0("http://thredds.northwestknowledge.net:8080/thredds/dodsC/agg_terraclimate_",
@@ -281,43 +302,18 @@ data_url <-
          "_1958_CurrentYear_GLOBE.nc")
 
 tnc <- tidync(data_url)
+activate(tnc, "tmax")
 print(tnc)
 
-# a single grid point
-my.lon <- 45.05
-my.lat <- 45.01
-# we need to take into account how values in variable time are stored
-my.month <- as.integer(ymd("2015-06-01") - ymd("1900-01-01"))
+# Function to selecy the area and period of interest
 
-# we use tests as arguments for lon and lat to find the nearest grid point
-hyper_tibble(tnc,
-             lon = index == which.min(abs(lon - my.lon)),
-             lat = index == which.min(abs(lat - my.lat)),
-             time = time == my.month,
-             na.rm = FALSE) %>%
-  # convert time in number of days to a date
-  mutate(date = ymd("1900-01-01") + days(time),
-         year = year(date),
-         month = month(date),
-         tmax = ifelse(abs(tmax) == 32768, NA, tmax)) %>%
-  select(-time) -> grid_point.tb
-
-# print the result
-grid_point.tb
-```
-
-We continue from the previous example retrieving data from all grid points
-within an area and for a time period. To save typing we define a function,
-which, thanks to its name, makes also clear the intention of the code.
-
-```{r, TC-03, message=FALSE}
 is_within <- function(x, range) {
   # protect from ranges given backwards
   range <- range(range)
   x > range[1] & x < range[2]
 }
 
-# we save the limits to variables
+# we save the limits to grid variables
 my.lon <- c(50, 50.5)
 my.lat <- c(30.5, 31)
 my.period <- as.integer(ymd(c("1960-03-01", "1960-09-01")) - ymd("1900-01-01"))
@@ -327,11 +323,9 @@ hyper_tibble(tnc,
              lat = is_within(lat, my.lat),
              time = is_within(time, my.period),
              na.rm = FALSE) %>%
-  # convert time in number of days to a date
-  mutate(date = ymd("1900-01-01") + days(time),
-         year = year(date),
-         month = month(date),
-         tmax = ifelse(abs(tmax) == 32768, NA, tmax)) %>%
+  # convert time from character to a date
+  mutate(date = ymd(time),
+        tmax = ifelse(abs(tmax) == 32768, NA, tmax)) %>%
   select(-time) -> grid_area_in_time.tb
 
 grid_area_in_time.tb
@@ -393,10 +387,8 @@ hyper_tibble(eobs_tnc,
              latitude = is_within(latitude, my.lat),
              time = is_within(time, my.period),
              na.rm = FALSE) %>%
-  # convert time in number of days to a date
-  mutate(date = ymd("1950-01-01") + days(time),
-         year = year(date),
-         month = month(date)) %>%
+  # convert time from character to a date
+  mutate(date = ymd(time)) %>%
   select(-time) -> grid_area_in_time.tb
 
 sum(!is.na(grid_area_in_time.tb$tg))

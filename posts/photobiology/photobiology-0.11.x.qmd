@@ -3,7 +3,7 @@ title: "photobiology 0.11.x"
 subtitle: "Most significant recent changes"
 author: "Pedro J. Aphalo"
 date: 2023-10-21
-date-modified: 2024-02-26
+date-modified: 2024-08-24
 categories: [R Package Update]
 keywords: [photobiology pkg]
 format:
@@ -38,4 +38,20 @@ of irradiance computations on objects containing multiple spectra in long
 form has been improved. Add example data sets. Fix bugs, mostly boundary-case
 and minor. Minor changes to data sets could potentially affect backwards 
 compatibility, but this is unlikely.
+
+**Version 0.11.2** brings bug fixes.
+
+**Version 0.11.3** brings bug fixes, additional specializations of methods for
+multiple spectra stored in long form, together with  enhancements to the 
+printing of spectra and collections of spectra and their summaries.
+
+As shown below, the header of the printout now contains the information in the
+form of a data dictionary under "Variables:", which is clearer than the previous
+approach of listing metadata values.
+
+```{r}
+library(photobiology)
+sun.spct
+```
+
 

@@ -3,18 +3,30 @@ title: "OmniDriver, Java and the whims of companies"
 subtitle: "Open source alternative drivers"
 author: "Pedro J. Aphalo"
 date: "2023-03-20"
-date-modified: "2023-04-20"
+date-modified: "2024-08-24"
 categories: [R packages, data acquisition]
 keywords: [Ocean Optics, spectrometer, rOmniDriver pkg, ooacquire pkg]
 ---
 
 # Acquiring spectra from Ocean Optics/Ocean Insight spectrometers
 
+::: callout-warning
+[July 2024] OceanOptics has terminated support for 'OmniDriver', and removed
+the installer from their servers. For the time being, if you have OmniDriver
+installed, you can continue using R to acquire spectra with package
+['ooacquire'](https://aphalo.r-universe.dev/ooacquire) with 
+['rOmniDriver'](https://aphalo.r-universe.dev/rOmniDriver) as its back end.
+
+_I do not know how difficult it will be to replace 'OmniDriver' with 'seabreeze'
+in either its C++ or Python versions. The schedule for a release is still
+uncertain, but this is something that I need for my own use._
+:::
+
 ## Current status
 
-Java ended under Oracle's ownership in 2010 through the acquisition of [Sun Microsystems by Oracle](https://en.wikipedia.org/wiki/Acquisition_of_Sun_Microsystems_by_Oracle_Corporation).  Sun's formerly free licence for Java was later tightened into a commercial one that requires payment of fees on an uncertain basis as [Oracle frequently changes the licencing terms](https://bell-sw.com/announcements/2022/02/24/java-licensing-changes-in-2021/). Furthermore, the licence depends on the version and frre updates on the versions' vintage. To say the least, this is a very messy situation.
+Java ended under Oracle's ownership in 2010 through the acquisition of [Sun Microsystems by Oracle](https://en.wikipedia.org/wiki/Acquisition_of_Sun_Microsystems_by_Oracle_Corporation).  Sun's formerly free licence for Java was later tightened into a commercial one that requires payment of fees on an uncertain basis as [Oracle frequently changes the licencing terms](https://bell-sw.com/announcements/2022/02/24/java-licensing-changes-in-2021/). Furthermore, the licence depends on the version and free updates on the versions' vintage. To say the least, this is a very messy situation.
 
-Ocean Optics OmniDriver driver, written in Java has been available for close to 20 years, with minimal updates in the last 10 years. It is based on Java 8, and recent versions are bundled with Java. However, to access OmniDriver from R, one needs to install the Java 8 JDK (or the Java 8 OpenJDK). Oracle's updates to Java 8 JDK require a paid support agreement and without updates it is very vulnerable to malicious attacks. The OpenJDK is free and receives updates, and does work with package 'rJava'. It is available packaged in alternative distributions under other names. Java is both the name of the language and the name of a product. As a product, Java is used by Oracle. Other distributions of the OpenJDK have different names, making finding them slightly difficcult. When I tried to access OmniDriver with the OpenJDK some time ago, I did not succeed to make it work from R using package 'rJava'. I tested this a couple of days ago, and at least the Temurin 8 OpenJDK 64 bit version works well under recent versions of R.
+Ocean Optics OmniDriver driver, written in Java has been available for close to 20 years, with minimal updates in the last 10 years. It is based on Java 8, and recent versions are bundled with Java. However, to access OmniDriver from R, one needs to install the Java 8 JDK (or the Java 8 OpenJDK). Oracle's updates to Java 8 JDK require a paid support agreement and without updates it is very vulnerable to malicious attacks. The OpenJDK is free and receives updates, and does work with package 'rJava'. It is available packaged in alternative distributions under other names. Java is both the name of the language and the name of a product. As a product, Java is used by Oracle. Other distributions of the OpenJDK have different names, making finding them slightly difficult. When I tried to access OmniDriver with the OpenJDK some time ago, I did not succeed to make it work from R using package 'rJava'. For some time at least the Temurin 8 OpenJDK, Corretto 8 OpenJDK, and possibly other distributions, in their 64 bit versions work well under recent versions of R.
 
 OmniDriver is a commercial SDK with a cost of nearly 400 € but with a free runtime. Years back, Ocean Optics, agreed to me using it in my 'ooacquire' package. The person with whom I discussed this, has left the company several years ago. Under its new name of Ocean Insight the company seems to be slowly phasing out OmniDriver and replacing it with OceanDirect, listed at a price of nearly 600 € but also described as available free of charge with new spectrometer purchases. 
 

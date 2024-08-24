@@ -1,5 +1,5 @@
 ---
-title: "ggspectra 0.3.10/0.3.11/0.3.12"
+title: "ggspectra >= 0.3.10"
 author: "Pedro J. Aphalo"
 date: "2023-02-03"
 date-modified: "2023-10-21"
@@ -25,4 +25,14 @@ New *x* scales and new functions for adding secondary *x* axes have been impleme
 -  Improve `autoplot()` methods. Formatting of numbers in labels and handling
 of `ylim` arguments that subset the data.
 
-Please raise issues concerning bugs or enhancements to this package through GitHub at <https://github.com/aphalo/ggspectra/issues>.
+**Version 0.3.13:**
+- Bug fixes. 
+- Improve `autoplot()` methods, and fully support multiple spectra in long
+form.
+
+```{r}
+library(ggspectra)
+autoplot(sun_evening.spct, unit.out = "photon")
+```
+
+
