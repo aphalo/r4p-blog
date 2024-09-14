@@ -3,11 +3,11 @@ title: "Functional analysis of spectra with 'photobiology' to 'fda.usc'"
 subtitle: "From 'photobiology' to 'fda.usc' and back."
 author: "Pedro J. Aphalo"
 date: "2023-06-02"
-date-modified: "2023-07-20"
+date-modified: "2024-09-14"
 keywords: [photobiology pkg, photobiologyInOut pkg, fda.usc pkg, ggspectra pkg, functional data analysis]
 categories: [Photobiology examples]
 abstract: |
-  Explanations and example R code for applying functional data analysis to spectral data stored in the classes defined in package [photobiology](https://docs.r4photobiology.info/photobiology/) and plotting the obtained deepest curve with [ggplot2](https://ggplot2.tidyverse.org/) and [ggspectra](https://docs.r4photobiology.info/ggspectra/) and aplying ANOVA-like methods to compare groups of spectra. The excahnge of the spectral data between packages is done with functions from package [photobiologyInOut](https://docs.r4photobiology.info/photobiologyInOut/).
+  Explanations and example R code for applying functional data analysis to spectral data stored in the classes defined in package [photobiology](https://docs.r4photobiology.info/photobiology/) and plotting the obtained deepest curve with [ggplot2](https://ggplot2.tidyverse.org/) and [ggspectra](https://docs.r4photobiology.info/ggspectra/) and aplying ANOVA-like methods to compare groups of spectra. The exchange of the spectral data between packages is done with functions from package [photobiologyInOut](https://docs.r4photobiology.info/photobiologyInOut/).
 editor: 
   markdown: 
     wrap: 72
@@ -169,15 +169,16 @@ autoplot(shade.mspct) +
   labs(linetype = "Entrance\noptics")
 ```
 
-We test in a one-way ANOVA if the spectra differ, and they do differ significantly.
+We test in a one-way ANOVA if the spectra differ, and they do differ significantly. This procedure is computationally demanding and thus time consuming. In cases with less clear-cut results it is worthwhile to increase `nboot` to at least its default of 100.
 
 ```{r}
 shade.fda <- mspct2fdata(shade.mspct)
 shade.anova <-
   fanova.onefactor(shade.fda,
                    group = factor(rep(c("cosine", "dome"), each = 10L)),
-                   plot = TRUE)
-shade.anova$pvalue
+                   plot = TRUE,
+                   nboot = 25)
+shade.anova
 ```
 
 To test if the shape of the spectra differs, we first scale them to equal area under the curve, and repeat the ANOVA analysis.
@@ -188,8 +189,9 @@ shade_scaled.fda <-
 shade_scaled.anova <-
   fanova.onefactor(shade_scaled.fda,
                    group = factor(rep(c("cosine", "dome"), each = 10L)),
-                   plot = TRUE)
-shade_scaled.anova$pvalue
+                   plot = TRUE,
+                   nboot = 25)
+shade_scaled.anova
 ```
 
 ## References

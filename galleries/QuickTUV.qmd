@@ -3,11 +3,16 @@ title: "Using the Quick TUV Calculator"
 subtitle: "Importing simulated solar spectrum data into R"
 author: "Pedro J. Aphalo"
 date: "2018-08-10"
-date-modified: "2024-04-22"
+date-modified: "2024-09-14"
 categories: [solar spectrum, data]
 keywords: [photobiologyInOut pkg, TUV model]
+code-fold: show
+format:
+  html: 
+    code-link: true
+    code-tools: true
 abstract: |
-  Instructions for running solar spectrum simulations in the Quick TUV web inferface, downloading the files and importing them into R, using packages 'photobiology' and 'photobiologyInOut'. Example R code and a screnn capture video are included.
+  Instructions for running solar spectrum simulations in the Quick TUV web inferface, downloading the files and importing them into R, using packages 'photobiology' and 'photobiologyInOut'. Basic example R code and a screen capture video are included as well as a case example involving 34 spectra.
 ---
 
 # Importing the output from TUV 
@@ -36,8 +41,194 @@ This interface is easy to use once one understands the different options and req
 
 I published an article describing how to import and plot the data from Quick TUV using R ([Aphalo, 2018](https://doi.org/10.19232/uv4pb.2018.2.14)). A [supplementary file to the article](aphalo-tuv-supplement.nb.html) gives additional examples demonstrating how the solar spectrum is affected by variation in the atmospheric composition, solar elevation and observer elevation is available for reading and/or download. The R code used in embedded in the supplementary HTML file.
 
+# Diffuse and direct radiation under clear sky
+
+[2024-08-27] Section added showing an example with multiple spectra, which also exemplifies how R package 'photobiology' and the R for photobiology suite makes it possible to work spectral data without having to code all the details of integration and interpolation. Package 'ggspectra' helps with the plotting of spectra.
+
+The TUV model computes separately the diffuse and direct components of terrestrial solar spectral irradiance. I run 34 simulations varying only the sun elevation above the horizon. The aim was to show how the diffuse fraction depends both on sun elevation and on wavelengths under clear sky conditions. The files were manually saved from a web browser and ended as HTML files with leading and trailing lines added. These files can be read as is with 'photobiologyInOut' version >= 0.4.28.
+
+I show here a full example, and start by removing all objects from the examples above.
+
+```{r}
+rm(list = ls(pattern = "*"))
+```
+
+We attach the packages that we will use.
+
+```{r, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(ggspectra)
+library(photobiology)
+library(photobiologyInOut)
+library(photobiologyWavebands)
+
+theme_set(theme_bw())
+```
+
+We start by reading the 34 Quick TUV output files for the different solar elevation angles and split the components of total irradiance into separate spectral objects.
+
+```{r, message = FALSE, warning = FALSE}
+# retrieve the file names
+files <- 
+  list.files(path = "QTUV-data", pattern = "tuv", full.names = TRUE)
+
+# create an empty object to store the spectra
+SZA.mspct <- source_mspct()
+# read files one by one
+for (f in files) {
+  # create short names from the file names
+  name <- gsub("tuv-default-|-4str.htm|-low.htm", "", basename(f))
+  print(name)
+  SZA.mspct[[name]] <- read_qtuv_txt(f, ozone.du = 300)
+}
+```
+
+We can plot some spectra as examples.
+
+```{r}
+autoplot(SZA.mspct[["tuv-45.htm"]], annotations = c("-", "peaks"))
+```
+
+In the next plot, the black line describes total spectral irradiance, with the sky blue area showing the diffuse component and the orange area the direct component. The diffuse or scattered light comes from the sky after being scattered in the atmosphere while direct radiation arrives directly from the sun without being scattered in the way.
+
+```{r}
+ggplot(SZA.mspct[["tuv-45.htm"]], aes(w.length, s.e.irrad)) +
+  geom_spct(fill = "skyblue", colour = "black") +
+  geom_spct(aes(y = s.e.irrad.dir), fill = "orange") +
+  scale_x_wl_continuous() +
+  scale_y_s.e.irrad_continuous()
+```
+
+```{r, message = FALSE, warning = FALSE}
+# each file contains three spectra that we separate here
+SZA_tot.mspct <- source_mspct()
+SZA_diff.mspct <- source_mspct()
+SZA_dir.mspct <- source_mspct()
+for (n in names(SZA.mspct)) {
+  SZA_tot.mspct[[n]] <-
+    SZA.mspct[[n]][ , c("w.length", "s.e.irrad")]
+  SZA_diff.mspct[[n]] <-
+    with(SZA.mspct[[n]], 
+         source_spct(w.length = w.length, 
+                     s.e.irrad = s.e.irrad.diff.down))
+  SZA_dir.mspct[[n]] <-
+    with(SZA.mspct[[n]], 
+         source_spct(w.length = w.length, 
+                     s.e.irrad = s.e.irrad.dir))
+}
+```
+
+Compute irradiances and the diffuse fraction for different SZAs.
+
+```{r}
+wavebands <- c(list(PAR = PAR()), Plant_bands("sensory"))
+wbands_tot.tb <- 
+  q_irrad(SZA_tot.mspct, wavebands, scale.factor = 1e6)
+wbands_dir.tb <- 
+  q_irrad(SZA_dir.mspct, wavebands, scale.factor = 1e6)
+wbands_diff.tb <- 
+  q_irrad(SZA_diff.mspct, wavebands, scale.factor = 1e6)
+
+wbands.tb <-
+  data.frame(
+    SZA = as.numeric(gsub("tuv-|\\.htm", "", wbands_tot.tb$spct.idx)),
+    SEA = 90 - as.numeric(gsub("tuv-|\\.htm", "", wbands_tot.tb$spct.idx))
+  )
+
+for (col in setdiff(colnames(wbands_tot.tb), "spct.idx")) {
+  wbands.tb[[paste(col, "tot", sep = ".")]] <- wbands_tot.tb[[col]]
+  wbands.tb[[paste(col, "dir", sep = ".")]] <- wbands_dir.tb[[col]]
+  wbands.tb[[paste(col, "diff", sep = ".")]] <- wbands_diff.tb[[col]]
+  wbands.tb[[paste(col, "diff_fr", sep = ".")]] <- 
+    wbands_diff.tb[[col]] / wbands_tot.tb[[col]]
+}
+
+# shorten column names
+colnames(wbands.tb) <- 
+  gsub("Q_]|Q_|\\.ISO|\\.CIE|\\.Sellaro|\\.Smith20", "", colnames(wbands.tb))
+
+colnames(wbands.tb) # irradiances in umol m-2 s-1
+```
+
+Plot PAR and UV-B normalized. We use solar elevation angle for the plot. The proportion of UV-B and to a lesser extent UV-A2 radiation is larger when the sun is higher above the horizon. 
+
+```{r}
+ggplot(wbands.tb, aes(x = SEA)) +
+  geom_line(aes(y = PAR.tot / max(PAR.tot))) +
+  geom_line(aes(y = UVB.tot / max(UVB.tot)), colour = "purple") +
+  geom_line(aes(y = UVA2.tot / max(UVA2.tot)), colour = "violet") +
+  expand_limits(y = 0) +
+  labs(x = "Sun elevation angle (degrees)",
+       y = expression("Photon irradiance, "*italic(Q)~~("rel. units")))
+```
+
+In this example I was interested in the diffuse fraction. However, splines can be fitted to any of the components if desired.
+
+```{r}
+# We fit splines to the diffuse fraction obtaining functions 
+# that can be used to obtain by interpolation estimates for 
+# any solar elevation.
+
+spl_funs.ls <- list()
+diff_fr_cols <- grep("diff[_]fr", colnames(wbands.tb), value = TRUE)
+
+for (col in diff_fr_cols) {
+  spl_funs.ls[[col]] <- splinefun(wbands.tb[["SEA"]], wbands.tb[[col]])
+}
+```
+
+Another demonstration using PAR with the spline as a line and the simulated values as orange points.
+
+```{r}
+ggplot(wbands.tb, aes(SEA, PAR.diff_fr)) +
+  stat_function(fun = spl_funs.ls[["PAR.diff_fr"]], xlim = c(-10, 90), colour = "black") +
+  geom_point(na.rm = TRUE, colour =  "orange") +
+  scale_x_continuous(name = "Solar elevation angle (degrees)",
+                     breaks = c(-10, 0, 15, 30, 45, 60, 75, 90)) +
+  labs(y = expression("Diffuse fraction, "*Q[s] / Q[t]~~(""/1))) +
+  expand_limits(y = 0)
+```
+
+We have created a named list of function definitions.
+
+```{r}
+names(spl_funs.ls)
+```
+
+A plot using the splines functions for single "colour" wavebands can now be easily created using the spline functions, which work like a normal function.
+
+``` {r}
+ggplot(wbands.tb, aes(SEA)) +
+  stat_function(fun = spl_funs.ls[["UVB.diff_fr"]], xlim = c(-10, 90), colour = "black") +
+  stat_function(fun = spl_funs.ls[["UVA2.diff_fr"]], xlim = c(-10, 90), colour = "purple") +
+  stat_function(fun = spl_funs.ls[["UVA1.diff_fr"]], xlim = c(-10, 90), colour = "violet") +
+  stat_function(fun = spl_funs.ls[["Blue.diff_fr"]], xlim = c(-10, 90), colour = "blue") +
+  stat_function(fun = spl_funs.ls[["Green.diff_fr"]], xlim = c(-10, 90), colour = "green") +
+  stat_function(fun = spl_funs.ls[["Red.diff_fr"]], xlim = c(-10, 90), colour = "red") +
+  scale_x_continuous(name = "Solar elevation angle (degrees)",
+                     breaks = c(-10, 0, 15, 30, 45, 60, 75, 90)) +
+  labs(y = expression("Diffuse fraction, "*Q[s] / Q[t]~~(""/1))) +
+  expand_limits(y = 0)
+```
+
+This plot shows clearly that solar radiation of longer wavelengths is less scattered and how scattering increases as the solar elevation decreases. Concurrently to the increased scattering, the equivalent length of the path through the atmosphere increases as shown below. The computaion used here is based on an emperirical formula that deviates from simple geometry.
+
+```{r}
+AM.df <- data.frame(SEA = 1:90,
+                    AM = relative_AM(1:90))
+ggplot(AM.df, aes(SEA, AM)) +
+  geom_line() +
+  scale_x_continuous(name = "Solar elevation angle (degrees)",
+                     breaks = c(-10, 0, 15, 30, 45, 60, 75, 90)) +
+  labs(y = "Relative air mass, AM") +
+  expand_limits(y = 0)
+``` 
+
 # Alternatives
+
+R package 'photobiologyInOut' (>= 0.4.28-1) includes two functions that directly retrieve the spectral data files from the Quick TUV Calculator server and import them into R using the function used in the examples above. They support the same inputs as the web interface. Please, see [the documentation](https://docs.r4photobiology.info/photobiologyInOut/articles/tuv-examples.html). 
 
 The TUV model can be run on the local computer obtaining output files similar, but not identical, to those saved from the Quick TUV on-line calculator. Package 'photobiologyInOut' provides two functions to import these files. This would be preferable when the number of spectral simulations to do is large.
 
-R package ['foqat'](https://tianshu129.github.io/foqat/index.html) provides functions for calling on-line or locally the TUV model to produce batches of spectral simulations. The output is not directly compatible with the classes defined in package 'photobiology' to store spectra. *In a future update to 'photobiologyInOut' I plan to add a wrapper on these functions.*
+R package ['foqat'](https://tianshu129.github.io/foqat/index.html) provides functions for calling on-line or locally the TUV model to produce batches of spectral simulations. The output is not directly compatible with the classes defined in package 'photobiology' to store spectra.

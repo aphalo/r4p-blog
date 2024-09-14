@@ -95,7 +95,6 @@ ggplot(cran_releases.df, aes(CRAN.dates, Package, colour = Package)) +
   theme_minimal(12) + theme(legend.position = "none")
 ```
 
-
 ```{r cran-packages-table, results='asis', echo = FALSE}
 #| label: tbl-packages
 #| tbl-cap: List of packages available at CRAN-with the most recently updated one at the top. Package names are linked to their pages in CRAN. Titles are linked to their HTML documentation at this site.

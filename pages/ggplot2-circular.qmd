@@ -13,7 +13,7 @@ format:
 bibliography: design-exp.bib
 draft: true
 abstract: |
-  Missing.
+  True circular plots are not just a linear plot bent into a circle. In true circular plots the circle is unbroken and computations like density distributions are continuous round the full circle. Some examples are given of how the lack of true circular plots shows up in ggplot2. I plan to add in the future examples of true circular plots.
 ---
 
 ::: callout-note
