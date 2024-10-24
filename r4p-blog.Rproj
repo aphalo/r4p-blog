@@ -15,4 +15,6 @@ LaTeX: XeLaTeX
 AutoAppendNewline: Yes
 StripTrailingWhitespace: Yes
 
+QuitChildProcessesOnExit: Yes
+
 SpellingDictionary: en_GB

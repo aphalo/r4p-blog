@@ -1,7 +1,7 @@
 ---
 title: "Pedro J. Aphalo"
 date: "2023-02-19"
-date-modified: "2024-07-12"
+date-modified: "2024-09-15"
 image: pedro.jpg
 about:
   template: trestles
@@ -32,11 +32,16 @@ about:
       href: https://www.linkedin.com/in/pedro-j-aphalo-12055234/
 ---
 
-I am a senior university lecturer in _physiological plant ecology_ and principal investigator at the [Organismal and Evolutionary Biology Research Programme (OEB)](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences/research/organismal-and-evolutionary-biology), [Faculty of Biological and Environmental Sciences](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences) of the [University of Helsinki](https://www.helsinki.fi/en) and member of the [Viikki Plant Science Center (ViPS)](https://www.helsinki.fi/en/researchgroups/viikki-plant-science-centre).
+I have been the leader of the research group [Sensory and Physiological Ecology of Plants (SenPEP)](../senpep-posts.qmd) since 1995.
 
-I am the leader of the research group [Sensory and Physiological Ecology of Plants (SenPEP)](https://blogs.helsinki.fi/senpep-blog).
+I am currently a visiting researcher at the [Department of Agricultural Sciences](https://www.helsinki.fi/en/faculty-agriculture-and-forestry/research/agricultural-sciences), [Faculty of Agriculture and Forestry](https://www.helsinki.fi/en/faculty-agriculture-and-forestry) of the [University of Helsinki](https://www.helsinki.fi/en).
 
-<a rel="me" href="https://mastodon.social/@aphalo">Mastodon</a>
+I am currently a visiting researcher at the **Plant genetics and genomics group**, 
+**Production systems Unit** of the [Natural Resources Institute Finland](https://www.luke.fi/en).
+
+I recently retired as senior university lecturer in _physiological plant ecology_ and principal investigator at the [Organismal and Evolutionary Biology Research Programme (OEB)](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences/research/organismal-and-evolutionary-biology), [Faculty of Biological and Environmental Sciences](https://www.helsinki.fi/en/faculty-biological-and-environmental-sciences) of the [University of Helsinki](https://www.helsinki.fi/en) and member of the [Viikki Plant Science Center (ViPS)](https://www.helsinki.fi/en/researchgroups/viikki-plant-science-centre).
+
+I use <a rel="me" href="https://mastodon.social/@aphalo">Mastodon</a> sparingly for announcements and news.
 
 ::: {.callout-note collapse=true}
 # My background

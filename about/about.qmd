@@ -1,7 +1,7 @@
 ---
 title: "About this Website"
 date: "2023-02-15"
-date-modified: "2024-02-10"
+date-modified: "2024-09-15"
 image: ../pages/r4p-logo.png
 about:
   template: trestles
@@ -23,37 +23,31 @@ about:
       href: https://stackoverflow.com/users/2419892/pedro-j-aphalo
 ---
 
-## Aims
-
-This web site is the home of software written Pedro J. Aphalo, using the R programming language. It provides news and documentation for the packages and occasional posts on R-related and photobiology-related subjects. I have lately added some pages related to classes on R and data analysis I give at the University of Helsinki.
-
-The 11 R packages in the _r4photobiology_ suite implement calculations related to handling of spectral data as used in photobiology. The main purpose of this software is to make it easier for biologists to quantify and describe the visible and ultraviolet radiation conditions used in experiments or monitored in nature, in a standardized and consistent way. In accordance with the ideas of "reproducible and open science" all the code is open-source and all algorithms and data used, unless original, are linked to the original sources.
-
-Another three packages extend 'ggplot2' supporting insets and model-fit-based annotations and the manipulation and exploration of ggplot objects.
-
-A package to accompany the book [_Learn R: As a Language_](https://www.r4photobiology.info/category/learn-r-as-a-language/) contains data sets and scripts used in the book.
-
 ## Scope and organization
 
-The site is divided into a blog containing short posts with news (revised only in case they contain errors), pages with content of longer term usefulness (updated as needed) and galleries with "cookbook" style collections of use examples for my R packages (also updated as needed).
+This site is divided into sections, with separate lists of contents. The **R for Photobiology section** is the home of software written Pedro J. Aphalo, using the R programming language. This section provides [news](../posts.qmd), [documentation](../pages.qmd) and [use examples](../galleries.qmd) for the packages and occasional posts on R-related and photobiology-related subjects.
 
-In the blog I publish news related to the use of R in the analysis and acquisition of data in the field of photobiology as well as in relation to data analysis and plotting in general. Most frequently, blog posts describe updates to R packages. I take a very broad view of photobiology, so anything useful to a photobiologist is within scope. This includes analysis of data that is in the realm of radiation meteorology and climatology, and even geophysics. Contributions from anybody are warmly welcome, but acceptance is at the discretion of the editor.
+I have lately added content related to [courses that I have taught on R and data analysis](../r-index.qmd), transferred still relevant posts from the [SenPEP blog](../senpep-posts.qmd) and [material from seminar and congress presentations](../presentations.qmd).
+
+The site contains _short posts_ with news (revised only in case they contain errors), _pages_ with content of longer term usefulness (updated as needed) and _galleries_ with "cookbook" style collections of use examples for R and R packages (also updated as needed).
+
+In the site I publish contents related to the use of R in the analysis and acquisition of data in the field of photobiology as well as in relation to data analysis and plotting in general. Most frequently, blog posts describe updates to R packages. Overall contents is related to photobiology, agriculture, radiation meteorology and climatology, and data analysis and data visualization. Contributions from anybody are warmly welcome, but acceptance is at the discretion of the editor.
 
 ## How the site is built and served
 
-For nearly 10 years the site has been based on WordPress which dynamically serves pages built from the content of a data base. In this new incarnation the pages in the site are static, served from files generated off-line using [Quarto](https://quarto.org/). Quarto converts Rmarkdown encoded source files into an HTML website. The rendering chain is based on R, knitr, and Pandoc.
+For nearly 10 years the (https://www.r4photobiology/) web site was hosted on a WordPress server that dynamically serves pages built from the content of a data base. Currently the pages in the site are static, served from files generated off-line using [Quarto](https://quarto.org/). Quarto converts Rmarkdown encoded source files into an HTML website. The HTML rendering chain is based on R, knitr, and Pandoc. The markdown sources can include code chunks that are run when the site is rendered into HTML.
 
-A significant drawback of the move is that post and page URLs have not been preserved. However, the new built-in search works well and fast.
+A significant drawback of the move was that post and page URLs have not been preserved. However, the new built-in search works well and fast, based on a static index. During the transfer of contents from WordPress is removed announcements and other old content that was no longer relevant. This was also the case for content moved from the SenPEP blog hosted at the University of Helsinki's WordPress server. 
 
 ## Citing posts and pages
 
 The following citation is for the whole site:
 
-Aphalo, Pedro J., editor (2013-2023) _Using R for Photobiology_, [https://www.r4photobiology.info/](https://www.r4photobiology.info/), ISSN 2343-3248, Helsinki.
+Aphalo, Pedro J., editor (2013-2024) _Using R for Photobiology_, [https://www.r4photobiology.info/](https://www.r4photobiology.info/), ISSN 2343-3248, Helsinki.
 
 The author and date of first posting are displayed for each post under the title, so an example citation could be:
 
-Aphalo, Pedro J. (2018) R 3.5.0 and spaces in file paths. [https://www.r4photobiology.info/2018/05/r-3-5-0-and-spaces-in-file-paths/](https://www.r4photobiology.info/2018/05/r-3-5-0-and-spaces-in-file-paths/) ISSN 2343-3248, Helsinki. Visited on 2018-05-25.
+Aphalo, Pedro J. (2018) _Using the Quick TUV Calculator: Importing simulated solar spectrum data into R_. [https://www.r4photobiology.info/galleries/QuickTUV.html](https://www.r4photobiology.info/galleries/QuickTUV.html) ISSN 2343-3248, Helsinki. Visited on 2024-09-15.
 
 ## Publisher and place of publication
 
@@ -64,7 +58,7 @@ Place of publication: Helsinki, Finland.
 ## Hosting service
 
 This site has been hosted for many years, and continues being hosted after the
-recent migration to a different software, by [Webbinen](https://webbinen.net)
+recent migration to Quarto, by [Webbinen](https://webbinen.net)
 which I can only praise and recommend. Support has been incredibly
 knowledgeable, efficient and fast, every single time I have contacted them over
 these years. All my sites have worked without a glitch all this time.
