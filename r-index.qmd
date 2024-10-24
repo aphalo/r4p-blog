@@ -102,6 +102,24 @@ listed below.
 ::: {#IPS-003}
 :::
 
-Why these pages are not in Moodle? Because I want to make sure they are truly
-open access, and that they will remain available after as long as I can 
-maintain them, even after my inminent retirement.
+::: callout-note
+# Error variation and replication
+
+Interactive dashboards can help understand how the amount uncontrolled variation
+in observations and the number of replicates affect both tests of significance
+and parameter estimates when fitting models.
+
+[The interactive web page _Design of Experiments: Playing with numbers_](https://ips-003.shinyapps.io/design-experiments/) 
+is hosted at the [ShinyApps server](https://www.shinyapps.io/).
+:::
+
+::: callout-tip
+I have published these pages under a Creative Commons licence that allows
+reuse and derivative works.
+
+Why have I published these pages in my own server with unrestricted access 
+instead of in a course space at the University of Helsinki Moodle
+server? This is because I want to make sure they are truly
+open access, and that they remain available to all as long as I can 
+maintain them, even after my retirement.
+:::
