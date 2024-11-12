@@ -94,7 +94,8 @@ to it the missing data between its end and "now". We need to be careful
 with time zones!! It is simplest to use UTC for the data and only change
 the time zone for plotting.
 
-::: To force the data to be retrieved again, we only need to delete the
+::: callout-tip
+To force the data to be retrieved again, we only need to delete the
 file we use to store it locally (or "cache"). 
 :::
 

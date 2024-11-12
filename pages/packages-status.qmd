@@ -10,6 +10,6 @@ keywords: [source code, tests, issues]
 
 [![Link to package descriptions](four-pkg-logos-01.png){fig-alt="R package logos" fig-align="left" width="33%"}](https://aphalo.r-universe.dev/packages)
 
-See [descriptions](<https://aphalo.r-universe.dev/packages>) and [status](<https://aphalo.r-universe.dev/dev>) of my R packages at [R-Universe](<https://www.r-universe.dev>).
+See [descriptions](<https://aphalo.r-universe.dev/packages>) and [status](<https://aphalo.r-universe.dev/>) of my R packages at [R-Universe](<https://www.r-universe.dev>).
 
 The source code of all packages is available in public Git repositories at [GitHub](https://github.com/aphalo).
