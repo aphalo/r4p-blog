@@ -6,6 +6,7 @@ date: "2024-07-13"
 date-modified: today
 categories: [R packages]
 keywords: [R, photobiology, data visualization, computations]
+freeze: false
 ---
 
 ```{r, include = FALSE}
@@ -77,7 +78,7 @@ earliest.date <- dates.vec[1]
 latest.date <- dates.vec[length(dates.vec)] 
 ```
 
-The sources of the R packages I have published are in public Git repositories at GitHub. Out of the packages that I have authored and maintain, `r length(packages)` are currently available through CRAN. The total number of packages submissions (mostly updates) as author and maintainer is `r length(dates.vec)` since `r format.Date(earliest.date)`.
+The sources of the R packages I have published are in public Git repositories at [GitHub}(https://github.com/aphalo). Out of the packages that I have authored and maintain, `r length(packages)` are currently available through [CRAN](https://cran.r-project.org/). The total number of packages submissions to CRAN (mostly updates) as author and maintainer is `r length(dates.vec)` since `r format.Date(earliest.date)`.
 The most recent of these updates was published in CRAN on `r format.Date(latest.date)`.
 
 ```{r 'cran-packages-plot', echo = FALSE,  fig.width=6, fig.height=5}
@@ -108,9 +109,9 @@ my_pkgs_condensed.df |>
   knitr::kable()
 ```
 
-Updates under development are published at R-Universe as soon as merged or commited into the main branch in the repositories at GitHub. Two packages that depend on a commercial closed-source driver, but usable with a free runtime of the driver, are published only at R-Universe.
+Updates under development are published at [R-Universe](https://aphalo.r-universe.dev/builds) as soon as merged or commited into the main branch in the repositories at GitHub. Two packages that depend on a commercial closed-source driver, but usable with a free runtime of the driver, are published only at R-Universe. Some new, still unstable packages, are also only at R-Universe.
 
 R-Universe profile: [https://aphalo.r-universe.dev](https://aphalo.r-universe.dev).
 [![:name status badge](https://aphalo.r-universe.dev/badges/:name)](https://aphalo.r-universe.dev/)
-[![:packages status badge](https://aphalo.r-universe.dev/badges/:packages)](https://aphalo.r-universe.dev/)
+[![:packages status badge](https://aphalo.r-universe.dev/badges/:packages)](https://aphalo.r-universe.dev/packages)
 

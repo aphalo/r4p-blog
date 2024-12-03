@@ -35,5 +35,3 @@ _Version 0.5.0_ brings enhancements to the annotations based on model fits. The 
 [*Documentation web site*](http://docs.r4photobiology.info/ggpmisc/) includes all help pages, with output from all examples and vignettes in HTML format .
 
 Please raise issues concerning bugs or enhancements to this package through GitHub at <https://github.com/aphalo/ggpmisc/issues>. Pull requests are also welcome.
-
-:::
