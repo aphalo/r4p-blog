@@ -1,0 +1,90 @@
+---
+title: "SunCalcMeeus"
+subtitle: "A 'new old' R package"
+author: "Pedro J. Aphalo"
+date: 2024-12-11
+date-modified: 2024-12-11
+categories: [R Package Update]
+keywords: [SunCalcMeeus pkg]
+format:
+  html: 
+    code-link: true
+    code-tools: true
+draft: true
+---
+
+R package 'SunCalcMeeus' (== 0.1.1) has been accepted by CRAN on 2024-12-11, and is on its way to CRAN. This package collects functions related to the computation of the position of the sun and times, including day length and night length, from package 'photobiology'. It also includes function for computing empirical estimates of the relative air mass (AM) for different sun elevation angles.
+
+The position of the sun is computed using Meeus well known algrorithm, which is accurate over a broad range of dates both into the past and future. The mathematical algorithm is more computation intensive than other less accurate ones. However, the implementation is optimized for the computation with long vectors of time instants at a single geographic location.
+
+```{r}
+library(SunCalcMeeus)
+library(lubridate)
+library(microbenchmark)
+library(suncalc)
+```
+
+We will test the performance with 1 million time instants in a vector.
+
+```{r}
+times <- ymd_hms("2024-12-11 00:00:00") + minutes(1:1e4)
+locations <- data.frame(lon = c(0, 0, 0, 90, 90, 90, -90, -90, -90),
+                        lat = c(0, 30, 60, 0, 30, 60, 0, 30, 60))
+range(times)
+```
+
+```{r}
+microbenchmark(sun_angles(times, geocode = locations), 
+               times = 20L)
+```
+
+```{r}
+microbenchmark(getSunlightPosition(date = times, lat = 51.5, lon = 0),
+               times = 20L)
+```
+
+`sun_angles()` takes between 2.5 and 3 times as much time to run than `getSunlightPosition()` but returns several additional estimates. For most uses they are both most likely fast enoug.
+
+```{r}
+suncalc.df$elevation <- suncalc.df$altitude * 180 / pi
+range(suncalc.df$elevation - meeus.df$elevation, na.rm = TRUE)
+```
+
+Lets check 10 million hours starting from 1 January 1000.
+
+```{r}
+times <- ymd_hms("1000-01-01 00:00:00") + hours(1:1e7)
+range(times)
+```
+
+```{r}
+meeus.df <- sun_angles(times)
+head(meeus.df)
+```
+
+
+```{r}
+suncalc.df <- getSunlightPosition(date = times, lat = 51.5, lon = 0)
+head(suncalc.df)
+```
+
+We need to convert radians into degrees, before computing the differences in sun elevations, and their range. Over this very extended period, the maximum and minimum differences are substantial. 
+
+```{r}
+suncalc.df$elevation <- suncalc.df$altitude * 180 / pi
+differences <- suncalc.df$elevation - meeus.df$elevation
+differences.range <- range(differences)
+differences.range
+sum(abs(differences) > 8.4)
+which(abs(differences) > 8.4)
+differences[6]
+```
+
+A difference in sun elevation of 8.5 degrees is too much for many applications. Which algorithm is more accurate?
+
+::: callout-note
+
+
+[On-line documentation](https://docs.r4photobiology.info/SunCalcMeeus/).
+[NEWS file](https://docs.r4photobiology.info/SunCalcMeeus/news/).
+
