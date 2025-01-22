@@ -3,7 +3,7 @@ title: "ggplot insets with package 'ggpp'"
 subtitle: "Plots, tables and graphical objects as ggplot insets"
 author: "Pedro J. Aphalo"
 date: "2023-02-23"
-date-modified: "2023-02-23"
+date-modified: "2025-01-16"
 keywords: [ggplot2 pkg, ggpp pkg, data labels, plot annotations, plot insets]
 categories: [Plotting examples]
 abstract: |
@@ -45,6 +45,25 @@ unsuitable for automation, unless the scale limits of the base plot are
 expanded to ensure that no overlap is possible. Alternatively if the
 data layers are plotted on top the inset layer any overlap can be easily
 detected.
+:::
+
+::: callout-warning
+# Graphic devices
+
+Importing vector graphics into R and converting them into 'grid' objects (grobs) is
+not straightforward. The graphic devices and functions used for import are
+under active development. When using grobs as insets it is preferable to use
+vector objects generated with 'grid' or bitmaps (rasters) converted into grobs.
+Some examples below rely on converting SVG files created with Inkscape and these
+do not always behave as expected.
+
+The graphical output from some examples in this page stopped being included
+in the HTML output although the code in the chunks does run correctly on its 
+own. The problem seems to be graphic-device related.
+
+I have rebuilt this page using different devices for different chunks. The
+output for most chunks uses `dev='gridSVG'` and one chunck uses `dev='ragg_png'`
+to generate the plots.
 :::
 
 # Data labels, plot annotations and insets
@@ -102,8 +121,8 @@ is `annotate()`, which remains backwards compatible with 'ggplot2'.
 
 ```{r, include=FALSE}
 library(knitr)
-opts_chunk$set(fig.align = 'center', dev = "svg",
-               fig.show = 'hold', fig.width = 7, fig.height = 4)
+opts_chunk$set(fig.align = 'center', dev ='gridSVG',
+               fig.show = 'hold', fig.width = 7, fig.height = 4, out.width = '95%')
 options(warnPartialMatchArgs = FALSE,
         tibble.print.max = 4,
         tibble.print.min = 4,
@@ -299,12 +318,16 @@ p.base <-
 # ad hoc function for constructing box plots
 make_inset <- 
   function(target.cyl) {
+    if (target.cyl == 5) {
+      NULL # too few observations for a boxplot
+    } else {
     ggplot(subset(mpg, cyl == target.cyl),
            aes(factor(cyl), hwy)) +
       stat_boxplot() +
       labs(x = "Engine cylinders\n(number)", y = "") +
       scale_fill_discrete(guide = "none") + 
       theme_bw(7)
+    }
   }
 
 # list of box plots as insets
@@ -320,7 +343,8 @@ inset.df <- data.frame(cyl = unique(mpg$cyl),
 p.base +
   geom_plot_npc(data = inset.df, 
                 vp.height = 0.8,
-                mapping = aes(npcx = npcx, npcy = npcy, label = plots))
+                mapping = aes(npcx = npcx, npcy = npcy, label = plots),
+                na.rm = TRUE) # avoid warning from missing boxplot
 ```
 
 When using tibbles instead of data frames, the call to `I()` can be
@@ -340,7 +364,8 @@ inset.tb <-
 p.base +
   geom_plot_npc(data = inset.tb, 
                 vp.height = 0.8,
-                mapping = aes(npcx = npcx, npcy = npcy, label = plots))
+                mapping = aes(npcx = npcx, npcy = npcy, label = plots),
+                na.rm = TRUE)
 ```
 
 ## Alternatives
@@ -536,8 +561,8 @@ Murrell](https://www.stat.auckland.ac.nz/~paul/Reports/grImport/grimport-gridsvg
 to create a `grob` by reading an SVG file of the same logo as in the
 previous example.
 
-```{r}
-library(gridSVG)
+```{r, dev='CairoPNG'}
+# library(gridSVG)
 
 # find the path to a SVG vector graphics file included in 'ggpp'
 logo.svg.name <- 
@@ -548,7 +573,7 @@ logo.svg.name <-
 rsvg::rsvg_svg(logo.svg.name, "logo-cairo.svg")
 
 # read the file created above by the Cairo driver into a picture object 
-ggpp.vg.logo <- grImport2::readPicture("logo-cairo.svg")
+ggpp.vg.logo <- grImport2::readPicture("logo-cairo.svg", warn = FALSE)
 
 # create the plot converting the picture into a grob
 ggplot(mpg, aes(displ, hwy, colour = factor(cyl))) +
@@ -574,7 +599,7 @@ package 'grid'. In this example we read two bitmaps from PNG files using
 package 'magick'. This is one out several ways available in R to import
 raster data.
 
-```{r}
+```{r, dev='ragg_png', dpi=144}
 # read two bitmap files, in this case included in 'ggpp'
 Isoquercitin.file.path <- 
   system.file("extdata", "Isoquercitin.png", 
