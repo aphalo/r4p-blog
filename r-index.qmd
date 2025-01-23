@@ -31,13 +31,14 @@ listing:
     fields: [title, date-modified, abstract]
   - id: IPS-003
     contents:
-      - "galleries/dataviz-intro.qmd"
       - "pages/approaches-to-research.qmd"
       - "pages/design-exp-principles.qmd"
       - "pages/design-exp-intro.qmd"
       - "pages/theoretical-probability-distributions.qmd"
-      - "pages/linear-models-intro.qmd"
+      - "galleries/dataviz-intro.qmd"
       - "pages/ggplot2-EDA.qmd"
+      - "pages/linear-models-intro.qmd"
+      - "pages/mixed-effects-models-intro.qmd"
     sort: false
     type: grid
     grid-columns: 2
