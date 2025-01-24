@@ -127,29 +127,29 @@ Spikes, or solitary hot pixels, are normally removed based on the calibration da
 %%| 
 flowchart TB
 
-lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
---splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+lr([**light**<br>raw-counts HDR]) --replace bad pixels<br>replace clipped by NA<br>linearize--> ll[**light**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| lc[**light**<br>cps HDR] 
+--splice<br>slit fun. corr.<br>_despike_--> l[**light**<br>cps spliced]
 
-dr([<b>dark</b>\nraw-counts HDR]) --replace bad pixels\ndark QC\nlinearize--> dl[<b>dark</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| dc[<b>dark</b>\ncps HDR] 
---<i>splice</i>\nslit fun. corr.\n<i>despike</i>--> d[<b>dark</b>\ncps <i>spliced</i>]
+dr([**dark**<br>raw-counts HDR]) --replace bad pixels<br>dark QC<br>linearize--> dl[**dark**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| dc[**dark**<br>cps HDR] 
+--_splice_<br>slit fun. corr.<br>_despike_--> d[**dark**<br>cps _spliced_]
 
-fr([<b>filter</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\ndark QC\nlinearize
---> fl[<b>filter</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| fc[<b>filter</b>\ncps HDR] 
---splice\nslit fun. corr.\n<i>despike</i>--> f[<b>filter</b>\ncps spliced]
+fr([**filter**<br>raw-counts HDR]) --replace bad pixels<br>replace clipped by NA<br>dark QC<br>linearize
+--> fl[**filter**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| fc[**filter**<br>cps HDR] 
+--splice<br>slit fun. corr.<br>_despike_--> f[**filter**<br>cps spliced]
 
-l --> lm(("subtract\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
+l --> lm(("subtract<br>dark")) --> ldc[**light** cps<br>dark-corrected]
 d --> lm
-f --> fm(("subtract\ndark")) --> fdc[<b>filter</b> cps\ndark-corrected]
+f --> fm(("subtract<br>dark")) --> fdc[**filter** cps<br>dark-corrected]
 d --> fm
 
-ldc --> slc(("stray light\ncorrection")) --> cc[<b>light</b> cps\nfilter-corrected]
+ldc --> slc(("stray light<br>correction")) --> cc[**light** cps<br>filter-corrected]
 fdc --> slc
 
-cc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
-irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+cc --mutiply by<br>calibration factors--> irrad([**spectral<br>irradiance**])
+irrad -.->|_smooth_|sirrad([_smoothed_<br>**spectral<br>irradiance**]) 
 
 ```
 
@@ -202,19 +202,19 @@ Method `none` does not apply any correction for stray light, is based on _light_
 %%| 
 flowchart TB
 
-lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
---splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+lr([**light**<br>raw-counts HDR]) --replace bad pixels<br>replace clipped by NA<br>linearize--> ll[**light**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| lc[**light**<br>cps HDR] 
+--splice<br>slit fun. corr.<br>_despike_--> l[**light**<br>cps spliced]
 
-dr([<b>dark</b>\nraw-counts HDR]) --replace bad pixels\ndark QC\nlinearize--> dl[<b>dark</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| dc[<b>dark</b>\ncps HDR] 
---<i>splice</i>\nslit fun. corr.\n<i>despike</i>--> d[<b>dark</b>\ncps <i>spliced</i>]
+dr([**dark**<br>raw-counts HDR]) --replace bad pixels<br>dark QC<br>linearize--> dl[**dark**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| dc[**dark**<br>cps HDR] 
+--_splice_<br>slit fun. corr.<br>_despike_--> d[**dark**<br>cps _spliced_]
 
-l --> lm(("subtract\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
+l --> lm(("subtract<br>dark")) --> ldc[**light** cps<br>dark-corrected]
 d --> lm
 
-ldc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
-irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+ldc --mutiply by<br>calibration factors--> irrad([**spectral<br>irradiance**])
+irrad -.->|_smooth_|sirrad([_smoothed_<br>**spectral<br>irradiance**]) 
 
 ```
 
@@ -227,14 +227,14 @@ If only a `"light"` measurement is available, method `none` is used but the dark
 %%| 
 flowchart TB
 
-lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
---splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+lr([**light**<br>raw-counts HDR]) --replace bad pixels<br>replace clipped by NA<br>linearize--> ll[**light**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| lc[**light**<br>cps HDR] 
+--splice<br>slit fun. corr.<br>_despike_--> l[**light**<br>cps spliced]
 
-l --> lm(("subtract\ninternal\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
+l --> lm(("subtract<br>internal<br>dark")) --> ldc[**light** cps<br>dark-corrected]
 
-ldc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
-irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+ldc --mutiply by<br>calibration factors--> irrad([**spectral<br>irradiance**])
+irrad -.->|_smooth_|sirrad([_smoothed_<br>**spectral<br>irradiance**]) 
 
 ```
 
@@ -254,23 +254,23 @@ The following approach is attempted when `"light"` and `"filter"` are available 
 %%| 
 flowchart TB
 
-lr([<b>light</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\nlinearize--> ll[<b>light</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| lc[<b>light</b>\ncps HDR] 
---splice\nslit fun. corr.\n<i>despike</i>--> l[<b>light</b>\ncps spliced]
+lr([**light**<br>raw-counts HDR]) --replace bad pixels<br>replace clipped by NA<br>linearize--> ll[**light**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| lc[**light**<br>cps HDR] 
+--splice<br>slit fun. corr.<br>_despike_--> l[**light**<br>cps spliced]
 
-fr([<b>filter</b>\nraw-counts HDR]) --replace bad pixels\nreplace clipped by NA\ndark QC\nlinearize
---> fl[<b>filter</b>\nlinearised raw HDR]
--->|occluded pixels corr.\ndivide by\nintegration time| fc[<b>filter</b>\ncps HDR] 
---splice\nslit fun. corr.\n<i>despike</i>--> f[<b>filter</b>\ncps spliced]
+fr([**filter**<br>raw-counts HDR]) --replace bad pixels<br>replace clipped by NA<br>dark QC<br>linearize
+--> fl[**filter**<br>linearised raw HDR]
+-->|occluded pixels corr.<br>divide by<br>integration time| fc[**filter**<br>cps HDR] 
+--splice<br>slit fun. corr.<br>_despike_--> f[**filter**<br>cps spliced]
 
-l --> lm(("subtract\ninternal\ndark")) --> ldc[<b>light</b> cps\ndark-corrected]
-f --> fm(("subtract\ninternal\ndark")) --> fdc[<b>filter</b> cps\ndark-corrected]
+l --> lm(("subtract<br>internal<br>dark")) --> ldc[**light** cps<br>dark-corrected]
+f --> fm(("subtract<br>internal<br>dark")) --> fdc[**filter** cps<br>dark-corrected]
 
-ldc --> slc(("stray light\ncorrection")) --> cc[<b>light</b> cps\nfilter-corrected]
+ldc --> slc(("stray light<br>correction")) --> cc[**light** cps<br>filter-corrected]
 fdc --> slc
 
-cc --mutiply by\ncalibration factors--> irrad([<b>spectral\nirradiance</b>])
-irrad -.->|<i>smooth</i>|sirrad([<i>smoothed</i>\n<b>spectral\nirradiance</b>]) 
+cc --mutiply by<br>calibration factors--> irrad([**spectral<br>irradiance**])
+irrad -.->|_smooth_|sirrad([_smoothed_<br>**spectral<br>irradiance**]) 
 
 ```
 
@@ -492,7 +492,7 @@ multipliers <- getInstrDesc(sun009_recalc.cps_spct)$inst.calib$irrad.mult
 calib.spct <- calibration_spct(w.length = wavelengths,
                                irrad.mult = multipliers)
 
-autoplot(calib.spct)
+# autoplot(calib.spct)
 ```
 
 :::
@@ -698,7 +698,7 @@ At this point we have "clean" RAW counts data. The **sixth step** is to convert 
 
 ```{r, fig.width=8, fig.asp=0.5}
 sun009.cps_mspct <- raw2cps(sun009.raw_mspct)
-# autoplot(despike(sun009.cps_mspct, facets = 1)
+autoplot(despike(sun009.cps_mspct), facets = 1)
 ```
 
 The **seventh step** splicing the three pairs of "bracketed" *light*, *filter* and *dark* counts-per-second spectra into three combined spectra.
