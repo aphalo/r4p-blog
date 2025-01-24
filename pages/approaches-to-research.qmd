@@ -178,25 +178,26 @@ From an operational perspective, which approach we use determines how we can ana
 ```{mermaid}
 %%| label: fig-research-process-flowchart
 %%| fig-cap: A diagram showing the steps of scientific studies. The thick arrows describe the sequence of events/actions, connecting the design of an experiment to the communication of the results. Two paths, <font color=green>**1.** for hypothesis based research</font> and <font color=blue>**2.** for descriptive studies</font>, are highlighted (see main text). The dotted arrows with round heads indicate constraints imposed by design-related decisions. The double headed dotted arrow describes that the realization of a study can be influenced by data observed during its course, especially when data are collected repeatedly. Thin arrows indicate how one study can affect subsequent studies. _QC_= Quality Control or sanity checks of data. Even when no hypothesis testing is done, a hypothesis of what variables are of interest is involved in deciding what data are going to be used or collected. _Only if no formal hypothesis testing is involved, we can revise this weaker hypothesis during data analysis._ This abstraction can be applied to empirical research, but with small changes (not shown) also to simulation studies.
-%%{init: {"htmlLabels": true} }%%
 
+%%{init: {"htmlLabels": true} }%%
 flowchart TD
-  
-  Z([background<br>information]) ==> Y(Hypothesis)
-  Y ==> A(Design) ==> Aa(Planning) ==> B(Realization) ==> H(Data collection) ==<font color=blue><strong>2.</strong>==> C
-  C[<font color=blue><i>full</i> <strong>EDA</strong>] ==> D(<font color=blue>Model\nSelection) =="<font color=blue><i>R</i><sup>2</sup>, <i>f(x<sub>i</sub>)</i>, AIC, BIC"==> E(Interpretation) ==> F([communication])
-  H ==<font color=green><strong>1.</strong>==> I[<font color=green><i>QC</i> <strong>EDA</strong>]
-  H ==deposit<br>data+metadata=====> X([data<br>repository])
-  I ==> G(<font color=green><strong>CDA</strong>\nTests of\nHypothesis) ==<font color=green><i>P</i>-value==> E
-  E --follow up<br>study--> Y
-  C <--<font color=blue>new/modified<br>hypothesis--> Y
-  C --improved design--> A 
-  I --improved design--> A
+  Z([background information]) ==> Y(Hypothesis)
+  Y ==> A(Design) ==> Aa(Planning) ==> B(Realization) ==> H(Data collection) =={2.}==> C
+  C[_full_ **EDA**] ==> D(Model
+  Selection) == "_R2, f(xi)_, AIC, BIC" ==> E(Interpretation) ==> F([communication])
+  H == {1.} ==> I[_QC_ **EDA**]
+  H ==deposit
+  data+metadata=====> X([data repository])
+  I ==> G(**CDA** Tests of Hypothesis) == _P_-value ==> E
+  E -- follow up study --> Y
+  C <-- new/modified hypothesis --> Y
+  C -- improved design --> A 
+  I -- improved design --> A
   B <-.-> H
   A -.-o D
   A -.-o E
   A -.-o G
-  F --scientific<br>literature--> Z
+  F --scientific literature--> Z
   X --"open data"--> Z
   Z ==> E
   linkStyle 5,6,7,14,15 stroke: blue

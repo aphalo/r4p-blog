@@ -1,0 +1,648 @@
+---
+title: "Introduction to Mixed Effects Models"
+subtitle: "Concepts and examples in R with package 'nlme'"
+author: "Pedro J. Aphalo"
+date: 2025-01-23
+date-modified: 2025-01-23
+categories: [R, model fitting]
+keywords: [data analysis]
+format:
+  html:
+    code-fold: false
+    code-tools: true
+    mermaid:
+      theme: neutral
+abstract: 
+  An introduction to linear- and non-linear mixed effects models (LME and NLME) based on overheads. The concepts of fixed and random effects are presentsed using examples. Step by step model building is illustrated with a data set of the growth of individual leaves of birch sapplings. These same data are use to illustrate both LME and NLME fits.
+draft: false
+---
+
+::: callout-note
+The content of this page is only lightly edited from overhead transparencies I used in teaching a course on longitudinal data between 2001 and 2005 at the University of Jyväskylä, Finland. Nowadays, package 'lme4' provides an alternative approach to the fitting of LME. Package 'nlme' does however support the fitting of both LMEs and NLMEs, and is used in these pages. Package 'nlme' is one of the recommended packages included in the R installation.
+
+Package 'ymp236' from 2004 will be soon available through R-Universe. In 20 years the expectations about doccumentation have changed, and although already working, it needs a face-lift before publication.
+:::
+
+::: callout-tip
+The code in the chunks can be copied by clicking on the top right corner, where
+an icon appears when the mouse cursor hovers over the code listing.
+:::
+
+## Introduction
+
+Compared to linear models (LM), linear mixed effects models (LME) are much more flexible but computationally more demanding. They replace with advantages the variations of linear models earlier frequently used to analyse repeated measures data. They provide ways to describe as part of the fitted model not only the grouping structure of the data, but also heterogeneity of variance, different types of cross correlations and autocorrelations. In general, because of the more numerous options to choose from their use is more involved. However, the simplicity of linear models is a valid assumption only for simple data sets. So, the decision is actually done when designing an experiment, even if not always explicitly.
+
+The concept of random and fixed effects is applicable to different types of models, not just to linear models. So models that are non linear in their parameters, can contain either only fixed effects (NLM)  or both fixed and random effects (NLME). The same applies to generalised linear models (GLM) vs. generalised linear mixed models (GLMM), and so on.
+
+In the case of linear models (LM) an analytical solution of the fitting problem is available, and consequently the model fitting is computationally easy and only with extremely difficult cases the solution can be numerically unstable. LMEs, NLM, NLME, etc., are fitted by numerical approximation, by iteratively improving an initial guess. Iteration increases the computation effort needed and can rather frequently require the use of different initial values or even switch to a different approximation/optimization algorithm to achieve convergence onto a valid answer. 
+Longitudinal data include time series (no replication at each time point) and repeated measures data (with replication at each time point). Mixed effect models are useful not only for repeated measures but more generally in many other cases in which observations are grouped, such as designs in blocks, nested arrangements of treatments or classification factors. In the case of LME and NLME there is no requirement of equally spaced time points or even that all replicates are measured at each or the same time points. This is in many cases a significant advantage compared to classical approaches to the analysis of repeated measures.
+
+## Random and fixed effects
+
+### The concept
+
+* _Fixed effects_ are parameters associated with the entire
+population or with certain _repeatable_ levels of
+experimental factors.
+
+* _Random effects_ are associated with individual experimental
+units drawn at random from a population.
+
+A model with both fixed effects and random effects is called a
+_mixed-effects_ model.
+
+## Grouped data
+
+Mixed-effects models are primarily used to describe relationships
+between a response variable and some covariates in data that are
+grouped according to one or more classification factors.
+
+Examples of _grouped data_ are: _longitudinal data_, 
+_repeated measures data_, and _block designs_.
+
+By associating common random effects to observations sharing the
+same level of a classification factor, mixed-effects models
+represent the covariance structure induced by grouping of the
+data.
+
+## A simple example of repeated measures
+
+We first load the packages that we will use.
+
+```{r}
+library(ymp236)
+library(nlme)
+library(lattice)
+library(ggplot2)
+theme_set(theme_bw())
+```
+
+We start with a  simple example of data that do not include a covariate or
+treatment, but will help explain grouping and random effects. These are data from a stress test of railway rails.
+Six rails were chosen at random and tested three times each.
+
+The response variable is the time it took a certain ultrasonic wave
+to travel the length of the rail. The only setting that changes between observations is
+the rail. The observations are arranged in a one-way classification (according to the rail on which the observation was done).
+
+The quantities of interest were: 1) the average travel time of the wave for a typical rail (The expected travel time); 2) the variation in travel time among rails (the between-rail variability); and 3) the average variation in the observed travel times for a single rail (the within-rail variability).
+
+The data look like this:
+\includegraphics[width=\textwidth]{figures/rails}
+Travel time is in nanoseconds, after subtracting 36\,100
+nanoseconds.
+
+```{r}
+plot(Rail)
+```
+
+Data from a one-way classification like the rails example can in principle be
+analysed either with a fixed-effects model or with a
+random-effects model.
+
+The choice between the two types of models is done according to whether we
+wish to make inferences about those particular "levels" of the
+classification factor that were used in the experiment or to make
+inferences about the population from which these "levels" were
+drawn.
+
+::: callout-note
+The choice of using a fixed model or mixed effects one containing also random effects is done based on the design of the data and the aims of the study. Below we compare both approaches on the same data set so as to illustrate their differences. _This is not the approach to follow for a real data analysis._
+:::
+
+So, for illustration, we first ignore the grouping structure of the
+data and assume the simple model
+$$
+    y_{ij} = \beta + \epsilon_{ij}, \qquad i=1,\ldots,M, \qquad
+    j=1,\ldots,n_i,
+$$
+where $y_{ij}$ is the observed travel time for observation $j$ on
+rail $i$, and $\beta$ is the mean travel time across the
+population of rails being sampled, and the $\epsilon_{ij}$ are the
+independent $\mathcal{N}(0,\sigma^2)$ error terms.
+The number of rails is $M$ and the number of observations on rail
+$i$ is $n_i$.
+
+In this case $M=6$, $n_1 = n_2 = \cdots = n_6 = 3$. 
+The total number of observations $N = \sum_{i=1}^M n_i = 18$.
+
+We use `lm()` to fit a linear model, i.e., a model describing fixed effects and an overall error term from the residuals.
+
+```{r}
+fm1Rail.lm <- lm( travel ~ 1, data = Rail )
+summary(fm1Rail.lm)
+```
+
+The fitted object contains the parameter estimates
+$\hat{\beta}=66.5$ and $\hat{\sigma} = 23.65$.
+
+Box plots of the residuals show the problem of this approach: there are two distinct sources of variation. A smaller one between repeated measurements on each rail and a larger one between different rails.
+
+```{r}
+combined.df <- cbind(Rail, resid = residuals(fm1Rail.lm))
+ggplot(combined.df, aes(resid, Rail)) +
+  geom_boxplot()
+```
+
+We can allow the mean of each rail to be represented by one
+parameter in a fixed-effects model.
+\begin{equation*}
+    y_{ij} = \beta_i + \epsilon_{ij}, \qquad i=1,\ldots,M, \qquad
+    j=1,\ldots,n_i,
+\end{equation*}
+where the $\beta_i$ represents the mean travel time of rail $i$
+and the errors $\epsilon_{ij}$ are assumed to be independently
+distributed as $\mathcal{N}(0,\sigma^2)$.
+
+We can use `lm()` again to fit this new model.
+```{r}
+fm2Rail.lm <- lm(travel ~ Rail - 1, data = Rail)
+summary(fm2Rail.lm)
+```
+
+The `-1` is used in the model formula to prevent the
+inclusion of an intercept term in the model.
+
+The residual standard error, $\hat{\sigma} = 4.021$, is much
+smaller than for the model with a single mean.
+
+The model has successfully accounted for the rail effects.
+
+Box plots illustrate this.
+
+```{r}
+library(ggplot2)
+combined2.df <- cbind(Rail, resid = residuals(fm2Rail.lm))
+ggplot(combined2.df, aes(resid, Rail)) +
+  geom_boxplot()
+```
+
+Even though this fixed-effects model accounts for the rail
+effects, it does not provide a useful representation of the rail
+data.
+
+The main interest is the population of rails, not the specific
+sample studied.
+
+In particular it does not provide an estimate of the between-rail
+variability.
+
+Another drawback of a fixed model is that the number of parameters
+increases linearly with the number of rails "using-up" degrees of freedom.
+
+A random-effects model for the one-way classification used in the
+rails experiment is written
+$$
+y_{ij} = \beta + b_i + \epsilon_{ij}, \qquad i=1,\ldots,M, \qquad
+    j=1,\ldots,n_i,
+$$
+where $\beta$ is the mean travel time across the population of rails
+being sampled, $b_i$ is a random variable representing the deviation from the
+population mean of the travel time of $i$th rail, and $\epsilon_{ij}$ is a random variable representing the
+deviation in travel time for observation $j$ on rail $i$ from the
+mean travel time for rail $i$.
+
+We begin by modelling $b_i$ and $\epsilon_{ij}$ as independent,
+constant variance, normally distributed random variables with mean
+zero.
+
+The variances are denoted $\sigma_b^2$ for the $b_i$ or
+"between-rail" variability, and $\sigma^2$ for the
+$\epsilon_{ij}$ or "within-rail" variability.
+
+The parameters of the statistical model are $\beta$, $\sigma_b^2$,
+and $\sigma^2$.
+
+%We do not estimate the random effects $b_i$ as such, they are
+%represented by a single parameter.
+
+We can fit this random-effects model with function `lme()` from package 'nlme'.
+
+```{r}
+fm1Rail.lme <- lme(travel ~ 1, data = Rail, random = ~ 1 | Rail)
+summary(fm1Rail.lme)
+```
+
+
+We see that the REML estimates for the parameters have been
+calculated as
+$$
+    \hat{\beta}=66.5, \qquad \hat{\sigma}_b=24.805, \qquad
+    \hat{\sigma}=4.0208.
+$$
+
+This is the information that the people testing the rails wanted.
+
+We can look at the confidence intervals.
+
+```{r}
+intervals(fm1Rail.lme)
+```
+There is considerable lack of precision in the estimates of all three
+parameters.
+
+We continue with an example of the analysis of a more complex data set describing the growth of leaves during bud burst in a set of silver birch saplings. In an experiment in a greenhouse saplings
+seedlings were assigned at random to three groups. The three groups were exposed daily to 2.6, 5.2, and 13.0 kJ m$^{-2}$ d$^{-1}$ of biologically effective UV-B or about 1, 2, or 5 times the natural dose for May in Finland.
+
+The area of one leaf in each seedling was followed in time, measuring it nine times, but not at perfectly regular intervals. Measurements started when the leaves were very small and continued until their final size was reached.
+
+We will use data from nine seedlings, three from each level of UV-B. This only part of the original data collected.
+
+### Quantities of interest
+
+* The final size of the leaves. 
+* The rate of area expansion.
+* The variation between seedlings.
+
+For the first two quantities we want to know if and how they
+change with the dose of UV-B.
+
+## Choosing a model
+
+Above we considered the differences between random and fixed effects. Based on these concepts we can decide that the variation between the randomly chosen seedlings should be described as a random effect. In contrast, time in days is a covariate that being at repeatable and controlled levels we consider a fixed effect. Time is a continuous variable and, thus, not described as a factor with discrete levels.
+
+The dose of UV-B in kJ m$^{-2}$ d$^{-1}$, being also at repeatable and controlled levels should also be considered a fixed effect. As with time we considered it a continuous variable. This is the best approach, as comparing pairs of doses of a continuous variable makes interpretation difficult, or even dubious. 
+
+The processes of choosing the details of a model, by fitting different models and comparing them is called _model building_.
+
+We will build a model step by step. We will first fit a linear mixed-effects model using `lme()`
+from package 'nlme'.
+
+For this example we start by creating a grouped data object. 
+We first make available the data as a `data.frame` as it is
+part of package 'ymp236'.
+
+Then we create a `groupedData` object that is a special
+kind (an object of a derived class) of data frame with additional information about the grouping
+of the data.
+
+```{r}
+data(birch.data)
+summary(birch.data)
+```
+
+```{r}
+birch <- 
+  groupedData(area ~ day|seedling, data = birch.data)
+birch <- 
+  update(birch, outer = ~ irrad.time)
+birch <- 
+  update(birch,
+         labels=list(x = "Time", y = "Area"),
+         units=list(x = "(d)", y = "(mm^2)"))
+plot(birch, outer = T)
+```
+
+```{r}
+birch.l <- 
+  update(birch, formula = larea ~ day | seedling,
+                  labels = list(y = "log area"))
+plot(birch.l, outer = T)
+```
+
+
+## Fitting individual curves
+
+The first step in model building is to fit growth curves to the
+data from each seedling (from a single leaf).
+
+Because we want to fit a linear model and the curve is S-shaped we
+will use a transformation: the variable `larea` is the
+natural logarithm of the leaf area in mm$^2$.
+
+
+```{r}
+fm1Birch.lis <-
+    lmList(larea ~ (day + I(day^2)) | seedling,
+           data=birch.l)
+plot(intervals(fm1Birch.lis),layout=c(3,1))
+```
+
+The greatest variation between seedlings is in the intercept, and
+the least variation is in the quadratic term on day.
+
+## A linear mixed effects model
+
+We first fit a model with only random effects for the intercept,
+and then we update it to include a random effect for the slope on
+day.
+
+Note how we use parenthesis in the fixed part of the model to
+indicate the interactions that we want.
+
+```{r}
+fm1Birch.lme <-
+  lme(fixed = larea ~ (day + I(day^2)) * dose,
+      data = birch.l, random = ~ 1 | seedling)
+fm2Birch.lme <-
+  update(fm1Birch.lme, random = ~ day | seedling,
+         control = lmeControl(opt = "optim")) # default method does not converge
+```
+
+::: callout-note
+In `lme()` and `nlme()` the random effects
+are assumed to have mean equal to zero, and for this reason the
+corresponding fixed effects are almost always included also in the
+model.
+:::
+
+We then compare the two models with ANOVA.
+
+We can use the fits done with the default method REML, because the
+fixed part of the models is the same.
+
+They only differ in the random part of the model.
+
+
+```{r}
+anova(fm2Birch.lme,fm1Birch.lme)
+```
+
+The model with both random effects fits the data much better.
+
+### The ANOVA table
+
+We use `anova()` to obtain the analysis of variance table.
+
+
+```{r}
+anova(fm2Birch.lme)
+```
+
+
+### Diagnostics
+
+
+```{r}
+plot(fm2Birch.lme)
+```
+
+```{r}
+qqnorm(fm2Birch.lme, abline = c(0, 1))
+```
+
+### Predictions for model 1
+
+We plot the predicted values for the model with only a random
+effect for the intercept.
+
+```{r}
+plot(augPred(fm1Birch.lme, primary = ~day, level = 0:1))
+```
+
+### Predictions for model 2
+
+We plot the predicted values for the model with random effects for
+the intercept and the slope on day.
+
+```{r}
+plot(augPred(fm2Birch.lme, primary = ~day, level = 0:1))
+```
+
+### Confidence intervals
+
+```{r}
+intervals(fm2Birch.lme)
+```
+
+### Did we get what we wanted?
+
+No.
+
+We used a transformation, and in some cases this makes interpretation difficult.
+
+We used a polynomial, which is unsatisfactory because the curve
+decreases towards the last measurement day.
+
+We got some measure of seedling to seedling variation.
+
+### We try now a non-linear mixed-effects model
+
+The shape of the curves suggests that a logistic curve could fit
+the data well.
+
+There are other possibilities, that are either already programmed
+in R, or for which a function can be easily defined.
+
+We follow the same steps as before, but we use the leaf area data
+in the original scale, rather than log-transformed.
+
+We write the simple logistic model as
+$$
+y(x) = \frac{\phi_1}{1 + \exp[(\phi_2 - x)/\phi_3]},
+$$
+where $\phi_1$ is the asymptotic maximum value of $y$, $\phi_2$ is
+the value of $x$ at which the response $y$ is $\phi_1 / 2$, and $\phi_3$
+gives the steepness of the slope (in $x$ units). We will call in what
+follows: $\phi_1$ `"Asym"`, $\phi_2$ `"xmid"`, and $\phi_3$ `"scal"`.
+
+### Fitting individual curves
+
+We fit the logistic curve to the data from each seedling (one
+leaf) separately using `nlsList()`.
+
+We use the self-starting function `SSlogis()`, so we do not
+need to provide starting values for the parameters to be used in
+the iteration.
+
+
+```{r}
+fm1Birch.nlis <-
+ nlsList(area ~ SSlogis(day, Asym, xmid, scal)|seedling, data = birch)
+```
+
+```{r}
+fm1Birch.nlis
+```
+
+With `fixef()` we get the overall fixed effects, that we will
+use as starting values for the non-linear mixed-effects model fit.
+
+### Intervals
+
+```{r}
+plot(intervals(fm1Birch.nlis), layout=c(3, 1))
+```
+
+The asymptote (Asym) varies most between seedlings, and the scale
+parameter varies the least.
+
+## A non-linear mixed effects model
+
+We fit a model with a fixed effect of dose for all three
+parameters of the logistic.
+
+We include random effects for the intercept of the three
+parameters.
+
+For the intercepts, we use the starting values obtained from the
+`nlsList` fits.
+
+For the slopes for the dose of UV-B we use zero (no effect) as
+starting value.
+
+
+```{r}
+fm1Birch.nlme <-
+  nlme(area ~ SSlogis(day, Asym, xmid, scal),
+       data = birch,
+       fixed = Asym + xmid + scal ~ dose,
+       random = Asym + xmid + scal ~ 1|seedling,
+       start = c(3100, 0, 11, 0, 2.19, 0)
+  )
+```
+
+```{r}
+summary(fm1Birch.nlme)
+```
+
+```{r}
+plot(fm1Birch.nlme)
+qqnorm(fm1Birch.nlme, abline = c(0, 1))
+```
+
+## Another model
+
+The random effect for the scale parameter is very small compared
+to the estimate for the value of the parameter.
+
+We use `update()` to fit a model without this random effect.
+
+```{r}
+fm2Birch.nlme <- 
+  update(fm1Birch.nlme, random = Asym + xmid ~ 1 | seedling)
+```
+
+We only need only an argument for `random` as all other arguments except start are
+taken from the fitted model being updated.
+
+The starting values are taken from the fitted model being updated as well.
+
+```{r}
+summary(fm2Birch.nlme)
+```
+
+### Comparison of the models
+
+We use `anova()` to compare the two models.
+
+```{r}
+anova(fm1Birch.nlme, fm2Birch.nlme)
+```
+
+The two models do not differ significantly, so we prefer the
+simpler model with no random effect for the scale parameter.
+
+### Diagnostics
+
+```{r}
+plot(fm2Birch.nlme)
+```
+
+Variance of the residuals increases with the fitted values.
+
+```{r}
+qqnorm(fm2Birch.nlme, abline = c(0, 1))
+```
+
+The residuals do not seem to be normally distributed.
+
+## New model
+
+To describe the heterogeneity of variance of the residuals in the model we
+include a power of variance function (see earlier lectures). We use the default
+variance covariate, the fitted values. In other words we have a model that
+can describe changes in variance in relation to changes in the `height' of the
+fitted line.
+
+We use `update()` to update our second non-linear mixed-effects model.
+
+
+```{r}
+fm3Birch.nlme <- 
+  update(fm2Birch.nlme, weights = varPower())
+```
+
+```{r}
+summary(fm3Birch.nlme)
+```
+
+### Diagnostics
+
+```{r}
+plot(fm3Birch.nlme)
+```
+
+Now the variation of the standardized residuals seems to be more
+homogeneous. Still a slight lack of fit is present at low fitted
+values.
+
+```{r}
+qqnorm(fm3Birch.nlme, abline = c(0, 1))
+```
+
+Now it is plausible that the residuals follow a normal distribution.
+
+### Test of the last two models
+
+```{r}
+anova(fm2Birch.nlme, fm3Birch.nlme)
+```
+
+The model with a description of the heterogeneity of variance
+gives a significantly better fit.
+
+```{r}
+intervals(fm3Birch.nlme)
+```
+
+### Another model
+
+We test the assumption that the random effects of `Asym` and `xmid` are
+independent.
+
+We use a diagonal matrix `pdDiag` to describe the independence of
+the random effects, and then test the models with `anova()`.
+
+
+```{r}
+fm4Birch.nlme <- 
+  update(fm3Birch.nlme, random = pdDiag(Asym + xmid ~ 1),
+         groups = ~ seedling)
+anova(fm3Birch.nlme, fm4Birch.nlme)
+```
+
+The third model with dependence between the random effects for the
+two parameters gives a slightly better fit, so we choose it.
+
+### Predictions
+
+```{r}
+plot(augPred(fm3Birch.nlme, level = 0:1))
+```
+
+### Did we get what we wanted?
+
+Yes. We did not use a transformation, so interpretation is easy.
+We used a curve, the logistic that approaches asymptotically a
+maximum. We obtained standard deviation estimates for the variation between
+seedlings in the values of the parameters.
+
+We can generate useful predictions, below, for UV-B doses of 2.6 and 13 
+
+```{r}
+new.birch1.data <- 
+  data.frame(day = rep(1:40, 2),
+             seedling = rep(NA, 80),
+             dose=c(rep(2.6, 40), rep(13, 40)),
+             code=c(rep(1, 40), rep(16, 40)))
+
+new.birch1.data$pred <- 
+  predict(fm3Birch.nlme,
+          new.birch1.data, level = 0)
+
+plot(pred ~ day, new.birch1.data, pch = code)
+```
+
+
+
