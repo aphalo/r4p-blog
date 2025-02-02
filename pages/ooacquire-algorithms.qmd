@@ -696,7 +696,7 @@ In the last plot above we can see that the correction has resulted in slightly n
 
 At this point we have "clean" RAW counts data. The **sixth step** is to convert these raw counts into counts per second. As the integration time for each spectrum is stored together with the RAW count data, the function call is simple. After this step, the data acquired using different integration times are expressed in the same units of counts-per-second (cps or $n\,s^{-1}$). We take advantage of this to plot using different colours the data from the two different "bracketed" integration times. Blue corresponds to the shorter and near-optimal integration time (`cps_1` computed starting from `counts_1`), and red to the longer one (`cps_2` computed starting from `counts_2`). Here we over-plot the two separate spectra.
 
-```{r, fig.width=8, fig.asp=0.5}
+```{r, fig.width=8, fig.asp=1.5}
 sun009.cps_mspct <- raw2cps(sun009.raw_mspct)
 autoplot(despike(sun009.cps_mspct), facets = 1)
 ```
@@ -1029,3 +1029,10 @@ autoplot(xenon_flash.cps_spct, range = c(315, NA))
 ## References
 
 **Ylianttila L, Visuri R, Huurto L, Jokela K**. 2005. Evaluation of a single-monochromator diode array spectroradiometer for sunbed UV-radiation measurements. *Photochemistry and Photobiology* **81**: 333--341.
+
+## File rendering information
+
+```{r}
+sessionInfo()
+```
+

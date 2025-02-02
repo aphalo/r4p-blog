@@ -3,9 +3,11 @@ title: "Introduction to Mixed Effects Models"
 subtitle: "Concepts and examples in R with package 'nlme'"
 author: "Pedro J. Aphalo"
 date: 2025-01-23
-date-modified: 2025-01-23
+date-modified: 2025-01-24
 categories: [R, model fitting]
 keywords: [data analysis]
+bibliography: mixed-effects-models-intro.bib
+link-citations: true
 format:
   html:
     code-fold: false
@@ -65,7 +67,7 @@ same level of a classification factor, mixed-effects models
 represent the covariance structure induced by grouping of the
 data.
 
-## A simple example of repeated measures
+## An example of repeated measures
 
 We first load the packages that we will use.
 
@@ -79,7 +81,7 @@ theme_set(theme_bw())
 
 We start with a  simple example of data that do not include a covariate or
 treatment, but will help explain grouping and random effects. These are data from a stress test of railway rails.
-Six rails were chosen at random and tested three times each.
+Six rails were chosen at random and tested three times each. The data are included in package 'nlme' and used also a book that describes mixed effects models and the 'lnme' package [@Pinheiro2000].
 
 The response variable is the time it took a certain ultrasonic wave
 to travel the length of the rail. The only setting that changes between observations is
@@ -241,23 +243,25 @@ intervals(fm1Rail.lme)
 There is considerable lack of precision in the estimates of all three
 parameters.
 
-We continue with an example of the analysis of a more complex data set describing the growth of leaves during bud burst in a set of silver birch saplings. In an experiment in a greenhouse saplings
-seedlings were assigned at random to three groups. The three groups were exposed daily to 2.6, 5.2, and 13.0 kJ m$^{-2}$ d$^{-1}$ of biologically effective UV-B or about 1, 2, or 5 times the natural dose for May in Finland.
+## An example of repeated measures and treatments
 
-The area of one leaf in each seedling was followed in time, measuring it nine times, but not at perfectly regular intervals. Measurements started when the leaves were very small and continued until their final size was reached.
+We continue with an example of the analysis of a more complex data set describing the growth of leaves during bud burst in a set of silver birch seedlings [@Robson2012]. In an experiment in a greenhouse, seedlings were assigned at random to three groups. The three groups were exposed daily to 2.6, 5.2, and 13.0 kJ m$^{-2}$ d$^{-1}$ of biologically effective UV-B or about 1, 2, or 5 times the natural dose for May in Finland.
 
-We will use data from nine seedlings, three from each level of UV-B. This only part of the original data collected.
+Date for the area of one leaf in each seedling was measured nine times, but not at perfectly regular intervals. Measurements started when the leaves were very small and continued until their final size was reached. Measurements of width and length of the leaves were done with a ruler and converted to area using a calibration curve constructed from other leaves of which length, width and area were measured.
 
-### Quantities of interest
+We use here data from nine seedlings, three from each level of UV-B. These data are only part of the original data collected.
+
+Quantities of interest from the perspective of the study were:
 
 * The final size of the leaves. 
 * The rate of area expansion.
+* The length of area expansion period.
 * The variation between seedlings.
 
-For the first two quantities we want to know if and how they
-change with the dose of UV-B.
+For the first three quantities we want to know _if_ and _how_ they
+were affected by the dose of UV-B radiation.
 
-## Choosing a model
+Choosing a model to fit to the data is a first step. This can be based either on theory or on the shape of the cloud of observations when plotted.
 
 Above we considered the differences between random and fixed effects. Based on these concepts we can decide that the variation between the randomly chosen seedlings should be described as a random effect. In contrast, time in days is a covariate that being at repeatable and controlled levels we consider a fixed effect. Time is a continuous variable and, thus, not described as a factor with discrete levels.
 
@@ -300,8 +304,9 @@ birch.l <-
 plot(birch.l, outer = T)
 ```
 
+### A polynomial
 
-## Fitting individual curves
+#### Fitting individual curves
 
 The first step in model building is to fit growth curves to the
 data from each seedling (from a single leaf).
@@ -309,7 +314,6 @@ data from each seedling (from a single leaf).
 Because we want to fit a linear model and the curve is S-shaped we
 will use a transformation: the variable `larea` is the
 natural logarithm of the leaf area in mm$^2$.
-
 
 ```{r}
 fm1Birch.lis <-
@@ -321,7 +325,7 @@ plot(intervals(fm1Birch.lis),layout=c(3,1))
 The greatest variation between seedlings is in the intercept, and
 the least variation is in the quadratic term on day.
 
-## A linear mixed effects model
+#### A linear mixed effects model
 
 We first fit a model with only random effects for the intercept,
 and then we update it to include a random effect for the slope on
@@ -360,8 +364,6 @@ anova(fm2Birch.lme,fm1Birch.lme)
 
 The model with both random effects fits the data much better.
 
-### The ANOVA table
-
 We use `anova()` to obtain the analysis of variance table.
 
 
@@ -369,9 +371,7 @@ We use `anova()` to obtain the analysis of variance table.
 anova(fm2Birch.lme)
 ```
 
-
-### Diagnostics
-
+Ploting the residuals, is an effective way of detecting important and only important lack of fulfilment of assumptions.
 
 ```{r}
 plot(fm2Birch.lme)
@@ -381,50 +381,52 @@ plot(fm2Birch.lme)
 qqnorm(fm2Birch.lme, abline = c(0, 1))
 ```
 
-### Predictions for model 1
-
-We plot the predicted values for the model with only a random
+We plot the predicted values for model `fm1Birch.lme` with only a random
 effect for the intercept.
 
 ```{r}
 plot(augPred(fm1Birch.lme, primary = ~day, level = 0:1))
 ```
 
-### Predictions for model 2
-
-We plot the predicted values for the model with random effects for
+We plot the predicted values for model `fm2Birch.lme` with random effects for
 the intercept and the slope on day.
 
 ```{r}
 plot(augPred(fm2Birch.lme, primary = ~day, level = 0:1))
 ```
 
-### Confidence intervals
+Confidence intervals for the parameter estimates:
 
 ```{r}
 intervals(fm2Birch.lme)
 ```
 
-### Did we get what we wanted?
+#### Did we get what we wanted?
 
-No.
+This model fails to follow the shape of the cloud of observations, and does not match our knowlege that the size of leaves grows assymptotically until a maximum size. The polynomial used resulted in a curve with an unsatisfactory shape.
 
-We used a transformation, and in some cases this makes interpretation difficult.
+We obtained a measure of seedling to seedling variation.
 
-We used a polynomial, which is unsatisfactory because the curve
-decreases towards the last measurement day.
+We used a transformation, and in most cases this alters the interpretation of curve shapes and, crucially of interactions. Whatever approach is used, it is extremelly important when using transformations to take into account how they affect the interpretation of the results of the tests of significance and the value of the parameter estimates.
 
-We got some measure of seedling to seedling variation.
+::: callout-warning
+Nowadays it is only very seldom necessary to apply transformations to the data to force them to fulfil the assumptions of a statistical method. It is much better, when possible, to choose a method that does not makes the unfulfilled assumption. As transformation modify the interpretation of test results, analyses done on transformed and untransformed data, are not comparable. An obvious example is in the use of a logarithm transformation. With reference to the original data, an interaction term test whether the effects are additive. Using log transformed data the interaction term tests for additive effects _in the log scale_, in other words, for _multiplicative effects_ in the original scale. 
 
-### We try now a non-linear mixed-effects model
+This is not to say that transformations should not be used, as for example, in some cases finding deviation from multiplicative effects may be very interesting. However, in most cases the  use of data transformations should decided based on the nature of the problem under study, and how they can facilitate the interpretation of the results.
 
-The shape of the curves suggests that a logistic curve could fit
-the data well.
+In the case of growth, the situation is not clear cut. Calculus tells us that natural logarithms have a special property in relation to derivatives. This means that a $\log_e$ transformation of the data makes it possible to estimate the instantaneous relative growth rate:
+$$\mathrm{RGR} = \frac{\delta A}{A}\,\mathrm{d}\,t$$
+where $A$ is leaf area. The $\mathrm{RGR}$ is estimated as the slope of the fitted curve of $\log_e$ on $t$.
+:::
 
-There are other possibilities, that are either already programmed
-in R, or for which a function can be easily defined.
+### The logistic function
 
-We follow the same steps as before, but we use the leaf area data
+If we consider the untrasformed data, the shape of the curves suggests that a
+logistic function could fit the untransformed $A$ vs. $t$ data well. There are
+other functions that could be possibly used, that are either already ready
+available in R, or for which a function can be easily defined in our script.
+
+We follow the same steps as above for the LME model, but we use the leaf area data
 in the original scale, rather than log-transformed.
 
 We write the simple logistic model as
@@ -436,15 +438,15 @@ the value of $x$ at which the response $y$ is $\phi_1 / 2$, and $\phi_3$
 gives the steepness of the slope (in $x$ units). We will call in what
 follows: $\phi_1$ `"Asym"`, $\phi_2$ `"xmid"`, and $\phi_3$ `"scal"`.
 
-### Fitting individual curves
+#### Fitting individual curves
 
 We fit the logistic curve to the data from each seedling (one
-leaf) separately using `nlsList()`.
+leaf) separately using `nlsList()`. This the same as doing separate fits
+for each seedling.
 
 We use the self-starting function `SSlogis()`, so we do not
 need to provide starting values for the parameters to be used in
 the iteration.
-
 
 ```{r}
 fm1Birch.nlis <-
@@ -456,29 +458,25 @@ fm1Birch.nlis
 ```
 
 With `fixef()` we get the overall fixed effects, that we will
-use as starting values for the non-linear mixed-effects model fit.
-
-### Intervals
+use as starting values for the non-linear mixed-effects model fit. We can
+then plot the 95% confidence intervals for the estimates of the different
+model parameters for each seedling.
 
 ```{r}
 plot(intervals(fm1Birch.nlis), layout=c(3, 1))
 ```
 
-The asymptote (Asym) varies most between seedlings, and the scale
-parameter varies the least.
+From the plot we can make an initial assessment of which random effects may have to be 
+includes in the NLME models that we will fit next. A key thing to check is if the confidence intervals overlap. The asymptote (Asym) varies most between seedlings, and the scale parameter (scal) varies the least and the estimates do not differ significantly among seedlings (all confidence intervals overlap). 
 
-## A non-linear mixed effects model
+#### An NLME model
 
 We fit a model with a fixed effect of dose for all three
 parameters of the logistic.
 
 We include random effects for the intercept of the three
-parameters.
-
-For the intercepts, we use the starting values obtained from the
-`nlsList` fits.
-
-For the slopes for the dose of UV-B we use zero (no effect) as
+parameters. For the intercepts, we use the starting values obtained from the
+`nlsList` fits. For the slopes for the dose of UV-B we use zero (no effect) as
 starting value.
 
 
@@ -501,28 +499,22 @@ plot(fm1Birch.nlme)
 qqnorm(fm1Birch.nlme, abline = c(0, 1))
 ```
 
-## Another model
+#### A second NLME model
 
 The random effect for the scale parameter is very small compared
 to the estimate for the value of the parameter.
 
-We use `update()` to fit a model without this random effect.
+We use `update()` to fit a model without this random effect. We only need only an argument for `random` as all other arguments except start are taken from the fitted model being updated.
+The starting values are taken from the fitted model being updated as well.
 
 ```{r}
 fm2Birch.nlme <- 
   update(fm1Birch.nlme, random = Asym + xmid ~ 1 | seedling)
 ```
 
-We only need only an argument for `random` as all other arguments except start are
-taken from the fitted model being updated.
-
-The starting values are taken from the fitted model being updated as well.
-
 ```{r}
 summary(fm2Birch.nlme)
 ```
-
-### Comparison of the models
 
 We use `anova()` to compare the two models.
 
@@ -531,9 +523,7 @@ anova(fm1Birch.nlme, fm2Birch.nlme)
 ```
 
 The two models do not differ significantly, so we prefer the
-simpler model with no random effect for the scale parameter.
-
-### Diagnostics
+simpler model, `fm2Birch.nlme`, with no random effect for the scale parameter.
 
 ```{r}
 plot(fm2Birch.nlme)
@@ -547,7 +537,7 @@ qqnorm(fm2Birch.nlme, abline = c(0, 1))
 
 The residuals do not seem to be normally distributed.
 
-## New model
+#### A third NLME model
 
 To describe the heterogeneity of variance of the residuals in the model we
 include a power of variance function (see earlier lectures). We use the default
@@ -556,7 +546,6 @@ can describe changes in variance in relation to changes in the `height' of the
 fitted line.
 
 We use `update()` to update our second non-linear mixed-effects model.
-
 
 ```{r}
 fm3Birch.nlme <- 
@@ -567,7 +556,7 @@ fm3Birch.nlme <-
 summary(fm3Birch.nlme)
 ```
 
-### Diagnostics
+As above we use plots to diagnose deviations from assumptions.
 
 ```{r}
 plot(fm3Birch.nlme)
@@ -581,22 +570,21 @@ values.
 qqnorm(fm3Birch.nlme, abline = c(0, 1))
 ```
 
-Now it is plausible that the residuals follow a normal distribution.
+Now it is plausible that the residuals follow a normal distribution. 
 
-### Test of the last two models
+We compare the last two models, `fm2Birch.nlme` and `fm3Birch.nlme`:
 
 ```{r}
 anova(fm2Birch.nlme, fm3Birch.nlme)
 ```
 
-The model with a description of the heterogeneity of variance
-gives a significantly better fit.
+Model `fm3Birch.nlme`, which includes a _variance covariate_ that describes the heterogeneity of variance, gives a significantly better fit to the observations.
 
 ```{r}
 intervals(fm3Birch.nlme)
 ```
 
-### Another model
+#### A fourth NLME model
 
 We test the assumption that the random effects of `Asym` and `xmid` are
 independent.
@@ -613,15 +601,14 @@ anova(fm3Birch.nlme, fm4Birch.nlme)
 ```
 
 The third model with dependence between the random effects for the
-two parameters gives a slightly better fit, so we choose it.
-
-### Predictions
+two parameters gives a slightly better fit, so we choose it. We compute predictions
+for this model. In this call `level = 0:1` indicates that we want predictions for the population and for the individual seedlings.
 
 ```{r}
 plot(augPred(fm3Birch.nlme, level = 0:1))
 ```
 
-### Did we get what we wanted?
+#### Did we get what we wanted?
 
 Yes. We did not use a transformation, so interpretation is easy.
 We used a curve, the logistic that approaches asymptotically a
@@ -644,5 +631,7 @@ new.birch1.data$pred <-
 plot(pred ~ day, new.birch1.data, pch = code)
 ```
 
+## Conclusion
 
+The data I used in the birch example are a small subset of data that included measurements on several leaves on each seedling and seedlings of two different birch species. The approach to the data analysis in the published paper [@Robson2012] was not any of those described here. Because of our interest in $\mathrm{RGR}$ we decided to use $\log_e A$ but instead of a polynomial a function, non-linear in its parameters, that had a more suitable shape. At the time we found it very difficult to jointly fit the NLME model based on this function to the data from all seedlings. Consequently, the NLME models were fitted individually to the data from each seedling. The parameter estimates (for each seedling) were used as input to ANOVA to test for significance of the efefcts of treatments on the parameter estimates.
 
