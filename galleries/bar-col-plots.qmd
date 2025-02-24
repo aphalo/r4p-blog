@@ -100,9 +100,9 @@ library(ggrepel)
 Some simple artificial data.
 
 ```{r}
- df <- data.frame(x1 = c(1, 2, 1, 3, -1),
-                  x2 = c("a", "a", "b", "b", "b"),
-                  grp = c("A", "B", "C", "D", "E"))
+cols1.df <- data.frame(x1 = c(1, 2, 1, 3, -1),
+                       x2 = c("a", "a", "b", "b", "b"),
+                       grp = c("A", "B", "C", "D", "E"))
 ```
 
 The first few examples are graphically very simple, but very difficult to create
@@ -111,7 +111,7 @@ from 'ggpp' simplify the use of data labels together with stacked or dodged colu
 and bars.
 
 ```{r}
-ggplot(data = df, aes(x1, x2, group = grp)) +
+ggplot(data = cols1.df, aes(x1, x2, group = grp)) +
    geom_col(aes(fill = grp), width = 0.8,
             position = position_dodge()) +
    geom_vline(xintercept = 0) +
@@ -127,7 +127,7 @@ After swapping the _x_ and _y_ mappings, we need to also adjust the arguments
 used for nudging.
 
 ```{r}
- ggplot(data = df, aes(x2, x1, group = grp)) +
+ ggplot(data = cols1.df, aes(x2, x1, group = grp)) +
    geom_col(aes(fill = grp), width = 0.75,
             position = position_dodge(width = 0.75)) +
    geom_hline(yintercept = 0) +
@@ -142,7 +142,7 @@ used for nudging.
 Nudging can be applied along the bar or sideways, or both simultaneously.
 
 ```{r}
- ggplot(data = df, aes(x1, x2, group = grp)) +
+ ggplot(data = cols1.df, aes(x1, x2, group = grp)) +
    geom_col(aes(fill = grp), width = 0.5) +
    geom_vline(xintercept = 0) +
    geom_text(
@@ -155,7 +155,7 @@ If we use `position_fill()` for drawing the columns, we need to use the
 matching `position_fillnudge()` for the data labels.
 
 ```{r}
- ggplot(data = subset(df, x1 >= 0), aes(x2, x1, group = grp)) +
+ ggplot(data = subset(cols1.df, x1 >= 0), aes(x2, x1, group = grp)) +
    geom_col(aes(fill = grp), width=0.5, position = position_fill()) +
    geom_vline(xintercept = 0) +
    geom_text(
@@ -168,16 +168,16 @@ Using a repulsive geom from package 'ggrepel' together with `postion_stack_nudge
 
 
 ```{r}
-df <- tibble::tribble(
+col2.df <- tibble::tribble(
   ~y, ~x, ~grp,
   "a", 1,  "some long name",
   "a", 2,  "other name",
-  "b", 1,  "other different long name",
+  "b", 1,  "other different\nlong name",
   "b", 3,  "another name",
   "b", -1, "some long name"
 )
 
-ggplot(data = df, aes(x, y, group = grp)) +
+ggplot(data = col2.df, aes(x, y, group = grp)) +
   geom_col(aes(fill = grp), width=0.5) +
   geom_vline(xintercept = 0) +
   geom_label_repel(aes(label = grp),
@@ -192,16 +192,7 @@ also from 'ggpp', similar to `geom_label()` from 'ggplot2', but capable of plott
 segments or arrows based on position displacements.
 
 ```{r}
-df <- tibble::tribble(
-  ~y, ~x, ~grp,
-  "a", 1,  "some long name",
-  "a", 2,  "other name",
-  "b", 1,  "other different\nlong name",
-  "b", 3,  "another name",
-  "b", -1, "some long name"
-)
-
-ggplot(data = df, aes(x, y, group = grp)) +
+ggplot(data = col2.df, aes(x, y, group = grp)) +
   geom_col(aes(fill = grp), width=0.5, show.legend = FALSE) +
   geom_vline(xintercept = 0) +
   geom_label_s(aes(label = grp),
@@ -214,7 +205,7 @@ Even a small amount of nudging is enough when justification is based on
 `"position"`displacement, the default in `geom_text_s()` and `geom_label_s()`.
 
 ```{r}
-ggplot(data = df, aes(x = y, y = x, group = grp)) +
+ggplot(data = df2, aes(x = y, y = x, group = grp)) +
   geom_col(aes(fill = grp), width = 0.33, show.legend = FALSE) +
   geom_vline(xintercept = 0) +
   geom_label_s(aes(label = grp),
@@ -235,7 +226,7 @@ read from the scale. We can add labels with these values using
 ggplot(mpg, aes(class)) + 
   geom_bar(aes(fill = drv)) +
   geom_text(aes(label = after_stat(count), y = after_stat(count), group = drv),
-            position = position_stacknudge(vjust = 1, y = -1.1),
+            position = position_stacknudge(vjust = 1, y = -1.5),
             size = 2.7,
             stat = "count")
 ```
@@ -256,5 +247,15 @@ ggplot(mpg, aes(y = class)) +
   theme(legend.position = "top")
 ```
 
+
+```{r}
+ ggplot(data = subset(cols1.df, x1 >= 0), aes(x2, x1, group = grp)) +
+   geom_col(aes(fill = grp), width=0.5, position = position_fill()) +
+   geom_vline(xintercept = 0) +
+   geom_text_s(
+     aes(label = grp),
+     position = position_fillnudge_to(vjust = 0.5, x = 1.5)) +
+   theme(legend.position = "none")
+```
 
 
