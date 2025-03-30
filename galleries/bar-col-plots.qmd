@@ -205,7 +205,7 @@ Even a small amount of nudging is enough when justification is based on
 `"position"`displacement, the default in `geom_text_s()` and `geom_label_s()`.
 
 ```{r}
-ggplot(data = df2, aes(x = y, y = x, group = grp)) +
+ggplot(data = col2.df, aes(x = y, y = x, group = grp)) +
   geom_col(aes(fill = grp), width = 0.33, show.legend = FALSE) +
   geom_vline(xintercept = 0) +
   geom_label_s(aes(label = grp),
@@ -254,7 +254,7 @@ ggplot(mpg, aes(y = class)) +
    geom_vline(xintercept = 0) +
    geom_text_s(
      aes(label = grp),
-     position = position_fillnudge_to(vjust = 0.5, x = 1.5)) +
+     position = position_fillnudge_to(vjust = 0.5, x = c(1.4, 1.4, 1.6, 1.6))) +
    theme(legend.position = "none")
 ```
 
