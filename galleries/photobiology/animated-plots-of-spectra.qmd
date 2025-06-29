@@ -3,218 +3,28 @@ title: "Animated plots of spectra"
 subtitle: "Using 'ggspectra' and 'gganimate'"
 author: "Pedro J. Apahlo"
 date: "2025-02-16"
-date-modified: "2025-02-16"
+date-modified: "2025-06-29"
 keywords: [photobiology pkg, ggpmisc pkg, gganimate pkg]
 categories: [Photobiology examples]
 abstract: |
-  Example animated plots and R code for time series and collections of spectra. The R code examples makes use of packages in the [R for Photobiology suite](https://www.r4photobiology.info/pages/r4p-introduction.html) together with packages ['ggplot2'](https://ggplot2.tidyverse.org/) and ['gganimate'](https://gganimate.com/).
+  This page used to contain example animated plots and R code for time series and collections of spectra. It has been replaced by package documentation linked below.
 editor: 
   markdown: 
     wrap: 72
 code-fold: false
 format:
   html: 
-    code-link: true
     code-tools: true
-fig-format: png
 ---
 
 ::: callout-note
-As of 2025-02-16 the code in this page makes use of a still unreleased version
-of R package 'ggspectra'. Future version (=> 0.3.16) adds support for animated
-plots and is currently under development and unstable.
+This page has been replaced by the article [Animated plots of spectral data](https://docs.r4photobiology.info/ggspectra/articles/animated-plots.html) included in the [on-line documentation of R package 'ggspectra' version >= 0.3.16](https://docs.r4photobiology.info/ggspectra/).
+
+The reason for this migration is that the interaction between packages
+['ggspectra'](https://docs.r4photobiology.info/ggspectra/),
+['gganimate'](https://gganimate.com/) and
+['ggplot2'](https://ggplot2.tidyverse.org/) is rather fragile and the examples
+need frequent checks and updates. This is better handled in the package
+documentation than in a page at this website.
 :::
-
-```{r}
-library(photobiology)
-library(photobiologyFilters)
-library(photobiologyLamps)
-library(photobiologyLEDs)
-library(photobiologyPlants)
-library(photobiologySensors)
-library(photobiologySun)
-library(photobiologyWavebands)
-
-library(lubridate)
-
-library(ggplot2)
-library(ggspectra)
-library(gganimate)
-library(magick)
-
-theme_set(theme_minimal())
-photon_as_default()
-```
-## Introduction
-
-Animated plots have been available in R using package 'gganimate' for some 
-years. In 'gganimate' (>= 1.0.0) the syntax was updated, and this is what we
-use here.
-
-I think animated plots are specially useful to illustrate time series of 
-spectra.
-
-```{r}
-# prepare data
-sun_one_day.spct <- sun_hourly_august.spct
-sun_one_day.spct <- subset(sun_one_day.spct, day(UTC) == 21)
-sun_one_day.spct <- setIdFactor(sun_one_day.spct, idfactor = "UTC")
-idfactor <- getIdFactor(sun_one_day.spct)
-sun_one_day.spct[["time"]] <- sun_one_day.spct[[idfactor]]
-sun_one_day.spct[[idfactor]] <- factor(sun_one_day.spct[[idfactor]])
-```
-
-Without scaling, it is easy to appreciate the change in irradiance through
-the day.
-
-```{r}
-sun_spct_irrad.anim <-
-  ggplot(data = sun_one_day.spct, unit.out = "photon") +
-  stat_wl_strip(by.group = TRUE, ymin = -0.1e-6, ymax = 0) +
-  geom_spct() +
-  scale_x_wl_continuous() +
-  scale_y_s.q.irrad_continuous(name = s.q.irrad_label()) +
-  scale_fill_identity() +
-  scale_colour_identity() +
-  transition_states(get(idfactor),
-                    transition_length = 5,
-                    state_length = 1) +
-  ggtitle('{closest_state} UTC')
-
-animate(sun_spct_irrad.anim, duration = 20)
-
-```
-
-With scaling to eaqual PAR, it is easy to appreciate the change in shape of the 
-spectrum through the day.
-
-```{r}
-
-sun_spct_scaled.anim <-
-  ggplot(data = fscale(sun_one_day.spct, f = q_irrad, target = 1e-3, w.band = PAR()),
-       unit.out = "photon") +
-  stat_wl_strip(by.group = TRUE, ymin = -0.02, ymax = 0) +
-  geom_spct() +
-  scale_x_wl_continuous() +
-  scale_y_s.q.irrad_continuous(name = s.q.irrad_label(scaled = TRUE)) +
-  scale_fill_identity() +
-  scale_colour_identity() +
-  transition_states(get(idfactor),
-                    transition_length = 5,
-                    state_length = 1) +
-  ggtitle('{closest_state} UTC')
-
-animate(sun_spct_scaled.anim, duration = 20)
-
-```
-
-## Using `autoplot()` methods
-
-By default the `autoplot()` methods from 'ggspectra' plot multiple spectra in
-a single plot panel, which can become crowded.
-
-```{r}
-autoplot(lamps.mspct[1:6], anotations = c("-", "peaks"))
-```
-
-An alternative available in 'ggspectra' (>= 0.X.X) is to use facets to plot
-spectra in individual panels.
-
-```{r}
-autoplot(lamps.mspct[1:6], facets = TRUE)
-```
-
-In 'ggspectra' (>= 0.3.16) it is also possible to create animated plots with
-each spectrum shown individually in time. The methods from 'ggspectra' when
-passed `by.group = TRUE` in the call, return ggplots that while not animated,
-are compatible with the animation approach implemented in 'gganimate'. _These
-plots are not suitable for printing/rendering without animation!_
-
-Above, we used smooth transitions in the time series of hourly terrestrial
-sunlight spectra as smooth transitions are reasonable and not distracting.
-Below, with a collection of spectra from different lamps, step-like transitions
-are less distracting.
-
-```{r}
-autoplot(lamps.mspct[1:6], by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-Another example, in this case for LEDs' spectral irradiances.
-
-```{r}
-autoplot(leds.mspct[1:6], by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-Action spectra for photosynthesis.
-
-```{r}
-autoplot(McCree_photosynthesis.mspct, by.group = TRUE) +
-  transition_states(spct.idx) +
-  ggtitle('{closest_state}')
-```
-
-Absorbance spectra of different chlorophyll extracts.
-
-```{r}
-autoplot(chlorophylls.mspct, plot.qty = "absorbance", by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-Responsivity of some electronic light sensors.
-
-```{r}
-autoplot(sensors.mspct[1:6], range = c(280, 750), by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-Responsivity of some ultraviolet radiation sensors.
-
-```{r}
-autoplot(sensors.mspct[uv_sensors[1:10]], range = c(250, 500), by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-Transmittance of UV filters sold for use in photography.
-
-```{r}
-autoplot(filters.mspct[intersect(uv_filters, photography_filters)[1:14]], 
-         range = c(300, 1000), by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-```{r}
-autoplot(sensors.mspct[uv_sensors[1:10]], range = c(250, 500), by.group = TRUE) +
-  transition_states(spct.idx,
-                    transition_length = 0,
-                    state_length = 10) +
-  ggtitle('{closest_state}')
-```
-
-
-```{r, eval=FALSE}
-# NOT YET WORKING
-autoplot(sun_one_day.spct, anotations = "", by.group = TRUE) +
-  transition_states(get(idfactor)) +
-  ggtitle('{closest_state}')
-```
 
