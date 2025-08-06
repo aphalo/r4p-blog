@@ -1,5 +1,5 @@
 ---
-title: "Functional analysis of spectra with 'photobiology' to 'fda.usc'"
+title: "Functional analysis of spectra with 'photobiology' and 'fda.usc'"
 subtitle: "From 'photobiology' to 'fda.usc' and back."
 author: "Pedro J. Aphalo"
 date: "2023-06-02"
@@ -76,7 +76,18 @@ photon_as_default()
 ## Deepest curve
 
 The word "deepest" refers to the curve that is farthest from the extreme ones,
-based on some criterion. The examples below are for median and mean.
+based on some criterion. The examples below use the median or mean as criterion.
+In most cases, the criteria are applied to previously smoothed curves, while
+the returned value is one of the original curves unmodified.
+
+::: callout-tip
+Even when using as criterion medians or means, the _deepest curve_ is not the
+same as a median or mean curve. For spectra the _deepest curve_ is one of the 
+observed spectral curves, while a median or mean spectrum, is that computed
+as the median or mean at each wavelength, thus, different from any of the
+observed spectral curves. Furthermore, to compute a median or mean curve, all
+the curves to be compared must share the same wavelength values.
+:::
 
 Examples in this chapter are for a time series of 45 spectra, measured at a frequency of one per minute close to noon on a summer day under broken clouds. 
 
@@ -96,7 +107,7 @@ subset2mspct(sun.cosine.spct) %>%
   interpolate_mspct(length.out = 721) -> sun.cosine.mspct
 ```
 
-### Highlight the "median" spectrum
+### Deepest spectrum based on median
 
 
 ```{r}
@@ -106,7 +117,8 @@ autoplot(sun.cosine.mspct,
             colour = "red", linewidth = 1, alpha = 0.67)
 ```
 
-### Highlight the "mean" spectrum
+
+### Deepest spectrum based on mean
 
 ```{r}
 autoplot(sun.cosine.mspct, 
@@ -115,7 +127,7 @@ autoplot(sun.cosine.mspct,
             colour = "blue", linewidth = 1, alpha = 0.67)
 ```
 
-### Highlight the "trimmed mean" spectrum
+### Deepest spectrum based on trimmed mean
 
 ```{r}
 autoplot(sun.cosine.mspct, 
@@ -123,6 +135,38 @@ autoplot(sun.cosine.mspct,
   geom_line(data = . %>% spct2fdata() %>% func.trim.FM(trim = 0.25) %>% fdata2spct(),
             colour = "green", linewidth = 1, alpha = 0.67)
 ```
+
+::: callout-note
+# Deepest spectrum vs. summary spectrum
+
+The deepest spectrum is the measured spectrum considered to be most representative of a collection of spectra. A summary spectrum, such as median spectrum is computed by applying the summary function, here median, across spectra, wavelength by wavelength. In this example, the two spectra are very similar, although not identical. This is because the shape of the spectra in the collection remains similar in spite of the variation in overall _y_-value.
+
+```{r}
+median.spct <- s_median(sun.cosine.mspct)
+deepest_med.spct <- mspct2fdata(sun.cosine.mspct) %>% func.med.FM() %>% fdata2spct()
+
+ggplot() +
+  geom_line(data = median.spct,
+            mapping = aes(w.length, s.q.irrad)) +
+  geom_line(data = deepest_med.spct,
+            mapping = aes(w.length, s.q.irrad), 
+            colour = "red")
+```
+
+Different summaries can be applied, for example, quantiles can be computed and plotted.
+
+```{r}
+quantiles.spct <- rbindspct(s_quantile(sun.cosine.mspct), idfactor = "Quantile")
+
+ggplot() +
+  geom_line(data = rbindspct(sun.cosine.mspct, idfactor = "Spectrum"), 
+            mapping = aes(x = w.length, y = s.q.irrad, group = Spectrum), 
+            alpha = 0.12) +
+  geom_line(data = quantiles.spct,
+            mapping = aes(x = w.length, y = s.q.irrad, colour = Quantile))
+```
+
+:::
 
 ## Functional one-way ANOVA
 
@@ -169,6 +213,17 @@ autoplot(shade.mspct) +
   labs(linetype = "Entrance\noptics")
 ```
 
+Or perhaps more clearly
+
+```{r}
+ggplot(shade.mspct) +
+  geom_line(aes(colour = ifelse(grepl("cosine", spct.idx), "cosine", "dome")),
+            alpha = 0.25) +
+  labs(colour = "Entrance\noptics") +
+  scale_y_s.q.irrad_continuous() +
+  scale_x_wl_continuous()
+```
+
 We test in a one-way ANOVA if the spectra differ, and they do differ significantly. This procedure is computationally demanding and thus time consuming. In cases with less clear-cut results it is worthwhile to increase `nboot` to at least its default of 100.
 
 ```{r}
@@ -179,9 +234,11 @@ shade.anova <-
                    plot = TRUE,
                    nboot = 25)
 shade.anova
+shade.anova$pvalue
 ```
 
-To test if the shape of the spectra differs, we first scale them to equal area under the curve, and repeat the ANOVA analysis.
+To test if the shape of the spectra differs, we first scale them to equal area under the curve, and repeat the ANOVA analysis. The rightmost plot gives a distribution of
+_P_-values from booststrap with n = 25. The red vertical line 
 
 ```{r}
 shade_scaled.fda <- 
@@ -192,6 +249,7 @@ shade_scaled.anova <-
                    plot = TRUE,
                    nboot = 25)
 shade_scaled.anova
+shade_scaled.anova$pvalue
 ```
 
 ## References
