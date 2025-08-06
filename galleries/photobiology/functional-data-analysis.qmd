@@ -3,7 +3,7 @@ title: "Functional analysis of spectra with 'photobiology' and 'fda.usc'"
 subtitle: "From 'photobiology' to 'fda.usc' and back."
 author: "Pedro J. Aphalo"
 date: "2023-06-02"
-date-modified: "2024-09-14"
+date-modified: "2025-08-06"
 keywords: [photobiology pkg, photobiologyInOut pkg, fda.usc pkg, ggspectra pkg, functional data analysis]
 categories: [Photobiology examples]
 abstract: |

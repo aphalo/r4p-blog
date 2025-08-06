@@ -72,7 +72,7 @@ data.
 We first load the packages that we will use.
 
 ```{r}
-library(ymp236)
+#library(ymp236)
 library(nlme)
 library(lattice)
 library(ggplot2)
@@ -272,16 +272,13 @@ The processes of choosing the details of a model, by fitting different models an
 We will build a model step by step. We will first fit a linear mixed-effects model using `lme()`
 from package 'nlme'.
 
-For this example we start by creating a grouped data object. 
-We first make available the data as a `data.frame` as it is
-part of package 'ymp236'.
-
-Then we create a `groupedData` object that is a special
+We first load the file conatining the data as a data frame. Then we create a `groupedData` object that is a special
 kind (an object of a derived class) of data frame with additional information about the grouping
 of the data.
 
 ```{r}
-data(birch.data)
+# data(birch.data)
+load("data-files/birch.data.rda")
 summary(birch.data)
 ```
 
