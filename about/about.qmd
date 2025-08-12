@@ -1,7 +1,7 @@
 ---
 title: "About this Website"
 date: "2023-02-15"
-date-modified: "2024-09-15"
+date-modified: "2025-08-12"
 image: ../pages/r4p-logo.png
 about:
   template: trestles
@@ -62,3 +62,9 @@ recent migration to Quarto, by [Webbinen](https://webbinen.net)
 which I can only praise and recommend. Support has been incredibly
 knowledgeable, efficient and fast, every single time I have contacted them over
 these years. All my sites have worked without a glitch all this time.
+
+## Build information
+
+Rendered on `{r} lubridate::today()` with Quarto CLI {{< version >}} and R package 'quarto' `{r} cat(packageVersion("quarto"))` under `{r} cat(R.version.string)` .
+
+
