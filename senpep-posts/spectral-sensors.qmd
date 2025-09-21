@@ -2,7 +2,7 @@
 title: "Digital light sensors"
 subtitle: "Miniature mutichannel integrated circuits"
 date: 2025-08-19
-date-modified: 2025-08-19
+date-modified: 2025-09-17
 author: "Pedro J. Aphalo"
 keywords: [light sensors, multichannel, digital]
 categories: [Research instrumentation]
@@ -21,7 +21,7 @@ abstract: |
 draft: true
 ---
 
-```{r}
+```{r, message=FALSE}
 library(ggspectra)
 library(photobiologyWavebands)
 library(photobiologySensors)
@@ -29,16 +29,28 @@ library(photobiologySensors)
 energy_as_default()
 theme_set(theme_bw())
 ```
+
+```{r, include=FALSE}
+library(knitr)
+opts_chunk$set(fig.align = 'center', 
+               fig.show = 'hold', fig.width = 7, fig.height = 4,
+               cache = FALSE, message = FALSE)
+options(warnPartialMatchArgs = FALSE)
+```
+
 ## Introduction
 
 In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and standardised serial digital communication have been developed. One of the key advances is the depostion of interferece filters directly on the IC chip, selectively on individual photodiodes. A key supplier is ams OSRAM selling many different variations aiming at different applications. Vishay has also developed some sensors with a limited number of channels. These sensors are extremely small encapsuladed as surface mounted devices (SMD) in very small packages (e.g., $2 \times 3 \times 1$ mm).
 
 When bought as components in quantity they are very cheap (3 to 15 €). Given their size, for prototyping and custom assembly they are easier to use if bought as "break out boards" (10 to 25 €), i.e., soldered on a small printed circuit board (PCB) to easy the task of connecting them. They cannot be used on their own, they need to be connected to a microcontroller or computer to acquire data and control their settings. For these reason, some companies like YoctoPuce have developed USB modules containing a microcontroller, memory, an isolated power supply and a USB interface. These modules have a built in logger and a webserver-based user interface as well as a programming API. Through a hub they can be accessed remotely through the Internet or LAN. These modules cost more than the bare sensor ICs (40 to 100 €) but provide a readily usable solution, except for diffuser and case, if used for measuring irradiance. In some cases they have built-in LEDs for measuring reflectance. Aranet has just released a weather proof sensor with a cosine diffuser and a LoRa interface that connects through a base station. This sensor is sold for 1000 € + VAT, and although the easiest to use being a ready made field sensor, it lacks flexibility in the precomputed data summaries.
 
+For all these sensors, the wavelength and channel sensitivity guaranteed specifications have rather loose tolerances. In most cases electronic components are closer to the typical especifications than the tolerance limits. Some commercail broadband sensors have little variation from unit to unit, but this is not always the case, especially for UV sensors.
+
 ::: callout-note
 # UV Sensor VML6075 from Vishay
 
-The VML6075 from Vishay is a digital UV sensor with two channels, named UVB and UVA in the documentation but closer to UVA1 and UVA2 in reality. Vishay provides 
+The VML6075 from Vishay is a digital UV sensor with two channels, named UVB and UVA in the documentation but closer to UVA1 and UVA2 in reality. Vishay provides an algorithm to compute UVI. This sensor is still available from distributors but its manufacture has been discontinued by Vishay.
+
 ```{r}
 autoplot(sensors.mspct$Vishay_VEML6075, 
          w.band = UV_bands("CIE"), range = c(280, 450))
@@ -56,15 +68,14 @@ autoplot(sensors.mspct$ams_AS7331,
          w.band = UV_bands("CIE"), range = c(200, 450))
 ```
 
-Sensitivity of Si photodiodes to UV radiation decreases with decreasing wavelength, but the design compensates for this using a photodiodes of larger area to compensate. Wavelength and channel sensitivity guaranteed specifications are rather loose.
+Sensitivity of Si photodiodes to UV radiation decreases with decreasing wavelength, but the design compensates for this using a photodiodes of larger area to compensate.
 
 :::
 
 ::: callout-note
 # Spectral VIS and IR sensor AS7343 from ams OSRAM
 
-The AS7331 from ams OSRAM is a digital UV sensor with three channels, named UVC, UVB and UVA in the documentation. The band separation is rather good for computing UVI in sunlight and the usual artificial UV
-radiation sources.
+The AS7343 from ams OSRAM is a digital UV sensor with 13 channels. This sensor seems like the most useful for measuring light from the perspective of plants as it seems possible to estimate PAR, ePAR and FR.
 
 ```{r}
 autoplot(sensors.mspct$ams_AS7343, 
@@ -78,7 +89,7 @@ Sensitivity of Si photodiodes to UV radiation decreases with decreasing waveleng
 ::: callout-note
 # Spectral VIS and IR sensor AS7341 from ams OSRAM
 
-The AS7331 from ams OSRAM is a digital UV sensor with three channels, named UVC, UVB and UVA in the documentation. The band separation is rather good for computing UVI in sunlight and the usual artificial UV
+The AS7341 from ams OSRAM is a digital spectral sensor with 10 channels. The band separation is rather good for computing UVI in sunlight and the usual artificial UV
 radiation sources.
 
 ```{r}
@@ -91,10 +102,9 @@ Sensitivity of Si photodiodes to UV radiation decreases with decreasing waveleng
 :::
 
 ::: callout-note
-# Spectral VIS and IR sensor AS7341 from ams OSRAM
+# Spectral VIS and IR sensor TSL2591 from ams OSRAM
 
-The AS7331 from ams OSRAM is a digital UV sensor with three channels, named UVC, UVB and UVA in the documentation. The band separation is rather good for computing UVI in sunlight and the usual artificial UV
-radiation sources.
+The TSL2591 from ams OSRAM is a digital illuminance sensor with two channels, named ch0 and ch1 in the documentation. Illuminance can be obtained by subtracting the NIR sensed by ch1 from ch0.
 
 ```{r}
 autoplot(sensors.mspct$ams_TSL2591, 

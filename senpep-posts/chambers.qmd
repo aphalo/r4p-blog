@@ -36,7 +36,7 @@ options("photobiology.plot.bands" = photobiologyWavebands::Plant_bands("CIE"))
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4,
-               cache = FALSE)
+               cache = FALSE, message = FALSE)
 options(warnPartialMatchArgs = FALSE)
 ```
 

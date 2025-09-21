@@ -2,7 +2,7 @@
 title: "LED-based light sources"
 subtitle: "Custom-assembled sources and drivers"
 date: 2022-01-29
-date-modified: 2024-11-30
+date-modified: 2025-09-17
 author: "Pedro J. Aphalo"
 keywords: [LED arrays]
 categories: [Research instrumentation]
@@ -49,7 +49,7 @@ options("photobiology.plot.bands" = Plant_bands("CIE"))
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', fig.width = 8, fig.height = 5,
-               cache = FALSE)
+               cache = FALSE, warning = FALSE, message = FALSE)
 options(warnPartialMatchArgs = FALSE)
 ```
 
@@ -152,13 +152,13 @@ autoplot(interpolate_mspct(subset2mspct(led_arrays.mspct$LedEngin_LZ7_N4M100),
          span = 31)
 ```
 
-Less sophisticated arrays can be assembled individually under a binocular microscope. Heat transfer is not as good because of how the LED dies are mounted, and consequently their size is several times larger. Quality is less consistent as assembly is done by hand. However, customized arrays can be ordered in very small numbers, even singly from some Chinese suppliers. Power per array ranges from 10 W to 500 W. Arrays of 30 W, 50 W and 120 W, have 3, 5, and 12 rows of 10 LED dies connected in series. In the case of the packages used for these power ratings, the rows can be wired separately, and thus controlled independently. If LED dies emitting at a different wavelengths are installed in each row, an array can be assembled with up to 12 channels. We have had custom arrays assembled in China according to our choice of dies and wavelengths. We have two types five channel arrays (five wavelengths, 5 $\times$ 10 W) and two types of 12-channels arrays (12 $\times$ 10 W). These need to be used farther away from the target plants and with a diffuser to ensure good mixing of the light from the different channels.
+Less sophisticated arrays can be assembled individually under a binocular microscope. Heat transfer is not as good because of how the LED dies are mounted, and consequently their size is several times larger. Quality is less consistent as assembly is done by hand. However, customized arrays can be ordered in very small numbers, even singly from some Chinese suppliers. Power per array ranges from 10 W to 500 W. Arrays of 30 W, 50 W and 120 W, have 3, 5, and 12 rows of 10 LED dies connected in series. In the case of the packages used for these power ratings, the rows can be wired separately, and thus controlled independently. If LED dies emitting at a different wavelengths are installed in each row, an array can be assembled with up to 12 channels. We have had custom arrays assembled in China according to our choice of dies and wavelengths. We have two types five channel arrays (five wavelengths, 5 $\times$ 10 W) and two types of 12-channels arrays (12 $\times$ 10 W), named type A and type B, below. These need to be used farther away from the target plants and with a diffuser or integrating sphere to ensure good mixing of the light from the different channels.
 
 ![Custom assembled LED array with 12 channels](images/12-ch-array-side.jpg "Custom assembled LED array with 12 channels")
 
 ![Custom assembled LED array with 12 channels](images/12-ch-array-top.jpg "Custom assembled LED array with 12 channels")
 
-As above, each channel plotted individually. They can dimmed individually and their output mixed.
+As above, each channel of the **12-channel type A array** plotted individually. They can be controlled and dimmed individually and their output mixed.
 
 ```{r}
 #| fig-asp: 1
@@ -178,6 +178,7 @@ autoplot(interpolate_mspct(subset2mspct(led_arrays.mspct$Weili_120W.array.12ch.c
                            w.length.out = 250:900),
          span = 21)
 ```
+
 The sum of the 12 channels at full power.
 
 ```{r}
@@ -185,14 +186,55 @@ autoplot(interpolate_mspct(subset2mspct(led_arrays.mspct$Weili_120W.array.12ch.c
                            w.length.out = 250:900),
          plot.data = "sum",
          geom = "spct",
+         span = 9)
+```
+
+As above, each channel of the **12-channel type B array** plotted individually. They can dimmed individually and their output mixed.
+
+```{r}
+#| fig-asp: 1
+
+autoplot(interpolate_mspct(subset2mspct(led_arrays.mspct$Weili_120W.array.12ch.custom.B),
+                           w.length.out = 250:900),
+         geom = "spct",
+         facets = 3,
+         span = 31)
+```
+
+All the channels overlapped in the same plot.
+
+```{r}
+#| fig-asp: 1
+
+autoplot(interpolate_mspct(subset2mspct(led_arrays.mspct$Weili_120W.array.12ch.custom.B),
+                           w.length.out = 250:900),
          span = 21)
+```
+The sum of the 12 channels at full power.
+
+```{r}
+autoplot(interpolate_mspct(subset2mspct(led_arrays.mspct$Weili_120W.array.12ch.custom.B),
+                           w.length.out = 250:900),
+         plot.data = "sum",
+         geom = "spct",
+         span = 15)
 ```
 
 ## LED drivers and controllers
 
+### Two approaches to LED dimming
+
+Two different approaches are in use for dimming the output of LEDs, pulse-width-modulation (PWM) and constant current (CC). In pulse-width modulation LEDs are switched on and off rapidly (> 100 Hz). The frequency used is high enough for humans not to see it. In CC the current flowing through the LEDs is reduced without any pulsing. In LED lights for use in photography or video recording CC dimming or PWM dimming at higher frequency is used (>> 1000 Hz).
+
+The pulsing can be measured with an oscilloscope and a light sensor with a suitably small response time constant.
+
+![Constant current dimming. Light output measured with an osciloscope.](led-images/dimmimg-cc.png)
+
+![Pulse-width-modulation dimming at 250 Hz, using a commercial dimmer. Light output measured with an osciloscope.](led-images/dimmimg-pwm.png)
+
 ### Programmable LED driver
 
-A two-channel controller for these additional light sources, capable of both constant current dimming and pulsing is available. It integrates loggers to record the current flowing through each channel. It can function either autonomously or tethered to a computer. Programming and data retrieval is done through USB or if connected through a YoctoHub through a network connection. Output current 0 to 1200 mA, output voltage 2 V to 56 V. Input voltage 19 V to 60 V DC, at least 4 V higher than output voltage. Efficiency up to 96%.
+Controllers for LED light sources, capable of both constant current dimming and pulse-width-modulation at frequencies from 0.01 to 1000 Hz, separately and in combination. These controllers integrate loggers to record the current flowing through each channel. They can work either autonomously or tethered to a computer. Programming and data retrieval is done through USB or if connected through a YoctoHub through a network connection. Output current 0 to 1200 mA, output voltage 2 V to 56 V. Input voltage 19 V to 60 V DC, at least 4 V higher than output voltage. Efficiency up to 96%.
 
 ![Intelligent LED controller (bare circuit)](images/intelligent-led-controller.jpg "Intelligent LED controller (bare circuit)")
 
@@ -202,9 +244,11 @@ A two-channel controller for these additional light sources, capable of both con
 
 ![Intelligent LED controller (side)](images/_Z172685.jpg)
 
-### Manual LED driver
+A controller based on the same circuit plus distribution boxes for the signals are available for controlling the customised light sources in our three Aralab growth chambers. The LEDs in the chamber are wired in three groups for CC dimming, and in four groups for PWM dimming, pulsing or switching. The maximum irradiance is 1600 $\mu mol\,m^{-2}\,s^{-1}$ and the minimum 40 $\mu mol\,m^{-2}\,s^{-1}$. As each group of LEDs can be controlled individually, both the maximum and minimum irradiances of pulses can be adjusted. This controller can pulse in synchrony both the chamber LEDs and additional LEDs such as UVA, and FR ones. It is also possible to control dimming in our three chambers.
 
-A two channel LED driver with manual, but repeatable constant current (CC) dimming control. Output current 0 to 350 mA, output voltage 2 V to 56 V. Input voltage 9 V to 60 V DC, at least 4 V higher than output voltage. Efficiency up to 96%.
+### Manual LED drivers
+
+Two two-channel LED drivers with manual, but repeatable constant current (CC) dimming control are available. One with output current 10 to 350 mA, and one with output current 100 to 1200 mA. Both with output voltage 2 V to 56 V. Input voltage 9 V to 60 V DC, at least 4 V higher than output voltage. Efficiency up to 96%. The photographs below are for the lower power one.
 
 ![Manual LED driver](images/_Z303332.jpg)
 
