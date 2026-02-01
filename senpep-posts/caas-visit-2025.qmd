@@ -1,0 +1,195 @@
+---
+title: "Visit to CAAS Beijing"
+subtitle: "My first visit to China"
+date: 2026-01-11
+date-modified: 2026-01-11
+author: "Pedro J. Aphalo"
+keywords: [horticulture, light, ultraviolet, photomorphogenesis]
+categories: [Travel]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  Here I report on my visit last September to Beijing hosted Prof. Xuqi Zhang. This visit funded by Research Council Finland is part of my ongoing research collaboration with Prof. Xuqi Zhang and Prof. Tao Li's and their research group at the Chinese Academy of Agricultural Sciences. In this post I describe the highlights and 
+draft: false
+---
+
+## Introduction
+
+I have been interested in photobiology since I was an undergraduate
+student at the Faculty of Agronomy of the Universidad de Buenos Aires,
+Argentina. Prof. Rodolfo A. Sánchez had much to do with this together
+with my interest in photography since I was very young. My first
+scientific experiment on plant responses to light dates from nearly 50
+years ago.
+
+On aspect of scientific researcn that has always interested me, is
+methodology. Design of experiments, data analysis and visualization and
+instrumentation for research in physiological ecology, photobiology and
+micrometeorology. As a researcher and as reviewer I am very strict, even
+picky, about use of valid research methods, and intergrity in
+research-results reporting.
+
+Over the years, I have had many international collaborators, but I have
+always aimed to work with people that use valid methodology and are able
+to do good and original research. When Xuqi Zhang proposed that we apply
+for the mobility grant that made this and future visits possible, it was
+already clear to me based on earlier colaboration with the group that
+this was an incredibly good opportunity where both of our research
+groups would profit. By this I mean not only knowledge sharing both
+ways, but also achieving joint intelectual progress through development
+of new hypotheses and ideas and sharing know-how on experimental
+techniques, including instrumentation and data analysis.
+
+In my experience, the most succesful collaborations are those where all
+parties contribute to the development of hypotheses and design of the
+research. This is how I am approaching this collaboration.
+
+## Settling in
+
+I am originally from Argentina, a country of immigrants. While I was
+young immigration from China was considerable. In Buenos Aires, what is
+now the local China Town slowly took form just a couple of hundred
+meters from the high school I attended. During my time as PhD student in
+Edinburgh, I had two Chinese friends, sharing my office with one of
+them. Later in my career, I had two Chinese PhD students in my research
+group.
+
+Although this was my first visit to China, I felt immediately at home
+and relaxed. That over the years I have been in close contact with very
+nice Chinese people, surely contributed. However, another reason was
+that Beijing has more in common with Buenos Aires, where I was born,
+than with any city in Finland. Being in the middle of lots of people and
+busy traffic, is not alien to me, it felt rather like going back to my
+roots. Of course, knowing that Chinese people are very friendly, always
+ready to help and they care care about others, made being in this new
+place feel safe in spite of the language and culture differences.
+
+![View from the
+hotel](caas-2025-images/_9141986-DxO_DeepPRIME%203-v1.jpg){fig-alt="Photograph taken in the early evening through a ninth-floor window showing the city buildings and an avenue bordered by trees."}
+
+![View from the
+hotel](caas-2025-images/_9182561-DxO_DeepPRIME%20XD2s-v1.jpg)
+
+![Thunderstorm over
+Beijing](caas-2025-images/_9091685-DxO_DeepPRIME%20XD2s-v1.jpg)
+
+![Full moon over
+Beijing](caas-2025-images/_9085254-DxO_DeepPRIME%203-v1.jpg)
+
+## Getting to know China
+
+Although I had already been a co-author with members of the CAAS group
+of two papers, on my arrival to Beijing I was familiar only with
+specific areas of the group's research, and I was not familiar with CAAS
+as an institution. The two weeks I spent in Beijing meeting members of
+the CAAS research group almost daily, having long discussion sessions
+and presentations, both with experienced researchers, early-stage
+researchers and students, opened the road to further co-authored
+publications and jointly designed an planned experiments.
+
+![Enjoying dinner and good
+conversation](caas-2025-images/IMG_3008-v1.jpg)
+
+Visiting the [Chinese National Botanic Garden](https://www.chnbg.cn/en_home.html) was very interesting and
+helped me become familiar with some of the local flora. Familiarizing with the extensive
+collection of plants, including several species new to me and even
+rarities, was exciting. The Botanic Garden covers a very large area and is planted as
+a beautiful park made the visit a pleasure. We also had opportunity to watch some birds, including some
+I had never before seen.
+
+![](caas-2025-images/_9085125-v1.jpg)
+
+![](caas-2025-images/_9085130-v1.jpg)
+
+![](caas-2025-images/_9085145-v1.jpg)
+
+![](caas-2025-images/from-siqi.JPEG)
+
+![](caas-2025-images/_9085196-v1.jpg)
+
+On a different visit, at the XXXXX lake, at the Xicheng district of Beijing, I was surprised
+by the abundance of water fowl and birds and how tame they are. Being in the middle of Beijing, there was more to see than birds.
+
+![](caas-2025-images/_9095271-v1.jpg)
+
+![](caas-2025-images/_9095326-v1.jpg)
+
+![](caas-2025-images/_9096084-v1.jpg)
+
+![](caas-2025-images/_9097080-DxO_DeepPRIME XD2s-v1.jpg)
+
+![](caas-2025-images/_9099537-v1.jpg)
+
+By visiiting historical sites I learnt about Chinese history and
+culture. Of course, I had heard, read and seen photographs of the Great Wall over the years, but standing on the Mutianyu Great Wall in the middle of the high mountains was an amazing and humbling experience.
+
+![](caas-2025-images/_9162056-v1.jpg)
+
+![](caas-2025-images/_9162059-v1.jpg)
+
+![](caas-2025-images/_9162278-v1.jpg)
+
+![](caas-2025-images/_9162259-v1.jpg)
+
+Being in the Forbidden City with its magnificent buildings and museums, and its shear size were at a very different scale to what I had imagined from the photographs I had seen over the years. It was also very interesting to see Chinese visitors both in traditional costumes and modern clothes, mixed with foreign turists. A reflection of modern China.
+
+![](caas-2025-images/_9182376-v1.jpg)
+
+![](caas-2025-images/_9182381-v1.jpg)
+
+![](caas-2025-images/_9182450-v1.jpg)
+
+![](caas-2025-images/_9182552-v1.jpg)
+
+## Visit to CAAS Beijing
+
+This was the main purpose of the trip. I gave talks and we had diferent meetings and discussions. I was introduced to numerous people, from professors to students. I was introduced to facilities and equipment. Being very busy with science, I took very few photographs. 
+
+
+
+## Visit to CAAS xxxx Research Station
+
+## What next?
+
+I am looking forward to visiting CAAS again in 2026 and 2027 and hosting
+Prof. Xuqi Zhang in Helsinki. I am currently contributing to the writing
+of one research manuscript, and coauthoring a review papers in 2026 is
+also in the plans. Experiments are being designed and will be done in
+2026 and 2027.
+
+::: callout-note
+## The spiny question
+
+I want to also address the spiny issue of the current political
+situation in the world, which is creating new barriers as well as
+raising questions among researchers.
+
+I try to observe the world using a systems' view. By nature and by
+training I tend to emphasize the larger picture over the details, and I
+also tend to look at things from multiple perspectives, both mine and of
+others.
+
+Scientific research in agriculture helps feed the world's population,
+improving nutrition and preventing unnecessary illness and deaths. So, I
+am happy to be involved in any research project as long as the results
+of the research I am involved in can be made public and used widely. I
+have never been secretive, protective or competitive about my research
+or knowledge.
+
+I see research as an enterprise of mankind, not of any particular
+institution or country. As a result, any boycott on agricultural
+research collaborations seems to me unreasonable/nonsensical. In
+addition, any research that is not secret, an openly shared, has in my
+view a much tighter link to persons doing the research than to the
+governments of countries where they live.
+
+Do I "boycott" any researchers when collaborating? Yes, those whom I
+think do not do research with integrity or who have a hidden agenda that
+taints the data they generate.
+:::

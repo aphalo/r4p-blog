@@ -1,6 +1,6 @@
 ---
 title: "Visit to Universidad Austral de Chile"
-subtitle: "Resaerch and teaching"
+subtitle: "Research and teaching"
 date: 2022-12-23
 date-modified: 2024-06-11
 author: "Pedro J. Aphalo"

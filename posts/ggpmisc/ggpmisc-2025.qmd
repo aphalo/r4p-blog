@@ -1,0 +1,75 @@
+---
+title: "Looking back 10 years"
+subtitle: "ggpmisc: Miscellaneous Extensions to 'ggplot2'"
+author: "Pedro J. Aphalo"
+date: 2025-12-01
+date-modified: 2025-12-01
+categories: [R Package Update]
+keywords: [ggpmisc pkg]
+---
+
+::: callout-note
+
+This is still a DRAFT as the 10th anniversary is not quite yet with us.
+
+:::
+
+## It all started with a question
+
+About 10 years ago, Titta Kotilainen, now a research professor at Natural Resources Institute Finland (Luke) asked a simple question that went something like: "I found this answer in StackOverflow to a question about adding a fitted polynomial model equation to a ggplot, but I think a simpler approach should be possible. Can you think of a simpler approach?" Titta had been using R and ggplot2 for some years and realized there could be a better way. This got me thinking and wrote some code. Then the first version of 'ggpmisc', which I did not dare to submit to CRAN.
+
+One can argue about in which cases adding a fitted model equation to a plot is a good idea or just a disturbance, but some users coming from other data visualization software expected this to be a "normal" feature rather than something one needed to code from scratch. I also found myself very useful when teaching to show plots with annotations not only of fitted model equations but also other parameters from the fit.
+
+Initially I was the main user of the home-brewed R package and Titta and a couple of other researchers the rest of the users. During this period I was quite free to polish the interface and get feedback about what features were "missing" and what things were outright bad ideas.
+
+If I remember correctly, my decision to submit the package to CRAN was mainly to make it easier for the few users of the package to install updates.
+Since then, to my surprise the package has been continuously gaining users while I have kept developing it. The ideas for new features at first came mostly from my own needs and the needs of my close collaborators. In recent years, feedback through GitHub issues lead not only to adding support for additional types of statistical models, but also adding these statistical methods as tools for my own work and relevant to teaching. For much of this input I have to thank Mark Neal (Head of Data Science at DairyNZ).
+
+From the point of view of making 'ggpmisc' and 'ggrepel' work smoothly together, the collaboration the good will and help from 'ggrepel' author Kamil Slowikowski (Mass General Brigham, Greater Boston, USA) was crucial. Samer Mouksassi (Université de Montréal, Canada) also contributed code and important ideas.
+
+'ggpmisc' would not have been possible had not 'ggplot2' been open source software. Much of my code uses code from 'ggplot2' as its basis, edited to do new things, but using 'ggplot2' as example and of course as the "engine" that does much of the work. 'ggplot2' provides the framework that guides and makes possible the development of R packages that extend its functionality. There too many people to thank, from the perspective of the development of 'ggpmisc', Teun van den Brand, and Thomas Lin Pedersen have been extremely helpful, and of course Hadley Wickham and Winston Chang for making the design of 'ggplot2' extensible and striving as 'ggplot2' development progressed to easy the writing of extension packages.
+
+## 'gginnards'
+
+Early versions of 'ggpmisc' included some statistics and geometries that I wrote to make it easier for me to learn how 'ggplot2' works and to see if my own attempts at extending 'ggplot2' worked as intented. These layer functions were initially very simple and writing them helped me understand how statistics and geometries work.
+
+Rather soon, it became clear to me that these tools did not belong in the same package as the rest of 'ggpmisc' as they were clearly aimed at different users and to solving a different class of problems. Splitting these layer and utility functions into a sepearte package was natural and caused no problems.
+
+## 'ggpp'
+
+Initially 'ggpmisc' contained both statistics and geometries called by these statistics. With time 'ggpmisc' became both too big and also new uses for the geometries, unrelated to the statistics, started to appear. A large package, from which users would use only a specific part, guided the split the geometries previously in 'ggpmisc' into package 'ggpp'. Splitting the package was in practice very easy, as the documentation had been for some time already in two vignettes, one for the geometries and one for the statistics.
+
+From the perspective of users the situation was more complex than with 'gginnards'. Some users would need only 'ggpp' while users of 'ggpmisc' would need both 'ggpp' and 'ggpmisc'. Making 'ggpp' a requirement of 'ggpmisc' smoothed the change for most, but not all users. Requiring 'ggpp' attaches this package, but still its objects reside in a separate namespace named 'ggpp' instead of 'ggpmisc' as before. This broke user code where the explicit reference to the namespace was used.
+
+'ggpp' contained code that I wrote for 'ggpmisc', however, in 202x XXXX (then at XXXx) wrote about their interest in including 'ggpp' as part of a toolbox for use in medical/pharmaceutical data analysis. This meant that the standards of quality, most specifically the unit test code coverage needed to be increased to more than 90%. To achieve this, they contributed many new unit tests to the package. This revealed some bugs which I fixed. This also improved 'ggpp' significantly and also made it relevant on its own, as at the time of writing 'ggpp' has nearly twice as many downloads per month than 'ggpmisc'.
+
+## Was gain worth the effort?
+
+Yes, without doubt. I have made myself heavy use of 'ggpp' and 'ggpmisc' when writing research papers, research talks, and in teaching. Not many plots of a given type have to be created before having put the code in a package rather than in multiple scripts pays off. It is also much easier to explain others how to create a similar plots, even close collaborators.
+
+For a scientific manuscript to be accepted, effective communication is crucial. The more complex and larger data sets get, well-designed data visualization becomes more important. I see the development of packages as an investment, it takes additional time and effort up-front, but saves time and effort in the longer time.
+
+The gains I described above would not have required publication of the package in CRAN or having the code open in GitHub. Publishing the package improved the quality of the package code, revealed bugs that I fixed, i.e., made the package better. Sometimes, developers complain about the strict requirements CRAN has, I don't. Some requirements may seem unreasonable at first sight, but after having 2xx CRAN submissions accepted (each update to a package is a submission) I see why they are needed. It also much easier both for the author and for the readers if a citation to a package published in CRAN is included in a paper than if all the code is provided as a long script as a supplement. A published package, because of the publication requirements and because of it has multiple users is less likely to contain errors than a script used only once.
+
+What I did not expect is 'ggpmisc' to be cited in scientific publications as much as it is being cited. I do not know how much these citations count in the eyes of reviewers of grant applications or in performance evaluations. Anyway, 'ggpmisc' is on the way to soon become the most cited work from my long career in science (at least according to Google Scholar).
+
+## After 10 years, and yet not at version 1.0.0?
+
+I keep enhancing 'ggpmisc' and code coverage of tests is not yet as high as I would like it to be. Each new feature requires new test cases because it adds new code, and thus it is slow to improve tests' code coverage even if I add new tests regularly. at each release. At each release there things left to do, mostly enhancements waiting in the queue to be implemented in the future. I have to get around, and accept that version 1.0.0 will be another link in the chain of releases, but that the code is good enough to be released as a major version. The 10th aniversary release could be numbered as version 1.0.0.
+
+'ggpp' seems even closer to version 1.0.0.
+
+## Maintenance
+
+A research article is published once for good. Publishing software, especially an extension to software like 'ggplot2' that is not "frozen" makes it necessary to update 'ggpmisc' and 'ggpp' from time to time. Because of CRAN's requirements and the willingness to help from 'ggplot2' developers, keeping things working is a non-issue. In this units tests in 'ggpp' and 'ggpmisc' play a crucial role as they reveal any incompatilities with upcoming updates to 'ggplot2', making them visible both to me and the maintainers of 'ggplot2' before updates are released. So, code breaking by 'ggplot2' updates is at most a very minor nuisance.
+
+Most updates, but specially major updates, like the recent 'ggplot2' 4.0.0, bring new features and non-code breaking changes that are anyway very useful or create inconsistencies in features that would be good to incorporate to 'ggpp' and 'ggpmisc'. Packages that are too large are inconvenient to use, specially in other packages. On the other hand, maintaining a package has some overhead so maintaing too many different packages becomes very time consuming. I will to try limit future enhancements to 'ggpmisc' to the current statistics. However, I may change my mind.
+
+## Current capabilities
+
+### Fitted model equations
+
+Automated assembly of the fitted model equation is supported only for polynomials with no missing terms, but possibly with intercept forced to zero. Some linear splines are also supported. For other fitted models the numeric values can be used to format the equation with a call to `paste()` or to `sprintf()` when creating the mapping to `label` in a call to `aes()`.
+
+Not all fitted model objects are supported. In addition to classes expressely supported, if methods `formula()` and `coef()` exist, it is very likely that an equation can be created.
+

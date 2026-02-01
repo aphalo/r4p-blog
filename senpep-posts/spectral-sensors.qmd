@@ -2,7 +2,7 @@
 title: "Digital light sensors"
 subtitle: "Miniature mutichannel integrated circuits"
 date: 2025-08-19
-date-modified: 2025-09-17
+date-modified: 2026-02-01
 author: "Pedro J. Aphalo"
 keywords: [light sensors, multichannel, digital]
 categories: [Research instrumentation]
@@ -17,8 +17,8 @@ format:
     code-link: true
     code-tools: true
 abstract: |
-  Brief description of modern multichannel digital light sensors as components, modules and complete weather-proof sensors.
-draft: true
+  Brief description of modern multichannel digital light sensors as components suitable for the construction of complete weather-proof sensors.
+draft: false
 ---
 
 ```{r, message=FALSE}
@@ -38,13 +38,24 @@ opts_chunk$set(fig.align = 'center',
 options(warnPartialMatchArgs = FALSE)
 ```
 
-## Introduction
+## Modern digital light sensors
 
-In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and standardised serial digital communication have been developed. One of the key advances is the depostion of interferece filters directly on the IC chip, selectively on individual photodiodes. A key supplier is ams OSRAM selling many different variations aiming at different applications. Vishay has also developed some sensors with a limited number of channels. These sensors are extremely small encapsuladed as surface mounted devices (SMD) in very small packages (e.g., $2 \times 3 \times 1$ mm).
+In the past, and still currently, most light sensors used for quantification of photosynthetically active radiation, for spectific bands within PAR and for FR are constructed based on discrete silicon photodiodes and optical filters, delivering a low voltage analogue signal. 
+In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardised serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes.
 
-When bought as components in quantity they are very cheap (3 to 15 €). Given their size, for prototyping and custom assembly they are easier to use if bought as "break out boards" (10 to 25 €), i.e., soldered on a small printed circuit board (PCB) to easy the task of connecting them. They cannot be used on their own, they need to be connected to a microcontroller or computer to acquire data and control their settings. For these reason, some companies like YoctoPuce have developed USB modules containing a microcontroller, memory, an isolated power supply and a USB interface. These modules have a built in logger and a webserver-based user interface as well as a programming API. Through a hub they can be accessed remotely through the Internet or LAN. These modules cost more than the bare sensor ICs (40 to 100 €) but provide a readily usable solution, except for diffuser and case, if used for measuring irradiance. In some cases they have built-in LEDs for measuring reflectance. Aranet has just released a weather proof sensor with a cosine diffuser and a LoRa interface that connects through a base station. This sensor is sold for 1000 € + VAT, and although the easiest to use being a ready made field sensor, it lacks flexibility in the precomputed data summaries.
+One of the key advances is the depostion of interferece filters directly on the IC chip, selectively on individual photodiodes. The incorporation of signal amplification makes it possible to rely on smaller photodiodes and by implementing gain adjustments increase the dynamic range. Furthermore, the implementation of an ADC in the same chip and relying on digital communication avoids noise pickup and makes possible the use of much simpler and cheaper circuits to acquire and log the data. Miniaturization also reduces power requirememts.
 
-For all these sensors, the wavelength and channel sensitivity guaranteed specifications have rather loose tolerances. In most cases electronic components are closer to the typical especifications than the tolerance limits. Some commercail broadband sensors have little variation from unit to unit, but this is not always the case, especially for UV sensors.
+A key supplier this type of digital sensors is ams OSRAM that offers many different variations aiming at different applications. Vishay has also developed some sensors with a limited number of channels. All these sensors are extremely small and encapsulated as surface mounted devices (SMD) in very small packages (e.g., $2 \times 3 \times 1$ mm).
+
+When bought as components in quantity they are very cheap (3 to 15 €). Given their size, for prototyping and custom assembly they are easier to use if bought as "break out boards" (10 to 25 €), i.e., soldered on a small printed circuit board (PCB) to easy the task of connecting them. They cannot be used on their own, they need to be connected to a micro-controller or single-board-computer to acquire the data and control their settings. 
+
+The Swiss company YoctoPuce has developed USB modules containing a microcontroller, memory, an isolated power supply and a USB interface. These modules have a built in data logger and a webserver-based user interface as well as a programming API. Through a hub they can be accessed remotely through the Internet or LAN. These modules cost more than the bare sensor ICs (40 to 100 €) but provide a readily usable solution. Their Yocto-Spectral USB module based on ams OSRAM's AS743 digital spectral sensor when used for measuring irradiance require the addition of a diffuser. This module has built-in LEDs for measuring reflectance. 
+
+Aranet has just released a weather proof sensor with a cosine diffuser and a LoRa interface that connects through a base station, likely based on a digital spectral sensor. This sensor is sold for 1000 € + VAT, and although the easiest to use being a ready made field sensor, it lacks flexibility in the precomputed data summaries or access to raw data from individual channels.
+
+For all these sensors, the wavelength and channel sensitivity guaranteed in specifications have rather loose tolerances. In most cases electronic components are closer to the typical specifications than the tolerance limits.
+
+Examples of promising digital sensors that could be useful in agriculture and other fields are given below.
 
 ::: callout-note
 # UV Sensor VML6075 from Vishay
@@ -114,6 +125,9 @@ autoplot(sensors.mspct$ams_TSL2591,
 Sensitivity of Si photodiodes to UV radiation decreases with decreasing wavelength, but the design compensates for this using a photodiodes of larger area to compensate. Wavelength and channel sensitivity guaranteed specifications are rather loose.
 
 :::
-## Use as PAR quantum sensors
 
-Recent articles describe the use of two of these sensors to measure PAR [@xxxx,@xxxxx]. 
+## Conclusion
+
+Some of these very cheap sensors could be adapted to use in the measurement or estimation of quantities used in both agriculture practice and in research. To realize this potential methods for the reliable retrieval of the quantities of interest consistently in time and space need to be developed.
+
+I am currently exploring possible uses of the Yocto-Spectral USB module in agriculture production and plant science research.
