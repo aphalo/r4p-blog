@@ -3,12 +3,12 @@ title: "'ooacquire': Spectral Irradiance Measurement"
 subtitle: "Tutorial and Description of the UI of `acq_irrad_interactive()`"
 author: "Pedro J. Aphalo"
 date: 2023-04-27
-date-modified: 2024-01-11
+date-modified: 2026-02-02
 categories: [R for Photobiology, data acquisition]
 keywords: [ooacquire pkg, acq_irrad_interactive, spectral irradiance, spectral fluence]
 code-fold: false
 abstract: |
-  The use of function acq_irrad_interactive() from package 'ooacquire' >= 0.4.4 is described in detail. It can be used to acquire irradiance and fluence spectra, and time series of spectra with OceanOptics spectrometers.
+  The use of function acq_irrad_interactive() from package 'ooacquire' >= 0.5.4 is described in detail. It can be used to acquire irradiance and fluence spectra, and time series of spectra with OceanOptics spectrometers.
 ---
 
 ::: callout-tip
@@ -81,9 +81,9 @@ library(ooacquire)
 acq_irrad_interactive()
 ```
 
-The video below demonstrates the use of the interface for an old version of 'ooacquire' (will be replaced by an up-to-date one).
+[A video](https://flic.kr/p/2rUQ3xr) demonstrates the use of the interface of function `acq_irrad_interactive()` of 'ooacquire' (>= 0.5.4).
 
-{{< video https://vimeo.com/821595528 >}}
+{{< video ooacquire-default.mp4 >}}
 
 The UI implemented in `acq_irrad_interactive()` is rather *terse* and, thus, needs to be clearly documented. The vignettes of package 'ooacquire' include some examples. However, a description of the logic can be best done using diagrams.
 
@@ -429,7 +429,12 @@ When using `interface.mode = "series"` the series settings can be changed at the
 
 The different diagrams below *open* the actions that take place within the `measure spectra` boxes in the diagrams above, previously treated as *black boxes*. These actions depend on the protocol used for the measurements and on whether the measurement is a fresh one (`next`) or one reusing settings and reference measurements (`repeat`). The same measurement protocols are available in the different user interface modes. We show here the protocols available by default. However, users can define their own protocols. In the diagrams below, `start` and `end` represent the start and end of a measurement event, i.e., the boundaries of the generic `measure spectra` boxes in the diagrams above. Within each step in most cases several spectra are acquired, with the same integration time when averaging is used and with different integration times when HDR is used. In all modes except series, the same number of raw spectra are acquired for *dark*, *filter* and *light* if used, and combined into a single irradiance or fluence spectrum. In the case of series and repeats, measurements are repeated in time for *light* so that several irradiance spectra are obtained measured at regular time intervals.
 
-Interactively, the protocol is selected at the prompt `Protocols; light, filter, dark (l/ld/lf/lfd/dl/dfl): `, with the list of protocols offered possibly modified by an argument passed when calling `acq_irrad_interactive()` (see section **User defined protocols**). 
+Interactively, the protocol is selected at the prompt, and the choice confirmed.
+```
+Protocols; light, filter, dark (l/ld/lf/lfd-/dl/dfl): ld
+Will use protocol 'light -> dark', o.k.? (-/n):
+```
+with the list of protocols offered possibly modified by an argument passed when calling `acq_irrad_interactive()` (see section **User defined protocols**). 
 
 In addition to interactively, the protocol to be used can be selected when calling `acq_irrad_interactive()` as shown below. The first example, preselects a single
 protocol and thus disables the menu for selecting protocols during a session.
@@ -562,22 +567,66 @@ acq_irrad_interactive(protocols = list(ld = c("light", "dark"),
 
 ## Object and file names
 
-Only one name needs to be provided by the user for each measurement or sequence of repeats, the _base name_ of the objects and files that will be created. The actual object names will be create by appending `.spct` and `.raw_mspct` and the file names by appending `.spct.Rda` and `.pdf` to the base name. As the base name needs to be a syntactically valid name in the R language, it is validated before use.
+Only one name needs to be provided by the user for each measurement or sequence of repeats, the _base name_ of the objects and files that will be created. The name is provided at the prompt
 
-Starting from version 0.4.3, _sequentially numbered names_ are available. They are implemented by appending a three digits number to the user-provided base name and then used as a base name as described above. Sequential numbering is started when the user inputs a base name ending in `#`. When a new name ending `#` is entered the counter is reset, and sequential numbering starts from `001` and continues as long as the user accepts the same base name, shown by default. Starting with version 0.4.4, entering a new name ending in `%`, behaves as `#` but does not reset the counter. If the new name does not end in `#` or `%`, it is used as is, sequential numbering disabled and the counter reset. In the case of repeated measurements, sequential numbering is enforced even if the user enters a base name not ending in `#` or `%`.
+```
+Give a name to the spectrum: <name>
+```
+where `<name>` is a syntactically valid R name entered by the user.
 
-When sequential names are not enabled the prompt for a new name is `Give a name to the spectrum: ` and 
+The actual object names will be create by appending `.spct` and `.raw_mspct` and the file names by appending `.spct.Rda` and `.pdf` to the base name. As the base name needs to be a syntactically valid name in the R language, it is validated before use.
+
+Starting from version 0.4.3, _sequentially numbered names_ are available. They are implemented by appending a three digits number to the user-provided base name and then used as a base name as described above. Sequential numbering is started when the user inputs a base name ending in `#`. When a different name ending in `#` is entered the counter is reset, and sequential numbering starts from `001` and continues as long as the user accepts the same base name, shown by default. Starting with version 0.4.4, entering a new name ending in `%`, behaves as `#` but does not reset the counter. If the new name does not end in `#` or `%`, it is used as is, sequential numbering disabled and the counter reset. In the case of repeated measurements, sequential numbering is enforced even if the user enters a base name not ending in `#` or `%`.
+
+When sequential names are not enabled the prompt for a new name is `Give a name to the spectrum: ` as shown above and 
 when a sequence is in course the prompt is `"Give a name to the spectrum (<base name>) : ` where `<base name>` is the previously entered name ending in `#`. Typing `<enter>` at this prompt generates the next name in the sequential series. Any other input is interpreted as a new base name.
+
+## Attributes values to set
+
+If the active `interface.mode` name ends in `-attr` the prompt
+
+```
+New acquisition.
+Current 'what.measured': <previous-value>.
+Current 'comment': <previous-value>.
+Replace 'what.measured' or 'comment', or go (w/c/g-): <user input>
+```
+where by entering `w` or `c` a new value for 'what.measured' or 'comment' attributes, respectively, can be entered, `g` or <enter> advances to the next prompt and the current values are added to the spectral data objects as attributes. The 'how.measured', 'instr.desc', and 'inst.settings' attributes are always set automatically.
 
 ## Acquisition parameters
 
-We describe the data acquisition parameters affecting the acquisition of spectral irradiance only briefly here, and refer the reader to the [vignette that describes the algorithms used](https://docs.r4photobiology.info/ooacquire/articles/userguide-algorithms.html) included in package 'ooacquire'.
+We describe the data acquisition parameters affecting the acquisition of spectral irradiance only briefly here, and refer the reader to the [description of the algorithms](https://www.r4photobiology.info/pages/ooacquire-algorithms.html).
 
 A dark measurement is also very frequently used to subtract sensor noise. Stray light is most effectively corrected by measuring it separately from the target of the measurements by means of a filter measurement. Although different protocols include different measurements,  which protocol is in use does not change how the acquisition parameters are set as the same settings are used for these measurements.
 
-Above the prompt the current value of each setting is shown. The prompt varies, as depending on the `interface.mode` in use some options are hidden. The integration time is labelled `integ(OK)` when the value has been already set or tuned, and labelled `integ(??)` when the tuning could need to be repeated or the value re-entered. In addition, depending on this and on the `interface.mode`, the default selected by typing `<enter>` varies, between `t` and `g`. In version 0.4.4, `MEASURE` was replaced by `GO` to make the text shorter. The full prompt is:
+Above the prompt the current value of each setting is shown. The prompt varies, as depending on the `interface.mode` in use some options are hidden. The integration time is labelled `integ(OK)` when the value has been already set or tuned, and labelled `integ(??)` when the tuning would need to be repeated or the value re-entered. In addition, depending on this and on the `interface.mode`, the default selected by typing `<enter>` varies, between `t` and `g`. In version 0.4.4, `MEASURE` was replaced by `GO` to make the text shorter. The full prompt is:
 
-`fixed/retune/tune/sat/range/HDR/undo/help/GO (f/t/T/s/r/h/u/?/g-): `
+```
+Acq: integ(??) = 0.01S, saturation = 0.05, tot. range = 7-10S, HDR mult. = 1,10
+fixed/RETUNE/tune/sat/range/HDR/undo/help/go (f/t-/T/s/r/h/u/?/g):
+```
+With `t` or `<enter>` the next prompt is displayed.
+```
+Auto-adjust integration time? ADJUST/current/abort (a-/c/z): 
+```
+Entering `a` or `<enter>` starts the search, in this example converged after two attempts. Progress is shown, the final setting and the menu is displayed again.
+
+```
+Trying integration time (s):  0.01 
+Max counts [0]: 2767.69 < 64558 target
+Trying integration time (s):  1.088166 
+Max counts [1]: 59702.34 < 64558 target
+Trying integration time (s):  1.203579 
+Max counts [2]: 66226.14 >= 64558 target
+
+TUNED SETTINGS:
+Relative saturation:         0.968 
+Integration times (s):         1.2        7.2 
+Numbers of scans:                 6          1 
+Total time (s):                7.22       7.20 
+Acq: integ(OK) = 1.2S, saturation = 0.05, tot. range = 7-10S, HDR mult. = 1,10
+fixed/retune/tune/sat/range/HDR/undo/help/GO (f/t/T/s/r/h/u/?/g-): 
+```
 
 For the *integration time* used for the acquisition of data, a distinction is made between the duration of a single integration event and the total added-up integration time resulting from successive integrations averaged by the spectrometer or driver. The duration of individual integrations needs to be adjusted or tuned so that full use is made of the dynamic range and signal to noise headroom of the instrument. The total measured time, can obviously be only as long or longer than a single integration. When spectral irradiance is constant in time, the longer the total time over which scans are averaged the better "random" noise is controlled, up to a point (if the light source emission is constant and bright, a total time longer than 1 s is unlikely to reduce noise any further, however, if the light is dim or varying, longer times of 30 s or more may help average-out the noise.) `f` is used to enter a fixed value for the integration time, while `t` and `T` are used to trigger the automatic tuning of the integration time. `t` and `T` only differ in the starting value used for the tuning (`t` starts from the most recently used value, while `T` starts from a small arbitrary value).
 
@@ -585,7 +634,7 @@ To increase the dynamic range we can use different integration times for differe
 
 Acquisition parameters include the integration time (= duration of a single integration) which is normally, but not always, adjusted by automatic tuning (i.e., by trial and error, taking into account a target margin of headroom supplied by the user), and a target duration range for the sum of multiple integration times desired, which is always explicitly supplied by the user. For bracketing the user supplies a vector of one to four multipliers to be applied to the optimal or set integration time. All parameters have defaults, and user-entered values persist between successive measurement events unless modified again by the user. `r` makes it possible to set the target duration range for the sum of integrations, if a single value or two equal values are entered, the total time is fixed. If a range is given, the shortest time multiple of the integration time that fits within the range is used (a range of 0 to Inf, uses the hardware limits of the spectrometer as limits).
 
-In the case of spectral fluence, although available, several of the corrections are in practice difficult to implement because of the discontinuous light emission by the sources. If pulses can be triggered on demand and the output per pulse is reproducible, stray light correction is applicable. Adjustment of signal level and eventually bracketing need to be done based on the number of light pulses or flashes per detector integration.
+In the case of spectral fluence, although available, several of the corrections are in practice difficult to implement because of the discontinuous light emission by the sources usually measured. If pulses can be triggered on demand and the output per pulse is reproducible, stray light correction is applicable. Adjustment of signal level and eventually bracketing need to be done based on the number of light pulses or flashes per detector integration.
 
 ::: callout-note
 For additional information, please, see the [help page for `acq_irrad_interactive()`](https://docs.r4photobiology.info/ooacquire/reference/acq_irrad_interactive.html) and the vignettes of package 'ooacquire', especially that [describing the algorithms used](https://docs.r4photobiology.info/ooacquire/articles/userguide-algorithms.html).
@@ -599,9 +648,13 @@ Above the prompt an estimate of the time required to acquire one spectrum is dis
 
 Above the prompt the current value of each setting is shown. All these settings have defaults that can be changed at the prompt, 
 
-`wait/boundary/step-len/step-reps/undo/help/GO (w/b/s/r/u/?/g-): `
+```
+Duration of each repeated measurement: 29.7 s.
+Seq: wait = 0S, boundary = none, step-len = 0S, step-reps = 1 
+wait/boundary/step-len/step-reps/undo/help/GO (w/b/s/r/u/?/g-):
+```
 
-The character string used to set time values must be one interpretable as a `period` by function `lubridate::period()`. When a **period** is expected, bare numbers are not accepte, while `30S`, `5M`, and `1H`, as well `1H30M` are all accepted as periods. In the case of `boundary`, `none` is equivalent to `0S`.
+The character string used to set time values must be one interpretable as a `period` by function `lubridate::period()`. When a **period** is expected, bare numbers are not accepted, while `30S`, `5M`, and `1H`, as well `1H30M` are all accepted as periods. In the case of `boundary`, `none` is equivalent to `0S`.
 
 When **seconds** are expected, bare numbers are interpreted as seconds as in versions of 'ooacquire' < 0.4.3, with numbers followed by `S` also accepted. The number of repeated steps in a time series must be an integer number between 1 and 10000.
 
@@ -609,24 +662,31 @@ When **seconds** are expected, bare numbers are interpreted as seconds as in ver
 
 The prompt displayed after a _measurement event_, or afters a series of _measurement repeats_ is completed is, when the computed quantity is spectral `irradiance` or `fluence`, 
 
-`fig/photons/energy/w.bands/discard+go/SAVE+GO (f/p/e/w/d/s-): `
+```
+fig/photons/energy/w.bands/range/attr/discard+go/SAVE+GO(f/p/e/w/r/a/d/s-):
+```
 
 when the computed quantity is `cps` (counts per second),
 
-`fig/w.bands/discard+go/SAVE+GO (f/w/d/s-): ` 
+```
+fig/w.bands/attr/discard+go/SAVE+GO (f/w/d/s-):
+```
 
 and when the computed quantity is `raw` (raw-counts),
 
-`discard/SAVE+NEXT (d/s-): `
+```
+attr/discard+go/SAVE+GO (d/s-):
+```
 
-`f` toggles between displaying plots or not, `p` and `e` switch between photon and energy units in the plot, `w` opens a menu that makes it possible to change the wave bands shown in the plot, `d` discards the most recently acquired spectrum or time series of spectra (skips saving of files), `s` saves the data and plot to disk. After `f`, `p`, `e` and `w` the plot is redrawn and the same prompt redisplayed, making it possible to make additional tweaks to the plot before saving, discarding or continuing. The plot saved to disk is the one current when `s` is entered. After both `d` and `s`, if enabled, a prompt for collections and summaries is displayed, and if disabled, the "loop-end" prompt.
-
+`f` toggles between displaying plots or not, `p` and `e` switch between photon and energy units in the plot, `w` opens a menu that makes it possible to change the wave bands shown in the plot, `d` discards the most recently acquired spectrum or time series of spectra (skips saving of files), `s` saves the data and plot to disk. After `f`, `p`, `e` and `w` the plot is redrawn and the same prompt redisplayed, making it possible to make additional tweaks to the plot before saving, discarding or continuing. The plot saved to disk is the one currently displayed when `s` is entered. After both `d` and `s`, if enabled, a prompt for collections and summaries is displayed, and if disabled, the "loop-end" prompt.
 
 ## Collections and summaries
 
 Multiple spectra can be collected into a single R object and saved to a file at any time during a session. At the same time it is possible to compute and save summaries. The prompt,
 
-`collect and/or summarize? yes/NO (y/n-): `
+```
+collect and/or summarize? yes/NO (y/n-): `
+```
 
 makes this possible.
 
@@ -634,7 +694,9 @@ makes this possible.
 
 The prompt,
 
-`quit/repeat-/NEW-MEASUREMENT (q/r/m-): `
+```
+quit/repeat/NEW-MEASUREMENT (q/r/m-):
+```
 
 offers as choices: `q` to quit or end the session, `r` to repeat the last
 measurement, `m` start a new one. A repeat reuses the same acquisition settings,
