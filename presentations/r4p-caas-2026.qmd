@@ -1,0 +1,542 @@
+---
+title: "R for Photobiology"
+subtitle: "Difficult Computations Made Easy"
+author: "Pedro J. Aphalo"
+date: 2026-04-12
+format: 
+  live-revealjs:
+    self-contained: true
+    mermaid-format: png
+    mermaid:
+      theme: neutral
+    slide-level: 3
+self-contained-math: true
+engine: knitr
+webr:
+  packages:
+    - knitr
+    - lubridate
+    - SunCalcMeeus
+    - photobiology
+    - ggspectra
+    - photobiologyWavebands
+    - photobiologyPlants
+prompt: false
+code-fold: show
+code-summary: "+/-"
+code-tools: true
+---
+
+{{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
+
+## Introduction
+
+### Why and how did I develop the packages?
+
+- Because I am lazy, but mostly in the long term
+  - ... I like efficiency + reliability
+- Approach: write code well once and use many times
+- Document: for future me and for others
+- Test cases: avoid errors now and in the future
+- Write clear code: make enhancements and corrections easy
+
+### Did it work out as I expected?
+
+- Expected: In the long run I did save time and effort
+- Expected: Became easier to work with large data sets
+- Expected: Other researchers are using the packages
+- Unexpected: As it made calculations a lot easier
+- ... I did "what if" calculations more frequently
+- ... leading to new insights and original research
+- Unexpected: Citations!
+
+### Why did I use R?
+
+- I had been using R for > 10 years
+  - ... as it is the best language for statistics
+- The logic of R fits well with how my brain works
+  - ... it feels natural to me (not necessarily to you)
+- R had the best plotting approach available
+  - ... and I was familiar with it
+- The package system of R is very well structured
+
+### Side note on R
+
+::: aside
+- I think all PhD (and MSc) students of biology and agriculture should learn R
+- For many jobs R is considered a big plus
+- After graduation, wherever you are you will have R available
+  - it is free and open-source
+  - works everywhere from mainframes to iPhone, even in web-browsers
+- It is very stable
+  - new features do not break old code
+- It supports almost every existing statistical method
+  - reuse what you already know and study just what you need
+- **Difficulty:** Thesis supervisors need also to learn R
+  - ... and supervisors frequently lack the time
+:::
+
+### Design aims for my *3rd* attempt
+
+I made bad design decisions in my first two attempts at writing an R package for photobiology. My third attempt and current packages have as aims:
+
+- Avoid accidental loss of information
+- Automate all that can be automated
+- Allow customizations
+- Store metadata together with the data
+- (Fast computations on large data)
+
+### Design aims in detail
+
+- Automate all that can be automated
+- Allow customizations
+- Store metadata together with the data
+- Avoid accidental loss of information
+
+### Design aims in detail
+
+- **Automate all that can be automated**
+  - Known units and bases of expression
+  - Provide good defaults, but allow overriding them
+- Allow customizations
+- Store metadata together with the data
+- Avoid accidental loss of information
+
+### Design aims in detail
+
+- Automate all what can be automated
+- **Allow customizations**
+  - Open source code
+  - Export "building blocks" to allow extensions
+- Store metadata together with the data
+- Avoid accidental loss of information
+
+### Design aims in detail
+
+- Automate all that can be automated
+- Allow customizations
+- **Store metadata together with the data**
+  - What was measured
+  - When was it measured
+  - Where was it measured
+  - How was it measured
+  - Store a trace of operations applied
+- Avoid accidental loss of information
+
+### Design aims in detail
+
+- Automate all that can be automated
+- Allow customizations
+- Store metadata together with the data
+- **Avoid accidental loss of information**
+  - Use detector pixel wavelengths
+  - Keep history of operations on the data
+  - (Support undoing of scaling and normalizations)
+
+### Some recent enhancements
+
+- Accurate day and night lengths and position of the sun back in history and into the future
+- Support for long time series of spectra
+- Fast acquisition of spectra with Ocean Optics spectrometers
+- Faster computations: possible to compute summaries for many 1000s of spectra
+
+### Packages
+
+```{r, echo=TRUE}
+library(photobiology)
+library(photobiologyWavebands)
+library(photobiologyPlants)
+library(photobiologyLEDs)
+library(ggspectra)
+set_theme(theme_bw(14))
+```
+
+## Basic concepts
+
+### Light spectra $f(\lambda)$ 
+
+```{mermaid}
+%%| label: fig-flowchart
+%%| fig-cap: Handling of spectral data. Multiple entry and exit points.
+%%| fig-align: center
+%%| fig-width: 6.5
+flowchart TB
+  A[Raw counts] --> CC((×)) --> C(Spectral irradiance)
+  B[Calibration] --> CC
+  H[Import] ---> C
+  C -.-> D(Plots)
+  C -.-> E(Irradiances)
+  C -.-> F(Ratios)
+  C --> G[export]
+```
+
+### Spectra: energy vs. photons (= quanta)
+
+- Energy irradiance $E_\lambda$ in $W\,m^{-2}\,nm^{-1}$
+- Photon irradiance $Q_\lambda$ in $mol\,s^{-1}\,m^{-2}\,nm^{-1}$
+- ... conversion based on energy of one mole of photons
+$$q^\prime = h\cdot N_\mathrm{A} \cdot \frac{c}{\lambda}$$
+where $\lambda$ is wavelength, and $c$, speed of light, $h$, Planck's constant and $N_\mathrm{A}$ Avogadro's number are constants.
+- functions `e2q()` and `q2e()` in R package 'photobiology'
+
+## Plots
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-width: 6.5
+flowchart TB
+  C(**Spectral irradiance**)
+  C ==> D(**Plots**)
+  C -.-> E(Irradiances)
+  C -.-> F(Ratios)
+style E fill:#fff,color:#aaa,stroke-dasharray: 3 4
+style F fill:#fff,color:#aaa,stroke-dasharray: 3 4
+```
+
+### Data and functions used for plots
+
+- Spectral data from package 'photobiology'
+  - `sun.spct` spectral irradiance
+  - `sun_daily.spct` spectral daily exposure
+- Methods from package 'ggspectra' ('ggplot2')
+  - `autoplot()`
+
+### Sunlight: _energy_
+
+```{r, echo=TRUE}
+autoplot(sun.spct, unit.out = "energy")
+```
+
+### Sunlight: _photons_
+
+```{r, echo=TRUE}
+autoplot(sun.spct, unit.out = "photon")
+```
+
+### Spectrum plot: **playground**  {.scrollable}
+
+```{webr}
+autoplot(sun.spct, unit.out = "photon")
+```
+
+### Sunlight daily: _photons_
+
+```{r, echo=TRUE}
+autoplot(sun_daily.spct, unit.out = "photon")
+```
+
+## Irradiance
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-width: 6.5
+flowchart TB
+  C(**Spectral irradiance**)
+  C -.-> D(Plots)
+  C ==> E(**Irradiances**)
+  C -.-> F(Ratios)
+style D fill:#fff,color:#aaa,stroke-dasharray: 3 4
+style F fill:#fff,color:#aaa,stroke-dasharray: 3 4
+```
+
+### Data and functions used for plots
+
+- Spectral data from package 'photobiology'
+  - `sun.spct` spectral irradiance
+  - `sun_daily.spct` spectral daily exposure
+- Methods from package 'photobioloy'
+  - `e_irrad()`
+  - `q_irrad()`
+  - `waveband()`
+
+### Irradiance: energy vs. photons (= quanta)
+
+- Energy irradiance $E$ in $W\,m^{-2}$
+- Photon irradiance $Q$ in $mol\,s^{-1}\,m^{-2}$
+- ... no direct conversion possible!
+- $\to$ compute $E$ and $Q$ from spectrum
+
+### (Energy) Irradiance $E$
+
+$$E = \int_{\lambda_1}^{\lambda_2} E_\lambda\ d\,\lambda$$
+where the wavelength range $\lambda_1$ to $\lambda_1$ is the _waveband_ to integrate.
+
+### (Energy) Irradiance $E$ {.scrollable}
+
+```{r, echo=TRUE}
+# VIS in W m-2
+e_irrad(sun.spct, waveband(c(400, 500))) # a number with metadata
+```
+
+```{r, echo=TRUE}
+# VIS in W m-2
+as.numeric(e_irrad(sun.spct, waveband(c(400, 500)))) # a plain number
+```
+
+### Photon Irradiance (=PFD) $Q$
+
+$$Q = \int_{\lambda_1}^{\lambda_2} Q_\lambda\ d\,\lambda$$
+where the wavelength range $\lambda_1$ to $\lambda_1$ is the _waveband_ to integrate.
+
+### Photon Irradiance (=PFD) $Q$ {.scrollable}
+
+```{r, echo=TRUE}
+# PAR in mol m-2 s-1
+q_irrad(sun.spct, waveband(c(400, 500)))
+# PAR in umol m-2 s-1
+q_irrad(sun.spct, waveband(c(400, 500)), scale.factor = 1e6)
+# PAR in mol m-2 d-1
+q_irrad(sun_daily.spct,waveband(c(400, 500)))
+```
+
+### Irradiance and PFD: Wavebands {.scrollable}
+
+```{webr}
+q_irrad(sun.spct, waveband(c(400, 500)), scale.factor=1e6)
+q_irrad(sun.spct, waveband(c(400, 500), wb.name = "BL"),
+        scale.factor=1e6)
+```
+
+### Wavelength ranges by name {.scrollable}
+
+Multiple definitions in use!
+
+```{r, echo=TRUE}
+q_irrad(sun.spct, 
+        list(Red("Warrington"), Red("Smith20"),
+             Red("Sellaro"), Red("Apogee")), 
+        scale.factor = 1e6, return.tb = TRUE)
+```
+
+```{r, echo=TRUE}
+wl_range(Red("Warrington"))
+wl_range(Red("Smith20"))
+wl_range(Red("Sellaro"))
+wl_range(Red("Apogee"))
+```
+
+### Wavelength ranges by name {.scrollable}
+
+```{webr}
+Blue()
+q_irrad(sun.spct, Blue(), scale.factor=1e6)
+```
+
+### Multiple wavelength ranges {.scrollable}
+
+```{webr}
+q_irrad(sun_daily.spct, VIS_bands(), scale.factor=1e6)
+```
+
+### Spectral weighting functions {.scrollable}
+
+Energy irradiance in 400 to 700 nm is not **PAR**, even if meteorologists call it PAR. I use **PhR** instead.
+
+```{r, echo=TRUE}
+# PhR in W m-2
+e_irrad(sun.spct, PhR())
+# PAR in umol m-2 s-1
+q_irrad(sun.spct, PAR(), scale.factor = 1e6)
+```
+
+### Spectral weighting functions {.scrollable}
+
+```{webr}
+q_irrad(sun.spct, PAR(), scale.factor=1e6)
+q_irrad(sun.spct, PAR("ePAR"), scale.factor=1e6)
+e_irrad(sun.spct, PG())
+```
+
+### Multiple spectra {.scrollable}
+
+```{webr}
+summary(sun_evening.spct)
+```
+
+```{webr}
+q_irrad(sun_evening.spct, Plant_bands(),
+        scale.factor = 1e-6)
+```
+
+## Ratios
+
+```{mermaid}
+%%| fig-align: center
+%%| fig-width: 6.5
+flowchart TB
+  C(**Spectral irradiance**)
+  C -.-> D(Plots)
+  C -.-> E(**Irradiances**)
+  C ==> F(Ratios)
+style D fill:#fff,color:#aaa,stroke-dasharray: 3 4
+style E fill:#fff,color:#aaa,stroke-dasharray: 3 4
+```
+
+### Ratios: energy vs. photons (= quanta)
+
+- Energy ratio $E:E$ $\neq$ photon ratio $Q:Q$
+- Unitless
+- _shape of the spectrum matters_
+- ... no direct conversion possible!
+  - compute from spectrum
+  - functions `e_ratio()` and `q_ratio()`
+  - functions `eq_ratio()` and `qe_ratio()`
+
+### Photon Ratios {.scrollable}
+
+```{r, echo=TRUE}
+# R:FR according to Harry Smith's 20 nm definition
+R_FR(sun.spct)
+# R:FR according to Harry Smith's 20 nm definition
+q_ratio(sun.spct, Red("Smith20"), Far_red("Smith20"))
+# B:R according to Sellaro's wider definition
+q_ratio(sun.spct, Blue("Sellaro"), Red("Sellaro"))
+```
+
+```{r, echo=TRUE}
+# R:FR according to Harry Smith's narrow definition
+q_ratio(sun.spct, Red("Smith10"), Far_red("Smith10"))
+# R:FR according to Harry Smith's narrow definition
+R_FR(sun.spct, "Smith10")
+```
+
+## Phytochrome photoequilibrium
+
+Can be estimated from:
+- the wavelength of single colour light
+- from the spectrum of the light
+- for a mix of red and far red light
+
+### Single wavelength {.scrollable}
+
+```{r, echo=TRUE}
+Pfr_Ptot(660)
+round(
+  Pfr_Ptot(c(435, 460, 530, 630, 660, 710, 735)),
+  2)
+```
+
+### Spectrum {.scrollable}
+
+```{r, echo=TRUE}
+round(Pfr_Ptot(sun.spct), 3)
+```
+
+## Daylength and sun position
+
+### Daylength in Beijing {.scrollable}
+
+```{r, echo=TRUE}
+CAAS.Beijing <- data.frame(lat = 39.9596, 
+                           lon = 116.3188)
+day_length(geocode = CAAS.Beijing)
+```
+
+```{r, echo=TRUE}
+day_length(date = c(as.POSIXct("2025-12-21"),
+                    as.POSIXct("2026-06-21")),
+           geocode = CAAS.Beijing)
+```
+### Current position of the sun {.scrollable}
+
+```{webr}
+CAAS.Beijing <- data.frame(lat = 39.9596, 
+                           lon = 116.3188,
+                           address = "CAAS")
+sun_angles(time = lubridate::now(tzone = "Asia/Shanghai"),
+           geocode = CAAS.Beijing)[, 1:8]
+```
+
+## Operations on spectra
+
+- `*`, `+`, etc.
+- simulate effect of a filter
+- mix light sources
+- estimate response
+
+### Sunlight below a yellow filter
+
+```{r, echo=TRUE}
+filtered_sun.spct <- sun.spct * yellow_gel.spct
+autoplot(filtered_sun.spct, unit.out = "photon")
+```
+
+### Two LED spectra
+
+Normalized spectra so that $\mathrm{max} Q_\lambda = 1$.
+
+```{r, echo=TRUE}
+autoplot(leds.mspct[c("Nichia_NF2W757GT_F1_sm505_Rfc00",
+                      "LedEngin_LZ1_10R302_740nm")],
+  unit.out = "photon", norm = "max") +
+  theme(legend.position = "none")
+```
+
+
+### Combine two LEDs {.scrollable}
+
+Spectrum with 200 $\mu mol m^{-2} s^{-1}$ from white Nichia Optisolis LED and 20 $\mu mol m^{-2} s^{-1}$ from an Ledengin-OSRAM fra-red LED.
+
+```{r, echo=TRUE}
+white_led_200 <-
+  fscale(leds.mspct$Nichia_NF2W757GT_F1_sm505_Rfc00, 
+         f = q_irrad, 
+         target = 200e-6, 
+         w.band = PAR())
+
+far_red_20 <-
+  fscale(leds.mspct$LedEngin_LZ1_10R302_740nm,
+         f = q_irrad, 
+         target = 20e-6)
+
+combined.spct <- white_led_200 + far_red_20
+```
+
+### Plot computed spectrum
+
+```{r, echo=TRUE}
+autoplot(combined.spct, unit.out = "photon")
+```
+
+### PAR and ePAR  {.scrollable}
+
+```{r, echo=TRUE}
+q_irrad(combined.spct, 
+        list(PAR(), PAR("ePAR")),
+        scale.factor = 1e6, return.tb = TRUE)
+q_irrad(white_led_200,
+        list(PAR(), PAR("ePAR")),
+        scale.factor = 1e6, return.tb = TRUE)
+```
+
+### Red to far-red photon ratio (R:FR)
+
+```{r, echo=TRUE}
+R_FR(combined.spct)
+R_FR(white_led_200)
+```
+
+### Phytochrome photoequilibrium
+
+```{r, echo=TRUE}
+Pfr_Ptot(combined.spct)
+Pfr_Ptot(white_led_200)
+```
+
+## Thanks!
+
+- Thanks for listening today!
+- Thanks for looking after me so well while in Beijing!
+- Thanks for opening the doors of your group to me!
+
+### Resources
+
+This presentation is a ["web page"](https://www.r4photobiology.info/presentations/r4p-caas-2026.html#/title-slide) and the editable '.qmd' markdown source file is at [github](https://github.com/aphalo/r4photobiology-intro-2026).
+
+::: aside
+- My very simple [Introduction to R](https://r4photobiology.info/pages/R-intro.html) as a web page
+- A proper [Introduction to R](https://intro2r.com/) from other authors
+- My book [Learn R: As a Language](https://www.learnr-book.info/) and a [preprint of the 2024 2nd edition](https://researchportal.helsinki.fi/files/374547141/Aphalo2024-Learn-R-book-2ed-preprint.pdf)
+- Each of my R packages has its own [documentation website](https://docs.r4photobiology.info/).
+- [Handbook on UV Photobiology Methods](http://doi.org/10.31885/9789521083631)
+:::
