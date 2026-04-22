@@ -164,7 +164,7 @@ website:
             href: https://aphalo.r-universe.dev/feed.xml
   page-footer:
     right:
-      - text: "&copy; 2015-2024 Pedro J. Aphalo"
+      - text: "&copy; 2015-2026 Pedro J. Aphalo"
         href: about/about.qmd
     center:
       - text: "ISSN 2343-3248 (Helsinki, Finland)"
