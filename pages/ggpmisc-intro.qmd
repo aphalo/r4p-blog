@@ -3,9 +3,12 @@ title: "Packages 'ggpmisc', 'ggpp' and 'gginnards'"
 subtitle: "Data labels, annotations and insets for 'ggplot2'"
 author: "Pedro J. Aphalo"
 date: "2023-02-28"
-date-modified: "2026-03-05"
+date-modified: "2026-04-22"
+bibliography: datviz-ggplot-and-friends.bib
 categories: [R packages, plotting]
 keywords: [R, ggplot2, labels, annotations, regression, anova, correlation, fitted models, data labels, plot annotations, plot insets]
+abstract: |
+  'ggpmisc', 'ggpp' and 'gginnards' started as a single small R package some 10 years ago. In this page I briefly recount the history, describe the design aims and  what extensions they provide to the Grammar of Graphics as implemented in package 'ggplot2'. The geoms, stats, positions, scales and numerous utility functions these three packages provide can simplify the constructions of different types of plots. 'ggpmisc' has its focus on statistical annotations, such as fitted model equations and multiple comparisons. 'ggpp' implements geoms that support various types of plot insets, annotations and marginal marks. 'gginnards' gives access to the inner components of 'gg' objects (ggplot objects) allowing their study and manipulation.
 ---
 
 ## Introduction
@@ -16,6 +19,10 @@ maintenance and reduce overhead when only some functions are reused in other
 packages. I have strived to make updates backwards compatible and to also track
 changes in 'ggplot2' to keep the user interface of these extension packages as 
 consistent as possible with recent versions of 'ggplot2'.
+
+As a researcher I use regularly these packages, and many functions and features I have added when needed by myself, members of my research group, collaborators, and also based on issues and pull requests in the GitHub repository and even to answer questions that I have found interesting at StackOverflow.
+
+My long-term aim is to submit these packages to R Open Science for peer review. 
 
 ## How do these packages extend 'ggplot2'?
 
@@ -47,7 +54,7 @@ position functions obey _aesthetic_ `nudge` if a numeric variable is mapped to i
 Another feature of 'ggpp' is support for new types of nudging, including
 computed nudging based on the local data 1D or 2D density, based on fitted
 lines, or away or towards a computed centroid or arbitrary point or line. When
-nudging is applied both along _x_ and _y_, even radial nudging is supported.
+nudging is applied to both along _x_ and _y_, even radial nudging is supported.
 Thanks to a fruitful collaboration with Kamil Slowikowski, the author of
 'ggrepel', these new approaches to nudging are compatible with and extremely
 effective when combined with repulsive geoms. A few convenience and utility
@@ -61,7 +68,7 @@ Support for NPC has been added to 'ggplot2' as well as the implementation of
 aesthetics for nudging. These not yet cover all the use cases that 'ggpp'
 covers.
 
-### 'ggpmisc'
+### 'ggpmisc' (statistics)
 
 Package ['ggpmisc'](https://docs.r4photobiology.info/ggpmisc/) makes use of
 'ggpp' to add specific annotations and insets to plots. 'ggpmisc' mainly defines
@@ -90,13 +97,15 @@ observations, and to locate peaks or valleys, and label them with their _x_
 and/or _y_ coordinates. A few convenience and utility functions are also
 included. 
 
+### 'gginnards' (debugging and manipulation)
+
 [`gginnards`](https://docs.r4photobiology.info/gginnards) is useful for
 debugging and learning about 'ggplot2'. It also implements the manipulation of
 ggplot layers (insertion, deletion and moving up or down) which can be useful
 not only for learning, but also for tweaking some ggplot objects returned by
 "canned" functions.
 
-## What is their history?
+## What is the history of 'ggpmisc'?
 
 It all started in 2016 from an innocent question from my colleague, Prof. Titta
 Kotilainen, that went something like this: "I see in
@@ -133,23 +142,36 @@ lifetime downloads.
 The aim of 'ggpmisc' is to make it easy to add data labels, statistical
 annotations and insets to ggplots, using a grammar consistent with that
 implemented in 'ggplot2' and without imposing arbitrary restrictions on the use
-of the layered grammar of graphics.
+of the layered grammar of graphics. In most cases, it had been already
+possible to create the similar or even identical plots using 'ggplot2' together with
+rather complex user code.
 
-How I approached and still approach this aim, is by trying to imaging how to
-remain conceptually consistent with the existing grammar. In other words,
+How I approached and still approach this aim, is by trying to imagine how to
+remain conceptually consistent with the Grammar of Graphics as implemented 
+in 'ggplot2'. In other words,
 finding ways of reusing as much as possible the existing grammar to solve new
 problems. For example, statistics that return character labels from model fits,
-also return the corresponding numerical values. New functions for adding
-graphical elements as data labels, are consistent with 'ggplot2' stats used to
-add text-based data labels to plots. In 'ggpmisc' plot insets are treated as
-plot elements similar to text labels. This is in contrast to the approach used 
-in 'patchwork' where plots with insets are treated as composite plots.
+also return the corresponding numerical values. The interface of the new layer
+functions mimic when possible the user interface of similar functions in
+'ggplot2' adding new features. For example, new layer functions for adding
+graphical elements as data labels, are consistent with the layer functions 
+from 'ggplot2' used to add text-based data labels to plots. In 
+'ggpmisc' plot insets are treated as plot elements similar to text and labels
+(techically _data labels_). 
+This is in contrast to the approach used in 'patchwork' where plots with 
+insets are treated as composite plots. The two approaches, in my opinion, are
+complementary.
 
-The approach I use in 'ggpmisc' is different to that of popular extensions like
-plot constructors from 'ggpubr' or the `autoplot()` method from 'ggplot2' which
-attempt to simplify plot creation by limiting access to the grammar of graphics
-and returning a complete plot. Even if easier to use, such functions are much
-less flexible. Clearly, the two approaches target different audiences.
+The approach I use in 'ggpmisc' is different to that of popular extensions
+like the whole-plot constructors from 'ggpubr' or the `autoplot()` method 
+from 'ggplot2'. While these functions simplify plot creation by hiding from users
+the grammar of graphics and returning a complete plot, such functions introduce
+important constraints on the plots that can be ceated. In contrast, 'ggpmisc' 
+and 'ggpp' extend the grammar, retaining its flexibility.
+The aim is to make available within the existing grammar features that previously
+required precomputaion. Clearly, extending the grammar and replacing the grammar
+with functions targetted to specific types of plots are two approaches targeting
+different audiences.
 
 ## How is the code tested?
 
@@ -181,14 +203,14 @@ code coverage in 'ggpmisc' has not yet reached 90% but keeps improving.
 
 Currently, continuous integration actions run CRAN checks in GitHub after each
 code commit and before pull requests are merged. This ensures that the _main_
-code branch in the git repository remains free from major bug. I still use 
-CRAN's winbuilder before submitting updates to CRAN..
+code branch in the git repository remains free from major bugs. I still use 
+CRAN's winbuilder before submitting updates to CRAN.
 
 My goal is to follow the [recommendations of
 ROpenScience](https://devguide.ropensci.org/index.html) and once requirements
-are met, submit 'ggpp' and 'ggpmisc' to their peer review.
+are met, submit 'ggpp' and 'ggpmisc' to their peer review system.
 
-## More information
+## More information on the packages
 
 The documentation, as websites, including the output from examples and all
 vignettes is available for ['ggpp'](https://docs.r4photobiology.info/ggpp/),
@@ -197,3 +219,5 @@ vignettes is available for ['ggpp'](https://docs.r4photobiology.info/ggpp/),
 
 At this web site there are also [galleries](../galleries.html) of plot examples
 with the corresponding R code, organized by type of plot or plot features.
+
+Chapter 9 in @Aphalo2024 provides an introduction to 'ggplot2', 'ggpp', and 'ggpmisc'. The books by @Wickham2016 and @Chang2018 describe 'ggplot2' in detail and provide plotting recipes, respectively. @Murrel2026 discusses the design principles for data visualizations and @Murrell2021 delves in detail into R graphics systems including 'ggplot2'. 
