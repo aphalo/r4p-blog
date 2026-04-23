@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2023-06-24"
 date-modified: "2023-06-24"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, gganimate pkg, plot annotations, model equations]
-categories: [Plotting examples]
+categories: [plotting, data visualization, ggpp, ggpmisc, gganimate, ggplot2]
 abstract: |
   Example R code for _animated_ plots based on package [ggplot2](https://ggplot2.tidyverse.org/) using geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp) and statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc) together with package [gganimate](https://gganimate.com/). Functions from package [gganimate](https://gganimate.com/) implement different types of animations based on extension of the Grammar of Graphics.
 editor: 

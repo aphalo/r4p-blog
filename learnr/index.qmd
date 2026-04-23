@@ -1,8 +1,12 @@
 ---
-title: "README-learnr"
+title: "README learnr folder"
+subtitle: "Example files"
 author: "Pedro J. Aphalo"
+date: 2024-04-01
+date-modified: 2024-04-01
 resources: [logger_1.txt,my-data.xlsx,thiamin.sav]
+categories: [books, R]
 ---
 
-The files in this folder are used for examples in the book "Learn R: As a Language", 1st (chapter 8) and 2nd (chapter 10) editions.
+The files in this folder ([https://www.r4photobiology.info/learnr/](https://www.r4photobiology.info/learnr/)) are used in examples in the book "Learn R: As a Language", 1st (chapter 8) and 2nd (chapter 10) editions. Please, see the [_Learn R: As a Language_ own page](https://www.learnr-book.info/) for additional information about the book.
 

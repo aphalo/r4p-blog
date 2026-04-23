@@ -1,14 +1,16 @@
 ---
-title: "R Blog"
+title: "Contents: _R Blog_"
 subtitle: "Package Updates and News"
+date: today
+date-modified: today
 listing:
   contents: posts
-  sort: "date-modified desc"
+  sort: "date desc"
   type: table
-  fields: [date-modified, date, title]
+  fields: [date-modified, date, title, subtitle, reading-time]
   field-display-names:
-    date: "First published"
-    date-modified: "Last edited"  
+    date: "Published"
+    date-modified: "Edited"  
   categories: true
   sort-ui: true
   filter-ui: true

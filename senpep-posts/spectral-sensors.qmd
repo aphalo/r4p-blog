@@ -5,7 +5,7 @@ date: 2025-08-19
 date-modified: 2026-02-01
 author: "Pedro J. Aphalo"
 keywords: [light sensors, multichannel, digital]
-categories: [Research instrumentation]
+categories: [measurement and control]
 editor: 
   markdown: 
     wrap: 72

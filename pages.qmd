@@ -1,12 +1,14 @@
 ---
-title: "Pages"
+title: "Contents: _Pages_ Section"
 subtitle: "Documentation and other Resources about R"
+date: today
+date-modified: today
 listing:
   contents: pages
   sort: "date-modified desc"
   type: table
-  fields: [date-modified, date, title]
-  filter-ui: [date-modified, date, title]
+  fields: [date-modified, date, title, subtitle, reading-time]
+  filter-ui: [date-modified, date, title, subtitle]
   field-display-names:
     date: "First published"
     date-modified: "Last edited"  

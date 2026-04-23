@@ -4,7 +4,7 @@ subtitle: "Computing on the R langauge"
 author: "Pedro J. Aphalo"
 date: 2024-05-16
 date-modified: 2025-01-23
-categories: [R, plotting]
+categories: [R, plotting, ggpmisc]
 keywords: [ggpmisc pkg, R programming, annotations]
 code-fold: false
 code-tools: true

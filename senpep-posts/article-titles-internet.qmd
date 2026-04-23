@@ -5,7 +5,7 @@ date: 2017-11-24
 date-modified: 2024-07-12
 author: "Pedro J. Aphalo"
 keywords: [article reads, snowball effect, piggy-back effect]
-categories: [Bibliometrics]
+categories: [bibliometrics]
 editor: 
   markdown: 
     wrap: 72

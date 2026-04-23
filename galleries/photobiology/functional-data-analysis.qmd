@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2023-06-02"
 date-modified: "2025-08-06"
 keywords: [photobiology pkg, photobiologyInOut pkg, fda.usc pkg, ggspectra pkg, functional data analysis]
-categories: [Photobiology examples]
+categories: [photobiology, r4photobiology, R examples]
 abstract: |
   Explanations and example R code for applying functional data analysis to spectral data stored in the classes defined in package [photobiology](https://docs.r4photobiology.info/photobiology/) and plotting the obtained deepest curve with [ggplot2](https://ggplot2.tidyverse.org/) and [ggspectra](https://docs.r4photobiology.info/ggspectra/) and aplying ANOVA-like methods to compare groups of spectra. The exchange of the spectral data between packages is done with functions from package [photobiologyInOut](https://docs.r4photobiology.info/photobiologyInOut/).
 editor: 

@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2024-06-01"
 date-modified: "2024-06-08"
 keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, data labels, plot annotations, model equations]
-categories: [Plotting examples]
+categories: [plotting, data visualization, ggpp, ggpmisc, ggtext, ggplot2]
 editor: 
   markdown: 
     wrap: 72

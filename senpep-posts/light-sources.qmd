@@ -5,7 +5,7 @@ date: 2022-01-29
 date-modified: 2025-09-17
 author: "Pedro J. Aphalo"
 keywords: [LED arrays]
-categories: [Research instrumentation]
+categories: [measurement and control]
 editor: 
   markdown: 
     wrap: 72

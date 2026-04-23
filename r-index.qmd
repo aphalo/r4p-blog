@@ -1,8 +1,10 @@
 ---
-title: "R"
+title: "Contents: _R and R packages_"
 subtitle: "Data Analysis and Visualization"
 author: Pedro J. Aphalo
 author-meta: Pedro J. Aphalo
+date: today
+date-modified: today
 listing:
   - id: R-intro
     contents:
@@ -12,8 +14,13 @@ listing:
       - "pages/r-flow-execution.qmd"
     sort: false
     type: grid
-    grid-columns: 2
-    fields: [title, date-modified, abstract]
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
+    image-placeholder: r4p-logo.png
   - id: R-advanced
     contents:
       - "galleries/bar-col-plots.qmd"
@@ -27,8 +34,13 @@ listing:
       - "galleries/plot-interactive.qmd"
     sort: false
     type: grid
-    grid-columns: 2
-    fields: [title, date-modified, abstract]
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
+    image-placeholder: r4p-logo.png
   - id: IPS-003
     contents:
       - "pages/approaches-to-research.qmd"
@@ -41,8 +53,13 @@ listing:
       - "pages/mixed-effects-models-intro.qmd"
     sort: false
     type: grid
-    grid-columns: 2
-    fields: [title, date-modified, abstract]
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
+    image-placeholder: r4p-logo.png
 page-layout: full
 title-block-banner: true
 abstract: |
@@ -104,7 +121,7 @@ listed below.
 :::
 
 ::: callout-note
-# Error variation and replication
+# Experimental error and replication
 
 Interactive dashboards can help understand how the amount uncontrolled variation
 in observations and the number of replicates affect both tests of significance

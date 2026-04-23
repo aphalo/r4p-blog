@@ -1,6 +1,8 @@
 ---
-title: "Advanced 'ggplot2' annotations and data labels"
-subtitle: "Extensions 'ggpp' and 'ggpmisc'"
+title: "Guided Tour: Statistical Plot Annotations"
+subtitle: "Labels with 'ggplot2', 'ggpp' and 'ggpmisc'"
+date: today
+date-modified: today
 author: Pedro J. Aphalo
 author-meta: Pedro J. Aphalo
 listing:
@@ -12,7 +14,12 @@ listing:
       - "galleries/dataviz-intro.qmd"
     sort: false
     type: grid
-    fields: [title, date-modified, abstract]
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
   - id: ggpp-pages
     contents:
       - "galleries/pairwise-labels.qmd"
@@ -20,19 +27,36 @@ listing:
       - "galleries/plot-insets.qmd"
       - "galleries/bar-col-plots.qmd"
       - "galleries/plot-timeline.qmd"
+      - "galleries/plot-interactive.qmd"
     sort: false
     type: grid
-    fields: [title, date-modified, abstract]
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
   - id: ggpmisc-pages
     contents:
       - "galleries/plot-equations.qmd"
       - "galleries/multcomp.qmd"
       - "galleries/quadrant-volcano-plots.qmd"
+      - "galleries/ggally-ggpairs.qmd"
+      - "galleries/plot-equations-markdown.qmd"
+      - "galleries/plot-annimation.qmd"
     sort: false
     type: grid
-    fields: [title, date-modified, abstract]
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
 page-layout: full
 title-block-banner: true
+categories: [ggpp, ggpmisc, R, plotting]
+abstract: |
+  This page contains an orderly collection of links to code examples making use of R packages 'ggplot2', 'ggpp', 'ggpmisc', 'ggrepel', and other packages, as well as links to the documentation web sites the packages used in the examples.
 ---
 
 ## Anotations and data labels

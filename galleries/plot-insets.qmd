@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2023-02-23"
 date-modified: "2025-01-16"
 keywords: [ggplot2 pkg, ggpp pkg, data labels, plot annotations, plot insets]
-categories: [Plotting examples]
+categories: [plotting, data visualization, ggpp, ggplot2]
 abstract: |
   Example R code for plots based on package [ggplot2](https://ggplot2.tidyverse.org/) using geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp) to add insets. These geometries from package [ggpp](https://docs.r4photobiology.info/ggpp) implement addition of plot layers with plots, tables or other graphical objects as insets to a base plot, through extension of the Grammar of Graphics. 
 editor: 

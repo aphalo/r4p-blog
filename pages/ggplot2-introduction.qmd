@@ -4,7 +4,7 @@ subtitle: "The Layered Grammar of Graphics"
 author: "Pedro J. Aphalo"
 date: 2023-05-03
 date-modified: 2026-04-21
-categories: [R, plotting]
+categories: [R, plotting, ggplot2, gginnards]
 keywords: [ggplot2 pkg, data visualization, dataviz]
 bibliography: datviz-ggplot-and-friends.bib
 format:

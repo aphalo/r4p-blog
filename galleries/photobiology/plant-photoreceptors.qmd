@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2023-05-11"
 date-modified: "2023-05-13"
 keywords: [photobiology pkg, photobiologyPlants pkg]
-categories: [Photobiology examples]
+categories: [photobiology, r4photobiology, R examples]
 abstract: |
   Explanations and example R code for computations related to the light receptor pigments present in plants and the quantification and manipulation of the amount and quality of light in ways relevant to research on plants and to the cultivation of plants under artificial or modified natural illumination. The R codes makes use of packages in the [R for Photobiology suite](https://www.r4photobiology.info/pages/r4p-introduction.html).
 editor: 

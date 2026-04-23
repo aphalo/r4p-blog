@@ -4,7 +4,7 @@ subtitle: "Importing simulated solar spectrum data into R"
 author: "Pedro J. Aphalo"
 date: "2018-08-10"
 date-modified: "2024-09-14"
-categories: [solar spectrum, data]
+categories: [r4photobiology, solar spectrum, data sources]
 keywords: [photobiologyInOut pkg, TUV model]
 code-fold: show
 format:

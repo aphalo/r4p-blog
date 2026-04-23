@@ -98,5 +98,3 @@ use case. If you have data from _surveys_ where you want to study relationships
 between measured variables that are subject to random variation then OLS linear
 regression is likely to bias the slope estimates. For details read the _vignette_
 that accompanies 'lmodel2'.
-
-

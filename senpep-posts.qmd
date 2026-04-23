@@ -1,14 +1,16 @@
 ---
-title: "Sensory Ecology and Photobiology of Plants (SenPEP)"
-subtitle: "Decoding the acquisition and use of information by wild and cultivated plant species"
+title: "Contents: SenPEP Blog"
+subtitle: "Sensory Ecology and Photobiology of Plants"
+date: today
+date-modified: today
 listing:
   contents: senpep-posts
   sort: "date-modified desc"
   type: table
-  fields: [date-modified, date, title]
+  fields: [date-modified, date, title, subtitle, reading-time]
   field-display-names:
-    date: "First published"
-    date-modified: "Last edited"  
+    date: "Published"
+    date-modified: "Edited"  
   categories: true
   sort-ui: true
   filter-ui: true
@@ -18,6 +20,7 @@ listing:
     type: "partial"
 page-layout: full
 title-block-banner: true
+categories: [contents listing]
 ---
 
 This index page lists posts related to my research with plants and crops. The posts first published before 2024 have been transferred, and in some cases updated, from the site at [https://blogs.helsinki.fi/senpep-blog/](https://blogs.helsinki.fi/senpep-blog/). Please, open the collapsed callouts below for additional information.

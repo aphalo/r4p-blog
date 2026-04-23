@@ -4,7 +4,7 @@ subtitle: "An introduction to `lm()`, `glm()` and `nls()`"
 author: "Pedro J. Aphalo"
 date: 2023-05-30
 date-modified: 2023-11-27
-categories: [R, model fitting]
+categories: [R, model fitting, ggpmisc, ggplot2, broom]
 keywords: [predicted values, residual values, parameter estimates, model formulas]
 format:
   html:

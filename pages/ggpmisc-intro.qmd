@@ -9,7 +9,7 @@ format:
   html:
     code-fold: true
     code-tools: true
-categories: [R packages, plotting]
+categories: [R packages, plotting, ggpp, ggpmisc, gginnards, ggplot2]
 keywords: [R, ggplot2, labels, annotations, regression, anova, correlation, fitted models, data labels, plot annotations, plot insets]
 abstract: |
   R packages'ggpmisc', 'ggpp' and 'gginnards' started as a single small R package some 10 years ago. In this page I briefly recount the history, describe the design aims and the most important extensions they provide to the Grammar of Graphics as implemented in package 'ggplot2'. The geoms, stats, positions, scales and numerous utility functions these three packages provide can simplify the constructions of different types of plots. 'ggpmisc' has its focus on statistical annotations, such as fitted model equations and multiple comparisons. 'ggpp' implements geoms that support various types of plot insets, annotations and marginal marks. 'gginnards' gives access to the inner components of 'gg' objects (ggplot objects) allowing their study and manipulation.

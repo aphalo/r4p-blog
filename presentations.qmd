@@ -1,19 +1,21 @@
 ---
-title: "Talks"
-subtitle: "Slides from recent talks"
+title: "Contents: _Presentations_"
+subtitle: "Talks and posters"
+date: today
+date-modified: today
 listing:
   contents: presentations
   sort: "date desc"
-  type: grid
-  image-placeholder: r4p-logo.png
-  fields: [date, title, subtitle]
-  filter-ui: [date, title]
+  type: table
+  fields: [date, date-modified, title, subtitle, reading-time]
   field-display-names:
     date: "Published"
-  categories: false
+    date-modified: "Edited"  
+  categories: true
   sort-ui: true
+  filter-ui: [date, date-modified, title]
   feed:
-    title: "Slides from recent talks" 
+    title: "Talks and Posters" 
     type: "partial"
 page-layout: full
 title-block-banner: true

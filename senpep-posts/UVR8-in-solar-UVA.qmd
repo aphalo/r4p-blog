@@ -5,7 +5,7 @@ date: 2021-10-17
 date-modified: 2024-07-11
 author: "Pedro J. Aphalo"
 keywords: [plant photoreceptors, sunlight spectrum, ultraviolet radiation]
-categories: [Sensory ecology]
+categories: [sensory ecology]
 editor: 
   markdown: 
     wrap: 72

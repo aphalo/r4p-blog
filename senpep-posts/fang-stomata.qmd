@@ -5,7 +5,7 @@ date: 2021-10-17
 date-modified: 2024-07-12
 author: "Pedro J. Aphalo"
 keywords: [plant photoreceptors, blue light, stomata, time of day]
-categories: [Sensory ecology]
+categories: [sensory ecology]
 editor: 
   markdown: 
     wrap: 72

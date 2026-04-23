@@ -13,3 +13,4 @@ galleries/data/
 _freeze/
 
 **/*.quarto_ipynb
+.positai

@@ -4,7 +4,7 @@ subtitle: "Using R with package 'ggplot2' and extensions"
 author: "Pedro J. Aphalo"
 date: 2023-10-30
 date-modified: 2024-04-17
-categories: [data visualization]
+categories: [data visualization, ggpmisc, ggpp, ggplot2]
 keywords: [research process, design of experiments, data analysis]
 format:
   html:

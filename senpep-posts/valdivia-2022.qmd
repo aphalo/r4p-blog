@@ -5,7 +5,7 @@ date: 2022-12-23
 date-modified: 2024-06-11
 author: "Pedro J. Aphalo"
 keywords: [wheat, light, photomorphogenesis]
-categories: [Travel]
+categories: [travel, Chile]
 editor: 
   markdown: 
     wrap: 72

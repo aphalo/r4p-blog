@@ -21,6 +21,7 @@ website:
             text: SenPEP Blog
             href: senpep-posts.qmd
           - icon: file-richtext
+            text: Pages
             href: pages.qmd
           - icon: images
             text: Gallery
@@ -32,18 +33,27 @@ website:
           - icon: easel
             text: From Courses
             href: r-index.qmd
+          - text: "---"
+          - icon: list-ul
+            text: Full List
+            href: all-content.qmd
       - icon: book
         text: Books
         menu:
-          - icon: book
-            text: Book _Learn R - As a Language_
-            href: https://www.learnr-book.info/
-          - icon: book
-            text: Handbook _Beyond the Visible_
-            href: pages/beyond-the-visible.qmd
-          - icon: book-half
-            text: Book _R for Photobiology_
-            href: pages/r4p-book.qmd
+        - icon: book
+          text: Book _Learn R - As a Language_
+          href: https://www.learnr-book.info/
+        - icon: box-seam
+          text: 'learnrbook'
+          href: https://docs.r4photobiology.info/learnrbook/
+        - text: "---"
+        - icon: book
+          text: Handbook _Beyond the Visible_
+          href: pages/beyond-the-visible.qmd
+        - text: "---"
+        - icon: book-half
+          text: Book _R for Photobiology_
+          href: pages/r4p-book.qmd
       - icon: database
         text: Data
         menu:
@@ -53,115 +63,124 @@ website:
       - icon: box-seam
         text: R Packages
         menu:
-          - icon: arrow-clockwise
-            text: Updates timeline
-            href: pages/CRAN-activity.qmd
-          - icon: list
-            text: Documentation Index
-            href: https://docs.r4photobiology.info/
-          - icon: cloud-download
-            text: CRAN-like repository
-            href: https://aphalo.r-universe.dev
-          - text: "---"
-          - icon: box-seam
-            text: 'learnrbook'
-            href: https://docs.r4photobiology.info/learnrbook/
-          - text: "---"
-          - icon: stack
-            text: Intro _'ggpmisc', 'ggpp' and 'gginnards'_
-            href: pages/ggpmisc-intro.qmd
-          - icon: layers
-            text: 'ggpmisc'
-            href: https://docs.r4photobiology.info/ggpmisc/
-          - icon: layers
-            text: 'ggpp'
-            href: https://docs.r4photobiology.info/ggpp/
-          - icon: layers
-            text: 'gginnards'
-            href: https://docs.r4photobiology.info/gginnards/
-          - text: "---"
-          - icon: sun
-            text: Intro _R for Photobiology Suite_
-            href: pages/r4p-introduction.qmd
-          - icon: box-seam
-            text: 'photobiology'
-            href: https://docs.r4photobiology.info/photobiology/
-          - icon: layers
-            text: 'ggspectra'
-            href: https://docs.r4photobiology.info/ggspectra/
-          - icon: box-seam
-            text: 'photobiologyWavebands'
-            href: https://docs.r4photobiology.info/photobiologyWavebands/
-          - icon: box-seam
-            text: 'photobiologyInOut'
-            href: https://docs.r4photobiology.info/photobiologyInOut/
-          - icon: rulers
-            text: 'ooacquire'
-            href: https://docs.r4photobiology.info/ooacquire/
-          - icon: rulers
-            text: 'rOmniDriver'
-            href: https://docs.r4photobiology.info/rOmniDriver/
-          - icon: box-seam
-            text: 'photobiologyPlants'
-            href: https://docs.r4photobiology.info/photobiologyPlants/
-          - icon: archive
-            text: 'photobiologyLamps'
-            href: https://docs.r4photobiology.info/photobiologyLamps/
-          - icon: archive
-            text: 'photobiologyLEDs'
-            href: https://docs.r4photobiology.info/photobiologyLEDs/
-          - icon: archive
-            text: 'photobiologySun'
-            href: https://docs.r4photobiology.info/photobiologySun/
-          - icon: archive
-            text: 'photobiologyFilters'
-            href: https://docs.r4photobiology.info/photobiologyFilters/
-          - icon: archive
-            text: 'photobiologySensors'
-            href: https://docs.r4photobiology.info/photobiologySensors/
-          - text: "---"
-          - icon: check-all
-            text: Pre-releases and issues
-            href: pages/packages-status.qmd
+        - icon: arrow-clockwise
+          text: CRAN timeline
+          href: pages/CRAN-activity.qmd
+        - icon: list
+          text: Documentation Index
+          href: https://docs.r4photobiology.info/
+        - text: "---"
+        - icon: rocket-takeoff
+          text: R-Universe
+          href: https://aphalo.r-universe.dev
+        - icon: github
+          text: GitHub
+          href: https://github.com/aphalo/
+        - text: "---"
+        - icon: check-all
+          text: Pre-releases and issues
+          href: pages/packages-status.qmd
+        - text: "---"
+        - icon: stack
+          text: Intro _'ggpmisc', 'ggpp' and 'gginnards'_
+          href: pages/ggpmisc-intro.qmd
+        - icon: layers
+          text: 'ggpmisc'
+          href: https://docs.r4photobiology.info/ggpmisc/
+        - icon: layers
+          text: 'ggpp'
+          href: https://docs.r4photobiology.info/ggpp/
+        - icon: layers
+          text: 'gginnards'
+          href: https://docs.r4photobiology.info/gginnards/
+      - icon: sun
+        text: R4P Packages
+        menu:
+        - icon: sun
+          text: Intro _R for Photobiology Suite_
+          href: pages/r4p-introduction.qmd
+        - text: "---"
+        - icon: box-seam
+          text: 'photobiology'
+          href: https://docs.r4photobiology.info/photobiology/
+        - icon: box-seam
+          text: 'SunCalcMeeus'
+          href: https://docs.r4photobiology.info/SunCalcMeeus/
+        - icon: layers
+          text: 'ggspectra'
+          href: https://docs.r4photobiology.info/ggspectra/
+        - text: "---"
+        - icon: box-seam
+          text: 'photobiologyWavebands'
+          href: https://docs.r4photobiology.info/photobiologyWavebands/
+        - icon: box-seam
+          text: 'photobiologyInOut'
+          href: https://docs.r4photobiology.info/photobiologyInOut/
+        - icon: box-seam
+          text: 'photobiologyPlants'
+          href: https://docs.r4photobiology.info/photobiologyPlants/
+        - text: "---"
+        - icon: archive
+          text: 'photobiologyFilters'
+          href: https://docs.r4photobiology.info/photobiologyFilters/
+        - icon: archive
+          text: 'photobiologyLamps'
+          href: https://docs.r4photobiology.info/photobiologyLamps/
+        - icon: archive
+          text: 'photobiologyLEDs'
+          href: https://docs.r4photobiology.info/photobiologyLEDs/
+        - icon: archive
+          text: 'photobiologySensors'
+          href: https://docs.r4photobiology.info/photobiologySensors/
+        - icon: archive
+          text: 'photobiologySun'
+          href: https://docs.r4photobiology.info/photobiologySun/
+        - text: "---"
+        - icon: rulers
+          text: 'ooacquire'
+          href: https://docs.r4photobiology.info/ooacquire/
+        - icon: rulers
+          text: 'rOmniDriver'
+          href: https://docs.r4photobiology.info/rOmniDriver/
       - icon: person
         text: About
         menu:
-          - icon: question-square
-            text: Site Help
-            href: about/help.qmd
-          - icon: pc-display
-            text: About _this site_
-            href: about/about.qmd
-          - icon: person
-            text: About _Pedro J. Aphalo_
-            href: about/pedro.qmd
-          - icon: github
-            text: Source of _this site_ at GitHub
-            href: https://github.com/aphalo/r4p-blog/
-          - icon: people
-            text: Research group blog
-            href: https://blogs.helsinki.fi/senpep-blog/
-          - icon: camera
-            text: Photography website
-            href: https://www.photo-spectrum.info/
+        - icon: question-square
+          text: Site Help
+          href: about/help.qmd
+        - icon: pc-display
+          text: About _this site_
+          href: about/about.qmd
+        - icon: person
+          text: About _Pedro J. Aphalo_
+          href: about/pedro.qmd
+        - icon: github
+          text: Source of _this site_ at GitHub
+          href: https://github.com/aphalo/r4p-blog/
+        - icon: people
+          text: Research group blog
+          href: https://blogs.helsinki.fi/senpep-blog/
+        - icon: camera
+          text: Photography website
+          href: https://www.photo-spectrum.info/
       - icon: rss
         text: "Feeds"
         menu:
-          - icon: newspaper
-            text: R Blog RSS feed
-            href: posts.xml
-          - icon: journal-richtext
-            text: SenPEP Blog RSS feed
-            href: posts.xml
-          - icon: file-richtext
-            text: Pages RSS feed
-            href: pages.xml
-          - icon: images
-            text: Gallery RSS feed
-            href: galleries.xml
-          - icon: rocket-takeoff
-            text: Repository at R-Universe
-            href: https://aphalo.r-universe.dev/feed.xml
+        - icon: newspaper
+          text: R Blog RSS feed
+          href: posts.xml
+        - icon: journal-richtext
+          text: SenPEP Blog RSS feed
+          href: posts.xml
+        - icon: file-richtext
+          text: Pages RSS feed
+          href: pages.xml
+        - icon: images
+          text: Gallery RSS feed
+          href: galleries.xml
+        - icon: rocket-takeoff
+          text: Repository at R-Universe
+          href: https://aphalo.r-universe.dev/feed.xml
   page-footer:
     right:
       - text: "&copy; 2015-2026 Pedro J. Aphalo"

@@ -5,7 +5,7 @@ author: "Pedro J. Apahlo"
 date: "2025-02-16"
 date-modified: "2025-06-29"
 keywords: [photobiology pkg, ggpmisc pkg, gganimate pkg]
-categories: [Photobiology examples]
+categories: [photobiology, r4photobiology, R examples]
 abstract: |
   This page used to contain example animated plots and R code for time series and collections of spectra. It has been replaced by package documentation linked below.
 editor: 

@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2024-04-22"
 date-modified: "2024-04-22"
 keywords: [ggplot2 pkg, ggpp pkg, data labels, plot annotations]
-categories: [Plotting examples]
+categories: [plotting, data visualization, ggpp, ggplot2]
 editor: 
   markdown: 
     wrap: 72

@@ -1,0 +1,30 @@
+---
+title: "Contents"
+subtitle: "Full-site contents listing"
+date: today
+listing:
+  contents:
+    - "pages/*.qmd"
+    - "posts/*.qmd"
+    - "galleries/*.qmd"
+    - "about/*.qmd"
+    - "learnr/*.qmd"
+    - "presentations/*.qmd"
+    - "senpep-posts/*.qmd"
+    - "*.qmd"
+  sort: "date desc"
+  type: table
+  fields: [date-modified, date, title, subtitle, reading-time]
+  filter-ui: [date-modified, date, title]
+  field-display-names:
+    date: "Published"
+    date-modified: "Edited"
+    title: "Title"
+  categories: true
+  sort-ui: true
+  feed:
+    title: "All New Content" 
+    type: "partial"
+page-layout: full
+title-block-banner: true
+---

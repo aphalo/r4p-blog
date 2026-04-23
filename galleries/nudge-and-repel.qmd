@@ -5,7 +5,7 @@ author: "Pedro J. Aphalo"
 date: "2023-02-28"
 date-modified: "2023-12-12"
 keywords: [data labels, ggplot2 pkg, ggpp pkg, ggrepel pkg]
-categories: [Plotting examples]
+categories: [plotting, data visualization, ggpp, ggrepel, ggplot2]
 abstract: |
   Example R code for plots with labels without overlaps but with controlled position displacements away from specific plots features such as curves and observations' density centroids.
 code-fold: false

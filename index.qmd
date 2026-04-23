@@ -1,6 +1,8 @@
 ---
-title: "Home page"
+title: "Home Page"
 subtitle: "A brief presentation of the site"
+date: today
+date-modified: today
 fig-format: svg
 editor:
   markdown: 
@@ -93,7 +95,7 @@ keep them useful and relevant, and possibly to expand them.
 ::: {.callout-note collapse=true}
 ## SenPEP research blog
 
-These posts are related to research with plants and crops in the research group I lead: _Sensory Ecology and Photobiology of Plants (SenPEP)_.
+This [blog](senpep-posts.qmd) contains posts related to my scientific research with plants and crops: _Sensory Ecology and Photobiology of Plants (SenPEP)_.
 :::
 
 ::: {#recent-senpep}
@@ -133,6 +135,8 @@ pages. They are only a convenience.
 
 * [Data analysis and statistics with R](r-index.qmd)
 
+* [All pages and posts at the site](all-content.qmd)
+
 ::: {.callout-note collapse=true}
 # Site navigation and menu
 
@@ -141,7 +145,7 @@ words, the search is fast and local.
 
 # Contents
 
-Opens a nested menue that links to the tables of contents of the different sections.
+Opens a nested menue that links to the tables of contents of the different sections and whole site.
 
 # R packages
 

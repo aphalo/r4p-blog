@@ -7,15 +7,12 @@ date-modified: 2024-04-17
 abstract: |
   This page documents how to annotate plot matrices created with `GGally::ggpairs()` using the layer functions from package 'ggpmisc'.
 keywords: [ggplot2 pkg, GGally pkg, ggpmisc pkg, data labels, plot annotations, plot matrix]
-categories: [Plotting examples]
-editor: 
-  markdown: 
-    wrap: 72
-code-fold: true
+categories: [plotting, data visualization, ggpmisc, GGally, ggplot2]
 format:
   html: 
     code-link: true
     code-tools: true
+    code-fold: true
 draft: false
 ---
 

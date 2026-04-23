@@ -3,6 +3,7 @@ title: "Looking back 40 years"
 subtitle: "Research into environmental sensing and acclimation"
 author: Pedro J. Aphalo
 date: 2024-05-28
+date-modified: 2024-05-28
 format: 
   revealjs:
     self-contained: true
@@ -11,6 +12,7 @@ format:
     toc: false
 mermaid:
   theme: neutral
+categories: [slides from talk]
 self-contained-math: true
 ---
 

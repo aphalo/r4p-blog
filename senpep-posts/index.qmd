@@ -1,11 +1,11 @@
 ---
-title: "Move from Wordpress to Quarto"
+title: "Migration from Wordpress to Quarto"
 subtitle: "SenPEP blog"
 date: 2024-06-11
-date-modified: 2024-07-13
+date-modified: 2026-04-23
 author: "Pedro J. Aphalo"
 keywords: [Quarto]
-categories: [News]
+categories: [website news]
 editor: 
   markdown: 
     wrap: 72
@@ -15,17 +15,15 @@ format:
     code-link: true
     code-tools: true
 abstract: |
-  Logbook of progress in the tranfer of the old blog post.
+  News about the tranfer of my old research-group blog from WordPress to Quarto.
 draft: false
 ---
 
-My first website about plant photobiology started around 1997 or so. That is
-27 years ago! It was written manually in a text editor and later using an HTML
-editor. In 2009 I started using the Wordpress server of the University of
-Helsinki, my employer. I will retire soon, so I started today moving this
-website to Quarto and a new URL. As with my other sites, I will be selective,
+My first website about plant photobiology started around 1997 or so under the name of _The Plant Photobiology Notes_. That was
+29 years ago! It was written manually in a text editor and later using the HTML
+editor DreamWeaver. In 2009 I started using the Wordpress server of the University of
+Helsinki, my employer. I retired in 2024, so I moved this
+website to Quarto and to a new URL. As with my other sites, I will be selective,
 and transfer only posts that remain of some interest, and when needed I will
 update also the content. There are 115 posts to check and fewer to transfer.
-
-2024-07-13: Done 2023 to 2020, skipping some posts, of which one I will update and move.
 

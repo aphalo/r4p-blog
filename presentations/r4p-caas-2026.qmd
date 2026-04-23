@@ -3,6 +3,7 @@ title: "R for Photobiology"
 subtitle: "Difficult Computations Made Easy"
 author: "Pedro J. Aphalo"
 date: 2026-04-12
+date-modified: 2026-04-12
 format: 
   live-revealjs:
     self-contained: true
@@ -25,6 +26,8 @@ prompt: false
 code-fold: show
 code-summary: "+/-"
 code-tools: true
+categories: [slides from talk, R, r4photobiology]
+keywords: [R programing, R packages, photobiology]
 ---
 
 {{< include ./_extensions/r-wasm/live/_knitr.qmd >}}
