@@ -1,0 +1,200 @@
+---
+title: "Is This a Polynomial?"
+subtitle: "Computing on the R langauge"
+author: "Pedro J. Aphalo"
+date: 2024-05-16
+date-modified: 2026-04-24
+aliases: 
+  - ../posts/is-this-a-polynomial.html
+categories: [R, plotting, ggpmisc]
+keywords: [ggpmisc pkg, R programming, annotations]
+code-fold: show
+code-tools: true
+abstract: |
+  I describe here the approach used in R package 'ggpmisc' to validate model formulas as complying with the expectations of being complete polynomials with terms in order of increasing powers. The requirements are dictated by the approach used to generate text labels for the fitted model equations.
+---
+
+## The problem
+
+Statistics `stat_poly_eq()` and `stat_quant_eq()` from package 'ggpmisc' would generate erroneous `equation.label` values if the
+model formula definition passed by users as argument to parameter `formula` did not describe a _complete polynomial with terms given in ascending order_. Forcing the intercept to be equal to zero, e.g., `y ~ x - 1` or `y ~ x + 0`, is supported. On-the-fly transformations of variables within `formula` are supported only if the user passes additional arguments to `eq.with.lhs` and/or `eq.x.rhs` and the expressions used for the data transformations are not parsed.
+
+Although the expectated arguments for parameter `formula` was documented, in practice any valid model formula accepted by `lm()`, `rlm()` or other model fit 
+functions were silently accepted as input, resulting in a wrong equation label added to the plot. A check for valid argument for `formula` was lacking.
+
+The statistics expect what to me seemed like the "normal" way of writing a polynomial, agreeing with the expectation of function `polynom::polynomial()` that is used internally in 'ggpmisc'. Some users had different expectations as in some countries and disciplines a decreasing order of powers is common. So, in spite of the explanation and examples in the documentation, an issue was raised reporting a bug. Of course, the lack of a test to validate the argument was an important bug, but not as the user who raised the issue thought, one 
+affecting input that was deemed correct by design. To address this, I added in 2024 the
+previously missing test.
+
+In 2024, I thought the new test implemented in `check_polynomial_formula()` was rather thorough. It has been in use in the two statistics since then. However, I noticed today when updating this page that a few formulas resulted in false positive. These formulas were rather unusual, such as containing terms like `I(x + 2)`, or included calls to functions to apply transformations to `x` or `y`, such as `log(x)`.
+ 
+Why did I not implement a such a test earlier? It seemed to me at first that
+implementing code for this test would be an extremely difficult task. However,
+one of the special features of the R language is that language objects like model
+formulas can be manipulated and converted like almost any other object in R. R also includes functions 
+for manipulation model formulas, used by the model fitting functions to build the model matrix.
+Making the story short, it was fairly easy to write an ad-hoc first version of a
+function to validate model formulas as representing a polynomial. It took a
+couple of hours of design, coding, testing, revision, and trying to imagine all
+the different ways in which polynomials can be described in model functions, as
+well as imagining model functions that are similar to polynomials but not true
+polynomials. The first version, and the second partial rewrite were not perfect,
+they produced both false positive and false negative results occasionally. After
+adding a bunch of unit tests and further changes to the code, this function,
+`check_polynomial_formula()`, added in 2024 worked fairly well. It has been in
+in use it in three statistics since then.
+
+The task implemented in `check_polynomial_formula()` is not just to detect model
+formulas describing a polynomial from others. The aim is to distinguish model 
+formulas describing polynomials that will be converted into valid equation labels
+from those for which the conversion would result in _wrong output_. These cases 
+include polynomials with missing terms and polynomials with the power terms ordered
+differently than expected. When the test fails, statistics `stat_poly_eq()` and
+`stat_quant_eq()` return `NA` for the equation issuing a warning with a diagnosys
+of the problem. Forcing the intercept term to zero is handled correctly, and
+ ` - 1` and ` + 0` accepted in formulas. Other labels, such as that for $R^2$, $F$, and $P$ are valid 
+as long as they can be extracted from the fitted model object. As the parameter 
+estimates are also returned as `numeric` 
+values, when the equation is not generated automatically, users can assemble the
+equation label manually within the call to `aes()`. 
+
+In addition of polynomials being 
+required to have terms in ordered of increasing powers and and no missing terms, other checks are needed. 
+For example, terms in a model formula containing a bare unprotected `^` operator are part of the model formula specification, not a power applied to the explanatory variable. When fitting a model, redundant terms in the formula are dropped, such that a formula like `y ~ x + x^2` silently becomes `y ~ x`, thus such formulas now are also flagged. 
+
+Only
+powers of the explanatory variable enclosed in an _as.is_ call (`I()`) describe an operation appled to the explanatory variable. Polynomials, in addition to being described explicitly by _as.is_ powers of the explanatory variables, can be defined using function `poly()`. For the estimated numeric values of the polynomial coefficients to be directly interpretable, `raw = TRUE` must be included in the call to `poly()`. This is also checked. Finally, added as a check in 2026, when transformations are included
+in the formula, the user is required to provide 
+
+::: callout-note
+# Update in 2026
+
+I noticed today when updating this page that some formulas resulted in false positives and some in false negatives. These formulas are rather unusual, e.g., containing terms like `I(x + 2)`, or including calls to functions to apply transformations to `x` or `y` other than enclosed in `I()`, e.g., `cos(x)`. Anyway, I implemented an improved approach, relying for the parsing of the terms in the formula's _rhs_ on R's `terms()` function. More edge cases are now correctly diagnosed. Below I added additional examples.
+
+Does this function give false positives and false negatives? Likely fewer than the earlier one, and
+hopefully I haven't missed any frequently used cases. Time and further testing
+will tell. _Please, do raise 
+[an issue](https://github.com/aphalo/ggpmisc/issues) if you discover a test failure._
+
+Currently, the two statistics, `stat_poly_eq()`and `stat_quant_eq()` in 'ggpmisc' (> 0.7.0) issue a warning when passed model formulas that fail this test and set `eq.label`
+to `NA` in the returned data frame, which is the `data` seen by the downstream geometry.
+
+In the future, the construction algorithm used for assembling the fitted-model-equation label could be replaced with one supporting additional model formulas, and the test made less strict. On the other hand, there could be still some edge cases incorrectly handled by the improved `check_poly_formula()`.
+:::
+
+The function, `check_poly_formula()` has an on-line version of [its help
+page](https://docs.r4photobiology.info/ggpmisc/reference/check_poly_formula.html),
+with some code examples.
+
+The definition of function `check_poly_formula()` in version 
+`r packageVersion("ggpmisc")` of package 'ggpmisc' is listed below.
+
+```{r, echo=FALSE, message=FALSE}
+library(ggpmisc)
+```
+
+```{r, echo=FALSE, message=FALSE}
+check_poly_formula  # listing of function definition exported by 'ggpmisc'
+```
+
+Am I still missing something? Can the code be really this simple? (well, no longer so simple...)
+
+Redundant terms in a model formula are dropped silently. Although the fitted model equation label is created correctly, such formulas can be expected to be entered only by mistake. 
+
+```{r}
+# special case, power in one formula term
+x <- 1:20
+y <- x + rnorm(length(x))
+my.df <- data.frame(x, y)
+
+# all these model formulas are equivalnt to the first one
+coef(lm(y ~ x, data = my.df))
+coef(lm(y ~ x + x^2, data = my.df))
+coef(lm(y ~ x + x^3, data = my.df))
+coef(lm(y ~ x^3 + x, data = my.df))
+coef(lm(y ~ x^3, data = my.df))
+# this is a data transformation
+coef(lm(y ~ I(x^2), data = my.df))
+```
+
+Some examples of the checks.
+
+```{r}
+#| code-overflow: scroll
+
+# supported correct formulas
+check_poly_formula(y ~ 1)
+check_poly_formula(y ~ x)
+check_poly_formula(y ~ x + 1)
+check_poly_formula(y ~ x + 0)
+check_poly_formula(y ~ x - 1)
+check_poly_formula(y ~ x + I(x^2))
+check_poly_formula(y ~ 1 + x + I(x^2))
+check_poly_formula(y ~ x + I(x^2) + I(x^3))
+check_poly_formula(y ~ poly(x, 1, raw = TRUE))
+check_poly_formula(y ~ poly(x, 2, raw = TRUE))
+check_poly_formula(y ~ poly(x, 3, raw = TRUE))
+# formula with y in rhs
+check_poly_formula(x ~ y + I(y^2), x.name = "y")
+# unlikely to be correct but unlikely to be passed by accident
+check_poly_formula(y ~ poly(x, 2, raw = FALSE))
+# single term with a power is ignored by fitting functions
+# these are the same as y ~ x but likely to be mistakes
+check_poly_formula(y ~ x^2)
+check_poly_formula(y ~ x + x^2)
+check_poly_formula(y ~ x^2 + x)
+# a function call is a transformation
+check_poly_formula(y ~ I(x^3))
+check_poly_formula(y ~ log(x))
+check_poly_formula(log(y) ~ x)
+check_poly_formula(log(y) ~ log(x))
+check_poly_formula(y ~ I(x + 2))
+# check disabled
+check_poly_formula(y ~ log(x), check.transf.rhs = FALSE)
+check_poly_formula(log(y) ~ x, check.transf.lhs = FALSE)
+# missing terms
+check_poly_formula(y ~ x + I(x^3))
+check_poly_formula(y ~ I(x) + I(x^3))
+check_poly_formula(y ~ I(x^2) + I(x^3))
+# out of order terms
+check_poly_formula(y ~ I(x^2) + x)
+check_poly_formula(y ~ x + I(x^3) + I(x^2))
+# missing raw = TRUE
+check_poly_formula(y ~ poly(x, 2))
+```
+
+The checks working within `stat_poly_eq()`.
+
+```{r}
+p <-
+ ggplot(my.df, aes(x, y)) +
+   geom_point()
+
+# correct and as expected
+my.mf <- y ~ x
+p +
+  stat_poly_line(formula = my.mf) +
+  stat_poly_eq(use_label("eq", "R2", "P"), formula = my.mf)
+
+# mising term
+my.mf <- y ~ x + I(x^3)
+p +
+  stat_poly_line(formula = my.mf) +
+  stat_poly_eq(use_label("eq", "R2", "P"), formula = my.mf)
+
+# correct but surprising, likely a mistake
+my.mf <- y ~ x^3
+p +
+  stat_poly_line(formula = my.mf) +
+  stat_poly_eq(use_label("eq", "R2", "P"), formula = my.mf)
+
+# requires argument
+my.mf <- y ~ I(x^3)
+p +
+  stat_poly_line(formula = my.mf) +
+  stat_poly_eq(use_label("eq", "R2", "P"), formula = my.mf)
+
+p +
+  stat_poly_line(formula = my.mf) +
+  stat_poly_eq(use_label("eq", "R2", "P"), formula = my.mf, eq.x.rhs = "~italic(x)^3")
+```
