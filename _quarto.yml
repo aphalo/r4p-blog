@@ -14,17 +14,14 @@ website:
       - icon: list-ul
         text: Contents
         menu:
-          - icon: newspaper
-            text: R Blog
-            href: posts.qmd
-          - icon: journal-richtext
-            text: SenPEP Blog
+          - icon: leaf
+            text: SenPEP (research on plants)
             href: senpep-posts.qmd
-          - icon: file-richtext
-            text: Pages
+          - icon: easel
+            text: Dataviz and statistics
             href: pages.qmd
-          - icon: images
-            text: Gallery
+          - icon: pc-display
+            text: R code examples
             href: galleries.qmd
           - icon: projector
             text: Talks
@@ -35,7 +32,7 @@ website:
             href: r-index.qmd
           - text: "---"
           - icon: list-ul
-            text: Full List
+            text: Whole-site
             href: all-content.qmd
       - icon: book
         text: Books
@@ -76,10 +73,6 @@ website:
         - icon: github
           text: GitHub
           href: https://github.com/aphalo/
-        - text: "---"
-        - icon: check-all
-          text: Pre-releases and issues
-          href: pages/packages-status.qmd
         - text: "---"
         - icon: stack
           text: Intro _'ggpmisc', 'ggpp' and 'gginnards'_
@@ -164,22 +157,22 @@ website:
           text: Photography website
           href: https://www.photo-spectrum.info/
       - icon: rss
-        text: "Feeds"
+        text: "RSS Feeds"
         menu:
-        - icon: newspaper
-          text: R Blog RSS feed
+        - icon: leaf
+          text: SenPEP (research on plants)
           href: posts.xml
-        - icon: journal-richtext
-          text: SenPEP Blog RSS feed
-          href: posts.xml
-        - icon: file-richtext
-          text: Pages RSS feed
+        - icon: easel
+          text: Dataviz and statistics
           href: pages.xml
-        - icon: images
-          text: Gallery RSS feed
+        - icon: pc-display
+          text: R code examples
           href: galleries.xml
+        - icon: list-ul
+          text: Whole-site
+          href: all-content.xml
         - icon: rocket-takeoff
-          text: Repository at R-Universe
+          text: R-Universe (aphalo)
           href: https://aphalo.r-universe.dev/feed.xml
   page-footer:
     right:

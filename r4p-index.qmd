@@ -1,0 +1,51 @@
+---
+title: "Guided Tour: R for Photobiology"
+subtitle: "Computations and data sets"
+date: today
+date-modified: today
+author: Pedro J. Aphalo
+author-meta: Pedro J. Aphalo
+listing:
+  - id: intro-pages
+    categories: true
+    contents:
+      - "pages/r4p-introduction.qmd"
+      - "pages/r4p-book.qmd"
+    sort: false
+    type: grid
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
+  - id: r4p-data-pages
+    contents:
+      - "galleries/online-weather-data.qmd"
+      - "galleries/fmi-kumpula.qmd"
+      - "galleries/QuickTUV.qmd"
+    sort: false
+    type: grid
+    grid-columns: 1
+    fields: [title, subtitle, date-modified, abstract]
+    field-display-names:
+      date: "Published"
+      date-modified: "Edited"
+      abstract: "Abstract"
+page-layout: full
+title-block-banner: true
+categories: [r4photobiology, photobiology, Using R]
+abstract: |
+  This page contains a list of links to pages related to the R for Photobiology packages. **Please see, the web sites documenting each package in the suite, including online-only articles.**
+---
+
+## Introduction and book
+
+::: {#intro-pages}
+:::
+
+## Importing online data
+
+::: {#r4p-data-pages}
+:::
+

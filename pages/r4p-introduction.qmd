@@ -10,17 +10,15 @@ toc: true
 editor: 
   markdown: 
     wrap: 72
+abstract: |
+  The 'R for Photobiology Suite' is a collection of R packages developed to facilitate various computations of interest in photobiology of plants. Many of the functions are useful in other fields, such as general photobiology, terrestrial solar radiation climatology and meteorology, artificial illumination, ecology and phenology research, etc. The design emphasizes reproducibility and easy of use. They are meant to be used both in original research, practical exercises in teaching and the preparation of teaching materials. References are given to primary sources of data and algorithms when available. This page summarizes the role of each package in the suite and links to their documentation web sites. 
 ---
 
 ![](r4p-logo.png){fig-align="left" width="33%" fig-alt="Square-shaped logo. White letter R and green letter lambda on a blue background."}
 
 ## Introduction
 
-Package ['photobiology'](https://docs.r4photobiology.info/photobiology/)
-is at the core of a suite of packages for analysis and
-plotting of data relevant to photobiology. The accompanying packages provide data and
-definitions that are to a large extent application-area specific while the
-functions in the package 'photobioloy' are widely useful in photobiology and in
+Packages in the suite provide functions, methods and data that are widely useful in photobiology and in
 radiation quantification in geophysics and meteorology. Package 'photobiology'
 has its main focus in the characterization of the light environment in a
 biologically relevant manner and in the manipulation of spectral data to
@@ -62,14 +60,14 @@ in the Table below.
 | ['photobiology'](https://docs.r4photobiology.info/photobiology/)              | Core classes, methods and functions                                                                                                                                                                     |
 | ['SunCalcMeeus'](https://docs.r4photobiology.info/SunCalcMeeus/)              | Functions for the position of the Sun                                                                                                                                                                     |
 | ['photobiologyWavebands'](https://docs.r4photobiology.info/photobiologyWavebands/)     | Definitions of standardized and frequently used wavelength band definitions and spectral weighting functions.                                                                                           |
+| ['ggspectra'](https://docs.r4photobiology.info/ggspectra/)                 | Extensions to package 'ggplot2' for easier plotting of spectral data, including `autoplot()` and `ggplot()` methods for the classes defined in package 'photobiology' and scales, geoms and statistics. |
 | ['photobiologyPlants'](https://docs.r4photobiology.info/photobiologyPlants/)        | Methods, functions and data for plants and vegetation.                                                                                                                                                  |
 | ['photobiologyInOut'](https://docs.r4photobiology.info/photobiologyInOut/)         | Exchange of data within R and using different proprietary and standard-based formats.                                                                                                                   |
+| ['photobiologyFilters'](https://docs.r4photobiology.info/photobiologyFilters/)       | Spectral transmittance and spectral reflectance data for different materials including optical filters. Spectral data on refractive index.                                                              |
 | ['photobiologyLamps'](https://docs.r4photobiology.info/photobiologyLamps/)         | Spectral emission and other data for various lamp types.                                                                                                                                                |
 | ['photobiologyLEDs'](https://docs.r4photobiology.info/photobiologyLEDs/)          | Spectral emission and other data for various LEDs and LED arrays.                                                                                                                                       |
 | ['photobiologySensors'](https://docs.r4photobiology.info/photobiologySensors/)       | Spectral response and other data for various UV, VIS and NIR sensors.                                                                                                                                   |
 | ['photobiologySun'](https://docs.r4photobiology.info/photobiologySun/)           | Spectral irradiance and other data for sunlight. Both measured and standard definitions for ground level and top of the atmosphere.                                                                     |
-| ['photobiologyFilters'](https://docs.r4photobiology.info/photobiologyFilters/)       | Spectral transmittance and spectral reflectance data for different materials including optical filters. Spectral data on refractive index.                                                              |
-| ['ggspectra'](https://docs.r4photobiology.info/ggspectra/)                 | Extensions to package 'ggplot2' for easier plotting of spectral data, including `autoplot()` and `ggplot()` methods for the classes defined in package 'photobiology' and scales, geoms and statistics. |
 | ['ooacquire'](https://docs.r4photobiology.info/ooacquire/) (Not in CRAN)    | Data acquisition and control of Ocean Optics (now Ocean Insight) spectrometers.                                                                                                                           |
 | ['rOmniDriver'](https://docs.r4photobiology.info/rOmniDriver/) (Not in CRAN) | Interface to OmniDriver drivers for communication with spectrometers from Ocean Optics (now Ocean Insight)                                                                                              |
 
@@ -90,16 +88,16 @@ at the University of Helsinki, Finland. The sources of the data included are
 described in the documentation of the packages. We thank all those who
 authorized reuse of their data or published their data in the open.
 
-COST Action FA9604 'UV4Growth' facilitated
-discussions and exchanges of ideas that lead to the development of this
-package. 
+COST Action FA9604 'UV4Growth', funded by EU, facilitated
+discussions and exchanges of ideas that lead to the development of the
+_R for Photobiology_ suite of packages and its documentation. 
 
-The contributions of Andy McLeod, Lars Olof Björn, Nigel Paul,
-Lasse Ylianttila, Glen Davis, Agnese Fazio, T. Matthew Robson and Titta
-Kotilainen were specially significant. Other members of the UV4Plants
-Association (<https://www.uv4plants.org/>) and participants in workshops
-and training events contributed both problems in need of being solved
-and solutions to implement.
+The contributions of ideas by Andy McLeod, Lars Olof Björn, Nigel Paul, Lasse
+Ylianttila, Andreas Albert, Anders Lindfors, Glen Davis, Agnese Fazio, T.
+Matthew Robson, Titta Kotilainen, and Maxime Durand were specially significant.
+Other members of the UV4Plants Association (<https://www.uv4plants.org/>) and
+participants in workshops and training events contributed both problems in need
+of being solved and algorithms to implement or shared their data.
 
 Tutorials by Hadley Wickham and comments on my presentation at
 *UseR!2015* allowed me to significantly improve the coding and
@@ -125,6 +123,10 @@ Aphalo, Pedro J., Robson, T. Matthew, Kotilainen, Titta K. (2016-2025)
 *R for Photobiology: Theory and recipes for common calculations.* 
 Pre-release available at [LeanPub](https://leanpub.com/r4photobiology).
 
+Beleites, C. and Sergo, V. (nd) `hyperSpec: a package to handle 
+hyperspectral data sets in R', R package version 0.100.3.
+https://github.com/r-hyperspec/hyperSpec
+  
 Davis G (2019). *A Centroid for Sections of a Cube in a Function Space,
 with application to Colorimetry.* *ArXiv e-prints*. 1811.00990,
 (<https://arxiv.org/abs/1811.00990>).
