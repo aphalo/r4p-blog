@@ -60,7 +60,7 @@ website:
       - icon: box-seam
         text: R Packages
         menu:
-        - icon: arrow-clockwise
+        - icon: clock-history
           text: CRAN timeline
           href: pages/CRAN-activity.qmd
         - icon: list
@@ -74,22 +74,22 @@ website:
           text: GitHub
           href: https://github.com/aphalo/
         - text: "---"
-        - icon: stack
+        - icon: eyeglasses
           text: Intro _'ggpmisc', 'ggpp' and 'gginnards'_
           href: pages/ggpmisc-intro.qmd
-        - icon: layers
+        - icon: stack
           text: 'ggpmisc'
           href: https://docs.r4photobiology.info/ggpmisc/
-        - icon: layers
+        - icon: stack
           text: 'ggpp'
           href: https://docs.r4photobiology.info/ggpp/
-        - icon: layers
+        - icon: gear
           text: 'gginnards'
           href: https://docs.r4photobiology.info/gginnards/
       - icon: sun
         text: R4P Packages
         menu:
-        - icon: sun
+        - icon: eyeglasses
           text: Intro _R for Photobiology Suite_
           href: pages/r4p-introduction.qmd
         - text: "---"
@@ -103,13 +103,13 @@ website:
           text: 'ggspectra'
           href: https://docs.r4photobiology.info/ggspectra/
         - text: "---"
-        - icon: box-seam
+        - icon: rainbow
           text: 'photobiologyWavebands'
           href: https://docs.r4photobiology.info/photobiologyWavebands/
-        - icon: box-seam
+        - icon: file-earmark-arrow-down
           text: 'photobiologyInOut'
           href: https://docs.r4photobiology.info/photobiologyInOut/
-        - icon: box-seam
+        - icon: leaf
           text: 'photobiologyPlants'
           href: https://docs.r4photobiology.info/photobiologyPlants/
         - text: "---"

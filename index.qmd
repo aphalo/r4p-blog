@@ -1,6 +1,7 @@
 ---
-title: "Home Page"
-subtitle: "A brief presentation of the site"
+title: "Writings about"
+subtitle: "research + light + plants + [R](https://www.r-project.org/) + data + plots"
+Author: Pedro J. Aphalo
 date: today
 date-modified: today
 fig-format: svg
@@ -36,7 +37,7 @@ listing:
 ---
 
 ::: {.callout-tip collapse=true}
-# Web site presentation (click to display)
+# Web site presentation (_click to display_)
 
 _Contents at the website relates to subjects that I teach and/or do research on:
 R language, data visualization, data analysis, the daylight spectrum,
@@ -46,9 +47,7 @@ to the light environment in which they grow._
 I add new material regularly. However, the site also rescues and updates content still relevant, written during the last 30 years for my earlier websites and blogs. These other websites no longer exist except as archived by the Wayback Machine or are no longer maintained. Because of this history, the site is organized in _sections_ focusing on different subjects.
 :::
 
-## Recently added or updated content
-
-New and updated articles are highlighted below.
+New and updated
  
 ::: {.callout-note collapse=true}
 ## Data analysis and visualization (articles)
@@ -129,6 +128,5 @@ published through [CRAN](https://cran.r-project.org/) and/or through
 [R-Universe](https://aphalo.r-universe.dev).
 - **About:** Information about the site and myself.
 - **Feeds:** RSS feeds by website section and for the whole site.
-
 :::
 
