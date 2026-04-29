@@ -36,7 +36,7 @@ listing:
 ---
 
 ::: {.callout-tip collapse=true}
-# Web site presenttaion
+# Web site presentation
 
 _Contents at the website relates to subjects that I teach and/or do research on:
 R language, data visualization, data analysis, the daylight spectrum,
@@ -48,21 +48,23 @@ I add new material regularly. However, the site also rescues and updates content
 
 ## Recently added or updated content
 
-::: {.callout-note collapse=false}
+New and updated articles are highlighted below.
+ 
+::: {.callout-note collapse=true}
 ## Data analysis and visualization (articles)
 
 These ["articles"](pages.qmd) are tutorials or explanations. I have used R for examples, but the aim is mainly to describe methods and approaches related to data analysis and visualization. Several
-of these articles are based on material prepared for courses or talks. Newly added and updated articles are highlighted below.
+of these articles are based on material prepared for courses or talks.
 :::
 
 ::: {#recent-pages}
 :::
 
-::: {.callout-note collapse=false}
-## R Gallery (code examples)
+::: {.callout-note collapse=true}
+## Data analysis and visualization (code examples)
 
 The [R-code gallery](galleries.qmd) contains articles that demonstrate the use of R and R packages, mostly my own packages together with other packages. Each article contains multiple
-R-code recipes for ploting and computations, cookbook
+R-code recipes for plotting and computations, cookbook
 style. The aim is to provide additional examples or recipes complementing those in the packages' documentation and
 the well known [Cookbook for R](http://www.cookbook-r.com/) website. I check the code examples regularly, and update them when needed.
 :::
@@ -70,10 +72,10 @@ the well known [Cookbook for R](http://www.cookbook-r.com/) website. I check the
 ::: {#recent-galleries}
 :::
 
-::: {.callout-note collapse=false}
-## SenPEP blog (research-related articles)
+::: {.callout-note collapse=true}
+## SenPEP, research on plants (articles)
 
-The [SenPEP blog](senpep-posts.qmd) contains posts and articles related to my scientific research with plants and crops: _Sensory Ecology and Photobiology of Plants (SenPEP)_. Some of the contents are _news_, such as accounts of visits, visitors or specially signiificant publications, while others are _articles_ with accesible introductions to some of the past and current research topics that myself and collaborators have an interest in.
+The [SenPEP blog](senpep-posts.qmd) contains posts and articles related to my scientific research with plants and crops: _Sensory Ecology and Photobiology of Plants (SenPEP)_. Some of the contents are _news_, such as accounts of visits, visitors or specially significant publications, while others are _articles_ with accessible introductions to or highlights about some of the past and current research topics that myself and collaborators have an interest in.
 :::
 
 ::: {#recent-senpep}
@@ -119,8 +121,8 @@ The site is searchable, and the search is based on a static index. Pages are tag
 The site menu has the following entries:
 
 - **Contents:** Tables of contents for different sections and the whole site.
-- **Books:** Bbooks I have written or edited.
-- **Data:** Accedd data acquired at a weather station located in the Viikki Campus of the University of Helsinki, in Helsinki, Finland. 
+- **Books:** Books I have written or edited.
+- **Data:** Access data acquired at a weather station located in the Viikki Campus of the University of Helsinki, in Helsinki, Finland. 
 - **R packages:** General information about packages that I maintain, published through [CRAN](https://cran.r-project.org/) and/or through [R-Universe](https://aphalo.r-universe.dev).
 - **R4P packages:** Web sites of packages included in the R for Photobiology suite, 
 published through [CRAN](https://cran.r-project.org/) and/or through 
