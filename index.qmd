@@ -36,7 +36,7 @@ listing:
 ---
 
 ::: {.callout-tip collapse=true}
-# Web site presentation
+# Web site presentation (click to display)
 
 _Contents at the website relates to subjects that I teach and/or do research on:
 R language, data visualization, data analysis, the daylight spectrum,
@@ -75,7 +75,7 @@ the well known [Cookbook for R](http://www.cookbook-r.com/) website. I check the
 ::: {.callout-note collapse=true}
 ## SenPEP, research on plants (articles)
 
-The [SenPEP blog](senpep-posts.qmd) contains posts and articles related to my scientific research with plants and crops: _Sensory Ecology and Photobiology of Plants (SenPEP)_. Some of the contents are _news_, such as accounts of visits, visitors or specially significant publications, while others are _articles_ with accessible introductions to or highlights about some of the past and current research topics that myself and collaborators have an interest in.
+The [SenPEP blog](senpep-posts.qmd) contains posts and articles related to my scientific research with plants and crops: _Sensory Ecology and Photobiology of Plants (SenPEP)_. Some of the contents are _news_, such as accounts of visits, visitors or specially signiificant publications, while others are _articles_ with accesible introductions to some of the past and current research topics that myself and collaborators have an interest in.
 :::
 
 ::: {#recent-senpep}
