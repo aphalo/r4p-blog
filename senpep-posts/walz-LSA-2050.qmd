@@ -1,0 +1,318 @@
+---
+title: "Walz LSA-2050"
+subtitle: "First impressions"
+author: "Pedro J. Aphalo"
+date: 2026-05-07
+date-modified: 2026-05-07
+keywords: [Walz LSA-2050]
+categories: [measurement and control]
+editor: 
+  markdown: 
+    wrap: 72
+code-fold: true
+format:
+  html: 
+    code-link: true
+    code-tools: true
+abstract: |
+  I desccribe here my first impressions about the Walz LSA-2050 handheld leaf analyzer. These impressions are based on long-term experience with the use of the SPAD-502 chlorophyll meter from Konica-Minolta, the Dualex 3.1 and Dualex 4 dual-excitation instruments from Force-A and recent use of the MPM-100 multiple wavelength pigment meter from Opti-Sciences . I also show how to import the data logged by these instruments into R for further analysis.
+draft: true
+---
+
+## The LSA-2050 and its altrenatives
+
+In this section I describe the instruments from newest to oldest.
+
+The first impression of the *Walz LSA-2050* is that of a refined design
+and very well tested instrument, making it reliable, ergonomically easy
+to use and with very well thought out and clear firmware user interface.
+In some respects it benefits from Walz's long experience in chlorophyll
+fluorescence measurements, as well as from the approaches used in the
+Dualex instruments. The *LSA-2050* does the measurements very fast. With
+the help from its good ergonomics, I was able to measure 15 leaves, each
+from a different plant, across four growth-chamber shelves in 4 min.
+
+The *MPM-100* is not really a clone of the Dualex in its measurement
+approach but attempts to be a replacement for it. At least the version I
+have used, has a display with very small text, even if in colour, and
+some significant rough edges in the firmware user interface. The most
+important being that when a measurement fails, the screen displays the
+results from the last good measurement, which is prone to cause mistakes
+in the manual recording of readings. Another quirk is that when the
+estimation of one parameter fails the Dualex reports those that could be
+measured, instead, the MPM-100 returns no results, which is problematic.
+The MPM-100 is also slower than the Dualex as it averages several
+consecutive measurements.
+
+The *Dualex 4* is also a well designed instrument, a refinement of the
+earlier *Dualex 3*. It has a couple weak points, though: the hinge is
+rather weak and with long-term can develop play or even break. In the
+first case some misalignment of the two halves of the measurement head
+can occur. The Dualex has more options for encoding treatments than the
+Walz, making it more cumbersome, but more flexible in the tagging of
+logged data.
+
+The *SPAD-502* is no longer available in the simple version I have used.
+The *SPAD-502Plus* with data logging capabilities is also a well
+designed and easy to use instrument. I have not used any of the cheaper
+clones.
+
+I should mention here also the *SpectraVue Leaf Spectrometer* from CID
+Bio-Science. This is a **badly designed** instrument that returns **bad
+data**. It should not be used in scientific research. First it suffers
+from extreme problems of dark noise and stray light, as can be seen in
+the images in the company's own advertising. More importantly, because
+of the light source used and the configuration of the instrument
+entrance optics the sum of reflectance, transmittance and absorptance
+reported is very far from the theoretical value of one, but much larger,
+i.e., the values reported as reflectance, transmittance and absorptance,
+are not these physical quantities! (The company has been aware of these
+design problems for several years, as they recognized when I reported
+them several years ago in a exchange of several e-mails.)
+
+## Chlorophyll
+
+*In vivo* measurement of chlorophyll based on estimating leaf
+transmittance return concentrations expressed per unit leaf area. Given
+that many variables in the growing environment affect specific leaf area
+(SLA) differences in chlorophyll concentration between treatments depend
+on the base of expression. In practice, the direction of a response can
+be opposite when concentration is expressed per unit area and unit dry-
+or fresh-biomass.
+
+Chlorophyll is estimated based on the transmittance of the leaf at
+specific wavelengths where the pigment of interest in the main absorber
+of light. A leaf differs from a solution in that the chlorophyll
+distribution is not homogeneous. Chlorophyll is in the chloroplasts, and
+the location of chloroplasts within mesophyll cells changes in response
+to illumination. The changes in transmittance can even be used to study
+chloroplast accumulation movements [@justyna]. Thus, the relationship
+between chlorophyll concentration and light transmittance varies
+depending on illumination, specially blue light sensed by phototropins
+[@xxxx]. This has been described as a source of errors in chlorophyll
+measurements with the SPAD-502 instrument [@xxxx], but as this is an
+optical phenomenon in the plant it can be expected to affect of the
+instruments described here.
+
+The concentration of chlorophyll together with the lengthened path of
+photons inside a leaf due to scattering, makes of leaves very effective
+absorbers such that transmittance at the wavelength of maximum
+absorption by chlorophyll is extremely low, making the measurement of
+high concentrations of chlorophyll with instruments like the SPAD-502
+error-prone. The Dualex 4 introduced the approach of using a longer
+wavelength, were transmittance is higher but still mainly dependent on
+chlorophyll and little affected by other pigments and metabolites. There
+exits two versions of the MPM-100 instrument, the MPM-100 using an
+approach and wavelengths similar to the Dualex and the MPM-100/S that
+estimates chlorophyll using an approach similar to the SPAD-502.
+
+The light scattering within leaves decreases the apparent transmittance
+even in the absence of absorbing pigments. This effect is estimated by
+measuring the apparent transmittance of far-red or near-infrared light
+by the leaf, as at these wavelengths absorption by pigments is minimal.
+
+The readings are expected not to depend on which side of the leaf is
+illuminated. In fact, the Dualex 4 and the LSA-2050, illuminate opposite
+epidermis and use the same sensor for fluorescence and transmittance.
+Like the Dualex, the MPM-100 measures transmittance with illumination on
+the "measured" leaf side, but using different sensors for transmittance
+and fluorescence.
+
+## Epidermal pigments
+
+Fluorescence is dependent on the number of absorbed photons, this also
+applies to chlorophyll. Thus, a measurement of fluorescence behind the
+epidermis, from the chlorophyll in the mesophyll, can be used to
+estimate the transmittance of the epidermis if it is possible to
+estimate the fluorescence yield that can be expected in the absence of
+the epidermis. One approximation is to use a wavelength that is known
+not to be absorbed by the epidermis to  a reference value of
+fluorescence to compare against fluorescence at other wavelengths where
+the epidermis can absorb.
+
+This the principle of the Dualex, similar to the earlier approach used
+by the UVA-PAM, a modified Walz Mini-PAM. The Dualex, however, measures
+the fluorescence on the opposite side of the leaf from the excitation,
+while the UVA-PAM and the Walz LSA-2050 measure the fluorescence from
+the side of the leaf where the excitation light impings. While the
+Dualex can be used only on thin leaves, the LSA-2050 can be used on
+thicker objects like fruits (by removing the lower half of the head,
+which contains the light sources for estimation of chlorophyll based on
+transmittance across the leaf)
+
+The MPM-100 senses the chlorophyll fluorescence on the same side of the
+leaf as the excitation impings. However the head has a maximum opening
+that limits its use to thin objects like leaves.
+
+## Excitation wavelengths
+
+All the instruments described use LEDs as sources for excitation of
+fluorescence and for measurement of transmittance. The
+instruments differ in the excitation wavelengths used for assessing
+epidermal transmittance and in their number. The wavelengths used
+for assessing chlorophyll concentration based on whole-leaf transmittance
+also vary.
+
+| Instrument  | UV-B     | UV-A1    | Blue     | Green    | Red      | Chl                 |
+|:-----------|:-----------|:-----------|:-----------|:-----------|:-----------|:-----------|
+| LSA-2050    | 310 (15) | 365 (12) | 450 (14) | 530 (27) | 630 (24) | 715 (25) + 770 (30) |
+| MPM-100     |          | 375      |          | 525      | 660      | 720 + 850           |
+| MPM-100/S^*^ |         | 375      |          | 525      | 660      | 650 + 940           |
+| Dualex 4    |          | 375      |          | 520      | 630      | 720 + 810?          |
+| Dualex 3 FLAV |        | 375      |          |          | 630      |                     |
+| Dualex 3 ANTH^*^ |     |          |          | 520      | 630      |                     |
+| Dualex 3 CA | 310      |          |          |          | 630      |                     |
+| UVA-PAM^*^     |       | 375      | 470      |          |          |                     |
+| UVA-PAM/red^*^ |       | 375      |          |          | 630?     |                     |
+| Xe-PAM^*^ | 314 (18)   | 366 (32) | 475 (140) |         |          |                     |
+| SPAD-502    |          |          |          |          |          | 650 + 940           |
+
+: Excitation wavelengths used by the different instruments, full width half maximum (FWHM) given in parentheses when available. Instruments names followed by ^*^ indicate that the author has no direct experience in their use.
+
+## Cost
+
+The *SPAD-502Plus* seems to cost about 2500-3000 €, with various clones
+available in the range 600-1500 €. The *Dualex 4*, now from Pessl after the bankruptcy of Force-A,
+costs close to 4500 €, the *MPM-100* costs close to 3000 € and the *Walz
+LSA-2050* costs close to 6000 €. (These prices are very approximate as
+they vary depending on supplier, import taxes, etc., as well as with
+accessories ordered and in some cases configurations).
+
+## Comparisons in the literature
+
+## Data logging and further processing
+
+The LSA-2050 logs measurements to its internal memory and these data can be downloaded as an Excel workbook using a Windows program provided for free with the instrument and also available for download in its current version. The worksheets contain both hidden and visible values. Many of the values are computed by formulas in the worksheet, something that makes import more complex. The worksheets as returned by the LSA software do  seem to contain bare formulas, without cached computed values.
+
+The computed values are necessary for import into foreign software such as R. Thus, the calculated values need to be added to the worksheets. The workbook is compatible with LibreOffice, but in contrast to Excel that automatically calculates the values on file load, in LibreOffice a hard recalculation needs to be manually triggered to have the computed values displayed instead of zeros. After resaving the file it can be imported into R. At the moment, Linux and Mac OS X users are out-of-luck as no software for data download is yet available.
+
+There are multiple R packages capable of reading Excel worksheets from workbooks. The first package I tried was the popular 'readxl' and it worked on my first attempt. However, the data are in two separate worksheets within a workbook.
+
+::: callout-attention
+When computed values for formulas are not present, the cells are displayed filled with zeros. If precomputed values are lacking reading the file into R also results is the import of zeros instead of the computed values.
+:::
+
+The data in the "SAT chart" worksheet are time series with time points along rows, which is not how plotting functions of R expect the data to be organized. Because of this, even if the Excel worksheets can be easily read into R, additional processing is needed. In addition, in many cases only the computed values are needed for statitical analysis and plotting in R, making subsetting necessary after import.
+
+I have added function `read_walz_lsa_xlsx()` to package 'photobiologyInOut'. This function reads the worksheets, checks that the computed values are available, and if not replaces the filler zeros with `NA` markers with a warning. The data from both worksheets are combined into a single data frame. The SAT time series are stored in one data frame per sample, nested inside the main data frame containing all raw and computed data for each sample in one row. Different subsets of the data in the workbook can also be imported when not all data are needed.
+
+### Example
+
+```{r}
+library(dplyr)
+library(photobiologyInOut)
+library(ggplot2)
+library(ggpmisc)
+library(patchwork)
+```
+
+```{r}
+faba_light_before.df <-
+  read_walz_lsa_xlsx("lza-dualex-mpm-data/faba-light-before.xlsx")
+faba_light_before.df$condition <- "light.240min"
+```
+
+```{r}
+faba_20min_dark.df <-
+  read_walz_lsa_xlsx("lza-dualex-mpm-data/faba-20min-dark.xlsx")
+faba_20min_dark.df$condition <- "dark.20min"
+```
+
+```{r}
+faba_35min_dark.df <-
+  read_walz_lsa_xlsx("lza-dualex-mpm-data/faba-35min-dark.xlsx")
+faba_35min_dark.df$condition <- "dark.35min"
+```
+  
+```{r}
+faba_light_after.df <-
+  read_walz_lsa_xlsx("lza-dualex-mpm-data/faba-light-after.xlsx")
+faba_light_after.df$condition <- "light.10min"
+```
+
+```{r}
+faba_191_LSA.df <-
+  bind_rows(faba_light_before.df, 
+            faba_20min_dark.df,
+            faba_35min_dark.df,
+            faba_light_after.df) |>
+  mutate(condition = factor(condition),
+         condition = reorder(condition, Time))
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, nmol.cm2)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7) +
+  expand_limits(y = 0)
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, AFLAV)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7) +
+  expand_limits(y = 0)
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, AANTH)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7) +
+  expand_limits(y = 0)
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, FV.FM)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7)
+```
+
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, Fo)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7)
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, Fm)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7)
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(condition, Fm - Fo)) +
+  geom_boxplot() +
+  stat_multcomp(label.type = "letters", size = 2.7)
+```
+
+```{r}
+ggplot(faba_191_LSA.df, aes(nmol.cm2, AANTH)) +
+  geom_point() +
+  stat_correlation(use_label("r", "r.confint", "P"),
+                   label.x = "right") +
+  stat_ma_line() +
+  stat_ma_eq(use_label("eq"), label.y = "bottom") +
+  expand_limits(y = 0)
+```
+
+```{r}
+n <- 6 # "plant"
+
+(ggplot(faba_light_before.df$SAT.F.ls[[n]], aes(t, SAT.F)) +
+  geom_point() + 
+  geom_line() +
+  expand_limits(y = c(0, 1200))) +
+(ggplot(faba_20min_dark.df$SAT.F.ls[[n]], aes(t, SAT.F)) +
+  geom_point() + 
+  geom_line() +
+  expand_limits(y = c(0, 1200))) +
+(ggplot(faba_35min_dark.df$SAT.F.ls[[n]], aes(t, SAT.F)) +
+  geom_point() + 
+  geom_line() +
+  expand_limits(y = c(0, 1200))) +
+(ggplot(faba_light_after.df$SAT.F.ls[[n]], aes(t, SAT.F)) +
+  geom_point() + 
+  geom_line() +
+  expand_limits(y = c(0, 1200)))
+```
