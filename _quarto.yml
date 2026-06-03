@@ -8,6 +8,18 @@ website:
   favicon: r4p-favicon.png
   search: true
   draft-mode: visible
+  repo-url: https://github.com/aphalo/r4p-blog
+  repo-actions: [issue]
+  cookie-consent:
+    type: express
+    style: headline
+  announcement:
+    icon: box-seam
+    dismissable: true
+    content: "R package 'ggpmisc' on-line documentation updated!"
+    type: info
+    style: interstitial
+    position: below-navbar
   navbar:
     logo: r4p-logo.png
     right:
@@ -183,6 +195,7 @@ website:
     left:
       - text: "P. J. Aphalo @ ORCID"
         href: https://orcid.org/0000-0003-3385-972X
+
 format:
   html:
     theme: spacelab

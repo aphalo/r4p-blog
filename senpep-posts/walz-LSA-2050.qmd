@@ -113,22 +113,25 @@ accuracy.
 
 | Instrument  | Target  | Reference      | Quantity | Area |
 |:-----------|:-----------|:-----------|:-----------|:-----|
-| LSA-2050    | 715 (25) | 770 (30)      | conc.    | 
-| MPM-100     | 720      | 850           | conc.    |
-| MPM-100/S^*^ | 650     | 940           | SPAD index |
-| Dualex 4    | 720      | 810?          | conc.    |
-| MC-100      | 650      | 930           | conc.    |
-| CCM-200     | 650      | 930           | CCI index |
-| SPAD-502    | 650      | 940           | SPAD index |  6  |
-
+| LSA-2050    | 715 (25) | 770 (30)      | conc.    | 79/28 |
+| MPM-100     | 720      | 850           | conc.    |   71   |
+| MPM-100/S^*^ | 650     | 940           | SPAD index | 71   |
+| Dualex 4    | 720      | 810?          | conc.    |  20   |
+| MC-100^*^   | 650      | 930           | conc.    |  71  |
+| CCM-200^*^  | 650      | 930           | CCI index |  71    |
+| SPAD-502^+^ | 650      | 940           | SPAD index |  6  |
 
 : Instruments for the non-destructive measurement of chlorophyll concentration
 based on leaf transmittance. Target and reference wavelengths, full width half
-maximum (FWHM) given in parentheses when available. Instruments names followed
-by ^*^ indicate that the author has no direct experience in their use. The
-MPM-100 is also available in customized versions based on LEDs emitting at
+maximum (FWHM) given in parentheses when available. Qauntities are approximate
+concentrations or indexes with arbitrary units. The measured area is given in 
+$\mathrm{mm}^2$ and in the case of the LSA-2050 can be reduced with a supplied
+mask for use on small leaves. Notes: ^*^no user experience by author. 
+^+^The SPAD-502 and SPAD-502 Plus, are identical except for the data logging
+available in the Plus version. The
+MPM-100 is available in customized versions based on LEDs emitting at
 non-standard wavelengths. The Walz LSA-2050 measures in addition to
-transmittance chlorophyll fluorescence Fv/Fm.
+transmittance chlorophyll fluorescence $Fv/Fm$.
 
 The readings are expected not to depend on which side of the leaf is
 illuminated. In fact, the Dualex 4 and the LSA-2050, measure transmittance in
@@ -379,9 +382,29 @@ Force-A, costs close to 4500 €, the *MPM-100* costs close to 3000 € and the
 vary depending on supplier, import taxes, etc., as well as with accessories
 ordered and in some cases with the instrument configuration).
 
-## Comparisons in the literature
+## Instrument tests and intercomparisons
 
-## Data logging and data excahnge
+| Instruments compared | Measured | Variation from | Reference |
+|:---------------------|:------------|:------------|:----------|
+| SPAD-502, MC-100, Multiplex 3.6, atLEAF+ | Chl | Nitrogen supply | @Padilla2018 |
+| SPAD-502, CCM-200, Dualex 4 | Chl | Four crops | @Dong2019 |
+| SPAD-502, CCM-200 | Chl | 22 species | @Parry2014 |
+| SPAD-502, Dualex  | Chl + Flav | Multiple | @Meyer2006 |
+| Dualex 4, LSA-2050, UV-A-PAM | Chl + Flav + Anth | Irradiance | @Bilger2026 |
+
+## Data logging and data exchange
+
+In this section I only discuss equipment that I have used and are capable of 
+storing data.
+
+### Dualex 4
+
+
+### MPM-100
+
+The MPM-100 logs measurements to its internal memory. It logs both computed values and raw values. The computed values are calculated based on instructions in a script, with a default script preinstalled. The data are downloaded as a single Excel worksheet. The values in the worksheet are numerical, not equations, simplifying import of the data.
+
+I could not find in the documentation information on whether the excitation is at constant irradiance or if it varies depending on how much is the fluorescence yield. Knowing this would be of interest when when interpreting the raw fluorescence values.
 
 ### LSA-2050
 
@@ -519,3 +542,8 @@ n <- 6 # "plant"
   geom_line() +
   expand_limits(y = c(0, 1200)))
 ```
+
+### References
+
+::: {#refs}
+:::
