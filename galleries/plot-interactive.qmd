@@ -1,11 +1,11 @@
 ---
-title: "Fitted-model labels with 'ggpmisc' and 'plotly'"
+title: "Fitted-model labels with 'ggpmisc' and 'plotly' or 'ggiraph'"
 subtitle: "Interactive ggplots with model equations, _R_<sup>2</sup>, _F_, _P_, etc."
 author: "Pedro J. Aphalo"
 date: "2023-06-25"
-date-modified: "2023-06-26"
-keywords: [ggplot2 pkg, ggpp pkg, ggpmisc pkg, plotly pkg, plot annotations, model equations]
-categories: [plotting, data visualization, ggpp, ggpmisc, plotly, ggplot2]
+date-modified: "2026-06-05"
+keywords: [ggplot2 pkg, ggpmisc pkg, plotly pkg, ggiraph pkg, plot annotations, model equations]
+categories: [plotting, data visualization, ggpp, ggpmisc, ggplot2]
 abstract: |
   Example R code for _interactive_ plots based on package [ggplot2](https://ggplot2.tidyverse.org/) using geometries defined in package [ggpp](https://docs.r4photobiology.info/ggpp) and statistics from package [ggpmisc](https://docs.r4photobiology.info/ggpmisc) together with package [plotly](https://plotly.com/ggplot2/). This page is a draft and currently contains a single plot example.
 editor: 
@@ -15,12 +15,11 @@ format:
   html: 
     code-link: true
     code-tools: true
+    html-math-method: mathjax
 ---
 
 ::: callout-warning
-To get the output of 'plotly' included by Quarto in the HTML output, currently the pre-release of Quarto 1.4.x is required.
-
-It is possible to combine 'ggpmisc' and 'plotly' in the same plot but only by using the most basic formatting of the equation. I give for the time being a single example.
+At the moment support for math typesetting in interactive plots is very limited in R. 'plotly', at least in older versions, did support rendering of $\LaTeX$-encoded labels with 'mathjax'. Based on issues at GitHub and the very sparse documentation on the subject, this no longer can be expected to work out of the box, if at all. At least the examples in the 'plotly' documentation no longer render as expected.
 :::
 
 ::: callout-tip
@@ -80,32 +79,35 @@ library(plotly)
 theme_set(theme_bw())
 ```
 
-# Using 'plotly'
-
-Plotly can convert a regular ggplot into an interactive plot that can be
-embedded in HTML output. The advantage is that one uses the usual layer
-functions, and the disadvantage is that possible control of output is rather
-limited. It is implemented as a parsing engine that recognizes only some
-'ggplot2' layer functions. As can be seen in the example below this approach
-makes rendering math as R expressions not possible and text labels marked to be
-parsed into expressions are displayed as unparsed text.
-
-Several of the statistics from 'ggpmisc' can still be used as they also
-support the generation of text labels as plain text but the
-resulting annotations are not as nice as when using R graphic devices.
+Artificial data.
 
 ```{r}
+set.seed(1)
 df <- data.frame(x = c(1:100))
 df$y <- 2 + 3 * df$x + rnorm(100, sd = 40)
+df$idx <- paste("id", df$x, sep = "-")
 ```
 
-Even though this example works without problems at the R console, I was not able to get it to work under Quarto 1.3.x. Recently, I ungraded the building of the web site to the pre-release of Quarto 1.4.x and now 'plotly' works, as can be seen below!
+# Using 'plotly'
+
+R package 'plotly' can convert a regular ggplot into an interactive plot that
+can be embedded in HTML output. Thus the usual Grammar of Graphics familiar 
+to 'ggplot2' users can be used to create interactive plots. The disadvantage is that only a rather small subset of existing geoms are supported. The reason is that 'plotly' is implemented as a parsing engine that recognizes only known
+'ggplot2' layer functions. 
+
+The geometries defined in R package 'ggpp', used by default in several of the
+stats in 'ggpmisc' are not supported. These stats can still be used together with geoms from 'ggplot2' with some limitations. The main one of these is that 'plotly' does not support `plotmath` expressions. The stats from 'ggpmisc' can generate text strings mapped to the `label` aesthetic encoded as plain text but the resulting annotations are not as nice as when rendering `plotmath` expressions using R graphic devices.
+
+Recent versions of 'quarto' do support this approach. 
 
 ```{r}
-#| fig-cap: Works with Quarto 1.4.x!
+#| fig-cap: Works with Quarto >= 1.4.0
 my.formula <- y ~ x
-p <- ggplot(data = df, aes(x = x, y = y)) +
-  geom_smooth(method = "lm", se=FALSE, color="black", formula = my.formula) +
+p1 <- ggplot(data = df, aes(x = x, y = y)) +
+  stat_poly_line(method = "lm", 
+                 se=FALSE, 
+                 color="black", 
+                 formula = my.formula) +
   stat_poly_eq(geom = "text",
                output.type = "text",
                formula = my.formula,
@@ -113,13 +115,74 @@ p <- ggplot(data = df, aes(x = x, y = y)) +
                label.x = 20) +
   geom_point()
 
-ggplotly(p)
+ggplotly(p1)
 ```
 
+'ggpmisc' (>= 0.7.0) fully supports encoding labels using $\LaTeX$ markup, potentially opening and additional route to nicely rendered fitted model equations. However, this feature seems to be broken in 'plotly' as the example in the help page `plotly::TeX()` also fails to render correctly. Has $\LaTeX$ support with 'mathjax' been removed? or is this a setup problem?
 
-## Alternatives
+```{r}
+#| fig-cap: Does not work with Quarto 1.9.x!
+my.formula <- y ~ x
+p2 <- ggplot(data = df, aes(x = x, y = y)) +
+  stat_poly_line(method = "lm", 
+                 se=FALSE, 
+                 color="black", 
+                 formula = my.formula) +
+  stat_poly_eq(geom = "text",
+               output.type = "latex",
+               formula = my.formula,
+               mapping = aes(label = after_stat(TeX(eq.label))),
+               label.x = 20) +
+  geom_point()
+
+ggplotly(p2)
+```
+
+# Using 'ggiraph'
+
+```{r}
+detach(package:plotly)
+library(ggiraph)
+```
+
+R package 'ggiraph' seems not to render layers with data computed by stats, preventing both model equations and the prediction line from being rendered. Although this example uses stats from 'ggpmisc' the example in the Appendix that relies purely on 'ggplot2' fails in the same way.
+
+```{r}
+#| fig-cap: Equation and fitted model line are not displayed!
+my.formula <- y ~ x
+p3 <- ggplot(data = df, aes(x = x, y = y,
+                           tooltip = round(y, 0), data_id = idx)) +
+  stat_poly_line(method = "lm", 
+                 se = FALSE, 
+                 color="black", 
+                 formula = my.formula) +
+  stat_poly_eq(formula = my.formula,
+               mapping = use_label(c("eq", "R2"), sep = ",  "),
+               label.x = 20) +
+  geom_point_interactive()
+
+girafe(ggobj = p3)
+```
+
+## Test
+
+Example not using 'ggpmisc' also fails.
+
+```{r}
+detach(package:ggpmisc)
+```
+
+```{r}
+#| fig-cap: Fitted model line and confidence band are not displayed!
+p4 <- ggplot(data = df, aes(x = x, y = y,
+                           tooltip = round(y, 0), data_id = idx)) +
+  stat_smooth(method = "lm", 
+                   formula =  y ~ x) +
+  geom_point_interactive()
+
+girafe(ggobj = p4)
+```
 
 ::: callout-tip
-I have not yet tested 'ggigraph' together with 'ggpmisc', but I plan to, as it seems to allow finer grained control of the interaction. On the other hand, it could be incompatible.
+The possibilities remain rather limted at the moment for the creation of interactive plots with 'ggpmisc'.
 :::
-
