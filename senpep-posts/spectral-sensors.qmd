@@ -1,6 +1,6 @@
 ---
 title: "Digital light sensors"
-subtitle: "Miniature mutichannel integrated circuits"
+subtitle: "Miniature multichannel integrated circuits"
 date: 2025-08-19
 date-modified: 2026-06-03
 author: "Pedro J. Aphalo"
@@ -40,13 +40,13 @@ options(warnPartialMatchArgs = FALSE)
 
 ## Modern digital light sensors
 
-In the past, and still currently, most light sensors used for quantification of photosynthetically active radiation, for spectific bands within PAR and for FR are constructed based on discrete silicon photodiodes and optical filters, delivering a low voltage analogue signal.
+In the past, and still currently, most light sensors used for quantification of photosynthetically active radiation, for specific bands within PAR and for FR are constructed based on discrete silicon photodiodes and optical filters, delivering a low voltage analogue signal.
 
-In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardised serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes.
+In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardized serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes.
 
-One of the key advances is the depostion of interferece filters directly on the IC chip, selectively on individual photodiodes. The incorporation of signal amplification makes it possible to rely on smaller photodiodes and by implementing gain adjustments increase the dynamic range. Furthermore, the implementation of an ADC in the same chip and relying on digital communication avoids noise pickup in the wiring and makes possible the use of much simpler and cheaper circuits to acquire and log the data. Miniaturization also reduces power requirememts.
+One of the key advances is the deposition of interference filters directly on the IC chip, selectively on individual photodiodes. The incorporation of signal amplification makes it possible to rely on smaller photodiodes and by implementing gain adjustments increase the dynamic range. Furthermore, the implementation of an ADC in the same chip and relying on digital communication avoids noise pickup in the wiring and makes possible the use of much simpler and cheaper circuits to acquire and log the data. Miniaturization also reduces power requirements.
 
-Integrated digital sensors, even if calibrations are frequently applied during manufacture, aim to be cheap and thus their specifications can have wider waveelngth tolerances under test conditions. However, some of these new IC sensors have temperature compensation and a temperature sensor also integrated resulting in extremely low and consistent dark noise readings and a large dynamic range.
+Integrated digital sensors, even if calibrations are frequently applied during manufacture, aim to be cheap and thus their specifications can have wider wavelength tolerances under test conditions. However, some of these new IC sensors have temperature compensation and a temperature sensor also integrated resulting in extremely low and consistent dark noise readings and a large dynamic range.
 
 A key supplier of this type of digital sensors is [ams OSRAM](https://ams-osram.com/products/sensor-solutions/ambient-light-color-spectral-proximity-sensors/) that offers many different variations aiming at different applications. [Vishay](https://www.vishay.com/en/optoelectronics/) has also developed some sensors with a limited number of channels. All these sensors are extremely small and encapsulated as surface mounted devices (SMD) in very small packages (e.g., $2 \times 3 \times 1$ mm) with a tiny window.
 

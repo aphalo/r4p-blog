@@ -32,7 +32,7 @@ dry-mass or per unit fresh-mass.
 
 Leaves have a heterogeneous internal structure with many gas-liquid and 
 liquid-solid interfaces. These interfaces scatter and reflect light while
-travelling inside a leaf. This lengthens the path of photons within the leaf
+traveling inside a leaf. This lengthens the path of photons within the leaf
 enhancing absorption by pigments and altering the relationship between 
 absorbance and concentration compared to the same concentration of pigments
 in a homogeneous solution. Because of this, the methods described below,
@@ -76,7 +76,7 @@ even in the absence of absorbing pigments. This effect is estimated by
 measuring the apparent transmittance of far-red or near-infrared light
 by the leaf, as at these wavelengths absorption by pigments is minimal.
 Scattering is almost complete in leaves, and in the far-red region, because 
-of the absence of absoption by pigments, approximately half of the incident
+of the absence of absorption by pigments, approximately half of the incident
 light exits the leaf through each epidermis. The different instruments
 measure the attenuation of radiation in this region as a reference.
 
@@ -123,7 +123,7 @@ accuracy.
 
 : Instruments for the non-destructive measurement of chlorophyll concentration
 based on leaf transmittance. Target and reference wavelengths, full width half
-maximum (FWHM) given in parentheses when available. Qauntities are approximate
+maximum (FWHM) given in parentheses when available. Quantities are approximate
 concentrations or indexes with arbitrary units. The measured area is given in 
 $\mathrm{mm}^2$ and in the case of the LSA-2050 can be reduced with a supplied
 mask for use on small leaves. Notes: ^*^no user experience by author. 
@@ -167,7 +167,7 @@ expressed. @Markwell1995 described the value of $k$ as more dependent on the
 instrument than on the plant species or genotype. However, differences in
 anatomy can be expected to affect the relationship between transmittance and
 concentration, independently of the instrument used. The advantage of using
-this function comapred to a polynomial or spline, is that it constrains the
+this function compared to a polynomial or spline, is that it constrains the
 shape of the curve, which is important when calibrations are based on limited
 data.
 
@@ -202,9 +202,9 @@ photodiodes, in most cases filtered, as detectors. They are hand-held devices
 for non destructive measurements of thin leaves, and in some cases also suitable
 for thick leaves, fruits and stems. Walz's Xe-PAM in the exception, it uses a
 filtered Xenon lamp as light source and a photo-multiplier tube as detector, is
-not hanheld and usually used in a laboratory.
+not handheld and usually used in a laboratory.
 
-The instruemnts in @tab-epidermis-tfr rely on the excitation of chlorophyll
+The instruments in @tab-epidermis-tfr rely on the excitation of chlorophyll
 fluorescence with its intensity used as reporter inside the leaf for estimation
 of the transmittance of the epidermis. All the Dualex instruments sense the
 fluorescence on the opposite side of the leaf to the excitation, while other
@@ -258,7 +258,7 @@ parentheses when available. Instruments names followed by ^*^ indicate that the
 author has no direct experience in their use.
 
 A significant part of light "reflected" from a leaf is scattered light that
-has travelled inside the leaf and been partly absorbed by pigments, rather than
+has traveled inside the leaf and been partly absorbed by pigments, rather than
 reflected at the leaf surface. Thus, similarly to transmittance, reflectance 
 at specific wavelengths, can inform about pigments within leaves. The PlantPen
 instruments from PSI, as well as remote sensing, RGB and spectral imaging of
@@ -410,7 +410,7 @@ I could not find in the documentation information on whether the excitation is a
 
 The LSA-2050 logs measurements to its internal memory and these data can be downloaded as an Excel workbook using a Windows program provided for free with the instrument and also available for download in its current version. The worksheets contain both hidden and visible values. Many of the values are computed by formulas in the worksheet, something that makes import more complex. The worksheets as returned by the LSA software do  seem to contain bare formulas, without cached computed values.
 
-The computed values are necessary for import into foreign software such as R. Thus, the calculated values need to be added to the worksheets. The workbook is compatible with LibreOffice, but in contrast to Excel that automatically calculates the values on file load, in LibreOffice a hard recalculation needs to be manually triggered to have the computed values displayed instead of zeros. After resaving the file it can be imported into R. At the moment, Linux and Mac OS X users are out-of-luck as no software for data download is yet available.
+The computed values are necessary for import into foreign software such as R. Thus, the calculated values need to be added to the worksheets. The workbook is compatible with LibreOffice, but in contrast to Excel that automatically calculates the values on file load, in LibreOffice a hard recalculation needs to be manually triggered to have the computed values displayed instead of zeros. After saving the file it can be imported into R. At the moment, Linux and Mac OS X users are out-of-luck as no software for data download is yet available.
 
 There are multiple R packages capable of reading Excel worksheets from workbooks. The first package I tried was the popular 'readxl' and it worked on my first attempt. However, the data are in two separate worksheets within a workbook.
 
@@ -418,7 +418,7 @@ There are multiple R packages capable of reading Excel worksheets from workbooks
 When computed values for formulas are not present, the cells are displayed filled with zeros. If precomputed values are lacking reading the file into R also results is the import of zeros instead of the computed values.
 :::
 
-The data in the "SAT chart" worksheet are time series with time points along rows, which is not how plotting functions of R expect the data to be organized. Because of this, even if the Excel worksheets can be easily read into R, additional processing is needed. In addition, in many cases only the computed values are needed for statitical analysis and plotting in R, making subsetting necessary after import.
+The data in the "SAT chart" worksheet are time series with time points along rows, which is not how plotting functions of R expect the data to be organized. Because of this, even if the Excel worksheets can be easily read into R, additional processing is needed. In addition, in many cases only the computed values are needed for statistical analysis and plotting in R, making sub-setting necessary after import.
 
 I have added function `read_walz_lsa_xlsx()` to package 'photobiologyInOut'. This function reads the worksheets, checks that the computed values are available, and if not replaces the filler zeros with `NA` markers with a warning. The data from both worksheets are combined into a single data frame. The SAT time series are stored in one data frame per sample, nested inside the main data frame containing all raw and computed data for each sample in one row. Different subsets of the data in the workbook can also be imported when not all data are needed.
 
