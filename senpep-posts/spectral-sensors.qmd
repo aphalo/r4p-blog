@@ -17,7 +17,7 @@ format:
     code-link: true
     code-tools: true
 abstract: |
-  Brief description of modern multichannel digital light sensors as components suitable for the construction of complete weather-proof sensors.
+  Brief description of a selection of modern multichannel digital light sensors available as electronic components suitable for the construction of complete, possibly weather-proof, sensors. This description emphasizes their optical properties.
 draft: false
 ---
 
@@ -42,23 +42,26 @@ options(warnPartialMatchArgs = FALSE)
 
 In the past, and still currently, most light sensors used for quantification of photosynthetically active radiation, for specific bands within PAR and for FR are constructed based on discrete silicon photodiodes and optical filters, delivering a low voltage analogue signal.
 
-In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardized serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes.
+In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardized serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes. They can be connected directly to a microcontroller or a single-board-computer.
 
-One of the key advances is the deposition of interference filters directly on the IC chip, selectively on individual photodiodes. The incorporation of signal amplification makes it possible to rely on smaller photodiodes and by implementing gain adjustments increase the dynamic range. Furthermore, the implementation of an ADC in the same chip and relying on digital communication avoids noise pickup in the wiring and makes possible the use of much simpler and cheaper circuits to acquire and log the data. Miniaturization also reduces power requirements.
+A recent advance in the design of solid-state integrated "light" sensors has been the deposition of interference filters directly on the IC chip, selectively on individual photodiodes. Together with on-chip analogue signal amplification it makes possible the use of small photodiodes. As the amplification gain can be adjusted, the dynamic range is enhanced. Furthermore, including an analogue to digital converter (ADC) in the same chip and relying on digital communication avoids noise pickup in the wiring. Miniaturization also reduces power requirements.
 
-Integrated digital sensors, even if calibrations are frequently applied during manufacture, aim to be cheap and thus their specifications can have wider wavelength tolerances under test conditions. However, some of these new IC sensors have temperature compensation and a temperature sensor also integrated resulting in extremely low and consistent dark noise readings and a large dynamic range.
+Integrated digital sensors, even if calibrations are frequently applied during manufacture, aim to be cheap and thus their specifications can have wider wavelength tolerances under test conditions. However, some of these new IC sensors have temperature compensation and a temperature sensor also integrated resulting in extremely low and consistent dark noise readings making high amplification gain possible, contributing to an enhanced dynamic range.
 
-A key supplier of this type of digital sensors is [ams OSRAM](https://ams-osram.com/products/sensor-solutions/ambient-light-color-spectral-proximity-sensors/) that offers many different variations aiming at different applications. [Vishay](https://www.vishay.com/en/optoelectronics/) has also developed some sensors with a limited number of channels. All these sensors are extremely small and encapsulated as surface mounted devices (SMD) in very small packages (e.g., $2 \times 3 \times 1$ mm) with a tiny window.
+All these sensors are extremely small and encapsulated as surface mounted devices (SMD) in very small packages (e.g., $2 \times 3 \times 1$ mm) with a tiny window. As they are based on interference filters their angle of acceptance is narrow, in many cases only 20 degrees.
 
-When bought as components in quantity they are very cheap (3 to 15 €). Given their size, for prototyping and custom assembly they are easier to use if bought as "break out boards" (10 to 25 €), i.e., ready soldered on a small printed circuit board (PCB) to easy the task of connecting them. They cannot be used on their own, they need to be connected to a micro-controller or single-board-computer to acquire the data and control their settings. 
+Analogue amplification gain and the integration time in the ADC are set using the same communication link as for transmitting data. Thus, the instructions controlling the settings are sent by the same microcontroller or microcomputer board used to collect the data. Miniaturization and the use of low voltages makes these sensors very energy efficient, but the length or wiring between the sensor IC and the microcontroller is limited to a few centimetres.
+
+A key supplier of digital light sensor ICs is [ams OSRAM](https://ams-osram.com/products/sensor-solutions/ambient-light-color-spectral-proximity-sensors/) that offers many different multichannel sensors aiming at different applications. The main differences are in the number of channels and their wavelength sensitivity.  [Vishay](https://www.vishay.com/en/optoelectronics/) has also developed similar sensors with a limited number of channels. 
+When bought as components in quantity they are very cheap (3 to 15 €). Given their size, for prototyping and custom assembly they are easier to use if bought as "break out boards" (10 to 25 €), i.e., ready soldered on a small printed circuit board (PCB) to easy the task of connecting them. These sensor, even when soldered on break out boards, cannot be used on their own. They need to be connected to a micro-controller or single-board-computer to acquire the data and control their settings. 
 
 The Swiss company [YoctoPuce](https://www.yoctopuce.com/) has developed USB modules containing a microcontroller, memory, an isolated power supply and a USB interface. These modules have a built in data logger and a webserver-based user interface as well as a programming API. Through a hub they can be accessed remotely through the Internet or LAN. These modules cost more than the bare sensor ICs (40 to 100 €) but provide a readily usable solution. Their [Yocto-Spectral USB module](https://www.yoctopuce.com/EN/products/usb-environmental-sensors/yocto-spectral) based on ams OSRAM's AS743 digital spectral sensor when used for measuring irradiance require the addition of a diffuser. This module has built-in LEDs for measuring reflectance. 
 
 Aranet has just released a weather proof sensor with a cosine diffuser and a LoRa interface that connects through a base station, likely based on a digital spectral sensor. This sensor is sold for 1000 € + VAT, and although the easiest to use being a ready made field sensor, it lacks flexibility in the precomputed data summaries or access to raw data from individual channels.
 
-For all these sensors, the wavelength and channel sensitivity guaranteed in specifications have rather loose tolerances. In most cases electronic components are closer to the typical specifications than the tolerance limits.
+For all these sensors, the wavelength and channel sensitivity guaranteed in specifications have rather loose tolerances. However, in most cases electronic components are closer to the typical specifications than the tolerance limits.
 
-Examples of promising digital sensors that could be useful in agriculture and other fields are given below.
+Examples of digital sensors that I think can be useful in agriculture and in related research fields such as ecology and physiology of plants are given below.
 
 ::: callout-note
 # UV Sensor VML6075 from Vishay
@@ -81,7 +84,7 @@ autoplot(sensors.mspct$ams_AS7331,
          w.band = UV_bands("CIE"), range = c(200, 450))
 ```
 
-Sensitivity of Si photodiodes to UV radiation decreases with decreasing wavelength, but the design compensates for this using a photodiodes with larger area to compensate.
+Sensitivity of Si photodiodes to UV radiation decreases with decreasing wavelength, but the design compensates for this using a photodiodes with larger area in this sensor than in those for VIS radiation.
 
 :::
 
@@ -116,6 +119,30 @@ The TSL2591 from ams OSRAM is a digital illuminance sensor with two channels, na
 
 ```{r}
 autoplot(sensors.mspct$ams_TSL2591, 
+         w.band = VIS_bands())
+```
+
+:::
+
+::: callout-note
+# Spectral VIS sensor AS7263 from ams OSRAM
+
+The AS7262 from ams OSRAM is a digital VIS sensor with 6 channels. This sensor has regularly spaced wavelength bands with a FWHM of 20 nm.
+
+```{r}
+autoplot(sensors.mspct$ams_AS7263, 
+         w.band = VIS_bands())
+```
+
+:::
+
+::: callout-note
+# Spectral IR sensor AS7263 from ams OSRAM
+
+The AS7263 from ams OSRAM is a digital red + NIR sensor with 6 channels. This sensor has been used in instruments for estimation of NDVI.
+
+```{r}
+autoplot(sensors.mspct$ams_AS7263, 
          w.band = VIS_bands())
 ```
 

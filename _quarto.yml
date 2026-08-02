@@ -16,7 +16,7 @@ website:
   announcement:
     icon: box-seam
     dismissable: true
-    content: "R package 'ggpmisc' on-line documentation updated!"
+    content: "R package 'ggpmisc' version 1.0 is in CRAN (10+ years aniversary)!"
     type: info
     style: interstitial
     position: below-navbar
