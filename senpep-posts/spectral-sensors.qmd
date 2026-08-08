@@ -2,7 +2,7 @@
 title: "Digital light sensors"
 subtitle: "Miniature multichannel integrated circuits"
 date: 2025-08-19
-date-modified: 2026-06-03
+date-modified: 2026-08-01
 author: "Pedro J. Aphalo"
 keywords: [light sensors, multichannel, digital]
 categories: [measurement and control]
@@ -22,6 +22,7 @@ draft: false
 ---
 
 ```{r, message=FALSE}
+#| label: set-up-packages
 library(ggspectra)
 library(photobiologyWavebands)
 library(photobiologySensors)
@@ -31,6 +32,7 @@ theme_set(theme_bw())
 ```
 
 ```{r, include=FALSE}
+#| label: set-up-knitr
 library(knitr)
 opts_chunk$set(fig.align = 'center', 
                fig.show = 'hold', fig.width = 7, fig.height = 4,
@@ -38,11 +40,11 @@ opts_chunk$set(fig.align = 'center',
 options(warnPartialMatchArgs = FALSE)
 ```
 
-## Modern digital light sensors
+## Modern Digital Light Sensors
 
-In the past, and still currently, most light sensors used for quantification of photosynthetically active radiation, for specific bands within PAR and for FR are constructed based on discrete silicon photodiodes and optical filters, delivering a low voltage analogue signal.
+Traditionally, and in many current applications, light sensors used to quantify photosynthetically active radiation (PAR)—including specific bands within the PAR spectrum and far-red (FR)—rely on discrete silicon photodiodes and optical filters to produce low-voltage analog signals.
 
-In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardized serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes. They can be connected directly to a microcontroller or a single-board-computer.
+In recent years integrated circuits (ICs) based on CMOS technology including photodiodes, analogue amplification, analogue to digital conversion (ADC) and supporting standardized serial digital communication protocols have been developed for different purposes. Some of them are good enough to replace with advantage discrete photodiodes. They can be connected directly to a microcontroller (e.g., boards such as Arduino UNO, Raspberry Pi Pico, ESP32 Dev Kit, etc.) or a single-board-computer (e.g., Raspberry Pi, Teensy, etc.).
 
 A recent advance in the design of solid-state integrated "light" sensors has been the deposition of interference filters directly on the IC chip, selectively on individual photodiodes. Together with on-chip analogue signal amplification it makes possible the use of small photodiodes. As the amplification gain can be adjusted, the dynamic range is enhanced. Furthermore, including an analogue to digital converter (ADC) in the same chip and relying on digital communication avoids noise pickup in the wiring. Miniaturization also reduces power requirements.
 
@@ -55,9 +57,9 @@ Analogue amplification gain and the integration time in the ADC are set using th
 A key supplier of digital light sensor ICs is [ams OSRAM](https://ams-osram.com/products/sensor-solutions/ambient-light-color-spectral-proximity-sensors/) that offers many different multichannel sensors aiming at different applications. The main differences are in the number of channels and their wavelength sensitivity.  [Vishay](https://www.vishay.com/en/optoelectronics/) has also developed similar sensors with a limited number of channels. 
 When bought as components in quantity they are very cheap (3 to 15 €). Given their size, for prototyping and custom assembly they are easier to use if bought as "break out boards" (10 to 25 €), i.e., ready soldered on a small printed circuit board (PCB) to easy the task of connecting them. These sensor, even when soldered on break out boards, cannot be used on their own. They need to be connected to a micro-controller or single-board-computer to acquire the data and control their settings. 
 
-The Swiss company [YoctoPuce](https://www.yoctopuce.com/) has developed USB modules containing a microcontroller, memory, an isolated power supply and a USB interface. These modules have a built in data logger and a webserver-based user interface as well as a programming API. Through a hub they can be accessed remotely through the Internet or LAN. These modules cost more than the bare sensor ICs (40 to 100 €) but provide a readily usable solution. Their [Yocto-Spectral USB module](https://www.yoctopuce.com/EN/products/usb-environmental-sensors/yocto-spectral) based on ams OSRAM's AS743 digital spectral sensor when used for measuring irradiance require the addition of a diffuser. This module has built-in LEDs for measuring reflectance. 
+The Swiss company [YoctoPuce](https://www.yoctopuce.com/) has developed USB modules containing a microcontroller, memory, an isolated power supply and a USB interface. These modules have a built in data logger and a webserver-based user interface as well as a programming API. Through a hub they can be accessed remotely through the Internet or LAN. These modules cost more than the bare sensor ICs (40 to 100 €) but provide a readily usable solution. Their [Yocto-Spectral USB module](https://www.yoctopuce.com/EN/products/usb-environmental-sensors/yocto-spectral) based on ams OSRAM's AS743 digital spectral sensor when used for measuring irradiance require the addition of a diffuser. This module has built-in LEDs for measuring reflectance.
 
-Aranet has just released a weather proof sensor with a cosine diffuser and a LoRa interface that connects through a base station, likely based on a digital spectral sensor. This sensor is sold for 1000 € + VAT, and although the easiest to use being a ready made field sensor, it lacks flexibility in the precomputed data summaries or access to raw data from individual channels.
+[Aranet](https://aranet.com/en/pro) recently launched [a weatherproof sensor](https://aranet.com/en/pro/news/aranet-ledgnd-partner-on-real-time-light-insights) featuring a cosine diffuser and a LoRa interface that connects to a base station; it is presumed to utilize a digital spectral sensor. Sold for €1,000 + VAT, this ready-made field sensor offers high ease of use but lacks flexibility regarding precomputed data summaries and does not provide access to raw data from individual channels.
 
 For all these sensors, the wavelength and channel sensitivity guaranteed in specifications have rather loose tolerances. However, in most cases electronic components are closer to the typical specifications than the tolerance limits.
 
@@ -69,6 +71,7 @@ Examples of digital sensors that I think can be useful in agriculture and in rel
 The VML6075 from Vishay is a digital UV sensor with two channels, named UVB and UVA in the documentation but closer to UVA1 and UVA2 in reality. Vishay provides an algorithm to compute UVI. This sensor is still available from distributors but its manufacture has been discontinued by Vishay.
 
 ```{r}
+#| label: fig-VEML6075
 autoplot(sensors.mspct$Vishay_VEML6075, 
          w.band = UV_bands("CIE"), range = c(280, 450))
 ```
@@ -80,6 +83,7 @@ autoplot(sensors.mspct$Vishay_VEML6075,
 The AS7331 from ams OSRAM is a digital UV-radiation sensor with three channels, named UVC, UVB and UVA in the documentation. The band separation is rather good for computing UVI in sunlight and the usual artificial UV radiation sources.
 
 ```{r}
+#| label: fig-AS7331
 autoplot(sensors.mspct$ams_AS7331, 
          w.band = UV_bands("CIE"), range = c(200, 450))
 ```
@@ -94,6 +98,7 @@ Sensitivity of Si photodiodes to UV radiation decreases with decreasing waveleng
 The AS7343 from ams OSRAM is a digital VIS and NIR sensor with 13 channels. This sensor seems like the most useful for measuring light from the perspective of plants as it seems possible to estimate PAR, ePAR and FR.
 
 ```{r}
+#| label: fig-AS7343
 autoplot(sensors.mspct$ams_AS7343, 
          w.band = VIS_bands())
 ```
@@ -106,6 +111,7 @@ autoplot(sensors.mspct$ams_AS7343,
 The AS7341 from ams OSRAM is a digital spectral VIS and IR sensor with 10 channels. The channels have wavebands of similar width suggesting that it could work well as a spectrometer for visible light. From the perspective of measuring light as relevant to plants, it lacks a far-red channel.
 
 ```{r}
+#| label: fig-AS7341
 autoplot(sensors.mspct$ams_AS7341, 
          w.band = VIS_bands())
 ```
@@ -118,6 +124,7 @@ autoplot(sensors.mspct$ams_AS7341,
 The TSL2591 from ams OSRAM is a digital illuminance sensor with two channels, named ch0 and ch1 in the documentation. Illuminance can be obtained by subtracting the NIR sensed by ch1 from ch0.
 
 ```{r}
+#| label: fig-TSL2591
 autoplot(sensors.mspct$ams_TSL2591, 
          w.band = VIS_bands())
 ```
@@ -125,12 +132,13 @@ autoplot(sensors.mspct$ams_TSL2591,
 :::
 
 ::: callout-note
-# Spectral VIS sensor AS7263 from ams OSRAM
+# Spectral VIS sensor AS7262 from ams OSRAM
 
 The AS7262 from ams OSRAM is a digital VIS sensor with 6 channels. This sensor has regularly spaced wavelength bands with a FWHM of 20 nm.
 
 ```{r}
-autoplot(sensors.mspct$ams_AS7263, 
+#| label: fig-AS7262
+autoplot(sensors.mspct$ams_AS7262, 
          w.band = VIS_bands())
 ```
 
@@ -142,11 +150,20 @@ autoplot(sensors.mspct$ams_AS7263,
 The AS7263 from ams OSRAM is a digital red + NIR sensor with 6 channels. This sensor has been used in instruments for estimation of NDVI.
 
 ```{r}
+#| label: fig-AS7263
 autoplot(sensors.mspct$ams_AS7263, 
          w.band = VIS_bands())
 ```
 
 :::
+
+## Long term availability
+
+While some simple photodiodes commonly used to sense light have remained in production for more than 50 years, most integrated spectral sensors have been discontinued a few years after their introduction. Sometimes replacements with similar optical characteristics but different electric ratings have superceeded the discontinued types, but in other cases, such as with the VEML6075, no replacement exist. Thus, before adopting one of these sensors it is important to check current and expected future availability. In general, after discontinuation of production stocks remain active for some time. In some cases, stocking parts when still available can be important for continuity of measurements.
+
+## Suppliers
+
+Well-known makers of break-out boards for light and other sensors are [SparkFun](https://www.sparkfun.com/), [Adafruit](https://www.adafruit.com/), [DFrobot](https://www.dfrobot.com/) and [MikroE](https://www.mikroe.com/). These can be bought directly from these companies or through major electronic components' distributors like [DigiKey](https://www.digikey.com/), [Mouser](https://www.mouser.com/), [TME](https://www.tme.eu/en/), [Farnell](https://www.farnell.com/),  as well as through smaller national distributors. Copies and variations of some of these (open hardware) boards are also available through sellers at [Tindie](https://www.tindie.com/), [AliExpress](https://www.aliexpress.com/), [eBay](https://www.ebay.com/), etc.
 
 ## Conclusion
 
