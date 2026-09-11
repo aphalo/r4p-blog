@@ -159,7 +159,7 @@ autoplot(sensors.mspct$ams_AS7263,
 
 ## Long term availability
 
-While some simple photodiodes commonly used to sense light have remained in production for more than 50 years, most integrated spectral sensors have been discontinued a few years after their introduction. Sometimes replacements with similar optical characteristics but different electric ratings have superceeded the discontinued types, but in other cases, such as with the VEML6075, no replacement exist. Thus, before adopting one of these sensors it is important to check current and expected future availability. In general, after discontinuation of production stocks remain active for some time. In some cases, stocking parts when still available can be important for continuity of measurements.
+While some simple photodiodes commonly used to sense light have remained in production for more than 50 years, most integrated spectral sensors have been discontinued a few years after their introduction. Sometimes replacements with similar optical characteristics but different electric ratings have superseded the discontinued types, but in other cases, such as with the VEML6075, no replacement exist. Thus, before adopting one of these sensors it is important to check current and expected future availability. In general, after discontinuation of production stocks remain active for some time. In some cases, stocking parts when still available can be important for continuity of measurements.
 
 ## Suppliers
 
